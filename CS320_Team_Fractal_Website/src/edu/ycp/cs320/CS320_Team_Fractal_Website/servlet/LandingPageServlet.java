@@ -18,4 +18,5 @@ public class LandingPageServlet extends HttpServlet {
 		
 		req.getRequestDispatcher("/_view/landingPage.jsp").forward(req, resp);
 	}
+	
 }
