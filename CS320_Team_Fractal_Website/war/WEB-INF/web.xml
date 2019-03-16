@@ -7,6 +7,10 @@
 
   <!-- Servlets -->
   <servlet>
+    <servlet-name>LandingPageServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.LandingPageServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.IndexServlet</servlet-class>
   </servlet>
@@ -39,8 +43,12 @@
 
   <!-- Servlet mappings -->
   <servlet-mapping>
-    <servlet-name>IndexServlet</servlet-name>
-    <url-pattern>/index</url-pattern>
+    <servlet-name>LandingPageServlet</servlet-name>
+    <url-pattern>/landingPage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LandingPageServlet</servlet-name>
+    <url-pattern>/landingPage</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AddNumbersServlet</servlet-name>
