@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ajax;
+package edu.ycp.cs320.lab02a_mtibbett.servlet.ajax;
 
 import java.io.IOException;
 
@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.NumbersController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Numbers;
+import edu.ycp.cs320.lab02a_mtibbett.controller.NumbersController;
 
 public class MultiplyNumbersAjaxServlet extends HttpServlet
 {
@@ -36,9 +35,8 @@ public class MultiplyNumbersAjaxServlet extends HttpServlet
 			badRequest("Bad parameters", resp);
 			return;
 		}
-
-		Numbers model = new Numbers();
-		NumbersController controller = new NumbersController(model);
+		
+		NumbersController controller = new NumbersController();
 		Double result = controller.mult(first,  second);
 		
 		resp.setContentType("text/plain");
