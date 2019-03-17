@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ajax;
+package edu.ycp.cs320.lab02a_mtibbett.servlet.ajax;
 
 import java.io.IOException;
 
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.GuessingGameController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.GuessingGame;
+import edu.ycp.cs320.lab02a_mtibbett.controller.GuessingGameController;
+import edu.ycp.cs320.lab02a_mtibbett.model.GuessingGame;
 
 public class NextGuessAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
