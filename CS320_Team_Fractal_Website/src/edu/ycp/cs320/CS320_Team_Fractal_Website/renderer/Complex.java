@@ -1,5 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.renderer;
 
+/* Complex is Dakota's Complex class */
+
 public class Complex 
 {
 	private double real;

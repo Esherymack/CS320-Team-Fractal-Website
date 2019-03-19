@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -36,7 +35,7 @@ public class Renderer
 		RendererTask[] renderTasks = new RendererTask[4];
 		for(int i = 0; i < 4; i++)
 		{
-			renderTasks[i] = new RendererTask(0, 0, 0, 0, WIDTH/4*i, WIDTH/4*(i+1), 0, HEIGHT, iterCounts);
+			renderTasks[i] = new RendererTask(0,0,0,0, WIDTH/4*i, WIDTH/4*(i+1), 0, HEIGHT, iterCounts);
 		}
 		
 		Thread[] threads = new Thread[4];
@@ -63,10 +62,12 @@ public class Renderer
 		}
 	}
 
-	public void renderImage(Renderer r, Object... arguments) throws IOException
+	public boolean renderImage(Renderer r, Object... arguments) throws IOException
 	{
 		BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = bufferedImage.getGraphics();
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 		switch(t)
 		{
 		case "sierpinski":
@@ -80,7 +81,7 @@ public class Renderer
 		// dispose of the drawing object
 		g.dispose();
 		
-		OutputStream os = new BufferedOutputStream(new FileOutputStream("result.png"));
+		OutputStream os = new BufferedOutputStream(new FileOutputStream("./war/img/result.png"));
 		try
 		{
 			ImageIO.write(bufferedImage, "PNG",  os);
@@ -89,6 +90,7 @@ public class Renderer
 		{
 			os.close();
 		}
+		return true;
 	}
 	
 }

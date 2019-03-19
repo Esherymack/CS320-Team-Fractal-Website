@@ -32,7 +32,7 @@ public class SierpinskiController
 		model.setP3();
 	}
 	
-	public void buildSierpinski(int l) throws InterruptedException, IOException
+	public boolean buildSierpinski(int l) throws InterruptedException, IOException
 	{
 		Renderer r = new Renderer("sierpinski");
 		level(l);
@@ -47,6 +47,7 @@ public class SierpinskiController
 			p2,
 			p3
 		};
-		r.renderImage(r, arguments);
+		boolean result = r.renderImage(r, arguments);
+		return result;
 	}
 }

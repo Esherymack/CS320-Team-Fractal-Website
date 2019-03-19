@@ -29,6 +29,7 @@ public class MainPageServlet extends HttpServlet
 		
 		// holds the error message text, if any
 		String errorMessage = null;
+		boolean result = false;
 		
 		try 
 		{
@@ -43,7 +44,7 @@ public class MainPageServlet extends HttpServlet
 				SierpinskiController controller = new SierpinskiController(model);
 				try
 				{
-					controller.buildSierpinski(level);
+					result = controller.buildSierpinski(level);
 				}
 				catch (InterruptedException e)
 				{
@@ -59,6 +60,7 @@ public class MainPageServlet extends HttpServlet
 		req.setAttribute("level",  req.getParameter("level"));
 		
 		req.setAttribute("errorMessage",  errorMessage);
+		req.setAttribute("result", result);
 		
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req,  resp);
 	}

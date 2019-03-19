@@ -1,5 +1,6 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.renderer;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -8,6 +9,8 @@ public class FractalFuncs
 {
 	public static void drawSierpinski(int level, Graphics g, Point p1, Point p2, Point p3)
 	{	
+		g.setColor(Color.RED);
+		
 		// this is a recursive function
 		if(level == 1)
 		{

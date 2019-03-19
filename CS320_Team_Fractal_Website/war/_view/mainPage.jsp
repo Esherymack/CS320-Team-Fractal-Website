@@ -39,7 +39,14 @@
 			</c:if>
 			
 			<div class="image">
-				<img src="img/square.jpg" alt="placeholder"/>
+					<c:choose>
+						<c:when test="${not result}">
+							<img src="img/square.jpg" alt="placeholder"/>
+						</c:when>
+						<c:otherwise>
+							<img src="img/result.png" alt="result" />
+						</c:otherwise>
+					</c:choose>
 			</div>
 			
 			<div class="type">

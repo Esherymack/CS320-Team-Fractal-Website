@@ -1,5 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.renderer;
 
+/* RendererTask is basically verbatim Dakota's MandelbrotTask class */
+
 public class RendererTask implements Runnable 
 {
 	private double x1, y1, x2, y2;
