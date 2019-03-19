@@ -6,7 +6,5 @@ public class Renderer
 	{
 		
 	}
-	
-	
 
 }

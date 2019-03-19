@@ -28,6 +28,13 @@
 				<div class="error">${errorMessage}</div>
 			</c:if>
 			
+			<div class="type">
+				<select>
+					<option value="0">Sierpinski</option>
+					<option value="1">Other</option>
+				</select>
+			</div>
+			
 			<div class="info">
 			</div>
 			
@@ -44,18 +51,8 @@
 						</tr>
 					</table>
 					<table>
-						<tr>
-							<td class="label">Param 1</td>
-							<td><input type="text" name="first" size="12" value="${first}" /></td>
-						</tr>
-						<tr>
-							<td class="label">Param 2</td>
-							<td><input type="text" name="second" size="12" value="${second}" /></td>
-						</tr>
-						<tr>
-							<td class="label">Param 3</td>
-							<td><input type="text" name="third" size="12" value="${third}" /></td>
-						</tr>
+						<!-- Here is where the fields for params goes -->
+						
 					</table>
 					<input type="Submit" name="submit" value="Send">
 				</form>
