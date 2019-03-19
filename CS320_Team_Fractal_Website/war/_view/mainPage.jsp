@@ -6,6 +6,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Fractal Main</title>
+		
+		<style type="text/css">
+		.error {
+			color: red;
+		}
+		
+		td.label {
+			text-align: right;
+		}
+		</style>
 	</head>
 	
 	<body>
@@ -28,6 +38,10 @@
 				<div class="error">${errorMessage}</div>
 			</c:if>
 			
+			<div class="image">
+				<img src="img/square.jpg" alt="placeholder"/>
+			</div>
+			
 			<div class="type">
 				<select>
 					<option value="0">Sierpinski</option>
@@ -40,14 +54,11 @@
 			
 			<div class="parameters">
 				<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
+					<!-- This is temporary -->
 					<table>
 						<tr>
 							<td class="label">Level</td>
 							<td><input type="text" name="level" size="12" value="${level}" /></td>
-						</tr>
-						<tr>
-							<td class="label">Height</td>
-							<td><input type="text" name="height" size="12" value="${height}" /></td>
 						</tr>
 					</table>
 					<table>

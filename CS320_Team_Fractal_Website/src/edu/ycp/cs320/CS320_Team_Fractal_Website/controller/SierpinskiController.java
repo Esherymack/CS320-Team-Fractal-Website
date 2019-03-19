@@ -1,6 +1,10 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
 
+import java.awt.Point;
+import java.io.IOException;
+
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.renderer.Renderer;
 
 public class SierpinskiController 
 {
@@ -16,14 +20,33 @@ public class SierpinskiController
 		model.setLevel(l);
 	}
 	
-	public void size(int s)
+	public void height()
 	{
-		model.setSize(s);
 		model.setHeight();
 	}
 	
-	public void buildSierpinski()
+	public void setPoints()
 	{
-		
+		model.setP1();
+		model.setP2();
+		model.setP3();
+	}
+	
+	public void buildSierpinski(int l) throws InterruptedException, IOException
+	{
+		Renderer r = new Renderer("sierpinski");
+		level(l);
+		height();
+		setPoints();
+		Point p1 = model.getP1();
+		Point p2 = model.getP2();
+		Point p3 = model.getP3();
+		Object[] arguments = {
+			model.getLevel(),
+			p1,
+			p2,
+			p3
+		};
+		r.renderImage(r, arguments);
 	}
 }
