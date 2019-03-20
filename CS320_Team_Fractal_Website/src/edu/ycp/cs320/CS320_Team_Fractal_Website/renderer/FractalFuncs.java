@@ -7,6 +7,7 @@ import java.awt.Polygon;
 
 public class FractalFuncs 
 {
+	// from here: https://courses.cs.washington.edu/courses/cse143/18sp/lectures/Sierpinski.java
 	public static void drawSierpinski(int level, Graphics g, Point p1, Point p2, Point p3)
 	{	
 		g.setColor(Color.RED);
@@ -30,6 +31,49 @@ public class FractalFuncs
 			drawSierpinski(level - 1, g, p4, p2, p5);
 			drawSierpinski(level - 1, g, p6, p5, p3);
 		}
+	}
+	
+	// from Dakota's 201_Assign05
+	public static void drawMandelbrot(Graphics g, int width, int height, int[][] iterCounts)
+	{
+	    for (int i = 0; i < width; i++) 
+	    {
+	        for (int j = 0; j < height; j++) 
+	        {
+	        	if (iterCounts[i][j] <= 0) 
+	        	{
+	        		g.setColor(Color.black);
+	        	}
+	        	else if (iterCounts[i][j] > 55) 
+	        	{
+	        		g.setColor(Color.magenta);
+	        	}
+	        	else if (iterCounts[i][j] > 35) 
+	        	{
+	        		g.setColor(Color.blue);
+	        	}
+	        	else if (iterCounts[i][j] > 20) 
+	        	{
+	        		g.setColor(Color.green);
+	        	}
+	        	else if (iterCounts[i][j] > 10) 
+	        	{
+	        		g.setColor(Color.yellow);
+	        	}
+	        	else if (iterCounts[i][j] > 5) 
+	        	{
+	        		g.setColor(Color.orange);
+	        	}
+	        	else if (iterCounts[i][j] > 1) 
+	        	{
+	        		g.setColor(Color.red);
+	        	}
+	        	
+	        	//draw each point after determining color
+	    	    g.drawLine(i, j, i, j);
+	    	    
+	        }
+	    }
 	}
 	
 	public static Point midpoint(Point p1, Point p2)

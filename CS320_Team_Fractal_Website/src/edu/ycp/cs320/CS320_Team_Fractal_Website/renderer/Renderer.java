@@ -21,21 +21,27 @@ public class Renderer
 	public static final int HEIGHT = 600;
 	public static final int WIDTH = 600;
 	public String t = null;
+	double x1, y1, x2, y2;
 	
-	public Renderer(String type) throws InterruptedException
+	public int[][] iterCounts = new int[WIDTH][HEIGHT];
+	
+	public Renderer(String type, double X1, double Y1, double X2, double Y2) throws InterruptedException
 	{
 		t = type;
-		startThreads();
+		x1 = X1;
+		y1 = Y1;
+		x2 = X2;
+		y2 = Y2;
 	}
 	
 	public void startThreads()
 	{
 		// when a new Renderer is created, start threads and tasks assigned to them
-		int[][] iterCounts = new int[WIDTH][HEIGHT];
 		RendererTask[] renderTasks = new RendererTask[4];
+		
 		for(int i = 0; i < 4; i++)
 		{
-			renderTasks[i] = new RendererTask(0,0,0,0, WIDTH/4*i, WIDTH/4*(i+1), 0, HEIGHT, iterCounts);
+			renderTasks[i] = new RendererTask(this.x1, this.y1, this.x2, this.y2, WIDTH/4*i, WIDTH/4*(i+1), 0, HEIGHT, iterCounts);
 		}
 		
 		Thread[] threads = new Thread[4];
@@ -62,16 +68,19 @@ public class Renderer
 		}
 	}
 
-	public boolean renderImage(Renderer r, Object... arguments) throws IOException
+	public boolean renderImage(Object... arguments) throws IOException
 	{
 		BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = bufferedImage.getGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
-		switch(t)
+		switch(this.t)
 		{
 		case "sierpinski":
 			FractalFuncs.drawSierpinski((int)arguments[0], g, (Point)arguments[1], (Point)arguments[2], (Point)arguments[3]);
+			break;
+		case "mandelbrot":
+			FractalFuncs.drawMandelbrot(g, WIDTH, HEIGHT, iterCounts);
 			break;
 		default:
 			System.out.println("Bad case");
