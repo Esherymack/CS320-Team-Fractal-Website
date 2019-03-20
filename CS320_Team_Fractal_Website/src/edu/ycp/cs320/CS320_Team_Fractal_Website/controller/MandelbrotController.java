@@ -25,8 +25,9 @@ public class MandelbrotController
 		double y1 = model.getY1();
 		double x2 = model.getX2();
 		double y2 = model.getY2();
-		Renderer r = new Renderer("mandelbrot", x1, y1, x2, y2);
-		boolean result = r.renderImage();
-		return result;
+		// Renderer r = new Renderer("mandelbrot", x1, y1, x2, y2);
+		Renderer r = new Renderer();
+		r.renderMandelbrot(x1, y1, x2, y2);
+		return true;
 	}
 }
