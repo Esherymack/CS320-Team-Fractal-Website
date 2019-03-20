@@ -69,11 +69,11 @@ public class Renderer
 		}
 	}
 	
-	public void renderSierpinski(int height, Point p1, Point p2, Point p3) throws IOException
+	public void renderSierpinski(int level, Point p1, Point p2, Point p3) throws IOException
 	{
 		Graphics g = bufferedImage.getGraphics();
 		
-		FractalFuncs.drawSierpinski(height, g, p1, p2, p3);
+		FractalFuncs.drawSierpinski(level, g, p1, p2, p3);
 		
 		g.dispose();
 		

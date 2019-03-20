@@ -34,14 +34,14 @@ public class SierpinskiController
 	
 	public boolean buildSierpinski(int l) throws InterruptedException, IOException
 	{
-		Renderer r = new Renderer("sierpinski", 0, 0, 0, 0);
+		Renderer r = new Renderer();
 		level(l);
 		height();
 		setPoints();
 		Point p1 = model.getP1();
 		Point p2 = model.getP2();
 		Point p3 = model.getP3();
-		boolean result = r.renderImage(model.getLevel(), p1, p2, p3);
-		return result;
+		r.renderSierpinski(model.getLevel(), p1, p2, p3);
+		return true;
 	}
 }
