@@ -72,14 +72,15 @@ public class Renderer
 	{
 		BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = bufferedImage.getGraphics();
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		//g.setColor(Color.BLACK);
+		//g.fillRect(0, 0, WIDTH, HEIGHT);
 		switch(this.t)
 		{
 		case "sierpinski":
 			FractalFuncs.drawSierpinski((int)arguments[0], g, (Point)arguments[1], (Point)arguments[2], (Point)arguments[3]);
 			break;
 		case "mandelbrot":
+			startThreads();
 			FractalFuncs.drawMandelbrot(g, WIDTH, HEIGHT, iterCounts);
 			break;
 		default:
