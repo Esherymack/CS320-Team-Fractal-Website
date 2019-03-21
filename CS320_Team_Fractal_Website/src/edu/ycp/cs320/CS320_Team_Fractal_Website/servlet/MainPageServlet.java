@@ -32,64 +32,71 @@ public class MainPageServlet extends HttpServlet
 		// holds the error message text, if any
 		String errorMessage = null;
 		boolean result = false;
+		int choice = getIntFromParameter(req.getParameter("choice"));	
 		
-		/* try 
+		if(choice == 0)
 		{
-			int level = getIntFromParameter(req.getParameter("level"));			
-			if(level == 0)
-			{
-				errorMessage = "Please specify an integer.";
-			}
-			else
-			{
-				Sierpinski model = new Sierpinski();
-				SierpinskiController controller = new SierpinskiController(model);
-				try
+			System.out.println(choice);
+			int level = getIntFromParameter(req.getParameter("level"));	
+			try 
+			{	
+				if(level == 0)
 				{
-					result = controller.buildSierpinski(level);
+					errorMessage = "Please specify an integer.";
 				}
-				catch (InterruptedException e)
+				else
 				{
-					errorMessage = "A thread was interrupted";
+					Sierpinski model = new Sierpinski();
+					SierpinskiController controller = new SierpinskiController(model);
+					try
+					{
+						result = controller.buildSierpinski(level);
+					}
+					catch (InterruptedException e)
+					{
+						errorMessage = "A thread was interrupted";
+					}
 				}
 			}
-		}
-		catch (NumberFormatException e)
-		{
-			errorMessage = "Invalid integer.";
+			catch (NumberFormatException e)
+			{
+				errorMessage = "Invalid integer.";
+			}
+			req.setAttribute("level",  req.getParameter("level"));
 		}
 		
-		req.setAttribute("level",  req.getParameter("level")); */
-		
-		try
+		else if(choice == 1)
 		{
+			System.out.println(choice);
 			double x1 = getDoubleFromParameter(req.getParameter("x1"));
 			double x2 = getDoubleFromParameter(req.getParameter("x2"));
 			double y1 = getDoubleFromParameter(req.getParameter("y1"));
 			double y2 = getDoubleFromParameter(req.getParameter("y2"));
+			try
+			{	
+				Mandelbrot mandelModel = new Mandelbrot();
+				MandelbrotController mandelController = new MandelbrotController(mandelModel);
+				try 
+				{
+					mandelController.setCoords(x1, y1, x2, y2);
+					result = mandelController.buildMandelbrot();
+				}
+				catch(InterruptedException e)
+				{
+					errorMessage = "A thread was interrupted.";
+				}
+			}
+			catch(NumberFormatException e)
+			{
+				errorMessage = "Invalid value.";
+			}
 			
-			Mandelbrot mandelModel = new Mandelbrot();
-			MandelbrotController mandelController = new MandelbrotController(mandelModel);
-			try 
-			{
-				mandelController.setCoords(x1, y1, x2, y2);
-				result = mandelController.buildMandelbrot();
-			}
-			catch(InterruptedException e)
-			{
-				errorMessage = "A thread was interrupted.";
-			}
+			req.setAttribute("x1",  req.getParameter("x1"));
+			req.setAttribute("x2",  req.getParameter("x2"));
+			req.setAttribute("y1",  req.getParameter("y1"));
+			req.setAttribute("y2",  req.getParameter("y2"));	
 		}
-		catch(NumberFormatException e)
-		{
-			errorMessage = "Invalid value.";
-		}
-		
-		req.setAttribute("x1",  req.getParameter("x1"));
-		req.setAttribute("x2",  req.getParameter("x2"));
-		req.setAttribute("y1",  req.getParameter("y1"));
-		req.setAttribute("y2",  req.getParameter("y2"));
-		
+	
 		req.setAttribute("errorMessage",  errorMessage);
 		req.setAttribute("result", result);
 		
