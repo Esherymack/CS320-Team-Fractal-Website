@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.renderer.Complex;
 
 public class MandelbrotController extends FractalController{
 	private Mandelbrot model;
