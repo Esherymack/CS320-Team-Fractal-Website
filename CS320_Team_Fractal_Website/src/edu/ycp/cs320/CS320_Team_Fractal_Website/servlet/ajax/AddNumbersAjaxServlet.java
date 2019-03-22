@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab02a_mtibbett.servlet.ajax;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ajax;
 
 import java.io.IOException;
 
@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.lab02a_mtibbett.controller.NumbersController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.NumbersController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Numbers;
+
 
 public class AddNumbersAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +39,8 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 		}
 		
 		// Use a controller to process the request
-		NumbersController controller = new NumbersController();
+		Numbers model = new Numbers();
+		NumbersController controller = new NumbersController(model);
 		Double result = controller.add(first, second, third);
 		
 		// Send back a response

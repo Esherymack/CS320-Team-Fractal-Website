@@ -1,36 +1,25 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
 
-public class Mandelbrot 
-{
-	double x1, y1, x2, y2;
+public class Mandelbrot extends Fractal{
 	
-	public Mandelbrot() {}
+	/**
+	 * The number of times a complex number is multiplied during each Mandelbrot calculation
+	 */
+	private int multiplyTimes;
 	
-	public void setCoords(double X1, double Y1, double X2, double Y2)
-	{
-		this.x1 = X1;
-		this.y1 = Y1;
-		this.x2 = X2;
-		this.y2 = Y2;
+	public Mandelbrot(){
+		super();
 	}
 	
-	public double getX1()
-	{
-		return x1;
+	public int getMultiplyTimes() {
+		return multiplyTimes;
 	}
-	
-	public double getX2()
-	{
-		return x2;
+	public void setMultiplyTimes(int multiplyTimes) {
+		this.multiplyTimes = multiplyTimes;
 	}
-	
-	public double getY1()
-	{
-		return y1;
-	}
-	
-	public double getY2()
-	{
-		return y2;
+
+	@Override
+	public void setDefaultParameters(){
+		multiplyTimes = 1;
 	}
 }

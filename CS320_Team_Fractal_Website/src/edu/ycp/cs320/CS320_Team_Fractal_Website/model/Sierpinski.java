@@ -2,13 +2,24 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
 
 import java.awt.Point;
 
-public class Sierpinski 
-{
+public class Sierpinski extends Fractal{
 	public static final int SIZE = 500;
 	private int level, height;
 	private Point p1, p2, p3;
 	
-	public Sierpinski() {}
+	public Sierpinski(){
+		super(new Location(0, 0, SIZE, SIZE));
+	}
+	
+	@Override
+	public void setDefaultParameters(){
+		level = 0;
+		height = SIZE;
+
+		setP1();
+		setP2();
+		setP3();
+	}
 	
 	public void setLevel(int levelParam)
 	{

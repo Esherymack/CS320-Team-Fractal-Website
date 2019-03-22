@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.MandelbrotController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.SierpinskiController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Location;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Sierpinski;
 
 public class MainPageServlet extends HttpServlet
 {
@@ -67,18 +66,12 @@ public class MainPageServlet extends HttpServlet
 			double x2 = getDoubleFromParameter(req.getParameter("x2"));
 			double y1 = getDoubleFromParameter(req.getParameter("y1"));
 			double y2 = getDoubleFromParameter(req.getParameter("y2"));
-			
+			//TODO make this use the abstract Fractal and FractalControler classes so that any new fractal can be used from here
 			Mandelbrot mandelModel = new Mandelbrot();
 			MandelbrotController mandelController = new MandelbrotController(mandelModel);
-			try 
-			{
-				mandelController.setCoords(x1, y1, x2, y2);
-				result = mandelController.buildMandelbrot();
-			}
-			catch(InterruptedException e)
-			{
-				errorMessage = "A thread was interrupted.";
-			}
+			
+			mandelModel.setLocation(new Location(x1, y1, x2, y2));
+			result = mandelController.render();
 		}
 		catch(NumberFormatException e)
 		{
@@ -93,7 +86,7 @@ public class MainPageServlet extends HttpServlet
 		req.setAttribute("errorMessage",  errorMessage);
 		req.setAttribute("result", result);
 		
-		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req,  resp);
+		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
 	}
 	
 	private int getIntFromParameter(String s)
