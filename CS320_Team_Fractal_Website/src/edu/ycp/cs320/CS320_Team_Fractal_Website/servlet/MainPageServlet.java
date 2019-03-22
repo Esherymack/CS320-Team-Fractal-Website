@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.MandelbrotController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.SierpinskiController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Location;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Sierpinski;
 
 public class MainPageServlet extends HttpServlet
 {
@@ -31,7 +33,7 @@ public class MainPageServlet extends HttpServlet
 		// holds the error message text, if any
 		String errorMessage = null;
 		boolean result = false;
-		int choice = getIntFromParameter(req.getParameter("choice"));
+		int choice = Integer.parseInt(req.getParameter("choice"));
 
 		if(choice == 0)
 		{

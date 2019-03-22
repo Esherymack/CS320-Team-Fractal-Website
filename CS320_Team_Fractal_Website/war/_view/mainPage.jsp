@@ -48,29 +48,27 @@
 					</c:choose>
 			</div>
 
-			<div class="type" value="choice">
+			<div class="type">
 				<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
-					<select id="choice" name="choice" value="${choice}">
-						<option value="0">Sierpinski</option>
-						<option value="1">Mandelbrot</option>
-					</select>
+
 				</form>
 			</div>
 
 			<div class="parameters">
-				<div id="sierpinski">
 					<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
+						<select id="choice" name="choice">
+							<option value="0">Sierpinski</option>
+							<option value="1">Mandelbrot</option>
+						</select>
+					<div id="sierpinski">
 						<table>
 							<tr>
 								<td class="label">Level</td>
 								<td><input type="text" name="level" size="12" value="${level}" /></td>
 							</tr>
 						</table>
-						<input type="Submit" name="submit" value="Send">
-					</form>
-				</div>
-				<div id="mandelbrot" style="display:none;">
-					<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
+					</div>
+					<div id="mandelbrot" style="display:none;">
 						<table>
 							<td class="label">X1</td>
 							<td><input type="text" name="x1" size="12" value="${x1}"/></td>
@@ -81,9 +79,9 @@
 							<td class="label">Y2</td>
 							<td><input type="text" name="y2" size="12" value="${y2}"/></td>
 						</table>
-						<input type="Submit" name="submit" value="Send">
-					</form>
-				</div>
+					</div>
+					<input type="Submit" name="submit" value="Send">
+				</form>
 			</div>
 		</div>
 	</body>
