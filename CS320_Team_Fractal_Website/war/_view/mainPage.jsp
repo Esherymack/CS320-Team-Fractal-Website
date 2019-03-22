@@ -4,6 +4,8 @@
 
 <html>
 	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 		<meta charset="utf-8">
 		<title>Fractal Main</title>
 
@@ -15,7 +17,7 @@
 		td.label {
 			text-align: right;
 		}
-		</style>
+		</style>​
 	</head>
 
 	<body>
@@ -29,9 +31,6 @@
 				<input type="Submit" name="submit" value="Login">
 			</form>
 		</nav>
-
-		<div class="renderer">
-		</div>
 
 		<div class="interface">
 			<c:if test="${! empty errorMessage}">
@@ -49,50 +48,58 @@
 					</c:choose>
 			</div>
 
-			<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 			<div class="type" value="choice">
-				<select>
-					<option value="0">Sierpinski</option>
-					<option value="1">Mandelbrot</option>
-				</select>
-				<input type="Submit" name = "TypeSubmit" value="Submit">
+				<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
+					<select id="choice" name="choice" value="${choice}">
+						<option value="0">Sierpinski</option>
+						<option value="1">Mandelbrot</option>
+					</select>
 				</form>
-			</div>
-
-			<div class="info">
 			</div>
 
 			<div class="parameters">
-				<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
-					<table>
-						<tr>
-							<td class="label">Level</td>
-							<td><input type="text" name="level" size="12" value="${level}" /></td>
-						</tr>
-					</table>
-
-					<table>
-						<td class="label">X1</td>
-						<td><input type="text" name="x1" size="12" value="${x1}"/></td>
-						<td class="label">X2</td>
-						<td><input type="text" name="x2" size="12" value="${x2}"/></td>
-						<td class="label">Y1</td>
-						<td><input type="text" name="y1" size="12" value="${y1}"/></td>
-						<td class="label">Y2</td>
-						<td><input type="text" name="y2" size="12" value="${y2}"/></td>
-					</table>
-					<input type="Submit" name="submit" value="Send">
-				</form>
-			</div>
-
-			<div class="gradient"</div>
-			</div>
-
-			<div class="save">
-			</div>
-
-			<div class="share">
+				<div id="sierpinski">
+					<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
+						<table>
+							<tr>
+								<td class="label">Level</td>
+								<td><input type="text" name="level" size="12" value="${level}" /></td>
+							</tr>
+						</table>
+						<input type="Submit" name="submit" value="Send">
+					</form>
+				</div>
+				<div id="mandelbrot" style="display:none;">
+					<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
+						<table>
+							<td class="label">X1</td>
+							<td><input type="text" name="x1" size="12" value="${x1}"/></td>
+							<td class="label">X2</td>
+							<td><input type="text" name="x2" size="12" value="${x2}"/></td>
+							<td class="label">Y1</td>
+							<td><input type="text" name="y1" size="12" value="${y1}"/></td>
+							<td class="label">Y2</td>
+							<td><input type="text" name="y2" size="12" value="${y2}"/></td>
+						</table>
+						<input type="Submit" name="submit" value="Send">
+					</form>
+				</div>
 			</div>
 		</div>
 	</body>
+	<script>
+		$('#choice').on('change', function(){
+			var selection = $(this).val();
+		switch(selection){
+		case "0":
+			$("#sierpinski").show()
+			$("#mandelbrot").hide()
+			break;
+		case "1":
+			$("#mandelbrot").show()
+			$("#sierpinski").hide()
+			break;
+		}
+	});
+	</script>
 </html>
