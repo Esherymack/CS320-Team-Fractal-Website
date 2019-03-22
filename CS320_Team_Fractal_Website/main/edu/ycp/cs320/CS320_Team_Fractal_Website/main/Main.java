@@ -30,8 +30,3 @@ public class Main {
 		server.join();
 	}
 }
-
-/*
- *  Test comment
- *  Zachary Ronayne
- */
