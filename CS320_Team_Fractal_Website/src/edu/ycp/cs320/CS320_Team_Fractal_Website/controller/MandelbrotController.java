@@ -24,18 +24,26 @@ public class MandelbrotController extends FractalController{
 	@Override
 	public boolean render(){
 		//create a thread to render and calculate the set
+		//TODO make this use multiple threads
 		Thread thread = new Thread(new Runnable(){
 			@Override
 			public void run(){
 				BufferedImage img = renderIterCounts();
-				
-				try(OutputStream os = new BufferedOutputStream(new FileOutputStream("./war/img/result.png"))){
+				OutputStream os = null;
+				try{
+					os = new BufferedOutputStream(new FileOutputStream("./war/img/result.png"));
 					ImageIO.write(img, "PNG", os);
 				}catch (FileNotFoundException e){
 					e.printStackTrace();
 				}catch (IOException e){
 					e.printStackTrace();
 				}
+				if(os != null)
+					try{
+						os.close();
+					}catch (IOException e){
+						e.printStackTrace();
+					}
 				
 			}
 		});
