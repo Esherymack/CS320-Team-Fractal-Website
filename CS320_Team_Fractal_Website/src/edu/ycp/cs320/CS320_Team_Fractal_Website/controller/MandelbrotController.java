@@ -75,7 +75,6 @@ public class MandelbrotController extends FractalController{
 	    	    g.drawLine(i, j, i, j);
 	        }
 	    }
-		
 		g.dispose();
 		
 		return img;
