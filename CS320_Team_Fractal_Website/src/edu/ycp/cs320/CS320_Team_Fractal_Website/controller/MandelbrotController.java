@@ -56,13 +56,12 @@ public class MandelbrotController extends FractalController{
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		
 		// TODO: move all this crap
-		Color color0 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
-		Color color1 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
-		Color color2 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
-		Color color3 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
-		Color color4 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
-		Color color5 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
-		
+		Color color0 = generateColor();
+		Color color1 = generateColor();
+		Color color2 = generateColor();
+		Color color3 = generateColor();
+		Color color4 = generateColor();
+		Color color5 = generateColor();
 	        
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
@@ -82,6 +81,17 @@ public class MandelbrotController extends FractalController{
 		
 		return img;
 	}
+	
+	public Color generateColor()
+	{
+        int r = ThreadLocalRandom.current().nextInt(0, 256);
+        int g = ThreadLocalRandom.current().nextInt(0, 256);
+        int b = ThreadLocalRandom.current().nextInt(0, 256);
+        
+        Color color = new Color(r, g, b);
+        return color;
+	}
+	
 	
 	/**
 	 * Calculates the values of every iteration of this fractal 
