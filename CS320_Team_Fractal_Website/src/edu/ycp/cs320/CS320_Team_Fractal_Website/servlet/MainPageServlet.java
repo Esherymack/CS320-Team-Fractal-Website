@@ -37,7 +37,6 @@ public class MainPageServlet extends HttpServlet
 
 		if(choice == 0)
 		{
-			System.out.println(choice);
 			int level = getIntFromParameter(req.getParameter("level"));
 			try
 			{
