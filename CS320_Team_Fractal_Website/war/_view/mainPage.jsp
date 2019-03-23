@@ -78,6 +78,8 @@
 							<td><input type="text" name="x2" size="12" value="${x2}"/></td>
 							<td class="label">Y2</td>
 							<td><input type="text" name="y2" size="12" value="${y2}"/></td>
+							<td class="label">multiplyTimes</td>
+							<td><input type="text" name="multiplyTimes" size="12" value="${multiplyTimes}"/></td>
 						</table>
 					</div>
 					<input type="Submit" name="submit" value="Send">
