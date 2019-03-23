@@ -8,7 +8,8 @@ import java.awt.geom.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class SierpinskiControllerTest{
 	private Sierpinski model;

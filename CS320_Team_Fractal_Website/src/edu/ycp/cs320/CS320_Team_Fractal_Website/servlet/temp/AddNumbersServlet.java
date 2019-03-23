@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.temp;
 
 import java.io.IOException;
 
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.NumbersController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Numbers;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.temp.NumbersController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.temp.Numbers;
 
 public class AddNumbersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

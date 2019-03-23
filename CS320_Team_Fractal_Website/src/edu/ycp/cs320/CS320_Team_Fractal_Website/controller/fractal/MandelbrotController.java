@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class MandelbrotController extends FractalController{
 	

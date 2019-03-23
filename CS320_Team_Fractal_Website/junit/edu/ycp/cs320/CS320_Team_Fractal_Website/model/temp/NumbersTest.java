@@ -1,11 +1,11 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.model.temp;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Numbers;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.temp.Numbers;
 
 public class NumbersTest
 {

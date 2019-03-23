@@ -8,6 +8,9 @@ import java.awt.geom.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
+
 public class SierpinskiTest {
 
 	public static final double DELTA = 0.00001;

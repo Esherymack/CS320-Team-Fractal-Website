@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.model.temp;
 
 // model class for GuessingGame
 // only the controller should be allowed to call the set methods

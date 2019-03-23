@@ -8,8 +8,9 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class MandelbrotControllerTest{
 	
