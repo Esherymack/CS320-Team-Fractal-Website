@@ -24,7 +24,7 @@ public abstract class FractalController{
 	public void sendImage(BufferedImage img){
 		try{
 			ImageIO.write(img, "PNG", new File("./war/img/result.png"));
-		} catch (IOException e) {
+		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
