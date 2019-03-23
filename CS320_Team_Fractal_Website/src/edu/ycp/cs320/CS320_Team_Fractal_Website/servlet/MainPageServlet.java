@@ -61,7 +61,6 @@ public class MainPageServlet extends HttpServlet
 
 		else if(choice == 1)
 		{
-			System.out.println(choice);
 			double x1 = getDoubleFromParameter(req.getParameter("x1"));
 			double x2 = getDoubleFromParameter(req.getParameter("x2"));
 			double y1 = getDoubleFromParameter(req.getParameter("y1"));
