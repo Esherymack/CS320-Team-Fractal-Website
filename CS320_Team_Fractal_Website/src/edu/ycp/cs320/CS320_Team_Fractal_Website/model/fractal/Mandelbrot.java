@@ -17,7 +17,7 @@ public class Mandelbrot extends Fractal{
 	public void setMultiplyTimes(int multiplyTimes) {
 		this.multiplyTimes = multiplyTimes;
 	}
-
+	
 	@Override
 	public void setDefaultParameters(){
 		super.setDefaultParameters();
