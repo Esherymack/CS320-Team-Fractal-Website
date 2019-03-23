@@ -82,6 +82,11 @@ public class MandelbrotController extends FractalController{
 		return img;
 	}
 	
+	
+	/**
+	 * Generates random colors for the image
+	 * @return a new random color
+	 */
 	public Color generateColor()
 	{
         int r = ThreadLocalRandom.current().nextInt(0, 256);
