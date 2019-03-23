@@ -5,10 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.MandelbrotController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.SierpinskiController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.*;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.*;
 
 public class RenderTest 
 {
