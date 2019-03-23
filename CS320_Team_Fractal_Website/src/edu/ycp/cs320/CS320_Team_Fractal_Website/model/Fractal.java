@@ -23,7 +23,18 @@ public abstract class Fractal{
 	/**
 	 * Sets the parameters of this Fractal to a valid and default state
 	 */
-	public abstract void setDefaultParameters();
+	public void setDefaultParameters(){
+		this.location = getDefaultLocation();
+	}
+	
+	/**
+	 * Get the default location of this fractal. 
+	 * Override this method if something other than the default values of Location() should be the default location of this fractal
+	 * @return
+	 */
+	public Location getDefaultLocation(){
+		return new Location();
+	}
 	
 	public Location getLocation(){
 		return location;
