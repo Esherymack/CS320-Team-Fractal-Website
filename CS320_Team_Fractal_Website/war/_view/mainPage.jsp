@@ -18,6 +18,11 @@
 			text-align: right;
 		}
 		</style>​
+
+<script>
+
+</script>
+
 	</head>
 
 	<body>
@@ -48,18 +53,13 @@
 					</c:choose>
 			</div>
 
-			<div class="type">
-				<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
-
-				</form>
-			</div>
-
 			<div class="parameters">
 					<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 						<select id="choice" name="choice">
 							<option value="0">Sierpinski</option>
 							<option value="1">Mandelbrot</option>
 						</select>
+						<input type="hidden" name="selectedChoice" value="0">
 					<div id="sierpinski">
 						<table>
 							<tr>
@@ -85,19 +85,28 @@
 			</div>
 		</div>
 	</body>
+
 	<script>
-		$('#choice').on('change', function(){
-			var selection = $(this).val();
+	window.onload = function(){
+		var sel = sessionStorage.getItem('Selection');
+		$('#choice').val(sel);
+	}
+
+	$('#choice').change(function() {
+		var selection = $(this).val();
+		sessionStorage.setItem('Selection', selection);
 		switch(selection){
-		case "0":
-			$("#sierpinski").show()
-			$("#mandelbrot").hide()
-			break;
+			case "0":
+				$("#sierpinski").show()
+				$("#mandelbrot").hide()
+				break;
 		case "1":
-			$("#mandelbrot").show()
-			$("#sierpinski").hide()
-			break;
+				$("#mandelbrot").show()
+				$("#sierpinski").hide()
+				break;
 		}
 	});
+
 	</script>
+
 </html>

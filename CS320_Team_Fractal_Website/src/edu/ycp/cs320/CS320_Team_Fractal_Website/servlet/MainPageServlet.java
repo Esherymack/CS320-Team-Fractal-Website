@@ -34,6 +34,7 @@ public class MainPageServlet extends HttpServlet
 		String errorMessage = null;
 		boolean result = false;
 		int choice = Integer.parseInt(req.getParameter("choice"));
+		String selectedChoice = req.getParameter("selectedChoice");
 
 		if(choice == 0)
 		{
