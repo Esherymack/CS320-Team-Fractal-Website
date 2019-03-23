@@ -3,6 +3,7 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.ThreadLocalRandom;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
@@ -47,22 +48,32 @@ public class MandelbrotController extends FractalController{
 		int width = 500;
 		int height = 500;
 		int[][] iters = calculateIterCounts(width, height);
+
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 		
 		Graphics g = img.getGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		
+		// TODO: move all this crap
+		Color color0 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
+		Color color1 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
+		Color color2 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
+		Color color3 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
+		Color color4 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
+		Color color5 = new Color(ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256),ThreadLocalRandom.current().nextInt(0, 256));
+		
+	        
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
 	        	if (iters[i][j] <= 0) g.setColor(Color.black);
-	        	else if (iters[i][j] > MAX_ITER * .8) g.setColor(Color.magenta);
-	        	else if (iters[i][j] > MAX_ITER * .6) g.setColor(Color.blue);
-	        	else if (iters[i][j] > MAX_ITER * .4) g.setColor(Color.green);
-	        	else if (iters[i][j] > MAX_ITER * .2) g.setColor(Color.yellow);
-	        	else if (iters[i][j] > MAX_ITER * .1) g.setColor(Color.orange);
-	        	else g.setColor(Color.red);
+	        	else if (iters[i][j] > MAX_ITER * .8) g.setColor(color0);
+	        	else if (iters[i][j] > MAX_ITER * .6) g.setColor(color1);
+	        	else if (iters[i][j] > MAX_ITER * .4) g.setColor(color2);
+	        	else if (iters[i][j] > MAX_ITER * .2) g.setColor(color3);
+	        	else if (iters[i][j] > MAX_ITER * .1) g.setColor(color4);
+	        	else g.setColor(color5);
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);
 	        }
