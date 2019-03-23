@@ -72,11 +72,17 @@ public class MainPageServlet extends HttpServlet
 
 			mandelModel.setLocation(new Location(x1, y1, x2, y2));
 			result = mandelController.render();
+
+			req.setAttribute("x1", x1);
+			req.setAttribute("y1", y1);
+			req.setAttribute("x2", x2);
+			req.setAttribute("y2", y2);
 		}
 
 		req.setAttribute("errorMessage",  errorMessage);
 		req.setAttribute("result", result);
-
+		req.setAttribute("choice", choice);
+		
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
 	}
 
