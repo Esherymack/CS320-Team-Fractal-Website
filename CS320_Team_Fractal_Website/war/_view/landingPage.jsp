@@ -16,12 +16,12 @@
 		</div>
 		
 		<div>
-			<form action="${pageContext.servletContext.contextPath}/addNumbers" method="doGet">
+			<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
 				<input type="submit" value="Create a fractal!" />
 			</form>
 		</div>
 		<div>
-			<form action="${pageContext.servletContext.contextPath}/multiplyNumbers" method="doGet">
+			<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
 				<input type="submit" value="Login" />
 			</form>
 		</div>
