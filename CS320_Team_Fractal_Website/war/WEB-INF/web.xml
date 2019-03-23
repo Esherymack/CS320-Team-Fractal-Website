@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
@@ -11,8 +11,16 @@
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.LandingPageServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>MainPageServlet</servlet-name>
-  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet</servlet-class>
+  <servlet-name>MainPageServlet</servlet-name>
+  <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LogInServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.LogInServlet</servlet-class>
+  </servlet>
+   <servlet>
+    <servlet-name>CreateAccountServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.CreateAccountServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
@@ -30,7 +38,7 @@
   	<servlet-name>MultiplyNumbersServlet</servlet-name>
   	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MultiplyNumbersServlet</servlet-class>
   </servlet>
-  
+
   <!-- AJAX servlets. -->
   <servlet>
     <servlet-name>AddNumbersAjaxServlet</servlet-name>
@@ -51,8 +59,16 @@
     <url-pattern>/landingPage</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>MainPageServlet</servlet-name>
-  	<url-pattern>/mainPage</url-pattern>
+    <servlet-name>MainPageServlet</servlet-name>
+    <url-pattern>/mainPage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogInServlet</servlet-name>
+    <url-pattern>/logIn</url-pattern>
+  </servlet-mapping>
+    <servlet-name>CreateAccountServlet</servlet-name>
+    <url-pattern>/createAccount</url-pattern>
+  <servlet-mapping>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AddNumbersServlet</servlet-name>
@@ -66,7 +82,19 @@
   	<servlet-name>MultiplyNumbersServlet</servlet-name>
   	<url-pattern>/multiplyNumbers</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+  	<servlet-name>IndexServlet</servlet-name>
+  	<url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LogInServlet</servlet-name>
+  	<url-pattern>/logIn</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateAccountServlet</servlet-name>
+  	<url-pattern>/createAccount</url-pattern>
+  </servlet-mapping>
+
   <!--  AJAX servlet mappings. -->
   <servlet-mapping>
     <servlet-name>AddNumbersAjaxServlet</servlet-name>
