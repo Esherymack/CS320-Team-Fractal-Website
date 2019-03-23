@@ -18,7 +18,7 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 			throws ServletException, IOException {
 		doRequest(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -30,18 +30,18 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 		Double first = getDouble(req, "first");
 		Double second = getDouble(req, "second");
 		Double third = getDouble(req, "third");
-		
+
 		// Check whether parameters are valid
 		if (first == null || second == null || third == null) {
 			badRequest("Bad parameters", resp);
 			return;
 		}
-		
+
 		// Use a controller to process the request
 		Numbers model = new Numbers();
 		NumbersController controller = new NumbersController(model);
 		Double result = controller.add(first, second, third);
-		
+
 		// Send back a response
 		resp.setContentType("text/plain");
 		resp.getWriter().println(result.toString());

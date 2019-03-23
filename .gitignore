@@ -24,3 +24,11 @@ hs_err_pid*
 # Ignore SQL databases
 *.db
 /.metadata/
+/.recommenders/
+
+# Ignore Dakota's CS201 files
+CS201_Assign05/*
+CS201_Assign06a/*
+
+# Ignore result images 
+*/war/img/result.png

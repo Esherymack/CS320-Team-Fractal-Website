@@ -13,24 +13,24 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.NumbersController;
 public class MultiplyNumbersAjaxServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		doRequest(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		doRequest(req, resp);
 	}
-	
+
 	private void doRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		Double first = getDouble(req, "first");
 		Double second = getDouble(req, "second");
-		
+
 		if(first == null || second == null)
 		{
 			badRequest("Bad parameters", resp);
@@ -40,11 +40,11 @@ public class MultiplyNumbersAjaxServlet extends HttpServlet
 		Numbers model = new Numbers();
 		NumbersController controller = new NumbersController(model);
 		Double result = controller.mult(first,  second);
-		
+
 		resp.setContentType("text/plain");
 		resp.getWriter().println(result.toString());
 	}
-	
+
 	private Double getDouble(HttpServletRequest req, String name)
 	{
 		String val = req.getParameter(name);
