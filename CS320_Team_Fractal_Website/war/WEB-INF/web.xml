@@ -14,6 +14,10 @@
     <servlet-name>LogInServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.LogInServlet</servlet-class>
   </servlet>
+   <servlet>
+    <servlet-name>CreateAccountServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.CreateAccountServlet</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.IndexServlet</servlet-class>
@@ -69,6 +73,10 @@
   <servlet-mapping>
   	<servlet-name>LogInServlet</servlet-name>
   	<url-pattern>/logIn</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateAccountServlet</servlet-name>
+  	<url-pattern>/createAccount</url-pattern>
   </servlet-mapping>
   
   <!--  AJAX servlet mappings. -->

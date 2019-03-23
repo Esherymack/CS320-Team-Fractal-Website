@@ -1,33 +1,28 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
 
 public class LogIn {
-private Double first, second;
+private String username, password;
 	
 	public LogIn() 
 	{}
 	
-	public void setFirst(Double firstnum)
+	public void setUsername(String username)
 	{
-		this.first = firstnum;
+		this.username = username;
 	}
 	
-	public void setSecond(Double secondnum)
+	public void setPassword(String password)
 	{
-		this.second = secondnum;
+		this.password = password;
 	}
 	
-	public Double getFirst()
+	public String getUsername()
 	{
-		return first;
+		return username;
 	}
 	
-	public Double getSecond()
+	public String getPassword()
 	{
-		return second;
-	}
-	
-	public Double getAdd()
-	{
-		return first + second;
+		return password;
 	}
 }

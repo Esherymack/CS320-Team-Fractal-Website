@@ -9,11 +9,4 @@ public class LogInController {
 	{
 		this.model = model;
 	}
-	
-	public Double add(Double first, Double second)
-	{
-		model.setFirst(first);
-		model.setSecond(second);
-		return model.getAdd();
-	}
 }

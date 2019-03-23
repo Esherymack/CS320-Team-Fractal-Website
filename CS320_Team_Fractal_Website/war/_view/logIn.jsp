@@ -22,24 +22,23 @@
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		
-		<p>This is the log in jsp</p>
+		<p>This is the log in page</p>
 		
 		<form action="${pageContext.servletContext.contextPath}/logIn" method="post">
 			<table>
 				<tr>
-					<td class="label">First number:</td>
-					<td><input type="text" name="first" size="12" value="${first}" /></td>
+					<td class="label">Username:</td>
+					<td><input type="text" name="username" size="12" value="${username}" /></td>
 				</tr>
 				<tr>
-					<td class="label">Second number:</td>
-					<td><input type="text" name="second" size="12" value="${second}" /></td>
-				</tr>
-				<tr>
-					<td class="label">Result:</td>
-					<td>${result}</td>
+					<td class="label">Password:</td>
+					<td><input type="text" name="password" size="12" value="${password}" /></td>
 				</tr>
 			</table>
-			<input type="Submit" name="submit" value="Add Numbers!">
+			<input type="Submit" name="submit" value="Log In">
+		</form>
+		<form action="${pageContext.servletContext.contextPath}/createAccount" method="doGet">
+			<input type="Submit" name="submit" value="Create Account">
 		</form>
 	</body>
 </html>.
