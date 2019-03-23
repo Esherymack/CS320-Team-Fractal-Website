@@ -49,14 +49,8 @@ public class MainPageServlet extends HttpServlet
 				{
 					Sierpinski model = new Sierpinski();
 					SierpinskiController controller = new SierpinskiController(model);
-					try
-					{
-						result = controller.buildSierpinski(level);
-					}
-					catch (InterruptedException e)
-					{
-						errorMessage = "A thread was interrupted";
-					}
+					model.setLevel(level);
+					result = controller.render();
 				}
 			}
 			catch (NumberFormatException e)

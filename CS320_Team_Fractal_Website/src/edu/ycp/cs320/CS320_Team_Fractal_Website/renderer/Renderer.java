@@ -80,6 +80,7 @@ public class Renderer
 		try(OutputStream os = new BufferedOutputStream(new FileOutputStream("./war/img/result.png")))
 		{
 			ImageIO.write(bufferedImage, "PNG", os);
+			os.close();
 		}
 	}
 	
@@ -94,6 +95,7 @@ public class Renderer
 		try(OutputStream os = new BufferedOutputStream(new FileOutputStream("./war/img/result.png")))
 		{
 			ImageIO.write(bufferedImage, "PNG", os);
+			os.close();
 		}
 	}
 }
