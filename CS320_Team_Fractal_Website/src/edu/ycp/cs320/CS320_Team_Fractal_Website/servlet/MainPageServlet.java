@@ -63,20 +63,31 @@ public class MainPageServlet extends HttpServlet
 		else if(choice == 1)
 		{
 			double x1 = getDoubleFromParameter(req.getParameter("x1"));
-			double x2 = getDoubleFromParameter(req.getParameter("x2"));
 			double y1 = getDoubleFromParameter(req.getParameter("y1"));
+			double x2 = getDoubleFromParameter(req.getParameter("x2"));
 			double y2 = getDoubleFromParameter(req.getParameter("y2"));
+			int multiplyTimes = getIntFromParameter(req.getParameter("multiplyTimes"));
+			
 			//TODO make this use the abstract Fractal and FractalControler classes so that any new fractal can be used from here
 			Mandelbrot mandelModel = new Mandelbrot();
 			MandelbrotController mandelController = new MandelbrotController(mandelModel);
 
 			mandelModel.setLocation(new Location(x1, y1, x2, y2));
+			mandelModel.setMultiplyTimes(multiplyTimes);
+			
 			result = mandelController.render();
+
+			req.setAttribute("x1", x1);
+			req.setAttribute("y1", y1);
+			req.setAttribute("x2", x2);
+			req.setAttribute("y2", y2);
+			req.setAttribute("multiplyTimes", multiplyTimes);
 		}
 
 		req.setAttribute("errorMessage",  errorMessage);
 		req.setAttribute("result", result);
-
+		req.setAttribute("choice", choice);
+		
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
 	}
 

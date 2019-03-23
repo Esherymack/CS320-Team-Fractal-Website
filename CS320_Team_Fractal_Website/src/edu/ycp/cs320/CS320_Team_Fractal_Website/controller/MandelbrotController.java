@@ -8,6 +8,12 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
 
 public class MandelbrotController extends FractalController{
+	
+	/**
+	 * The maximum number of iterations that a calculation will take
+	 */
+	public static final int MAX_ITER = 1000;
+	
 	private Mandelbrot model;
 	
 	public MandelbrotController(Mandelbrot model){
@@ -49,13 +55,13 @@ public class MandelbrotController extends FractalController{
 		
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
-	        	//select the color based on the iter count TODO make this scale based on a max iter count variable
+	        	//select the color based on the iter count
 	        	if (iters[i][j] <= 0) g.setColor(Color.black);
-	        	else if (iters[i][j] > 800) g.setColor(Color.magenta);
-	        	else if (iters[i][j] > 600) g.setColor(Color.blue);
-	        	else if (iters[i][j] > 400) g.setColor(Color.green);
-	        	else if (iters[i][j] > 200) g.setColor(Color.yellow);
-	        	else if (iters[i][j] > 100) g.setColor(Color.orange);
+	        	else if (iters[i][j] > MAX_ITER * .8) g.setColor(Color.magenta);
+	        	else if (iters[i][j] > MAX_ITER * .6) g.setColor(Color.blue);
+	        	else if (iters[i][j] > MAX_ITER * .4) g.setColor(Color.green);
+	        	else if (iters[i][j] > MAX_ITER * .2) g.setColor(Color.yellow);
+	        	else if (iters[i][j] > MAX_ITER * .1) g.setColor(Color.orange);
 	        	else g.setColor(Color.red);
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);
@@ -112,11 +118,13 @@ public class MandelbrotController extends FractalController{
     	int count = 0;
     	//while z has magnitude of less than 2 and iteration counts its below the max
     	while (z.getMagnitude() < 2.0){
-    		if (count > 1000){
+    		if (count > MAX_ITER){
     			return 0;
     		}
     		//iterate complex number
-    		//TODO allow this to use the multiplyTimes value
+    		for(int i = 1; i < model.getMultiplyTimes(); i++){
+    			z = z.multiply(z);
+    		}
         	z = z.multiply(z).add(c);
         	//increment count
     		count++;

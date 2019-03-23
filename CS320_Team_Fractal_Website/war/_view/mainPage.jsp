@@ -72,12 +72,14 @@
 						<table>
 							<td class="label">X1</td>
 							<td><input type="text" name="x1" size="12" value="${x1}"/></td>
-							<td class="label">X2</td>
-							<td><input type="text" name="x2" size="12" value="${x2}"/></td>
 							<td class="label">Y1</td>
 							<td><input type="text" name="y1" size="12" value="${y1}"/></td>
+							<td class="label">X2</td>
+							<td><input type="text" name="x2" size="12" value="${x2}"/></td>
 							<td class="label">Y2</td>
 							<td><input type="text" name="y2" size="12" value="${y2}"/></td>
+							<td class="label">multiplyTimes</td>
+							<td><input type="text" name="multiplyTimes" size="12" value="${multiplyTimes}"/></td>
 						</table>
 					</div>
 					<input type="Submit" name="submit" value="Send">
