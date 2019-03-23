@@ -48,7 +48,6 @@ public class MainPageServlet extends HttpServlet
 				{
 					Sierpinski model = new Sierpinski();
 					SierpinskiController controller = new SierpinskiController(model);
-					
 					model.setLevel(level);
 					result = controller.render();
 				}
