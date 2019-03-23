@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.ThreadLocalRandom;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Sierpinski;
 
@@ -30,8 +31,13 @@ public class SierpinskiController extends FractalController{
 		Thread thread = new Thread(new Runnable(){
 			@Override
 			public void run(){
-				BufferedImage img = new BufferedImage(Sierpinski.SIZE, Sierpinski.SIZE, BufferedImage.TYPE_4BYTE_ABGR);
-				Graphics g = img.getGraphics();
+				BufferedImage img = new BufferedImage(Sierpinski.SIZE, Sierpinski.SIZE, BufferedImage.TYPE_INT_ARGB);
+		        Graphics g = img.getGraphics();
+		        
+		        g.setColor(Color.BLACK);
+		        g.fillRect(0, 0, Sierpinski.SIZE, Sierpinski.SIZE);
+		        
+		        
 				drawSierpinski(model.getLevel(), g, model.getP1(), model.getP2(), model.getP3());
 				sendImage(img);
 			}
@@ -56,7 +62,12 @@ public class SierpinskiController extends FractalController{
 	 * @param p3
 	 */
 	public void drawSierpinski(int level, Graphics g, Point p1, Point p2, Point p3){
-		g.setColor(Color.RED);
+		
+		int r = ThreadLocalRandom.current().nextInt(0, 256);
+		int gr = ThreadLocalRandom.current().nextInt(0, 256);
+		int b = ThreadLocalRandom.current().nextInt(0, 256);
+		
+		g.setColor(new Color(r, gr, b));
 		
 		// this is a recursive function
 		if(level == 1){
