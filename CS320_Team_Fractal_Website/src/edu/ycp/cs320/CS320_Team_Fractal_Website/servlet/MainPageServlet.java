@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
