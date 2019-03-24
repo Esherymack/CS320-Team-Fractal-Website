@@ -10,33 +10,40 @@
     <servlet-name>LandingPageServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.LandingPageServlet</servlet-class>
   </servlet>
+  
   <servlet>
-  <servlet-name>MainPageServlet</servlet-name>
-  <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet</servlet-class>
+ 	 <servlet-name>MainPageServlet</servlet-name>
+ 	 <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet</servlet-class>
   </servlet>
+  
   <servlet>
     <servlet-name>LogInServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.LogInServlet</servlet-class>
   </servlet>
+  
    <servlet>
     <servlet-name>CreateAccountServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.CreateAccountServlet</servlet-class>
   </servlet>
+  
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.IndexServlet</servlet-class>
   </servlet>
+  
   <servlet>
     <servlet-name>AddNumbersServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.AddNumbersServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.temp.AddNumbersServlet</servlet-class>
   </servlet>
+  
   <servlet>
     <servlet-name>GuessingGameServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.GuessingGameServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.temp.GuessingGameServlet</servlet-class>
   </servlet>
+  
   <servlet>
   	<servlet-name>MultiplyNumbersServlet</servlet-name>
-  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MultiplyNumbersServlet</servlet-class>
+  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.temp.MultiplyNumbersServlet</servlet-class>
   </servlet>
 
   <!-- AJAX servlets. -->
@@ -58,43 +65,42 @@
     <servlet-name>LandingPageServlet</servlet-name>
     <url-pattern>/landingPage</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>MainPageServlet</servlet-name>
     <url-pattern>/mainPage</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>LogInServlet</servlet-name>
     <url-pattern>/logIn</url-pattern>
   </servlet-mapping>
+  
+  <servlet-mapping>
     <servlet-name>CreateAccountServlet</servlet-name>
     <url-pattern>/createAccount</url-pattern>
-  <servlet-mapping>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>AddNumbersServlet</servlet-name>
     <url-pattern>/addNumbers</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>GuessingGameServlet</servlet-name>
     <url-pattern>/guessingGame</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
   	<servlet-name>MultiplyNumbersServlet</servlet-name>
   	<url-pattern>/multiplyNumbers</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
   	<servlet-name>IndexServlet</servlet-name>
   	<url-pattern>/index</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>LogInServlet</servlet-name>
-  	<url-pattern>/logIn</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>CreateAccountServlet</servlet-name>
-  	<url-pattern>/createAccount</url-pattern>
-  </servlet-mapping>
-
+  
   <!--  AJAX servlet mappings. -->
   <servlet-mapping>
     <servlet-name>AddNumbersAjaxServlet</servlet-name>
