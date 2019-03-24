@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 public class Mandelbrot extends Fractal{
 	
@@ -17,9 +17,10 @@ public class Mandelbrot extends Fractal{
 	public void setMultiplyTimes(int multiplyTimes) {
 		this.multiplyTimes = multiplyTimes;
 	}
-
+	
 	@Override
 	public void setDefaultParameters(){
+		super.setDefaultParameters();
 		multiplyTimes = 1;
 	}
 }

@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,7 +24,7 @@ public abstract class FractalController{
 	public void sendImage(BufferedImage img){
 		try{
 			ImageIO.write(img, "PNG", new File("./war/img/result.png"));
-		} catch (IOException e) {
+		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}

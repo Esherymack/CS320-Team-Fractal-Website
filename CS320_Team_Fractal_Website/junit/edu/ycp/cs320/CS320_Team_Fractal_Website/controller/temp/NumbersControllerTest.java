@@ -1,12 +1,12 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.temp;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.NumbersController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Numbers;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.temp.NumbersController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.temp.Numbers;
 
 public class NumbersControllerTest
 {

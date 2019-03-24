@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,18 +6,26 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class MandelbrotController extends FractalController{
 	
 	/**
 	 * The maximum number of iterations that a calculation will take
 	 */
-	public static final int MAX_ITER = 1000;
+	public static final int MAX_ITER = 4000;
 	
 	private Mandelbrot model;
 	
 	public MandelbrotController(Mandelbrot model){
+		this.model = model;
+	}
+
+	public Mandelbrot getModel(){
+		return model;
+	}
+	
+	public void setModel(Mandelbrot model){
 		this.model = model;
 	}
 	
@@ -45,11 +53,13 @@ public class MandelbrotController extends FractalController{
 	}
 	
 	private BufferedImage renderIterCounts(){
-		int width = 500;
-		int height = 500;
+		int width = 600;
+		int height = 600;
+		
+
 		int[][] iters = calculateIterCounts(width, height);
 
-		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
 		Graphics g = img.getGraphics();
 		g.setColor(Color.BLACK);
@@ -62,17 +72,19 @@ public class MandelbrotController extends FractalController{
 		Color color3 = generateColor();
 		Color color4 = generateColor();
 		Color color5 = generateColor();
-	        
+		Color color6 = generateColor();  
+		
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
-	        	if (iters[i][j] <= 0) g.setColor(Color.black);
-	        	else if (iters[i][j] > MAX_ITER * .8) g.setColor(color0);
-	        	else if (iters[i][j] > MAX_ITER * .6) g.setColor(color1);
-	        	else if (iters[i][j] > MAX_ITER * .4) g.setColor(color2);
-	        	else if (iters[i][j] > MAX_ITER * .2) g.setColor(color3);
-	        	else if (iters[i][j] > MAX_ITER * .1) g.setColor(color4);
-	        	else g.setColor(color5);
+	        	//MAX_ITER * .8
+	        	if (iters[i][j] <= 0) g.setColor(color0);
+                else if (iters[i][j] > 55) g.setColor(color1);
+                else if (iters[i][j] > 35) g.setColor(color2);
+                else if (iters[i][j] > 20) g.setColor(color3);
+                else if (iters[i][j] > 10) g.setColor(color4);
+                else if (iters[i][j] > 5) g.setColor(color5);
+                else g.setColor(color6);
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);
 	        }
@@ -89,6 +101,7 @@ public class MandelbrotController extends FractalController{
 	 */
 	public Color generateColor()
 	{
+		// nextInt isn't inclusive so adding 1 to 255 to cover whole spectrum of RGB values
         int r = ThreadLocalRandom.current().nextInt(0, 256);
         int g = ThreadLocalRandom.current().nextInt(0, 256);
         int b = ThreadLocalRandom.current().nextInt(0, 256);
@@ -114,19 +127,24 @@ public class MandelbrotController extends FractalController{
 		double x2 = model.getLocation().getX2();
 		double y2 = model.getLocation().getY2();
 		
-		for(int i = 0; i < iterCounts.length; i++){
-            for(int j = 0; j < iterCounts[i].length; j++){
-            	double dx = x2 - x1;
-            	double dy = y2 - y1;
-                Complex c = new Complex(
-                		dx * ((double)i / iterCounts.length) + x1,
-                		dy * ((double)j / iterCounts[i].length) + y1
-                );
-                int iterCount = computeIterCount(c);
-                iterCounts[i][j] = iterCount;
+    	double dx = (x2 - x1);
+    	double dy = (y2 - y1);
+    	
+    	double step_x = dx / width;
+    	double step_y = dy / height;
+
+        for(int x = 0; x < width; x++)
+        {
+        	for(int y = 0; y < height; y++)
+            {
+            	double real_x = x1 + x * step_x;
+            	double real_y = y1 + y * step_y;
+            	
+                Complex c = new Complex(real_x, real_y);
+                        
+                iterCounts[x][y] = computeIterCount(c);
             }
         }
-		
 		return iterCounts;
 	}
 	

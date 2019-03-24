@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 /**
  * An object that keeps track of the location of a portion of a fractal 

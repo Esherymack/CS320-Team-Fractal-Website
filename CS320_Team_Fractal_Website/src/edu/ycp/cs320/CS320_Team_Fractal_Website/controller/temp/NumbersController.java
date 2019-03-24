@@ -1,6 +1,6 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.temp;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Numbers;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.temp.Numbers;
 
 public class NumbersController 
 {	

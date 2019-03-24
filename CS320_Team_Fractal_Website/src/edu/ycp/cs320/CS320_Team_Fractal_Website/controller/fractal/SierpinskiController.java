@@ -1,13 +1,13 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class SierpinskiController extends FractalController{
 	private Sierpinski model;
@@ -61,7 +61,7 @@ public class SierpinskiController extends FractalController{
 	 * @param p2
 	 * @param p3
 	 */
-	public void drawSierpinski(int level, Graphics g, Point p1, Point p2, Point p3){
+	public void drawSierpinski(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3){
 		
 		int r = ThreadLocalRandom.current().nextInt(0, 256);
 		int gr = ThreadLocalRandom.current().nextInt(0, 256);
@@ -72,22 +72,22 @@ public class SierpinskiController extends FractalController{
 		// this is a recursive function
 		if(level == 1){
 			Polygon p = new Polygon();
-			p.addPoint(p1.x,  p1.y);
-			p.addPoint(p2.x,  p2.y);
-			p.addPoint(p3.x,  p3.y);
+			p.addPoint((int)Math.round(p1.x),  (int)Math.round(p1.y));
+			p.addPoint((int)Math.round(p2.x),  (int)Math.round(p2.y));
+			p.addPoint((int)Math.round(p3.x),  (int)Math.round(p3.y));
 			g.fillPolygon(p);
 		}
 		else{
-			Point p4 = midpoint(p1, p2);
-			Point p5 = midpoint(p2, p3);
-			Point p6 = midpoint(p1, p3);
+			Point2D.Double p4 = midpoint(p1, p2);
+			Point2D.Double p5 = midpoint(p2, p3);
+			Point2D.Double p6 = midpoint(p1, p3);
 			drawSierpinski(level - 1, g, p1, p4, p6);
 			drawSierpinski(level - 1, g, p4, p2, p5);
 			drawSierpinski(level - 1, g, p6, p5, p3);
 		}
 	}
 	
-	public static Point midpoint(Point p1, Point p2){
-		return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+	public static Point2D.Double midpoint(Point2D.Double p1, Point2D.Double p2){
+		return new Point2D.Double((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 	}
 }

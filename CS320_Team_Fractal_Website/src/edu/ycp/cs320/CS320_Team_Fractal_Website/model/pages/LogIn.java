@@ -1,4 +1,4 @@
-package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
+package edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages;
 
 public class LogIn {
 private String username, password;

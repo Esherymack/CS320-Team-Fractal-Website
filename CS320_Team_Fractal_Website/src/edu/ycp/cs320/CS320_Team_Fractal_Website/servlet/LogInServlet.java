@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.LogInController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.LogIn;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.LogInController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
 
 public class LogInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
