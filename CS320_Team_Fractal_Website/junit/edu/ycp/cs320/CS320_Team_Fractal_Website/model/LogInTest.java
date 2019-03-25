@@ -24,8 +24,8 @@ public class LogInTest{
 
 	@Test
 	public void testSetPassword(){
-		model.setUsername("password");
-		assertTrue(model.getUsername().equals("password"));
+		model.setPassword("password");
+		assertTrue(model.getPassword().equals("password"));
 	}
 	
 }
