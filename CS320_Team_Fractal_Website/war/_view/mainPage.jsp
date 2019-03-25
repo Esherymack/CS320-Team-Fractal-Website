@@ -17,7 +17,7 @@
 		td.label {
 			text-align: right;
 		}
-		</style>​
+		</style>
 
 <script>
 
@@ -52,7 +52,7 @@
 						</c:otherwise>
 					</c:choose>
 			</div>
-
+			
 			<div class="parameters">
 					<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 						<select id="choice" name="choice">
@@ -60,26 +60,30 @@
 							<option value="1">Mandelbrot</option>
 						</select>
 						<input type="hidden" name="selectedChoice" value="0">
-					<div id="sierpinski">
+					<div>
 						<table>
 							<tr>
-								<td class="label">Level</td>
-								<td><input type="text" name="level" size="12" value="${level}" /></td>
+								<td class="label">Param0</td>
+								<td><input type="text" name="param0" size="12" value="${param0}" /></td>
+								<td class="label">Param1</td>
+								<td><input type="text" name="param1" size="12" value="${param1}" /></td>
+								<td class="label">Param2</td>
+								<td><input type="text" name="param2" size="12" value="${param2}" /></td>
+								<td class="label">Param3</td>
+								<td><input type="text" name="param3" size="12" value="${param3}" /></td>
+								<td class="label">Param4</td>
+								<td><input type="text" name="param4" size="12" value="${param4}" /></td>
+								<td class="label">Param5</td>
+								<td><input type="text" name="param5" size="12" value="${param5}" /></td>
+								<td class="label">Param6</td>
+								<td><input type="text" name="param6" size="12" value="${param6}" /></td>
+								<td class="label">Param7</td>
+								<td><input type="text" name="param7" size="12" value="${param7}" /></td>
+								<td class="label">Param8</td>
+								<td><input type="text" name="param8" size="12" value="${param8}" /></td>
+								<td class="label">Param9</td>
+								<td><input type="text" name="param9" size="12" value="${param9}" /></td>
 							</tr>
-						</table>
-					</div>
-					<div id="mandelbrot" style="display:none;">
-						<table>
-							<td class="label">X1</td>
-							<td><input type="text" name="x1" size="12" value="${x1}"/></td>
-							<td class="label">Y1</td>
-							<td><input type="text" name="y1" size="12" value="${y1}"/></td>
-							<td class="label">X2</td>
-							<td><input type="text" name="x2" size="12" value="${x2}"/></td>
-							<td class="label">Y2</td>
-							<td><input type="text" name="y2" size="12" value="${y2}"/></td>
-							<td class="label">Multiplier</td>
-							<td><input type="text" name="multiplyTimes" size="12" value="${multiplyTimes}"/></td>
 						</table>
 					</div>
 					<input type="Submit" name="submit" value="Send">
@@ -101,10 +105,12 @@
 			case "0":
 				$("#sierpinski").show()
 				$("#mandelbrot").hide()
+				$("#default").hide()
 				break;
-		case "1":
+			case "1":
 				$("#mandelbrot").show()
 				$("#sierpinski").hide()
+				$("#default").hide()
 				break;
 		}
 	});
