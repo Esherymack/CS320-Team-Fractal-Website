@@ -10,6 +10,10 @@
 			color: red;
 		}
 		
+		.loggedIn {
+			color: green;
+		}
+		
 		td.label {
 			text-align: right;
 		}
@@ -17,12 +21,12 @@
 	</head>
 
 	<body>
-	
+		
+		<p>This is the log in page</p>
+		
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
-		
-		<p>This is the log in page</p>
 		
 		<form action="${pageContext.servletContext.contextPath}/logIn" method="post">
 			<table>
@@ -40,5 +44,13 @@
 		<form action="${pageContext.servletContext.contextPath}/createAccount" method="doGet">
 			<input type="Submit" name="submit" value="Create Account">
 		</form>
+		
+		<c:if test="${! empty logInMessage}">
+			<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
+				<input type="Submit" name="submit" value="Go To Main Page">
+			</form>
+			<div class="loggedIn">${logInMessage}</div>
+		</c:if>
+		
 	</body>
 </html>.

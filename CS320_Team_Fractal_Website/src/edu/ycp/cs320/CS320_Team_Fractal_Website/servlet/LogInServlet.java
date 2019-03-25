@@ -32,6 +32,7 @@ public class LogInServlet extends HttpServlet {
 
 		// holds the error message text, if there is any
 		String errorMessage = null;
+		String logInMessage = null;
 		
 		// decode POSTed form parameters and dispatch to controller
 		String username = req.getParameter("username");
@@ -46,6 +47,7 @@ public class LogInServlet extends HttpServlet {
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
+			logInMessage = "You have successfully logged in.";
 			LogIn model = new LogIn();
 			LogInController controller = new LogInController(model);
 		}
@@ -61,6 +63,7 @@ public class LogInServlet extends HttpServlet {
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("logInMessage", logInMessage);
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/logIn.jsp").forward(req, resp);

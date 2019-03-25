@@ -10,6 +10,14 @@
 			color: red;
 		}
 		
+		.invalid {
+			color: purple;
+		}
+		
+		.accountCreated{
+			color: green;
+		}
+		
 		td.label {
 			text-align: right;
 		}
@@ -18,11 +26,15 @@
 
 	<body>
 	
+		<p>This is the account creation page</p>
+	
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		
-		<p>This is the account creation page</p>
+		<c:if test="${! empty invalidMessage}">
+			<div class="invalid">${invalidMessage}</div>
+		</c:if>
 		
 		<form action="${pageContext.servletContext.contextPath}/createAccount" method="post">
 			<table>
@@ -37,8 +49,13 @@
 			</table>
 			<input type="Submit" name="submit" value="Create Account">
 		</form>
-		<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
-			<input type="Submit" name="submit" value="Log In">
-		</form>
+		
+		<c:if test="${! empty accountCreatedMessage}">
+			<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
+				<input type="Submit" name="submit" value="Log In">
+			</form>
+			<div class="accountCreated">${accountCreatedMessage}</div>
+		</c:if>
+		
 	</body>
 </html>.
