@@ -39,7 +39,13 @@ public class MainPageServlet extends HttpServlet{
 		// holds the error message text, if any
 		String errorMessage = null;
 		boolean result = false;
-		int choice = Integer.parseInt(req.getParameter("choice"));
+		
+		int choice = -1;
+		try {
+			choice = Integer.parseInt(req.getParameter("choice"));
+		}catch(NumberFormatException e){
+			errorMessage = "Please select a fractal";
+		}
 
 		FractalController controller = null;
 		
@@ -62,14 +68,17 @@ public class MainPageServlet extends HttpServlet{
 			controller = new MandelbrotController(mandelModel);
 		}
 		
-		//send parameters
-		boolean sent = controller.acceptParameters(params);
-		
-		//render the fractal, only if no error occurred
-		if(controller != null && sent) result = controller.render();
-		
-		//detect if invalid parameters were given
-		if(!sent) errorMessage = "Invalid parameters given";
+		//only generate the fractal if a value choice was found
+		if(choice != -1){
+			//send parameters
+			boolean sent = controller.acceptParameters(params);
+			
+			//render the fractal, only if no error occurred
+			if(controller != null && sent) result = controller.render();
+			
+			//detect if invalid parameters were given
+			if(!sent) errorMessage = "Invalid parameters given";
+		}
 		
 		for(int i = 0; i < NUM_PARAMS; i++){
 			req.setAttribute(params + "i", params[i]);
