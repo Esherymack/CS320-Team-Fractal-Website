@@ -38,6 +38,10 @@
 					<td class="label">Enter a new password:</td>
 					<td><input type="text" name="password" size="12" value="${password}" /></td>
 				</tr>
+				<tr>
+					<td class="label">Enter an email:</td>
+					<td><input type="text" name="email" size="12" value="${email}" /></td>
+				</tr>
 			</table>
 			<input type="Submit" name="submit" value="Create Account">
 		</form>

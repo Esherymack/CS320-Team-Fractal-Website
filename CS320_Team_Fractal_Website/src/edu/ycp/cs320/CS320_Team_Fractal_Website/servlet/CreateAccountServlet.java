@@ -37,10 +37,11 @@ public class CreateAccountServlet extends HttpServlet {
 		// decode POSTed form parameters and dispatch to controller
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
+		String email = req.getParameter("email");
 
 		// check for errors in the form data before using is in a calculation
-		if (username.isEmpty() || password.isEmpty()) {
-			invalidMessage = "Please specify a username and password";
+		if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+			invalidMessage = "Please specify a username, password, and email.";
 		}
 		else if (username.length() < 6) {
 			invalidMessage = "Username must contain at least 6 characters";
@@ -52,16 +53,19 @@ public class CreateAccountServlet extends HttpServlet {
 			invalidMessage = "That is not even logical. Enter a different password";
 		}
 		else if (username.equals(password)) {
-			invalidMessage = "Why would you make your password the same as your username? Enter a different password, or username, or both.";
+			invalidMessage = "Your username should not be the same as your password.";
 		}
 		else if (username.contains(",") || username.contains(";") || username.contains(":") || username.contains("@") || username.contains("$") || username.contains("&") || username.contains("%") || username.contains("#")) {
 			invalidMessage = "Your username can not include special characters, it must include only letters and numbers.";
 		}
 		else if (username.equals("username")) {
-			invalidMessage = "Try Again.";
+			invalidMessage = "That is not a good username. Enter a different one.";
 		}
 		else if (password.equals("password")) {
-			invalidMessage = "Denied.";
+			invalidMessage = "How creative. Enter a different password.";
+		}
+		else if (! email.contains("@") || ! email.contains(".")) {
+			invalidMessage = "The email is invalid. Ensure that it includes an @ and a .";
 		}
 		
 		// otherwise, data is good, do the calculation
@@ -81,6 +85,7 @@ public class CreateAccountServlet extends HttpServlet {
 		// and forth, it's a good idea
 		req.setAttribute("username", username);
 		req.setAttribute("password", password);
+		req.setAttribute("email", email);
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
