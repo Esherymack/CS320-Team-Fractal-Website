@@ -5,19 +5,7 @@
 <html>
 	<head>
 		<title>Log In</title>
-		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		.loggedIn {
-			color: green;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>

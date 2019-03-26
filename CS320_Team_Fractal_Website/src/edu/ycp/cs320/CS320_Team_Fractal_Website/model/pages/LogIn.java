@@ -1,7 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages;
 
 public class LogIn {
-private String username, password;
+private String username, password, email;
 	
 	public LogIn() 
 	{}
@@ -16,6 +16,11 @@ private String username, password;
 		this.password = password;
 	}
 	
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+	
 	public String getUsername()
 	{
 		return username;
@@ -24,5 +29,10 @@ private String username, password;
 	public String getPassword()
 	{
 		return password;
+	}
+	
+	public String getEmail()
+	{
+		return email;
 	}
 }

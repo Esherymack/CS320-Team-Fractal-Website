@@ -5,32 +5,12 @@
 <html>
 	<head>
 		<title>Create Account</title>
-		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		.invalid {
-			color: purple;
-		}
-		
-		.accountCreated{
-			color: green;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>
 	
 		<p>This is the account creation page</p>
-	
-		<c:if test="${! empty errorMessage}">
-			<div class="error">${errorMessage}</div>
-		</c:if>
 		
 		<c:if test="${! empty invalidMessage}">
 			<div class="invalid">${invalidMessage}</div>
@@ -45,6 +25,10 @@
 				<tr>
 					<td class="label">Enter a new password:</td>
 					<td><input type="text" name="password" size="12" value="${password}" /></td>
+				</tr>
+				<tr>
+					<td class="label">Enter an email:</td>
+					<td><input type="text" name="email" size="12" value="${email}" /></td>
 				</tr>
 			</table>
 			<input type="Submit" name="submit" value="Create Account">
