@@ -31,7 +31,6 @@ public class CreateAccountServlet extends HttpServlet {
 		
 
 		// holds the error message text, if there is any
-		String errorMessage = null;
 		String invalidMessage = null;
 		String accountCreatedMessage = null;
 		
@@ -41,7 +40,7 @@ public class CreateAccountServlet extends HttpServlet {
 
 		// check for errors in the form data before using is in a calculation
 		if (username.isEmpty() || password.isEmpty()) {
-			errorMessage = "Please specify a username and password";
+			invalidMessage = "Please specify a username and password";
 		}
 		else if (username.length() < 6) {
 			invalidMessage = "Username must contain at least 6 characters";
@@ -85,7 +84,6 @@ public class CreateAccountServlet extends HttpServlet {
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
-		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("invalidMessage", invalidMessage);
 		req.setAttribute("accountCreatedMessage", accountCreatedMessage);
 		

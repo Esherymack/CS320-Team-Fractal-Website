@@ -6,12 +6,8 @@
 	<head>
 		<title>Create Account</title>
 		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
 		.invalid {
-			color: purple;
+			color: red;
 		}
 		
 		.accountCreated{
@@ -27,10 +23,6 @@
 	<body>
 	
 		<p>This is the account creation page</p>
-	
-		<c:if test="${! empty errorMessage}">
-			<div class="error">${errorMessage}</div>
-		</c:if>
 		
 		<c:if test="${! empty invalidMessage}">
 			<div class="invalid">${invalidMessage}</div>
