@@ -29,4 +29,11 @@ public abstract class FractalController{
 		}
 	}
 	
+	/**
+	 * Takes an array of Strings and converts them to appropriate values to enter for the fractal. 
+	 * The values from the array are stored in the model of this FractalController
+	 * @param params the array of strings
+	 * @return true if the parameteres were added sucessfuly, false otherwise
+	 */
+	public abstract boolean acceptParameters(String[] params);
 }

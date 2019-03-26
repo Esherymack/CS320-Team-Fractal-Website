@@ -38,6 +38,7 @@ public class Sierpinski extends Fractal{
 	}
 	public void setLevel(int levelParam){
 		this.level = levelParam;
+		if(this.level < 1) this.level = 1;
 	}
 
 	public double getHeight(){
