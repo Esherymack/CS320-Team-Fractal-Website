@@ -1,0 +1,23 @@
+.invalid {
+	color: red;
+}
+	
+.accountCreated{
+	color: green;
+}
+
+td.label {
+	text-align: right;
+}
+
+h1{
+    color: #00FF00;
+}
+
+.error {
+	color: red;
+}
+
+.loggedIn{
+	color: green;
+}

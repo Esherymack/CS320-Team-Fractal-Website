@@ -3,6 +3,7 @@
 <html>
 	<head>
 		<title>Index view</title>
+		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>

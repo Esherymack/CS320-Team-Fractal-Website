@@ -5,19 +5,7 @@
 <html>
 	<head>
 		<title>Create Account</title>
-		<style type="text/css">
-		.invalid {
-			color: red;
-		}
-		
-		.accountCreated{
-			color: green;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>

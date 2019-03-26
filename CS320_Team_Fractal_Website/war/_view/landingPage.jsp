@@ -3,6 +3,7 @@
 <html>
 	<head>
 		<title>Fractal Home Page</title>
+		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 	
 	<body>
@@ -25,6 +26,6 @@
 				<input type="submit" value="Login" />
 			</form>
 		</div>
-	<body>
+	</body>
 
 </html>

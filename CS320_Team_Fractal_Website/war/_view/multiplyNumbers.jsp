@@ -6,13 +6,7 @@
 	<head>
 		<title>Multiply Numbers</title>
 		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		td.label {
-			text-align: right;
-		}	
+		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 		</style>
 	</head>
 	
