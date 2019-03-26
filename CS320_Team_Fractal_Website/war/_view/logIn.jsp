@@ -5,13 +5,11 @@
 <html>
 	<head>
 		<title>Log In</title>
-		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
+			<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
+			<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>
-		
-		<p>This is the log in page</p>
-		
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
