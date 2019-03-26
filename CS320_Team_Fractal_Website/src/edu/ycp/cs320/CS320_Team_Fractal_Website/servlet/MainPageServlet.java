@@ -10,13 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 
-public class MainPageServlet extends HttpServlet
-{
+public class MainPageServlet extends HttpServlet{
+	
+	/**
+	 * The number of parameters used by the website
+	 */
+	public static final int NUM_PARAMS = 10;
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -39,82 +43,42 @@ public class MainPageServlet extends HttpServlet
 
 		FractalController controller = null;
 		
-		//get parameters based on the fractal that is selected
+		//get all parameters
+		String[] params = new String[NUM_PARAMS];
+		for(int i = 0; i < NUM_PARAMS; i++){
+			params[i] = req.getParameter("param" + i);
+		}
+		
+		//select the correct controller and model to use
 		
 		//Sierpinski
 		if(choice == 0){
-			try{
-				int level = getIntFromParameter(req.getParameter("level"));
-				
-				if(level == 0){
-					errorMessage = "Please specify a valid integer.";
-				}
-				else{
-					Sierpinski sierpinskiModel = new Sierpinski();
-					
-					sierpinskiModel.setLevel(level);
-					
-					controller = new SierpinskiController(sierpinskiModel);
-
-					req.setAttribute("level", level);
-				}
-				
-			}catch(NumberFormatException e){
-				errorMessage = "Invalid integer.";
-			}
-			
+			Sierpinski sierpinskiModel = new Sierpinski();
+			controller = new SierpinskiController(sierpinskiModel);
 		}
 		//Mandelbrot
 		else if(choice == 1){
-			try {
-				Mandelbrot mandelModel = new Mandelbrot();
-				
-				double x1 = getDoubleFromParameter(req.getParameter("x1"));
-				double y1 = getDoubleFromParameter(req.getParameter("y1"));
-				double x2 = getDoubleFromParameter(req.getParameter("x2"));
-				double y2 = getDoubleFromParameter(req.getParameter("y2"));
-				int multiplyTimes = getIntFromParameter(req.getParameter("multiplyTimes"));
-				
-				mandelModel.setLocation(new Location(x1, y1, x2, y2));
-				mandelModel.setMultiplyTimes(multiplyTimes);
-
-				controller = new MandelbrotController(mandelModel);
-
-				req.setAttribute("x1", x1);
-				req.setAttribute("y1", y1);
-				req.setAttribute("x2", x2);
-				req.setAttribute("y2", y2);
-				req.setAttribute("multiplyTimes", multiplyTimes);
-				
-			}catch(NumberFormatException e){
-				errorMessage = "Invalid integer.";
-			}
+			Mandelbrot mandelModel = new Mandelbrot();
+			controller = new MandelbrotController(mandelModel);
 		}
 		
+		//send parameters
+		boolean sent = controller.acceptParameters(params);
+		
 		//render the fractal, only if no error occurred
-		if(controller != null) result = controller.render();
+		if(controller != null && sent) result = controller.render();
+		
+		//detect if invalid parameters were given
+		if(!sent) errorMessage = "Invalid parameters given";
+		
+		for(int i = 0; i < NUM_PARAMS; i++){
+			req.setAttribute(params + "i", params[i]);
+		}
 		
 		req.setAttribute("errorMessage",  errorMessage);
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
-	}
-
-	private int getIntFromParameter(String s)
-	{
-		if (s == null || s.equals(""))
-		{
-			return 0;
-		}
-		else
-		{
-			return Integer.parseInt(s);
-		}
-	}
-
-	private double getDoubleFromParameter(String s)
-	{
-		return Double.parseDouble(s);
 	}
 }

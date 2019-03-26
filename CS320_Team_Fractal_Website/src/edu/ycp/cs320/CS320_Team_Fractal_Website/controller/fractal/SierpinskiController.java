@@ -24,6 +24,20 @@ public class SierpinskiController extends FractalController{
 		this.model = model;
 	}
 	
+	/**
+	 * params[0] = level
+	 */
+	@Override
+	public boolean acceptParameters(String[] params){
+		try{
+			model.setLevel(Integer.parseInt(params[0]));
+		}catch(NumberFormatException e){
+			return false;
+		}
+		
+		return true;
+	}
+		
 	@Override
 	public boolean render(){
 		//create a thread to render and calculate the set
