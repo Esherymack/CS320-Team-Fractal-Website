@@ -1,5 +1,4 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.database;
-
 // Originally from CS320 Lab 06
 
 public class DatabaseProvider 
@@ -18,5 +17,4 @@ public class DatabaseProvider
 			throw new IllegalStateException("IDatabase instance has not been set!");
 		}
 		return Instance;
-	}
 }

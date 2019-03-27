@@ -47,9 +47,19 @@ public class LogInServlet extends HttpServlet {
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
-			logInMessage = "You have successfully logged in.";
+			
 			LogIn model = new LogIn();
 			LogInController controller = new LogInController(model);
+			
+			//attempt to log in
+			//the attempt was successful
+			if(controller.logIn(username, password)){
+				logInMessage = "You have successfully logged in.";
+			}
+			//the attempt fails
+			else{
+				logInMessage = "Could not find username and password combination";
+			}
 		}
 		
 		// Add parameters as request attributes
