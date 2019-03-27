@@ -5,25 +5,11 @@
 <html>
 	<head>
 		<title>Log In</title>
-		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		.loggedIn {
-			color: green;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+			<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
+			<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>
-		
-		<p>This is the log in page</p>
-		
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>

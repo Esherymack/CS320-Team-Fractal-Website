@@ -30,5 +30,8 @@ hs_err_pid*
 CS201_Assign05/*
 CS201_Assign06a/*
 
+# Ignore Madison's CS320 files
+CS320_Lab06_mtibbett/*
+
 # Ignore result images 
 */war/img/result.png

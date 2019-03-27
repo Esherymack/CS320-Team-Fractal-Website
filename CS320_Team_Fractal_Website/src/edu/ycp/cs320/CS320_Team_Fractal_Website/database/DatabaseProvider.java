@@ -1,15 +1,20 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.database;
+// Originally from CS320 Lab 06
 
-public class DatabaseProvider{
+public class DatabaseProvider 
+{
+	private static IDatabase Instance;
 	
-	private static IDatabase database;
-	
-	public static void setDatabase(IDatabase db){
-		database = db;
+	public static void setInstance(IDatabase db)
+	{
+		Instance = db;
 	}
 	
-	public static IDatabase getDatabase(){
-		if(database == null) throw new IllegalStateException("Database has not been created yet");
-		return database;
-	}
+	public static IDatabase getInstance()
+	{
+		if(Instance == null)
+		{
+			throw new IllegalStateException("IDatabase instance has not been set!");
+		}
+		return Instance;
 }

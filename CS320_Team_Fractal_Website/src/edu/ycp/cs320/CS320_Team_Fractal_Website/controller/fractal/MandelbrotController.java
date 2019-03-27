@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class MandelbrotController extends FractalController{
@@ -27,6 +28,31 @@ public class MandelbrotController extends FractalController{
 	
 	public void setModel(Mandelbrot model){
 		this.model = model;
+	}
+
+	/**
+	 * params[0] = location.x1, 
+	 * params[1] = location.y1, 
+	 * params[2] = location.x2, 
+	 * params[3] = location.y2, 
+	 * params[4] = multiplyTimes
+	 */
+	@Override
+	public boolean acceptParameters(String[] params){
+		try{
+			double x1 = Double.parseDouble(params[0]);
+			double y1 = Double.parseDouble(params[1]);
+			double x2 = Double.parseDouble(params[2]);
+			double y2 = Double.parseDouble(params[3]);
+			int multiplyTimes = Integer.parseInt(params[4]);
+			
+			model.setLocation(new Location(x1, y1, x2, y2));
+			model.setMultiplyTimes(multiplyTimes);
+		}catch(NumberFormatException e){
+			return false;
+		}
+		
+		return true;
 	}
 	
 	@Override
@@ -53,8 +79,8 @@ public class MandelbrotController extends FractalController{
 	}
 	
 	private BufferedImage renderIterCounts(){
-		int width = 600;
-		int height = 600;
+		int width = 800;
+		int height = 800;
 		
 
 		int[][] iters = calculateIterCounts(width, height);

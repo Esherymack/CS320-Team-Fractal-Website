@@ -5,6 +5,7 @@
 <html>
 	<head>
 		<title>Guessing Game</title>
+		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>
