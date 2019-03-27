@@ -6,7 +6,7 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Admin;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 
-public class FakeDataBase{
+public class FakeDataBase implements IDatabase{
 	
 	private ArrayList<Account> accounts;
 	
@@ -24,16 +24,12 @@ public class FakeDataBase{
 	}
 	
 	public ArrayList<Account> getAccounts(){
+		System.out.println("good getAccounts call");
 		return accounts;
 	}
 	
-	/**
-	 * Add a new user account to the database
-	 * @param username the name of the new account
-	 * @param password the password of the new account
-	 * @return true if the account was added successfully, false otherwise
-	 */
 	public boolean addUser(Account account){
+		System.out.println("good addUser call");
 		//make sure an account with the given username doesn't already exist
 		//if an account with that name already exists, return false
 		for(Account a : accounts){

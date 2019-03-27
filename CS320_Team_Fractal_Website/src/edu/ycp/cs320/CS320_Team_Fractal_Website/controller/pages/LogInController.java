@@ -2,7 +2,7 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages;
 
 import java.util.ArrayList;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.PersistentDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
 
@@ -21,8 +21,8 @@ public class LogInController{
 	 */
 	public boolean logIn(String username, String password){
 		
-		ArrayList<Account> accounts = PersistentDatabase.getDatabase().getAccounts();
-		
+		ArrayList<Account> accounts = DatabaseProvider.getDatabase().getAccounts();
+
 		//try to find the account in the database
 		for(Account a : accounts){
 			//if the account is found, log them in

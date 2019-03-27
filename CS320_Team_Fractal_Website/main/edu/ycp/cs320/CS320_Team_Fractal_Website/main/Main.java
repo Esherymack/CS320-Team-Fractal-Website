@@ -4,14 +4,11 @@ import java.io.File;
 
 import org.eclipse.jetty.server.Server;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.PersistentDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.FakeDataBase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 
 public class Main {
 	public static void main(String[] args) throws Exception{
-
-		//create the fake database
-		PersistentDatabase.setUpDatabase();
-		System.out.println("CREATED: fake database");
 		
 		String webappCodeBase = "./war";
 		File warFile = new File(webappCodeBase);
@@ -30,6 +27,11 @@ public class Main {
 		
 		// Inform user that server is running
 		System.out.println("RUNNING: web server on port 8081");
+
+		//create the fake database
+		FakeDataBase database = new FakeDataBase();
+		DatabaseProvider.setDatabase(database);
+		System.out.println("CREATED: fake database");
 		
         // The use of server.join() the will make the current thread join and
         // wait until the server is done executing.
