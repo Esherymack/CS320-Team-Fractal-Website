@@ -1,3 +1,5 @@
+package edu.ycp.cs320.CS320_Team_Fractal_Website.database;
+
 import java.util.ArrayList;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;

@@ -21,7 +21,7 @@ public class LogInController{
 	 */
 	public boolean logIn(String username, String password){
 		
-		ArrayList<Account> accounts = DatabaseProvider.getDatabase().getAccounts();
+		ArrayList<Account> accounts = DatabaseProvider.getInstance().getAccounts();
 
 		//try to find the account in the database
 		for(Account a : accounts){

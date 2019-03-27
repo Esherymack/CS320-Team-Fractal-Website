@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
 
 // Modified from CS320 Lab06
 
@@ -173,17 +174,17 @@ public class DerbyDatabase implements IDatabase
 			}
 		});
 	}
-	
-	public static void main(String[] args) throws IOException
-	{
-		System.out.println("Creating tables...");
-		DerbyDatabase db = new DerbyDatabase();
-		db.createTables();
-		
-		System.out.println("Loading init data...");
-		db.loadInitialData();
-		
-		System.out.println("Success.");
+
+	@Override
+	public ArrayList<Account> getAccounts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean addUser(Account account) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

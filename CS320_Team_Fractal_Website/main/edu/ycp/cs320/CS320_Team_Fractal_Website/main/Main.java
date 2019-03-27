@@ -30,7 +30,7 @@ public class Main {
 
 		//create the fake database
 		FakeDataBase database = new FakeDataBase();
-		DatabaseProvider.setDatabase(database);
+		DatabaseProvider.setInstance(database);
 		System.out.println("CREATED: fake database");
 		
         // The use of server.join() the will make the current thread join and
