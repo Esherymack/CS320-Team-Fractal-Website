@@ -8,6 +8,10 @@ public abstract class Account{
 	
 	private Gallery fractalGallery;
 	
+	public Account(){
+		this("", "", "");
+	}
+	
 	public Account(String username, String password, String email){
 		this.username = username;
 		this.password = password;
@@ -16,8 +20,11 @@ public abstract class Account{
 		this.fractalGallery = new Gallery();
 	}
 	
-	public Gallery GalleryGetFractalGallery(){
+	public Gallery getFractalGallery(){
 		return fractalGallery;
+	}
+	public void setFractalGallery(Gallery fractalGallery){
+		this.fractalGallery = fractalGallery;
 	}
 	
 	public String getUsername(){
@@ -26,12 +33,14 @@ public abstract class Account{
 	public void setUsername(String username){
 		this.username = username;
 	}
+	
 	public String getPassword(){
 		return password;
 	}
 	public void setPassword(String password){
 		this.password = password;
 	}
+	
 	public String getEmail(){
 		return email;
 	}
