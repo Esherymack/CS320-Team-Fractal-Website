@@ -186,5 +186,11 @@ public class DerbyDatabase implements IDatabase
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public Account getAccountByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

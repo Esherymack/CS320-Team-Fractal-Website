@@ -49,11 +49,14 @@ public class LogInServlet extends HttpServlet {
 		else {
 			
 			LogIn model = new LogIn();
-			LogInController controller = new LogInController(model);
+			LogInController controller = new LogInController();
+			controller.setModel(model);
+			model.setUsername(username);
+			model.setPassword(password);
 			
 			//attempt to log in
 			//the attempt was successful
-			if(controller.logIn(username, password)){
+			if(controller.logIn()){
 				logInMessage = "You have successfully logged in.";
 			}
 			//the attempt fails
@@ -63,10 +66,6 @@ public class LogInServlet extends HttpServlet {
 		}
 		
 		// Add parameters as request attributes
-		// this creates attributes named "first" and "second for the response, and grabs the
-		// values that were originally assigned to the request attributes, also named "first" and "second"
-		// they don't have to be named the same, but in this case, since we are passing them back
-		// and forth, it's a good idea
 		req.setAttribute("username", username);
 		req.setAttribute("password", password);
 		

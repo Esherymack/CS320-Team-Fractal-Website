@@ -1,10 +1,15 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages;
 
-public class LogIn {
-private String username, password, email;
+public class LogIn{
 	
-	public LogIn() {
-		
+	private String username;
+	private String password;
+	private String email;
+	
+	public LogIn(){
+		username = null;
+		password = null;
+		email = null;
 	}
 	
 	public void setUsername(String username){

@@ -73,9 +73,19 @@ public class CreateAccountServlet extends HttpServlet {
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
-			accountCreatedMessage = "The account has successfully been created.";
 			LogIn model = new LogIn();
-			LogInController controller = new LogInController(model);
+			LogInController controller = new LogInController();
+			controller.setModel(model);
+			model.setUsername(username);
+			model.setPassword(password);
+			model.setEmail(email);
+			
+			if(controller.createAccount()){
+				accountCreatedMessage = "The account has successfully been created.";
+			}
+			else{
+				accountCreatedMessage = "Selected username already taken";
+			}
 		}
 		
 		// Add parameters as request attributes
