@@ -1,134 +1,96 @@
 body {
-    background-color: SlateGray;
-    animation-name: example;
-    animation-duration: 6s;
-    animation-iteration-count: 1000;
-}
-
-@keyframes example {
-    0%   {background-color:red;}
-    25%  {background-color:yellow;}
-    50%  {background-color:blue;}
-    75%  {background-color:green;}
-    100% {background-color:red;}
+    background-color: #FFF4E0;
 }
 
 .invalid {
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
 	color: Crimson;
 }
 	
 .accountCreated{
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	color: green;
+}
+
+.loggedIn{
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
 	color: green;
 }
 
 td.label {
-	text-align: left;
+	text-align: center;
+	font-size: 18px;
+	font-family: 'Open Sans', sans-serif;
+	color: #3D403A;
 }
 
 h1{
-    color: Black;
-    animation-name: example5;
-    animation-duration: 6s;
-    animation-iteration-count: 1000;
-}
-
-@keyframes example5 {
-    0%   {color:red;}
-    25%  {color:yellow;}
-    50%  {color:blue;}
-    75%  {color:green;}
-    100% {color:red;}
+    color: #3D403A;
+	font-size: 45px;
+	font-weight: bold;
+	font-family: 'Poiret One', cursive;
 }
 
 h2{
-    color: Black;
-    animation-name: example6;
-    animation-duration: 6s;
-    animation-iteration-count: 1000;
-}
-
-@keyframes example6 {
-    0%   {color:yellow;}
-    25%  {color:blue;}
-    50%  {color:green;}
-    75%  {color:red;}
-    100% {color:yellow;}
+    color: #3D403A;
+	font-size: 45px;
+	font-weight: bold;
+	font-family: 'Poiret One', cursive;
 }
 
 h3{
-    color: Black;
-    animation-name: example7;
-    animation-duration: 6s;
-    animation-iteration-count: 1000;
-}
-
-@keyframes example7 {
-    0%   {color:blue;}
-    25%  {color:green;}
-    50%  {color:red;}
-    75%  {color:yellow;}
-    100% {color:blue;}
+    color: #3D403A;
+	font-size: 35px;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
 }
 
 h4{
-    color: Black;
-    animation-name: example8;
-    animation-duration: 6s;
-    animation-iteration-count: 1000;
-}
-
-@keyframes example8 {
-    0%   {color:green;}
-    25%  {color:red;}
-    50%  {color:yellow;}
-    75%  {color:blue;}
-    100% {color:green;}
+    color: #3D403A;
+	font-size: 35px;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .error {
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
 	color: Crimson;
 }
 
 .content{
-	color: Black;
-    animation-name: example5;
-    animation-duration: 6s;
-    animation-iteration-count: 1000;
-	background-color: WhiteSmoke;
-	font-size: 200%;
-	font-family: 'Audiowide';
-	border-top: 4px solid Black;
-	border-bottom: 4px solid Black;
-	text-align: center;
 }
 
 input[type=Submit] {
-    color: Black;
-    animation-name: example5;
-    animation-duration: 6s;
-    animation-iteration-count: 1000;
-    
-	background-color: WhiteSmoke;
-    border: 2px solid Black;
-    border-radius: 25px;
-    text-align: center;
-    font-size: 75%;
-    font-family: 'Audiowide';
-    padding:5px 15px; 
-    margin: 5px;
-    cursor:default;
-    
-    transition-property: padding;
-    transition-duration: 2s;
-  	transition: transform 2s;
-    transition-timing-function: ease-in-out;
+    margin-left: auto;
+	margin-right: auto;
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+	color: #3D403A;
+	font-size: 20px;
+	background-color: #FFF4E0;
+	-o-transition: .2s ease-in-out;
+	-ms-transition: .2s ease-in-out;
+	-moz-transition: .2s ease-in-out;
+	-webkit-transition: .2s ease-in-out;
+	transition: .2s ease-in-out;
+	cursor: pointer;
+	border-radius: 3px;
+	padding: 10px;
+	margin-top: 10px;
+	border: 1px solid #C2B9AA;
 }
 
 input[type=Submit]:hover {
-	color: WhiteSmoke;
-	background-color: Black;
-    padding:10px 30px;
-    transform: rotate(360deg);
+    background-color: #C2B9AA;
+	opacity: 1;
 }
 
 
@@ -207,3 +169,154 @@ input[type=Submit]:hover {
     75%  {background-color:blue; left:1880px; top:0px;}
     100% {background-color:green; left:940px; top:0px;}
 }
+
+p
+{
+	font-size: 18px;
+	font-family: 'Open Sans', sans-serif;
+	color: #3D403A;
+}
+
+
+nav.topnav ul
+{
+	list-style-type: none;
+	margin: 0;
+	overflow: hidden;
+	padding: 0px 22px;
+	background-color: #FFF4E0;
+}
+
+nav.topnav li
+{
+	display: inline;
+	padding: 15px;
+	float: left;
+}
+
+nav.topnav li a
+{
+	display: block;
+	color: ##FFF4E0;
+	border-radius: 3px;
+	text-align: center;
+	padding: 10px;
+	text-decoration: none;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	background-color: #FFF4E0;
+	-o-transition: .2s ease-in-out;
+	-ms-transition: .2s ease-in-out;
+  -moz-transition: .2s ease-in-out;
+  -webkit-transition: .2s ease-in-out;
+  transition: .2s ease-in-out;
+  cursor: pointer;
+}
+
+img
+{
+	width: 800px;
+	height: auto;
+	border-radius: 3px;
+}
+
+div.left-box
+{
+	padding: 10px;
+	display: flex;
+}
+
+div.right-box
+{
+	padding: 10px;
+	margin-left: 25px;
+	margin-right: -25px;
+	border-radius: 3px;
+	border: 2px solid #C2B9AA;
+	flex-basis: 1000px;
+	flex-grow: 0;
+	flex-shrink: 0;
+}
+
+table.params
+{
+	display: block;
+}
+
+#choice
+{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	text-indent: 1px;
+	text-overflow: '';
+	margin-left: auto;
+	margin-right: auto;
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+	color: #3D403A;
+	font-size: 20px;
+	background-color: #FFF4E0;
+	-o-transition: .2s ease-in-out;
+	-ms-transition: .2s ease-in-out;
+	-moz-transition: .2s ease-in-out;
+	-webkit-transition: .2s ease-in-out;
+	transition: .2s ease-in-out;
+	cursor: pointer;
+	border-radius: 3px;
+	padding: 10px;
+	border: 1px solid #C2B9AA;
+	overflow:hidden;
+	width:250px;
+	background: #FFF4E0 url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
+}
+
+#choice select {
+   border: 0;
+   color: #EEE;
+   background: transparent;
+   font-size: 20px;
+   font-weight: bold;
+   padding: 2px 10px;
+   width: 378px;
+   *width: 350px;
+   *background: #58B14C;
+   -webkit-appearance: none;
+}
+
+#choice:hover
+{
+	background-color: #C2B9AA;
+	opacity: 1;
+}
+
+.col1
+{
+	float: left;
+	padding: 10px;
+}
+
+.col2
+{
+	position: absolute;
+	margin-left: 350px;
+	margin-right: 100px;
+	display: block;
+	overflow: hidden;
+}
+
+.col2 p
+{
+	font-size: 16px;
+	font-family: 'Open Sans', sans-serif;
+	overflow: hidden;
+}
+
+/*
+
+
+    font-family: 'Poiret One', cursive;
+
+    font-family: 'Open Sans', sans-serif;
+
+
+ */

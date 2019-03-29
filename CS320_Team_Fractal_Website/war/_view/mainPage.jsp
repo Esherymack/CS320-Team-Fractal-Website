@@ -18,24 +18,32 @@
 	</head>
 
 	<body>
-		<div class="content">
 			<p>Main page of the fractal site</p>
 		
 			<nav class="topnav">
-				<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
-					<input type="Submit" name="submit" value="Home">
-				</form>
-				<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
-					<input type="Submit" name="submit" value="Login">
-				</form>
+			
+				<ul>	
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
+								<input type="Submit" name="submit" value="Home">
+							</form>
+						</li>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
+								<input type="Submit" name="submit" value="Login">
+							</form>
+						</li>
+				</ul>
 			</nav>
 		
+			<div class="left-box">
 			<div class="interface">
 				<c:if test="${! empty errorMessage}">
 					<div class="error">${errorMessage}</div>
 				</c:if>
 		
 				<div class="image">
+				<p></p>
 						<c:choose>
 							<c:when test="${not result}">
 								<img src="img/square.jpg" alt="placeholder"/>
@@ -45,7 +53,26 @@
 							</c:otherwise>
 						</c:choose>
 				</div>
-				
+				</div>
+				<div class="right-box">
+					<div class="col2">
+						<div class="info">
+							<h1>Information</h1>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Nam hendrerit nisi sed sollicitudin pellentesque.
+							Nunc posuere purus rhoncus pulvinar aliquam.
+							Ut aliquet tristique nisl vitae volutpat.
+							Nulla aliquet porttitor venenatis.
+							Donec a dui et dui fringilla consectetur id nec massa.
+							Aliquam erat volutpat.
+							Sed ut dui ut lacus dictum fermentum vel tincidunt neque.
+							Sed sed lacinia lectus. Duis sit amet sodales felis.
+							Duis nunc eros, mattis at dui ac, convallis semper risus.
+							In adipiscing ultrices tellus, in suscipit massa vehicula eu.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit nisi sed sollicitudin pellentesque. Nunc posuere purus rhoncus pulvinar aliquam.</p>
+						</div>
+					</div>
+					<div class="col1">
 				<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
@@ -53,9 +80,10 @@
 								<option value="0">Sierpinski</option>
 								<option value="1">Mandelbrot</option>
 							</select>
+						</div>
 							<input type="hidden" name="selectedChoice">
-						<div>
-							<table>
+						<div class="form-labels">
+							<table class="params">
 								<tr>
 									<td class="label" id="paramLab0" hidden=true>Param0</td>
 									<td id="paramIn0" hidden=true><input type="text" name="param0" size="12" value="${param0}" /></td>
@@ -93,7 +121,6 @@
 					</form>
 				</div>
 			</div>
-		</div>
 	</body>
 
 	<script>

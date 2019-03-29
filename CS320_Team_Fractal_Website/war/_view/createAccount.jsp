@@ -9,10 +9,6 @@
 	</head>
 
 	<body>
-		<div class="content">
-		
-			<h1>This is the account creation page</h1>
-			
 			<c:if test="${! empty invalidMessage}">
 				<div class="invalid">${invalidMessage}</div>
 			</c:if>
@@ -41,6 +37,5 @@
 				</form>
 				<div class="accountCreated">${accountCreatedMessage}</div>
 			</c:if>
-		</div>
 	</body>
 </html>.

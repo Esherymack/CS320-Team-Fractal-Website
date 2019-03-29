@@ -7,7 +7,6 @@
 	</head>
 	
 	<body>
-		<div class="content">
 			<h1>Fractal Generation Website</h1>
 			<h2>Created by: Dakota Hilbert, Madison Tibbet, Zachary Ronayne</h2>
 			
@@ -26,7 +25,6 @@
 			<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
 				<input type="submit" value="Login" />
 			</form>
-		</div>
 	</body>
 
 </html>

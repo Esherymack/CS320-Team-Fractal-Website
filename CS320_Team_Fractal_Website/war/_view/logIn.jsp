@@ -9,10 +9,6 @@
 	</head>
 
 	<body>
-		<div class="content">
-		
-			<h1>This is the log in page</h1>
-			
 			<c:if test="${! empty errorMessage}">
 				<div class="error">${errorMessage}</div>
 			</c:if>
@@ -40,6 +36,5 @@
 				</form>
 				<div class="loggedIn">${logInMessage}</div>
 			</c:if>
-		</div>
 	</body>
 </html>.
