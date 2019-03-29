@@ -18,8 +18,6 @@
 	</head>
 
 	<body>
-			<p>Main page of the fractal site</p>
-		
 			<nav class="topnav">
 			
 				<ul>	

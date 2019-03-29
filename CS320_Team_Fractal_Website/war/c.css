@@ -207,10 +207,10 @@ nav.topnav li a
 	background-color: #FFF4E0;
 	-o-transition: .2s ease-in-out;
 	-ms-transition: .2s ease-in-out;
-  -moz-transition: .2s ease-in-out;
-  -webkit-transition: .2s ease-in-out;
-  transition: .2s ease-in-out;
-  cursor: pointer;
+    -moz-transition: .2s ease-in-out;
+    -webkit-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
+    cursor: pointer;
 }
 
 img
