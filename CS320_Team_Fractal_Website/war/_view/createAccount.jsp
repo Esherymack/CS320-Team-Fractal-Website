@@ -11,7 +11,7 @@
 	<body>
 		<div class="content">
 		
-			<p>This is the account creation page</p>
+			<h1>This is the account creation page</h1>
 			
 			<c:if test="${! empty invalidMessage}">
 				<div class="invalid">${invalidMessage}</div>

@@ -11,7 +11,7 @@
 	<body>
 		<div class="content">
 		
-			<p>This is the log in page</p>
+			<h1>This is the log in page</h1>
 			
 			<c:if test="${! empty errorMessage}">
 				<div class="error">${errorMessage}</div>

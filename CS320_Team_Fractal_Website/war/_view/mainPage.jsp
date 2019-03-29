@@ -103,7 +103,7 @@
 		sessionStorage.setItem('Selection', selection);
 		switch(selection){
 			case "0":
-				document.getElementById("paramLab0").innerHTML = "Level"
+				document.getElementById("paramLab0").innerHTML = "Level: "
 				$("#paramLab0").show()
 				$("#paramIn0").show()
 				
@@ -113,11 +113,11 @@
 				}
 				break;
 			case "1":
-				document.getElementById("paramLab0").innerHTML = "X1"
-				document.getElementById("paramLab1").innerHTML = "Y1"
-				document.getElementById("paramLab2").innerHTML = "X2"
-				document.getElementById("paramLab3").innerHTML = "Y2"
-				document.getElementById("paramLab4").innerHTML = "Multiplier"
+				document.getElementById("paramLab0").innerHTML = "X1: "
+				document.getElementById("paramLab1").innerHTML = "Y1: "
+				document.getElementById("paramLab2").innerHTML = "X2: "
+				document.getElementById("paramLab3").innerHTML = "Y2: "
+				document.getElementById("paramLab4").innerHTML = "Multiplier: "
 				
 				for(var i = 0; i < 5; i++){
 					$("#paramLab" + i).show()

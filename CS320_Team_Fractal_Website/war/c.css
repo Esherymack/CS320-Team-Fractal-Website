@@ -1,5 +1,20 @@
+body {
+    background-color: SlateGray;
+    animation-name: example;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example {
+    0%   {background-color:red;}
+    25%  {background-color:yellow;}
+    50%  {background-color:blue;}
+    75%  {background-color:green;}
+    100% {background-color:red;}
+}
+
 .invalid {
-	color: red;
+	color: Crimson;
 }
 	
 .accountCreated{
@@ -7,23 +22,78 @@
 }
 
 td.label {
-	text-align: right;
+	text-align: left;
 }
 
 h1{
-    color: blue;
+    color: Black;
+    animation-name: example5;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example5 {
+    0%   {color:red;}
+    25%  {color:yellow;}
+    50%  {color:blue;}
+    75%  {color:green;}
+    100% {color:red;}
+}
+
+h2{
+    color: Black;
+    animation-name: example6;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example6 {
+    0%   {color:yellow;}
+    25%  {color:blue;}
+    50%  {color:green;}
+    75%  {color:red;}
+    100% {color:yellow;}
+}
+
+h3{
+    color: Black;
+    animation-name: example7;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example7 {
+    0%   {color:blue;}
+    25%  {color:green;}
+    50%  {color:red;}
+    75%  {color:yellow;}
+    100% {color:blue;}
+}
+
+h4{
+    color: Black;
+    animation-name: example8;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example8 {
+    0%   {color:green;}
+    25%  {color:red;}
+    50%  {color:yellow;}
+    75%  {color:blue;}
+    100% {color:green;}
 }
 
 .error {
-	color: red;
+	color: Crimson;
 }
 
-.loggedIn {
-	color: green;
-}
-
-.content {
-	color: MediumAquaMarine;
+.content{
+	color: Black;
+    animation-name: example5;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
 	background-color: WhiteSmoke;
 	font-size: 200%;
 	font-family: 'Audiowide';
@@ -33,14 +103,107 @@ h1{
 }
 
 input[type=Submit] {
+    color: Black;
+    animation-name: example5;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+    
 	background-color: WhiteSmoke;
-    border: 4px solid Black;
-    color: MediumAquaMarine;
+    border: 2px solid Black;
+    border-radius: 25px;
     text-align: center;
     font-size: 75%;
     font-family: 'Audiowide';
     padding:5px 15px; 
     margin: 5px;
     cursor:default;
+    
+    transition-property: padding;
+    transition-duration: 2s;
+  	transition: transform 2s;
+    transition-timing-function: ease-in-out;
 }
-		    
+
+input[type=Submit]:hover {
+	color: WhiteSmoke;
+	background-color: Black;
+    padding:10px 30px;
+    transform: rotate(360deg);
+}
+
+
+.square1{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: red;
+	position: relative;
+	animation-name: example1;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example1 {
+    0%   {background-color:red; left:0px; top:0px;}
+    25%  {background-color:yellow; left:940px; top:0px;}
+    50%  {background-color:blue; left:1880px; top:0px;}
+    75%  {background-color:green; left:940px; top:0px;}
+    100% {background-color:red; left:0px; top:0px;}
+}
+
+.square2{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: yellow;
+	position: relative;
+	animation-name: example2;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example2 {
+    0%   {background-color:yellow; left:940px; top:0px;}
+    25%  {background-color:blue; left:1880px; top:0px;}
+    50%  {background-color:green; left:940px; top:0px;}
+    75%  {background-color:red; left:0px; top:0px;}
+    100% {background-color:yellow; left:940px; top:0px;}
+}
+
+.square3{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: blue;
+	position: relative;
+	animation-name: example3;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example3 {
+	0%   {background-color:blue; left:1880px; top:0px;}
+    25%  {background-color:green; left:940px; top:0px;}
+    50%  {background-color:red; left:0px; top:0px;}
+    75%  {background-color:yellow; left:940px; top:0px;}
+    100% {background-color:blue; left:1880px; top:0px;}
+}
+
+.square4{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: green;
+	position: relative;
+	animation-name: example4;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example4 {
+    0%   {background-color:green; left:940px; top:0px;}
+    25%  {background-color:red; left:0px; top:0px;}
+    50%  {background-color:yellow; left:940px; top:0px;}
+    75%  {background-color:blue; left:1880px; top:0px;}
+    100% {background-color:green; left:940px; top:0px;}
+}
