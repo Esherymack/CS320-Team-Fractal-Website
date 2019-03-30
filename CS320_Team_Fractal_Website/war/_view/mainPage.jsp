@@ -115,7 +115,7 @@
 								</tr>
 							</table>
 						</div>
-						<input type="Submit" name="submit" value="Send">
+						<input type="Submit" name="submit" value="Send" class="sender">
 					</form>
 				</div>
 			</div>
@@ -145,13 +145,13 @@
 				document.getElementById("paramLab4").innerHTML = "Multiplier: "
 				
 				for(var i = 0; i < 5; i++){
-					$("#paramLab" + i).show()
-					$("#paramIn" + i).show()
+					$("#paramLab" + i).css('display', 'block')
+					$("#paramIn" + i).css('display', 'inline-block')
 				}
 				
 				for(var i = 5; i < 10; i++){
-					$("#paramLab" + i).hide()
-					$("#paramIn" + i).hide()
+					$("#paramLab" + i).css('display', 'none')
+					$("#paramIn" + i).css('display', 'none')
 				}
 				break;
 		}
