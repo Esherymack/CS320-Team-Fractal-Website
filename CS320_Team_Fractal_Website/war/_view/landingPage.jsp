@@ -26,6 +26,11 @@
 				<input type="submit" value="Login" />
 			</form>
 		</div>
+		<div>
+			<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
+				<input type="submit" value="Your Account" />
+			</form>
+		</div>
 	</body>
 
 </html>
