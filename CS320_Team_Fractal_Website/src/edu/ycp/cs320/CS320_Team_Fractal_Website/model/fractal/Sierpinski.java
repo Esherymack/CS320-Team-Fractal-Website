@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 public class Sierpinski extends Fractal{
 	
-	public static final int SIZE = 500;
+	public static final int SIZE = 800;
 	
 	private int level;
 	private double height;

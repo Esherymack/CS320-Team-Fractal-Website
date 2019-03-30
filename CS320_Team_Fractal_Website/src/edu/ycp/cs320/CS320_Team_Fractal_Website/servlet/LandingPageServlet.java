@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
+
 public class LandingPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static boolean setDatabase = false;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -17,6 +21,11 @@ public class LandingPageServlet extends HttpServlet {
 		System.out.println("Landing Page Servlet: doGet");
 		
 		req.getRequestDispatcher("/_view/landingPage.jsp").forward(req, resp);
+		
+		if(!setDatabase){
+			InitDatabase.initFake();
+			setDatabase = true;
+		}
 	}
 	
 }

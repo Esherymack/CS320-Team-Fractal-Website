@@ -5,7 +5,8 @@ import java.io.File;
 import org.eclipse.jetty.server.Server;
 
 public class Main {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception{
+		
 		String webappCodeBase = "./war";
 		File warFile = new File(webappCodeBase);
 		Launcher launcher = new Launcher();
@@ -14,7 +15,7 @@ public class Main {
 		System.out.println("CREATING: web server on port 8081");
 		Server server = launcher.launch(true, 8081, warFile.getAbsolutePath(), "/CS320_Team_Fractal_Website");
 
-        // Start things up!		
+        // Start things up!
 		System.out.println("STARTING: web server on port 8081");
 		server.start();
 		
