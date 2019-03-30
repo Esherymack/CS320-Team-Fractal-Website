@@ -79,8 +79,8 @@ public class MandelbrotController extends FractalController{
 	}
 	
 	private BufferedImage renderIterCounts(){
-		int width = 600;
-		int height = 600;
+		int width = 800;
+		int height = 800;
 		
 
 		int[][] iters = calculateIterCounts(width, height);

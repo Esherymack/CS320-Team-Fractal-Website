@@ -3,6 +3,7 @@
 <html>
 	<head>
 		<title>Fractal Home Page</title>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 	

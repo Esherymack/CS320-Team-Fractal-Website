@@ -6,14 +6,11 @@
 	<head>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<meta charset="utf-8">
 		<title>Fractal Main</title>
 
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
-
-<script>
-
-</script>
 
 	</head>
 
@@ -68,6 +65,7 @@
 							Duis nunc eros, mattis at dui ac, convallis semper risus.
 							In adipiscing ultrices tellus, in suscipit massa vehicula eu.</p>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit nisi sed sollicitudin pellentesque. Nunc posuere purus rhoncus pulvinar aliquam.</p>
+
 						</div>
 					</div>
 					<div class="col1">
@@ -131,7 +129,7 @@
 				document.getElementById("paramLab0").innerHTML = "Level: "
 				$("#paramLab0").show()
 				$("#paramIn0").show()
-				
+
 				for(var i = 1; i < 10; i++){
 					$("#paramLab" + i).hide()
 					$("#paramIn" + i).hide()
@@ -148,7 +146,7 @@
 					$("#paramLab" + i).css('display', 'block')
 					$("#paramIn" + i).css('display', 'inline-block')
 				}
-				
+
 				for(var i = 5; i < 10; i++){
 					$("#paramLab" + i).css('display', 'none')
 					$("#paramIn" + i).css('display', 'none')
