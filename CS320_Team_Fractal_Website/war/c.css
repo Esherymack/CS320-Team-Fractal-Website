@@ -1,7 +1,182 @@
-body
-{
-	background-color: #FFF4E0;
+body {
+    background-color: #FFF4E0;
 }
+
+.invalid {
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	color: Crimson;
+}
+	
+.accountCreated{
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	color: green;
+}
+
+.loggedIn{
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	color: green;
+}
+
+td.label {
+	text-align: center;
+	font-size: 18px;
+	font-family: 'Open Sans', sans-serif;
+	color: #3D403A;
+}
+
+h1{
+    color: #3D403A;
+	font-size: 45px;
+	font-weight: bold;
+	font-family: 'Poiret One', cursive;
+}
+
+h2{
+    color: #3D403A;
+	font-size: 45px;
+	font-weight: bold;
+	font-family: 'Poiret One', cursive;
+}
+
+h3{
+    color: #3D403A;
+	font-size: 35px;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h4{
+    color: #3D403A;
+	font-size: 35px;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.error {
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	color: Crimson;
+}
+
+.content{
+}
+
+input {
+    margin-left: auto;
+	margin-right: auto;
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+	color: #3D403A;
+	font-size: 20px;
+	background-color: #FFF4E0;
+	-o-transition: .2s ease-in-out;
+	-ms-transition: .2s ease-in-out;
+	-moz-transition: .2s ease-in-out;
+	-webkit-transition: .2s ease-in-out;
+	transition: .2s ease-in-out;
+	cursor: pointer;
+	border-radius: 3px;
+	padding: 10px;
+	margin-top: 10px;
+	border: 1px solid #C2B9AA;
+}
+
+input:hover {
+    background-color: #C2B9AA;
+	opacity: 1;
+}
+
+
+.square1{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: red;
+	position: relative;
+	animation-name: example1;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example1 {
+    0%   {background-color:red; left:0px; top:0px;}
+    25%  {background-color:yellow; left:940px; top:0px;}
+    50%  {background-color:blue; left:1880px; top:0px;}
+    75%  {background-color:green; left:940px; top:0px;}
+    100% {background-color:red; left:0px; top:0px;}
+}
+
+.square2{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: yellow;
+	position: relative;
+	animation-name: example2;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example2 {
+    0%   {background-color:yellow; left:940px; top:0px;}
+    25%  {background-color:blue; left:1880px; top:0px;}
+    50%  {background-color:green; left:940px; top:0px;}
+    75%  {background-color:red; left:0px; top:0px;}
+    100% {background-color:yellow; left:940px; top:0px;}
+}
+
+.square3{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: blue;
+	position: relative;
+	animation-name: example3;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example3 {
+	0%   {background-color:blue; left:1880px; top:0px;}
+    25%  {background-color:green; left:940px; top:0px;}
+    50%  {background-color:red; left:0px; top:0px;}
+    75%  {background-color:yellow; left:940px; top:0px;}
+    100% {background-color:blue; left:1880px; top:0px;}
+}
+
+.square4{
+	width: 20px;
+ 	height: 20px;
+ 	margin: 1px;
+	background-color: green;
+	position: relative;
+	animation-name: example4;
+    animation-duration: 6s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes example4 {
+    0%   {background-color:green; left:940px; top:0px;}
+    25%  {background-color:red; left:0px; top:0px;}
+    50%  {background-color:yellow; left:940px; top:0px;}
+    75%  {background-color:blue; left:1880px; top:0px;}
+    100% {background-color:green; left:940px; top:0px;}
+}
+
+p
+{
+	font-size: 18px;
+	font-family: 'Open Sans', sans-serif;
+	color: #3D403A;
+}
+
 
 nav.topnav ul
 {
@@ -32,91 +207,10 @@ nav.topnav li a
 	background-color: #FFF4E0;
 	-o-transition: .2s ease-in-out;
 	-ms-transition: .2s ease-in-out;
-  -moz-transition: .2s ease-in-out;
-  -webkit-transition: .2s ease-in-out;
-  transition: .2s ease-in-out;
-  cursor: pointer;
-}
-
-input
-{
-	margin-left: auto;
-	margin-right: auto;
-	font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	color: #3D403A;
-	font-size: 20px;
-	background-color: #FFF4E0;
-	-o-transition: .2s ease-in-out;
-	-ms-transition: .2s ease-in-out;
-	-moz-transition: .2s ease-in-out;
-	-webkit-transition: .2s ease-in-out;
-	transition: .2s ease-in-out;
-	cursor: pointer;
-	border-radius: 3px;
-	padding: 10px;
-	margin-top: 10px;
-	border: 1px solid #C2B9AA;
-}
-
-input:hover
-{
-	background-color: #C2B9AA;
-	opacity: 1;
-}
-
-.invalid
-{
-	font-weight: bold;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 18px;
-	color: red;
-}
-
-.accountCreated
-{
-	color: green;
-}
-
-td.label {
-	text-align: center;
-	font-size: 18px;
-	font-family: 'Open Sans', sans-serif;
-	color: #3D403A;
-}
-
-h1
-{
-    color: #3D403A;
-		font-size: 45px;
-		font-weight: bold;
-		font-family: 'Poiret One', cursive;
-}
-
-h3
-{
-	color: #3D403A;
-	font-size: 35px;
-	font-weight: bold;
-	font-family: 'Open Sans', sans-serif;
-}
-
-p
-{
-	font-size: 18px;
-	font-family: 'Open Sans', sans-serif;
-	color: #3D403A;
-}
-
-.error {
-	font-weight: bold;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 18px;
-	color: red;
-}
-
-.loggedIn{
-	color: green;
+    -moz-transition: .2s ease-in-out;
+    -webkit-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
+    cursor: pointer;
 }
 
 img

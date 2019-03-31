@@ -38,4 +38,10 @@ public class LogInTest{
 		assertTrue(model.getEmail().equals(email));
 	}
 	
+	@Test
+	public void testSetEmail(){
+		model.setEmail("email@ycp.edu");
+		assertTrue(model.getEmail().equals("email@ycp.edu"));
+	}
+	
 }

@@ -32,6 +32,7 @@ public class LogInServlet extends HttpServlet {
 
 		// holds the error message text, if there is any
 		String errorMessage = null;
+		// holds the log in message text, if there is any
 		String logInMessage = null;
 		
 		// decode POSTed form parameters and dispatch to controller
@@ -66,12 +67,17 @@ public class LogInServlet extends HttpServlet {
 		}
 		
 		// Add parameters as request attributes
+		// this creates attributes named "username" and "password" for the response, and grabs the
+		// values that were originally assigned to the request attributes, also named "username" and "password"
+		// they don't have to be named the same, but in this case, since we are passing them back
+		// and forth, it's a good idea
 		req.setAttribute("username", username);
 		req.setAttribute("password", password);
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
+		// this adds the logInMessage text and the result to the response
 		req.setAttribute("logInMessage", logInMessage);
 		
 		// Forward to view to render the result HTML document
