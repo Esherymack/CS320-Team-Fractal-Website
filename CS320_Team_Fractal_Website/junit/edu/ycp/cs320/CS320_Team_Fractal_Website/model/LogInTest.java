@@ -9,6 +9,10 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
 
 public class LogInTest{
 	
+	public static String username = "fractalMasta1337";
+	public static String password = "password";
+	public static String email = "user12345@website.com";
+	
 	private LogIn model;
 	
 	@Before
@@ -18,14 +22,26 @@ public class LogInTest{
 
 	@Test
 	public void testSetUsername(){
-		model.setUsername("fractalMasta1337");
-		assertTrue(model.getUsername().equals("fractalMasta1337"));
+		model.setUsername(username);
+		assertTrue(model.getUsername().equals(username));
 	}
 
 	@Test
 	public void testSetPassword(){
-		model.setPassword("password");
-		assertTrue(model.getPassword().equals("password"));
+		model.setPassword(password);
+		assertTrue(model.getPassword().equals(password));
+	}
+	
+	@Test
+	public void testSetEmail(){
+		model.setEmail(email);
+		assertTrue(model.getEmail().equals(email));
+	}
+	
+	@Test
+	public void testSetEmail(){
+		model.setEmail("email@ycp.edu");
+		assertTrue(model.getEmail().equals("email@ycp.edu"));
 	}
 	
 }

@@ -32,6 +32,7 @@ public class CreateAccountServlet extends HttpServlet {
 
 		// holds the error message text, if there is any
 		String invalidMessage = null;
+		// holds the account created message text, if there is any
 		String accountCreatedMessage = null;
 		
 		// decode POSTed form parameters and dispatch to controller
@@ -43,27 +44,36 @@ public class CreateAccountServlet extends HttpServlet {
 		if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
 			invalidMessage = "Please specify a username, password, and email.";
 		}
+		//if username is less than 6 characters it is invalid
 		else if (username.length() < 6) {
-			invalidMessage = "Username must contain at least 6 characters";
+			invalidMessage = "Username must contain at least 6 characters.";
 		}
+		//if password is less than 6 characters it is invalid
 		else if (password.length() < 6) {
-			invalidMessage = "Password must contain at least 6 characters";
+			invalidMessage = "Password must contain at least 6 characters.";
 		}
+		//if password length is more than 25 characters it is invalid
 		else if (password.length() > 25) {
-			invalidMessage = "That is not even logical. Enter a different password";
+			
+			invalidMessage = "That is not even logical. Enter a different password.";
 		}
+		//if username is the same as the password it is invalid
 		else if (username.equals(password)) {
 			invalidMessage = "Your username should not be the same as your password.";
 		}
+		//if username contains special characters it is invalid
 		else if (username.contains(",") || username.contains(";") || username.contains(":") || username.contains("@") || username.contains("$") || username.contains("&") || username.contains("%") || username.contains("#")) {
 			invalidMessage = "Your username can not include special characters, it must include only letters and numbers.";
 		}
+		//if username is username it is invalid
 		else if (username.equals("username")) {
 			invalidMessage = "That is not a good username. Enter a different one.";
 		}
+		//if password is password it is invalid
 		else if (password.equals("password")) {
 			invalidMessage = "How creative. Enter a different password.";
 		}
+		//if email doesn't contain an @ or . it is invalid
 		else if (! email.contains("@") || ! email.contains(".")) {
 			invalidMessage = "The email is invalid. Ensure that it includes an @ and a .";
 		}
@@ -73,14 +83,27 @@ public class CreateAccountServlet extends HttpServlet {
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
+			//notify user that their account has been created
 			accountCreatedMessage = "The account has successfully been created.";
+
 			LogIn model = new LogIn();
-			LogInController controller = new LogInController(model);
+			LogInController controller = new LogInController();
+			controller.setModel(model);
+			model.setUsername(username);
+			model.setPassword(password);
+			model.setEmail(email);
+			
+			if(controller.createAccount()){
+				accountCreatedMessage = "The account has successfully been created.";
+			}
+			else{
+				accountCreatedMessage = "Selected username already taken";
+			}
 		}
 		
 		// Add parameters as request attributes
-		// this creates attributes named "first" and "second for the response, and grabs the
-		// values that were originally assigned to the request attributes, also named "first" and "second"
+		// this creates attributes named "username" and "password" and "email" for the response, and grabs the
+		// values that were originally assigned to the request attributes, also named "username" and "password" and "email"
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
 		req.setAttribute("username", username);
@@ -90,6 +113,7 @@ public class CreateAccountServlet extends HttpServlet {
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("invalidMessage", invalidMessage);
+		// this adds the accountCreatedMessage text and the result to the response
 		req.setAttribute("accountCreatedMessage", accountCreatedMessage);
 		
 		// Forward to view to render the result HTML document
