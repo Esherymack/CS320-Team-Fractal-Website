@@ -26,6 +26,11 @@
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.CreateAccountServlet</servlet-class>
   </servlet>
   
+   <servlet>
+    <servlet-name>ViewAccountServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ViewAccountServlet</servlet-class>
+  </servlet>
+  
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.IndexServlet</servlet-class>
@@ -79,6 +84,11 @@
   <servlet-mapping>
     <servlet-name>CreateAccountServlet</servlet-name>
     <url-pattern>/createAccount</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>ViewAccountServlet</servlet-name>
+    <url-pattern>/viewAccount</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
