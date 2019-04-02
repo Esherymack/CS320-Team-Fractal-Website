@@ -17,7 +17,12 @@
 {
 	flex-basis: 50%;
 	margin-left: 25px;
-}	
+}
+
+.lower-nav
+{
+	padding: 5px;
+}
 
 body {
     background-color: #FFF4E0;

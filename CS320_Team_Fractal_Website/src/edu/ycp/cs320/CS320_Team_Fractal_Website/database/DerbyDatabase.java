@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +36,12 @@ public class DerbyDatabase implements IDatabase
 	private static final int MAX_ATTEMPTS = 10;
 	
 	@Override
-	public ArrayList<User> getAccounts() 
+	public ArrayList<String> getAccounts() 
 	{
-		return executeTransaction(new Transaction<ArrayList<User>>()
+		return executeTransaction(new Transaction<ArrayList<String>>()
 			{
 				@Override
-				public ArrayList<User> execute(Connection conn) throws SQLException
+				public ArrayList<String> execute(Connection conn) throws SQLException
 				{
 					PreparedStatement stmt = null;
 					ResultSet resultSet = null;
@@ -48,17 +49,22 @@ public class DerbyDatabase implements IDatabase
 					try
 					{
 						// retrieve all accounts and populate into the list
-						stmt = conn.prepareStatement("SELECT * FROM users");
-						ArrayList<User> result = new ArrayList<User>();
+						stmt = conn.prepareStatement("select * from users");
+						ArrayList<String> result = new ArrayList<String>();
 						
 						resultSet = stmt.executeQuery();
 						
+						ResultSetMetaData md = resultSet.getMetaData();
+						
+						String user = null;
 						while(resultSet.next())
 						{
-							// create new User object
-							User user = new User();
+							for(int x = 1; x < md.getColumnCount(); x = x+md.getColumnCount())
+							{
+								user = resultSet.getObject(x).toString();;
+							}
 							result.add(user);
-						}
+						} 
 						return result;
 					}
 					finally
@@ -99,7 +105,8 @@ public class DerbyDatabase implements IDatabase
 					}
 					
 					if(!found)
-					{
+					{	
+						System.out.println("User not found.");
 						return null;
 					}
 					return result;
@@ -114,10 +121,61 @@ public class DerbyDatabase implements IDatabase
 	}
 	
 	@Override
-	public boolean addUser(User user) 
+	public User addUser(final String firstname, final String lastname, final String username, final String password, final String email) 
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return executeTransaction(new Transaction<User>()
+		{
+			@Override
+			public User execute (Connection conn) throws SQLException
+			{
+				PreparedStatement addStmt = null;
+				PreparedStatement getUserInfo = null;
+				
+				ResultSet resultSet = null;
+				
+				try
+				{
+					addStmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)");
+					addStmt.setString(1, firstname);
+					addStmt.setString(2, lastname);
+					addStmt.setString(3, username);
+					addStmt.setString(4, password);
+					addStmt.setString(5, email);
+					
+					int result = addStmt.executeUpdate();
+					
+					if(result == 1)
+					{
+						getUserInfo = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
+						getUserInfo.setString(1, username);
+						getUserInfo.setString(2, password);
+						
+						resultSet = getUserInfo.executeQuery();
+					}
+					User userAdded = new User();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) 
+					{
+						found = true;
+						loadUser(userAdded, resultSet, 1);
+					}
+					if(!found)
+					{
+						return null;
+					}
+					return userAdded;
+				}
+				finally
+				{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(addStmt);
+					DBUtil.closeQuietly(getUserInfo);
+				}
+			}
+		}
+		);
 	}
 	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
@@ -203,10 +261,26 @@ public class DerbyDatabase implements IDatabase
 				PreparedStatement stmt = null;
 				try
 				{
-					stmt = conn.prepareStatement("CREATE TABLE users (user_id integer primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), username VARCHAR(40), firstname VARCHAR(40), lastname VARCHAR(40), email VARCHAR(40), password VARCHAR(40))");
-					stmt.executeUpdate();
+					stmt = conn.prepareStatement("create table users ("
+							+ " user_id integer primary key "
+							+ " generated always as identity (start with 1, increment by 1), "
+							+ " username varchar40), "
+							+ " firstname varchar(40), "
+							+ " lastname varchar(40), "
+							+ " email varchar(40), "
+							+ " password varchar(40)"
+							+ ")"
+							);
+					int result = stmt.executeUpdate();
+					if(result > 0)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 					
-					return true;
 				}
 				finally
 				{

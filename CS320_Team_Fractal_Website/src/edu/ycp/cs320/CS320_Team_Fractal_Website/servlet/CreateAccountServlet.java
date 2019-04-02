@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.UserController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
 
 public class CreateAccountServlet extends HttpServlet {
@@ -18,6 +18,8 @@ public class CreateAccountServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		InitDatabase.init();
 		
 		System.out.println("Create Account Servlet: doGet");
 		
@@ -82,19 +84,21 @@ public class CreateAccountServlet extends HttpServlet {
 			invalidMessage = "The email is invalid. Ensure that it includes an @ and a .";
 		}
 		
-		// otherwise, data is good, do the calculation
-		// must create the controller each time, since it doesn't persist between POSTs
-		// the view does not alter data, only controller methods should be used for that
-		// thus, always call a controller method to operate on the data
-		else {
-			//notify user that their account has been created
-			accountCreatedMessage = "The account has successfully been created.";	
-			User model = new User();
-			model.setFirstname(firstname);
-			model.setLastname(lastname);
-			model.setUsername(username);
-			model.setPassword(password);
-			model.setEmail(email);
+		else 
+		{
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			User user = db.addUser(firstname, lastname, username, password, email);
+			
+			if(user != null)
+			{
+				//notify user that their account has been created
+				accountCreatedMessage = "The account has successfully been created.";
+			}
+			else
+			{
+				accountCreatedMessage = "The account failed to generate.";
+			}
 		}
 		
 		// Add parameters as request attributes

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.UserController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
@@ -24,13 +23,13 @@ public class LogInServlet extends HttpServlet {
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/logIn.jsp").forward(req, resp);
-		InitDatabase.init();
-
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		InitDatabase.init();
 		
 		System.out.println("LogIn Servlet: doPost");
 		
@@ -50,22 +49,19 @@ public class LogInServlet extends HttpServlet {
 			return;
 		}
 		
-		User model = new User();
-		UserController controller = new UserController();
-		controller.setModel(model);
-		
 		IDatabase db = DatabaseProvider.getInstance();
-		model.setUsername(username);
-		model.setPassword(password);
-		if(controller.User(db))
+		User user = db.getAccountByUsernamePassword(username, password);
+		
+		if(user != null)
 		{
 			System.out.println("Login successful.");
+			logInMessage = "You have successfully logged in.";
 		}
 		else
 		{
 			System.out.println("Login failed.");
-		}
-		
+			logInMessage = "Account was not found.";
+		} 
 		// Attempt to find the user with provided username and password
 		
 		// Add parameters as request attributes

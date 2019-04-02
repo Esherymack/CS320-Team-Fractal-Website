@@ -17,7 +17,7 @@
 				<c:if test="${! empty errorMessage}">
 					<div class="error">${errorMessage}</div>
 				</c:if>
-				
+
 				<div class="login-center">
 				<form action="${pageContext.servletContext.contextPath}/logIn" method="post">
 					<table>
@@ -31,24 +31,19 @@
 						</tr>
 					</table>
 					<input type="Submit" name="submit" value="Log In">
+					<div class="loggedIn">${logInMessage}</div>
 				</form>
 				</div>
 				<div class="login-center">
+				<div class="lower-nav">
 				<form action="${pageContext.servletContext.contextPath}/createAccount" method="doGet">
 					<input type="Submit" name="submit" value="Create Account">
 				</form>
-				</div>
-
-				<c:if test="${! empty logInMessage}">
-					<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
+				<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
 						<input type="Submit" name="submit" value="Go To Main Page">
-					</form>
-					<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
-						<input type="Submit" name="submit" value="View Your Account">
-					</form>
-					
-					<div class="loggedIn">${logInMessage}</div>
-				</c:if>
+				</form>
+				</div>
+				</div>
 			</body>
 		</div>
 		<div class="border">

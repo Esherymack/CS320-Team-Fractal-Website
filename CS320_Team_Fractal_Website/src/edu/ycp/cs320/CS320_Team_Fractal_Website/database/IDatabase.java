@@ -10,7 +10,7 @@ public interface IDatabase{
 	 * Get a list of all of the accounts in the database
 	 * @return the list of accounts
 	 */
-	public ArrayList<User> getAccounts();
+	public ArrayList<String> getAccounts();
 	
 	/**
 	 * Get the account of the given username
@@ -25,6 +25,6 @@ public interface IDatabase{
 	 * @param password the password of the new account
 	 * @return true if the account was added successfully, false otherwise
 	 */
-	public boolean addUser(User account);
+	public User addUser(String firstname, String lastname, String username, String password, String email);
 	
 }
