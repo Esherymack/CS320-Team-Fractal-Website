@@ -35,6 +35,10 @@
 				<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
 					<input type="Submit" name="submit" value="Go To Main Page">
 				</form>
+				<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
+					<input type="Submit" name="submit" value="View Your Account">
+				</form>
+				
 				<div class="loggedIn">${logInMessage}</div>
 			</c:if>
 	</body>

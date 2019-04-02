@@ -38,6 +38,8 @@ public class MainPageServlet extends HttpServlet{
 
 		// holds the error message text, if any
 		String errorMessage = null;
+		//contains fractal info
+		String fractalInfo = null;
 		boolean result = false;
 		
 		int choice = -1;
@@ -61,11 +63,22 @@ public class MainPageServlet extends HttpServlet{
 		if(choice == 0){
 			Sierpinski sierpinskiModel = new Sierpinski();
 			controller = new SierpinskiController(sierpinskiModel);
+			
+			//contains fractal info
+			fractalInfo = "The Sierpinski triangle, also called the Sierpinski gasket or the Sierpinski sieve, is a "
+					+ "fractal and attractive fixed set with the overall shape of an equilateral triangle, subdivided "
+					+ "recursively into smaller equilateral triangles. ";
 		}
+		
 		//Mandelbrot
 		else if(choice == 1){
 			Mandelbrot mandelModel = new Mandelbrot();
 			controller = new MandelbrotController(mandelModel);
+			
+			//contains fractal info
+			fractalInfo = "The Mandelbrot set is the set of complex numbers for which the function does not diverge "
+					+ "when iterated from, i.e., for which the sequence, etc., remains bounded in absolute value. Its "
+					+ "definition and name are due to Adrien Douady, in tribute to the mathematician Benoit Mandelbrot.";
 		}
 		
 		//only generate the fractal if a value choice was found
@@ -85,6 +98,7 @@ public class MainPageServlet extends HttpServlet{
 		}
 		
 		req.setAttribute("errorMessage",  errorMessage);
+		req.setAttribute("fractalInfo",  fractalInfo);
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		
