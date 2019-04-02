@@ -26,19 +26,8 @@ public class UserController{
 	{
 		//try to find the account in the database
 		User a = db.getAccountByUsernamePassword(model.getUsername(), model.getPassword());
-		
-		//could not find username
-		if(a == null)
-		{ 
-			return false;
-		}
-		//passwords match, return true
-		if(a.getPassword().equals(model.getPassword()))
-		{
-			return true;
-		}
-		//passwords do not match, return false
-		return false;
+		// we do not need a big chain of if/else if to test a boolean! it's inherently true or false!
+		return a.getPassword().equals(model.getPassword());
 	}
 	
 	/**
