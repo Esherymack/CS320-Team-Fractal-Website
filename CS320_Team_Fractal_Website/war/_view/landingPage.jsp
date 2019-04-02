@@ -7,7 +7,8 @@
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 	
-	<body>
+	<body id="home">
+			
 			<h1>Fractal Generation Website</h1>
 			<h2>Created by: Dakota Hilbert, Madison Tibbet, Zachary Ronayne</h2>
 			
@@ -26,12 +27,9 @@
 			<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
 				<input type="submit" value="Login" />
 			</form>
-		</div>
-		<div>
 			<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
 				<input type="submit" value="Your Account" />
 			</form>
-		</div>
 	</body>
 
 </html>
