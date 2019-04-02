@@ -17,11 +17,18 @@
 {
 	flex-basis: 50%;
 	margin-left: 25px;
+	margin-right: 25px;
 }
 
 .lower-nav
 {
 	padding: 5px;
+}
+
+.account-header
+{
+	padding: 25px;
+	margin-top: 50px;
 }
 
 body {

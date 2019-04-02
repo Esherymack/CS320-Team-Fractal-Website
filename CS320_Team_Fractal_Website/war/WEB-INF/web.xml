@@ -21,6 +21,11 @@
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.LogInServlet</servlet-class>
   </servlet>
   
+  <servlet>
+  	<servlet-name>logoutServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.logoutServlet</servlet-class>
+  </servlet>
+  
    <servlet>
     <servlet-name>CreateAccountServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.CreateAccountServlet</servlet-class>
@@ -82,6 +87,11 @@
   </servlet-mapping>
   
   <servlet-mapping>
+  	<servlet-name>logoutServlet</servlet-name>
+  	<url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
     <servlet-name>CreateAccountServlet</servlet-name>
     <url-pattern>/createAccount</url-pattern>
   </servlet-mapping>
@@ -126,6 +136,6 @@
   </servlet-mapping>
 
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>landingPage</welcome-file>
   </welcome-file-list>
 </web-app>

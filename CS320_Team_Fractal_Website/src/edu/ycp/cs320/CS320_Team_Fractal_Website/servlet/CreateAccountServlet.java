@@ -3,6 +3,7 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,6 +95,14 @@ public class CreateAccountServlet extends HttpServlet {
 			{
 				//notify user that their account has been created
 				accountCreatedMessage = "The account has successfully been created.";
+				// on successful account creation, set the cookie
+				Cookie loginCookie = new Cookie("user", user.getUsername());
+				// Set the cookie to expire in 24 hours
+				loginCookie.setMaxAge(60*60*24);
+				// Add the cookie
+				resp.addCookie(loginCookie);
+				// Redirect to the main page
+				resp.sendRedirect("mainPage");
 			}
 			else
 			{

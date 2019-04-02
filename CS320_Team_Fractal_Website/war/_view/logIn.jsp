@@ -36,12 +36,12 @@
 				</div>
 				<div class="login-center">
 				<div class="lower-nav">
-				<form action="${pageContext.servletContext.contextPath}/createAccount" method="doGet">
-					<input type="Submit" name="submit" value="Create Account">
-				</form>
-				<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
-						<input type="Submit" name="submit" value="Go To Main Page">
-				</form>
+					<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
+						<input type="Submit" name="submit" value="Home">
+					</form>
+					<form action="${pageContext.servletContext.contextPath}/createAccount" method="doGet">
+						<input type="Submit" name="submit" value="Create Account">
+					</form>
 				</div>
 				</div>
 			</body>

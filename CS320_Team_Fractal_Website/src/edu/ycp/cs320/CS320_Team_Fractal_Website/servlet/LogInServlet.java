@@ -1,11 +1,13 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
@@ -21,8 +23,13 @@ public class LogInServlet extends HttpServlet {
 		
 		System.out.println("LogIn Servlet: doGet");
 		
+		// Get session creation time.
+		
+		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/logIn.jsp").forward(req, resp);
+		
+		
 	}
 	
 	@Override
@@ -56,6 +63,14 @@ public class LogInServlet extends HttpServlet {
 		{
 			System.out.println("Login successful.");
 			logInMessage = "You have successfully logged in.";
+			// on successful login, set the cookie
+			Cookie loginCookie = new Cookie("user", user.getUsername());
+			// Set the cookie to expire in 24 hours
+			loginCookie.setMaxAge(60*60*24);
+			// Add the cookie
+			resp.addCookie(loginCookie);
+			// Redirect to the main page
+			resp.sendRedirect("mainPage");
 		}
 		else
 		{

@@ -11,11 +11,26 @@
 		<div class="border"></div>
 		<div class="center">
 		<body>
+			<div class="topnav">
+				<ul>
+					<li>
+						<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
+							<input type="Submit" name="submit" value="Home">
+						</form>
+					</li>
+					<li>
+						<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
+							<input type="Submit" name="submit" value="Login">
+						</form>
+					</li>
+					<li>
+						<form action="${pageContext.servletContext.contextPath}/logout" method="post">
+							<input type="Submit" name="submit" value="LogOut">
+						</form>
+					</li>
+				</ul>
+			</div>
 			<div class="login-center">
-				<c:if test="${! empty invalidMessage}">
-					<div class="invalid">${invalidMessage}</div>
-				</c:if>
-
 				<form action="${pageContext.servletContext.contextPath}/createAccount" method="post">
 					<table>
 						<tr>
@@ -40,12 +55,8 @@
 					</table>
 					<input type="Submit" name="submit" value="Create Account">
 				</form>
-
-				<c:if test="${! empty accountCreatedMessage}">
-					<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
-						<input type="Submit" name="submit" value="Log In">
-					</form>
-					<div class="accountCreated">${accountCreatedMessage}</div>
+				<c:if test="${! empty invalidMessage}">
+					<div class="invalid">${invalidMessage}</div>
 				</c:if>
 			</div>
 		</body>
