@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
 
 public class LogInTest{
 	
@@ -13,11 +13,11 @@ public class LogInTest{
 	public static String password = "password";
 	public static String email = "user12345@website.com";
 	
-	private LogIn model;
+	private User model;
 	
 	@Before
 	public void setUp(){
-		model = new LogIn();
+		model = new User();
 	}
 
 	@Test

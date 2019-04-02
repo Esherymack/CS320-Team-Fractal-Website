@@ -11,7 +11,7 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.FakeDataBase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
 
 public class LogInControllerTest{
 	
@@ -19,12 +19,12 @@ public class LogInControllerTest{
 	public static String password = "pass12345";
 	public static String email = "user12345@website.com";
 	
-	private LogIn model;
+	private User model;
 	private UserController controller;
 	
 	@Before
 	public void setUp(){
-		model = new LogIn();
+		model = new User();
 		controller = new UserController();
 		controller.setModel(model);
 		

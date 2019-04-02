@@ -3,8 +3,6 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
 
 public class UserController{
@@ -26,16 +24,19 @@ public class UserController{
 	 */
 	public boolean User(IDatabase db)
 	{
-		
 		//try to find the account in the database
-		Account a = db.getAccountByUsername(model.getUsername());
+		User a = db.getAccountByUsernamePassword(model.getUsername(), model.getPassword());
 		
 		//could not find username
-		if(a == null) return false;
-		
+		if(a == null)
+		{ 
+			return false;
+		}
 		//passwords match, return true
-		if(a.getPassword().equals(model.getPassword())) return true;
-		
+		if(a.getPassword().equals(model.getPassword()))
+		{
+			return true;
+		}
 		//passwords do not match, return false
 		return false;
 	}
@@ -46,15 +47,16 @@ public class UserController{
 	 */
 	public boolean createAccount(IDatabase db){
 		
-		ArrayList<Account> accounts = db.getAccounts();
+		ArrayList<User> accounts = db.getAccounts();
 
 		//first check to make sure an account with the requested username doesn't already exist
-		for(Account a : accounts){
+		for(User a : accounts){
 			if(a.getUsername().equals(model.getUsername())) return false;
 		}
 		
 		//the requested username doesn't already exist, so create the account
-		Account newAccount = new StandardUser(model.getUsername(), model.getPassword(), model.getEmail());
+		// Account newAccount = new StandardUser(model.getUsername(), model.getPassword(), model.getEmail());
+		User newAccount = new User();
 		db.addUser(newAccount);
 		
 		return true;

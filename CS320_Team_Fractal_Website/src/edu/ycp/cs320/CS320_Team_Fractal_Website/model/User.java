@@ -1,5 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Gallery;
+
 public class User 
 {
 	private int UserId;
@@ -8,6 +10,8 @@ public class User
 	private String Lastname;
 	private String Email;
 	private String Password;
+	
+	private Gallery fractalGallery;
 	
 	public User()
 	{}
@@ -70,5 +74,15 @@ public class User
 	public String getPassword()
 	{
 		return Password;
+	}
+	
+	public Gallery getFractalGallery()
+	{
+		return fractalGallery;
+	}
+	
+	public void setFractalGallery(Gallery fractalGallery)
+	{
+		this.fractalGallery = fractalGallery;
 	}
 }

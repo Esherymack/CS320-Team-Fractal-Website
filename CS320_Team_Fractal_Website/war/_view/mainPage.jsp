@@ -15,9 +15,10 @@
 	</head>
 
 	<body>
-			<nav class="topnav">
-			
-				<ul>	
+		<div class="mainPage-nav-bg">
+			<div class= "container">
+				<div class="topnav">			
+					<ul>	
 						<li>
 							<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
 								<input type="Submit" name="submit" value="Home">
@@ -33,9 +34,10 @@
 								<input type="Submit" name="submit" value="Your Account">
 							</form>
 						</li>
-				</ul>
-			</nav>
-		
+					</ul>
+				</div>
+			</div>
+		</div>
 			<div class="left-box">
 			<div class="interface">
 				<c:if test="${! empty errorMessage}">

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
 
 // Modified from CS320 Lab06
 
@@ -35,7 +34,91 @@ public class DerbyDatabase implements IDatabase
 	
 	private static final int MAX_ATTEMPTS = 10;
 	
-	// TODO: Create functions in this space that are implemented by IDatabase
+	@Override
+	public ArrayList<User> getAccounts() 
+	{
+		return executeTransaction(new Transaction<ArrayList<User>>()
+			{
+				@Override
+				public ArrayList<User> execute(Connection conn) throws SQLException
+				{
+					PreparedStatement stmt = null;
+					ResultSet resultSet = null;
+					
+					try
+					{
+						// retrieve all accounts and populate into the list
+						stmt = conn.prepareStatement("SELECT * FROM users");
+						ArrayList<User> result = new ArrayList<User>();
+						
+						resultSet = stmt.executeQuery();
+						
+						while(resultSet.next())
+						{
+							// create new User object
+							User user = new User();
+							result.add(user);
+						}
+						return result;
+					}
+					finally
+					{
+						DBUtil.closeQuietly(resultSet);
+						DBUtil.closeQuietly(stmt);
+					}
+				}
+			});
+	}
+
+	@Override
+	public User getAccountByUsernamePassword(final String username, final String password) 
+	{
+		return executeTransaction(new Transaction<User>()
+		{
+			@Override
+			public User execute(Connection conn) throws SQLException
+			{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try
+				{
+					stmt = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
+					stmt.setString(1, username);
+					stmt.setString(2, password);
+					
+					User result = new User();
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					while(resultSet.next())
+					{
+						found = true;
+						loadUser(result, resultSet, 1);
+					}
+					
+					if(!found)
+					{
+						return null;
+					}
+					return result;
+				}
+				finally
+				{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public boolean addUser(User user) 
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
 	{
@@ -174,23 +257,17 @@ public class DerbyDatabase implements IDatabase
 			}
 		});
 	}
-
-	@Override
-	public ArrayList<Account> getAccounts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean addUser(Account account) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Account getAccountByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public static void main(String[] args) throws IOException
+	{
+		System.out.println("Creating tables...");
+		DerbyDatabase db = new DerbyDatabase();
+		db.createTables();
+		
+		System.out.println("Loading initial data...");
+		db.loadInitialData();
+		
+		System.out.println("Success!");
 	}
 	
 }
