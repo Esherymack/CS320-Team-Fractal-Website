@@ -17,14 +17,9 @@
 			<div class="square4"></div>
 			
 			<h3>Welcome to our website of fractals</h3>
-			<h4>Create a fractal or log in</h4>
-			
-			<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
-				<input type="submit" value="Create a fractal!" />
-			</form>
 			
 			<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
-				<input type="submit" value="Login" />
+				<input type="submit" value="Login or Create Account" />
 			</form>
 		</div>
 		<div>

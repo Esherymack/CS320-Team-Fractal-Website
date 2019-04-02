@@ -16,6 +16,13 @@
 			<form action="${pageContext.servletContext.contextPath}/createAccount" method="post">
 				<table>
 					<tr>
+						<td class="label">First Name:</td>
+						<td><input type="text" name="firstname" size="12" value="${firstname}" /></td>
+					</tr>
+					<tr>
+						<td class="label">Last Name:</td>
+						<td><input type="text" name="lastname" size="12" value="${lastname}" /></td>
+					<tr>
 						<td class="label">Enter a new username:</td>
 						<td><input type="text" name="username" size="12" value="${username}" /></td>
 					</tr>

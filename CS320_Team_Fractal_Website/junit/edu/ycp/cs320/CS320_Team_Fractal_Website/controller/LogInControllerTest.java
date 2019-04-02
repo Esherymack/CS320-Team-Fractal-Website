@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.LogInController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.UserController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.FakeDataBase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
@@ -20,12 +20,12 @@ public class LogInControllerTest{
 	public static String email = "user12345@website.com";
 	
 	private LogIn model;
-	private LogInController controller;
+	private UserController controller;
 	
 	@Before
 	public void setUp(){
 		model = new LogIn();
-		controller = new LogInController();
+		controller = new UserController();
 		controller.setModel(model);
 		
 		FakeDataBase db = new FakeDataBase();

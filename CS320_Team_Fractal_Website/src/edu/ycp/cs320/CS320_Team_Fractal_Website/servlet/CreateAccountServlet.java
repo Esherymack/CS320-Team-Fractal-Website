@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.LogInController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.UserController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
 
 public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,6 +38,8 @@ public class CreateAccountServlet extends HttpServlet {
 		String accountCreatedMessage = null;
 		
 		// decode POSTed form parameters and dispatch to controller
+		String firstname = req.getParameter("firstname");
+		String lastname = req.getParameter("lastname");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
@@ -84,21 +88,13 @@ public class CreateAccountServlet extends HttpServlet {
 		// thus, always call a controller method to operate on the data
 		else {
 			//notify user that their account has been created
-			accountCreatedMessage = "The account has successfully been created.";
-
-			LogIn model = new LogIn();
-			LogInController controller = new LogInController();
-			controller.setModel(model);
+			accountCreatedMessage = "The account has successfully been created.";	
+			User model = new User();
+			model.setFirstname(firstname);
+			model.setLastname(lastname);
 			model.setUsername(username);
 			model.setPassword(password);
 			model.setEmail(email);
-			
-			if(controller.createAccount()){
-				accountCreatedMessage = "The account has successfully been created.";
-			}
-			else{
-				accountCreatedMessage = "Selected username already taken";
-			}
 		}
 		
 		// Add parameters as request attributes
@@ -106,6 +102,8 @@ public class CreateAccountServlet extends HttpServlet {
 		// values that were originally assigned to the request attributes, also named "username" and "password" and "email"
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
+		req.setAttribute("firstname", firstname);
+		req.setAttribute("lastname", lastname);
 		req.setAttribute("username", username);
 		req.setAttribute("password", password);
 		req.setAttribute("email", email);
