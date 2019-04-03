@@ -3,6 +3,8 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.databse;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,13 +31,13 @@ public class FakeDatabaseTest{
 	public void testAddDefaultDataAndGetAccounts(){
 		database.addDefaultData();
 		
-		assertFalse(database.getAccounts() == null);
-		assertFalse(database.getAccounts().isEmpty());
+		assertFalse(database.getUsers() == null);
+		assertFalse(database.getUsers().isEmpty());
 	}
 	
 	@Test
 	public void testAddUserAndGetUserByUsername(){
-		database.addUser(new StandardUser(username, firstname, lastname, password, email));
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
 		
 		User a = database.getUserByUsernameAndPassword(username, password);
 		
@@ -45,6 +47,14 @@ public class FakeDatabaseTest{
 		assertTrue(a.getLastname().equals(lastname));
 		assertTrue(a.getPassword().equals(password));
 		assertTrue(a.getEmail().equals(email));
+	}
+	
+	@Test
+	public void testGetUsers(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
+		
+		ArrayList<User> users = database.getUsers();
+		assertTrue(users.size() > 0);
 	}
 	
 }

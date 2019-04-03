@@ -36,7 +36,7 @@ public class DerbyDatabase implements IDatabase
 	private static final int MAX_ATTEMPTS = 10;
 	
 	@Override
-	public ArrayList<User> getAccounts() 
+	public ArrayList<User> getUsers() 
 	{
 		return executeTransaction(new Transaction<ArrayList<User>>()
 			{
@@ -98,12 +98,11 @@ public class DerbyDatabase implements IDatabase
 					User result = new StandardUser();
 					
 					resultSet = stmt.executeQuery();
-					
 					Boolean found = false;
 					while(resultSet.next())
 					{
 						found = true;
-						loadUser(result, resultSet, 1);
+						loadUser(result, resultSet);
 					}
 					
 					if(!found)
@@ -179,7 +178,7 @@ public class DerbyDatabase implements IDatabase
 						{
 							//if the user was found, quit out of the loop and set found to true
 							found = true;
-							loadUser(userAdded, resultSet, 1);
+							loadUser(userAdded, resultSet);
 						}
 					}
 				}
@@ -258,13 +257,13 @@ public class DerbyDatabase implements IDatabase
 		return conn;
 	}
 	
-	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException
+	private void loadUser(User user, ResultSet resultSet) throws SQLException
 	{
-		user.setUsername(resultSet.getString(index++));
-		user.setFirstname(resultSet.getString(index++));
-		user.setLastname(resultSet.getString(index++));
-		user.setEmail(resultSet.getString(index++));
-		user.setPassword(resultSet.getString(index++));
+		user.setUsername(resultSet.getString(2));
+		user.setFirstname(resultSet.getString(3));
+		user.setLastname(resultSet.getString(4));
+		user.setEmail(resultSet.getString(5));
+		user.setPassword(resultSet.getString(6));
 	}
 	
 	public void createTables()

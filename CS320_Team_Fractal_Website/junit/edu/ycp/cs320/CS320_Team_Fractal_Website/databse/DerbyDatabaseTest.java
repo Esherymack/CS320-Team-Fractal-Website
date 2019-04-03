@@ -3,6 +3,8 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.databse;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,10 +14,10 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class DerbyDatabaseTest {
 	
-	private static String username = "user10";
+	private static String username = "user11";
 	private static String password = "12345";
 	private static String email = "user1@website.com";
-	private static String firstname = "Bob";
+	private static String firstname = "Joe";
 	private static String lastname = "Smith";
 	
 	private DerbyDatabase database;
@@ -27,13 +29,13 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testAddUser(){
-		boolean added = database.addUser(new StandardUser(username, firstname, lastname, password, email));
+		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password));
 		assertTrue(added);
 	}
 	
 	@Test
 	public void testGetUserByUsernameAndPassword(){
-		testAddUser();
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
 		
 		User u = database.getUserByUsernameAndPassword(username, password);
 		
@@ -44,6 +46,13 @@ public class DerbyDatabaseTest {
 		assertTrue(u.getPassword().equals(password));
 		assertTrue(u.getEmail().equals(email));
 	}
-
+	
+	@Test
+	public void testGetUsers(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
+		
+		ArrayList<User> users = database.getUsers();
+		assertTrue(users.size() > 0);
+	}
 
 }

@@ -24,7 +24,7 @@ public class FakeDatabase implements IDatabase{
 		addUser(new Admin("Admin1", "Jane", "Smith", "admin@website.com", "password"));
 	}
 	
-	public ArrayList<User> getAccounts(){
+	public ArrayList<User> getUsers(){
 		return users;
 	}
 	
@@ -42,8 +42,8 @@ public class FakeDatabase implements IDatabase{
 	
 	@Override
 	public User getUserByUsernameAndPassword(String username, String password){
-		for(User a : users){
-			if(a.getUsername().equals(username) && a.getPassword().equals(password)) return a;
+		for(User user : users){
+			if(user.getUsername().equals(username) && user.getPassword().equals(password)) return user;
 		}
 		
 		return null;

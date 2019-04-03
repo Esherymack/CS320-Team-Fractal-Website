@@ -10,7 +10,7 @@ public interface IDatabase{
 	 * Get a list of all of the accounts in the database
 	 * @return the list of accounts
 	 */
-	public ArrayList<User> getAccounts();
+	public ArrayList<User> getUsers();
 	
 	/**
 	 * Get the account of the given username and password
