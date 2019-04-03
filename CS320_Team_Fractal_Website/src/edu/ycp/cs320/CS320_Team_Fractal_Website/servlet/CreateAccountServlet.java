@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -89,9 +90,11 @@ public class CreateAccountServlet extends HttpServlet {
 		{
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			User user = db.addUser(firstname, lastname, username, password, email);
+			boolean added = db.addUser(new StandardUser(firstname, lastname, username, password, email));
 			
-			if(user != null)
+			User user = db.getUserByUsernameAndPassword(username, password);
+			
+			if(added)
 			{
 				//notify user that their account has been created
 				accountCreatedMessage = "The account has successfully been created.";

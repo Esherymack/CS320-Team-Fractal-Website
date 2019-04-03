@@ -1,7 +1,6 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +10,7 @@ import javax.servlet.http.Cookie;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 
 public class LogInServlet extends HttpServlet {
@@ -57,7 +56,7 @@ public class LogInServlet extends HttpServlet {
 		}
 		
 		IDatabase db = DatabaseProvider.getInstance();
-		User user = db.getAccountByUsernamePassword(username, password);
+		User user = db.getUserByUsernameAndPassword(username, password);
 		
 		if(user != null)
 		{

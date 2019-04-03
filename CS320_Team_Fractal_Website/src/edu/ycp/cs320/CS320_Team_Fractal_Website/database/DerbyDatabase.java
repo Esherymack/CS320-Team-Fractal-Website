@@ -5,12 +5,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 // Modified from CS320 Lab06
 
@@ -36,12 +36,12 @@ public class DerbyDatabase implements IDatabase
 	private static final int MAX_ATTEMPTS = 10;
 	
 	@Override
-	public ArrayList<String> getAccounts() 
+	public ArrayList<User> getAccounts() 
 	{
-		return executeTransaction(new Transaction<ArrayList<String>>()
+		return executeTransaction(new Transaction<ArrayList<User>>()
 			{
 				@Override
-				public ArrayList<String> execute(Connection conn) throws SQLException
+				public ArrayList<User> execute(Connection conn) throws SQLException
 				{
 					PreparedStatement stmt = null;
 					ResultSet resultSet = null;
@@ -50,19 +50,18 @@ public class DerbyDatabase implements IDatabase
 					{
 						// retrieve all accounts and populate into the list
 						stmt = conn.prepareStatement("select * from users");
-						ArrayList<String> result = new ArrayList<String>();
+						ArrayList<User> result = new ArrayList<User>();
 						
 						resultSet = stmt.executeQuery();
 						
-						ResultSetMetaData md = resultSet.getMetaData();
-						
-						String user = null;
 						while(resultSet.next())
 						{
-							for(int x = 1; x < md.getColumnCount(); x = x+md.getColumnCount())
-							{
-								user = resultSet.getObject(x).toString();;
-							}
+							String username = resultSet.getObject(1).toString();
+							String firstname = resultSet.getObject(2).toString();
+							String lastname = resultSet.getObject(3).toString();
+							String email = resultSet.getObject(4).toString();
+							String password = resultSet.getObject(5).toString();
+							User user = new StandardUser(username, firstname, lastname, email, password);
 							result.add(user);
 						} 
 						return result;
@@ -77,7 +76,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public User getAccountByUsernamePassword(final String username, final String password) 
+	public User getUserByUsernameAndPassword(String username, String password) 
 	{
 		return executeTransaction(new Transaction<User>()
 		{
@@ -89,11 +88,14 @@ public class DerbyDatabase implements IDatabase
 				
 				try
 				{
-					stmt = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
+					//create statement to get user
+					stmt = conn.prepareStatement(
+							"SELECT users.* FROM users " +
+							"WHERE users.username = ? AND users.password = ?");
 					stmt.setString(1, username);
 					stmt.setString(2, password);
 					
-					User result = new User();
+					User result = new StandardUser();
 					
 					resultSet = stmt.executeQuery();
 					
@@ -121,58 +123,73 @@ public class DerbyDatabase implements IDatabase
 	}
 	
 	@Override
-	public User addUser(final String firstname, final String lastname, final String username, final String password, final String email) 
+	public boolean addUser(User user) 
 	{
-		return executeTransaction(new Transaction<User>()
+		return executeTransaction(new Transaction<Boolean>()
 		{
 			@Override
-			public User execute (Connection conn) throws SQLException
+			public Boolean execute(Connection conn) throws SQLException
 			{
-				PreparedStatement addStmt = null;
+				PreparedStatement stmt = null;
 				PreparedStatement getUserInfo = null;
 				
 				ResultSet resultSet = null;
+
+				Boolean found = false;
 				
 				try
 				{
-					addStmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)");
-					addStmt.setString(1, firstname);
-					addStmt.setString(2, lastname);
-					addStmt.setString(3, username);
-					addStmt.setString(4, password);
-					addStmt.setString(5, email);
+					//first see if a user with the same username already exists
+					stmt = conn.prepareStatement(
+							"SELECT users.* FROM users " + 
+							"WHERE users.username = ?");
+					stmt.setString(1, user.getUsername());
 					
-					int result = addStmt.executeUpdate();
+					resultSet = stmt.executeQuery();
 					
-					if(result == 1)
-					{
-						getUserInfo = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
-						getUserInfo.setString(1, username);
-						getUserInfo.setString(2, password);
+					//if the user with the requested username does not already exist, continue
+					found = resultSet.next();
+					if(!found){
+						DBUtil.closeQuietly(stmt);
+						DBUtil.closeQuietly(resultSet);
+					
+						// now add the user if the username does not already exist
+						stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)");
+						stmt.setString(1, user.getFirstname());
+						stmt.setString(2, user.getLastname());
+						stmt.setString(3, user.getUsername());
+						stmt.setString(4, user.getPassword());
+						stmt.setString(5, user.getEmail());
 						
-						resultSet = getUserInfo.executeQuery();
+						//now ensure that the user was added correctly
+						int result = stmt.executeUpdate();
+						
+						if(result == 1)
+						{
+							getUserInfo = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
+							getUserInfo.setString(1, user.getUsername());
+							getUserInfo.setString(2, user.getPassword());
+							
+							resultSet = getUserInfo.executeQuery();
+						}
+						User userAdded = new StandardUser();
+						
+						
+						while(resultSet.next() && !found) 
+						{
+							//if the user was found, quit out of the loop and set found to true
+							found = true;
+							loadUser(userAdded, resultSet, 1);
+						}
 					}
-					User userAdded = new User();
-					
-					Boolean found = false;
-					
-					while(resultSet.next()) 
-					{
-						found = true;
-						loadUser(userAdded, resultSet, 1);
-					}
-					if(!found)
-					{
-						return null;
-					}
-					return userAdded;
 				}
 				finally
 				{
 					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(addStmt);
+					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(getUserInfo);
 				}
+				return found;
 			}
 		}
 		);
@@ -243,7 +260,6 @@ public class DerbyDatabase implements IDatabase
 	
 	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException
 	{
-		user.setUserId(resultSet.getInt(index++));
 		user.setUsername(resultSet.getString(index++));
 		user.setFirstname(resultSet.getString(index++));
 		user.setLastname(resultSet.getString(index++));
@@ -264,7 +280,7 @@ public class DerbyDatabase implements IDatabase
 					stmt = conn.prepareStatement("create table users ("
 							+ " user_id integer primary key "
 							+ " generated always as identity (start with 1, increment by 1), "
-							+ " username varchar40), "
+							+ " username varchar(40), "
 							+ " firstname varchar(40), "
 							+ " lastname varchar(40), "
 							+ " email varchar(40), "

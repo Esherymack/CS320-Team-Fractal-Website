@@ -22,11 +22,13 @@ public class LandingPageServlet extends HttpServlet {
 		// Request any cookies
 		Cookie[] cookies = req.getCookies();
 		// otherwise:
-		for(Cookie cookie : cookies)
-		{
-			if(cookie.getName().equals("user")) userName = cookie.getValue();
+		if(cookies != null){
+			for(Cookie cookie : cookies)
+			{
+				if(cookie.getName().equals("user")) userName = cookie.getValue();
+			}
 		}
-				
+		
 		// otherwise
 		String currentlyLoggedInMessage = "Currently logged in as " + userName;
 			

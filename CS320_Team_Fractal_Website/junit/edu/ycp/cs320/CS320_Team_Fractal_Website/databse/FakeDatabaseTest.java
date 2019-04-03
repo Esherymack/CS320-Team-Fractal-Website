@@ -6,21 +6,23 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.FakeDataBase;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.FakeDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 
-public class FakeDataBaseTest{
+public class FakeDatabaseTest{
 	
-	private static String username = "user1";
+	private static String username = "user10";
 	private static String password = "12345";
 	private static String email = "user1@website.com";
+	private static String firstname = "Bob";
+	private static String lastname = "Smith";
 	
-	private FakeDataBase database;
+	private FakeDatabase database;
 	
 	@Before
 	public void setUp(){
-		database = new FakeDataBase();
+		database = new FakeDatabase();
 	}
 	
 	@Test
@@ -33,12 +35,14 @@ public class FakeDataBaseTest{
 	
 	@Test
 	public void testAddUserAndGetUserByUsername(){
-		database.addUser(new StandardUser(username, password, email));
+		database.addUser(new StandardUser(username, firstname, lastname, password, email));
 		
-		Account a = database.getAccountByUsername(username);
+		User a = database.getUserByUsernameAndPassword(username, password);
 		
 		assertFalse(a == null);
 		assertTrue(a.getUsername().equals(username));
+		assertTrue(a.getFirstname().equals(firstname));
+		assertTrue(a.getLastname().equals(lastname));
 		assertTrue(a.getPassword().equals(password));
 		assertTrue(a.getEmail().equals(email));
 	}
