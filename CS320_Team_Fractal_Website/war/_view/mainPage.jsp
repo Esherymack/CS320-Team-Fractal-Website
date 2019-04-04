@@ -59,7 +59,9 @@
 				<div class="right-box">
 					<div class="col2">
 						<div class="info">
-							<h1>Information</h1>
+							<c:if test="${! empty fractalInfo}">
+								<h1>Information</h1>
+							</c:if>
 							<p>${fractalInfo}</p>
 						</div>
 					</div>
