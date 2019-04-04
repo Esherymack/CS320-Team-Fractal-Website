@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.FakeDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
@@ -29,7 +29,7 @@ public class LogInControllerTest{
 		controller = new LogInController();
 		controller.setModel(model);
 		
-		FakeDatabase db = new FakeDatabase();
+		DerbyDatabase db = new DerbyDatabase();
 		DatabaseProvider.setInstance(db);
 	}
 	
