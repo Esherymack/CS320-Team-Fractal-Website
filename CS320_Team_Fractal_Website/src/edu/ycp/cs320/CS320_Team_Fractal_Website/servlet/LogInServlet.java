@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 
 public class LogInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,33 +50,38 @@ public class LogInServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		
 		// check for errors in the form data before using is in a calculation
-		if (username.isEmpty() || password.isEmpty()) {
+		if (username.isEmpty() || password.isEmpty()){
 			errorMessage = "Please specify a username and password";
-			return;
 		}
-		
-		IDatabase db = DatabaseProvider.getInstance();
-		User user = db.getUserByUsernameAndPassword(username, password);
-		
-		if(user != null)
-		{
-			System.out.println("Login successful.");
-			logInMessage = "You have successfully logged in.";
-			// on successful login, set the cookie
-			Cookie loginCookie = new Cookie("user", user.getUsername());
-			// Set the cookie to expire in 24 hours
-			loginCookie.setMaxAge(60*60*24);
-			// Add the cookie
-			resp.addCookie(loginCookie);
-			// Redirect to the main page
-			resp.sendRedirect("mainPage");
+		// if there was no error, continue processing the request
+		else{
+			//set up model and controller to process request
+			LogInController controller = new LogInController();
+			User model = new StandardUser();
+			controller.setModel(model);
+			model.setUsername(username);
+			model.setPassword(password);
+			
+			//determine if the creditidentials are valid
+			boolean logedIn = controller.verifyCredidentials();
+			
+			if(logedIn){
+				System.out.println("Login successful.");
+				logInMessage = "You have successfully logged in.";
+				// on successful login, set the cookie
+				Cookie loginCookie = new Cookie("user", model.getUsername());
+				// Set the cookie to expire in 24 hours
+				loginCookie.setMaxAge(60*60*24);
+				// Add the cookie
+				resp.addCookie(loginCookie);
+				// Redirect to the main page
+				resp.sendRedirect("mainPage");
+			}
+			else{
+				System.out.println("Login failed.");
+				logInMessage = "Account was not found.";
+			} 
 		}
-		else
-		{
-			System.out.println("Login failed.");
-			logInMessage = "Account was not found.";
-		} 
-		// Attempt to find the user with provided username and password
 		
 		// Add parameters as request attributes
 		// this creates attributes named "username" and "password" for the response, and grabs the

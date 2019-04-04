@@ -40,7 +40,7 @@ public class LogInControllerTest{
 		model.setLastname(lastname);
 		model.setPassword(password);
 		model.setEmail(email);
-		controller.createAccount();
+		controller.createNewAccount();
 		
 		IDatabase db = DatabaseProvider.getInstance();
 		User user = db.getUserByUsernameAndPassword(username, password);
@@ -57,12 +57,11 @@ public class LogInControllerTest{
 	public void testLogIn(){
 		model.setUsername(username);
 		model.setPassword(password);
-		controller.createAccount();
+		controller.createNewAccount();
 		
 		model.setUsername(username);
 		model.setPassword(password);
-		
-		assertTrue(controller.logIn());
+		assertTrue(controller.verifyCredidentials());
 	}
 	
 	@Test

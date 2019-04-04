@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
@@ -48,56 +49,25 @@ public class CreateAccountServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
 
-		// check for errors in the form data before using is in a calculation
-		if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
-			invalidMessage = "Please specify a username, password, and email.";
-		}
-		//if username is less than 6 characters it is invalid
-		else if (username.length() < 6) {
-			invalidMessage = "Username must contain at least 6 characters.";
-		}
-		//if password is less than 6 characters it is invalid
-		else if (password.length() < 6) {
-			invalidMessage = "Password must contain at least 6 characters.";
-		}
-		//if password length is more than 25 characters it is invalid
-		else if (password.length() > 25) {
-			
-			invalidMessage = "That is not even logical. Enter a different password.";
-		}
-		//if username is the same as the password it is invalid
-		else if (username.equals(password)) {
-			invalidMessage = "Your username should not be the same as your password.";
-		}
-		//if username contains special characters it is invalid
-		else if (username.contains(",") || username.contains(";") || username.contains(":") || username.contains("@") || username.contains("$") || username.contains("&") || username.contains("%") || username.contains("#")) {
-			invalidMessage = "Your username can not include special characters, it must include only letters and numbers.";
-		}
-		//if username is username it is invalid
-		else if (username.equals("username")) {
-			invalidMessage = "That is not a good username. Enter a different one.";
-		}
-		//if password is password it is invalid
-		else if (password.equals("password")) {
-			invalidMessage = "How creative. Enter a different password.";
-		}
-		//if email doesn't contain an @ or . it is invalid
-		else if (! email.contains("@") || ! email.contains(".")) {
-			invalidMessage = "The email is invalid. Ensure that it includes an @ and a .";
-		}
+		//set up controller
+		LogInController controller = new LogInController();
+		User model = new StandardUser();
+		controller.setModel(model);
+		model.setFirstname(firstname);
+		model.setLastname(lastname);
+		model.setUsername(username);
+		model.setPassword(password);
+		model.setEmail(email);
 		
-		else 
-		{
-			IDatabase db = DatabaseProvider.getInstance();
-			
-			//add the user to the database
-			db.addUser(new StandardUser(username, firstname, lastname, email, password));
-			
+		//create the account
+		invalidMessage = controller.createNewAccount();
+		
+		if(invalidMessage == null){
 			//get the user from the database, this will return null if no user was found and give an error to the web page
+			IDatabase db = DatabaseProvider.getInstance();
 			User user = db.getUserByUsernameAndPassword(username, password);
 			
-			if(user != null)
-			{
+			if(user != null){
 				//notify user that their account has been created
 				accountCreatedMessage = "The account has successfully been created.";
 				// on successful account creation, set the cookie
@@ -109,8 +79,7 @@ public class CreateAccountServlet extends HttpServlet {
 				// Redirect to the main page
 				resp.sendRedirect("mainPage");
 			}
-			else
-			{
+			else{
 				accountCreatedMessage = "The account failed to generate.";
 			}
 		}
