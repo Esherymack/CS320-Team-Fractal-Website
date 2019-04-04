@@ -151,7 +151,7 @@ public class DerbyDatabase implements IDatabase
 					if(!found){
 						DBUtil.closeQuietly(stmt);
 						DBUtil.closeQuietly(resultSet);
-					
+						
 						// now add the user if the username does not already exist
 						stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)");
 						stmt.setString(1, user.getFirstname());
@@ -172,7 +172,6 @@ public class DerbyDatabase implements IDatabase
 							resultSet = getUserInfo.executeQuery();
 						}
 						User userAdded = new StandardUser();
-						
 						
 						while(resultSet.next() && !found) 
 						{

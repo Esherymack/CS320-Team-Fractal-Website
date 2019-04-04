@@ -90,11 +90,13 @@ public class CreateAccountServlet extends HttpServlet {
 		{
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			boolean added = db.addUser(new StandardUser(firstname, lastname, username, password, email));
+			//add the user to the database
+			db.addUser(new StandardUser(firstname, lastname, username, password, email));
 			
+			//get the user from the database, this will return null if no user was found and give an error to the web page
 			User user = db.getUserByUsernameAndPassword(username, password);
 			
-			if(added)
+			if(user != null)
 			{
 				//notify user that their account has been created
 				accountCreatedMessage = "The account has successfully been created.";
