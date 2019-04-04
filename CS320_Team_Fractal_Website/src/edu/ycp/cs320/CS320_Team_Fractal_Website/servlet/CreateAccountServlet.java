@@ -91,7 +91,7 @@ public class CreateAccountServlet extends HttpServlet {
 			IDatabase db = DatabaseProvider.getInstance();
 			
 			//add the user to the database
-			db.addUser(new StandardUser(firstname, lastname, username, password, email));
+			db.addUser(new StandardUser(username, firstname, lastname, email, password));
 			
 			//get the user from the database, this will return null if no user was found and give an error to the web page
 			User user = db.getUserByUsernameAndPassword(username, password);
