@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.eclipse.jetty.server.Server;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
+
 public class Main {
 	public static void main(String[] args) throws Exception{
 		
@@ -14,7 +16,9 @@ public class Main {
 		// get a server for port 8081
 		System.out.println("CREATING: web server on port 8081");
 		Server server = launcher.launch(true, 8081, warFile.getAbsolutePath(), "/CS320_Team_Fractal_Website");
-
+		
+		InitDatabase.init();
+		
         // Start things up!
 		System.out.println("STARTING: web server on port 8081");
 		server.start();

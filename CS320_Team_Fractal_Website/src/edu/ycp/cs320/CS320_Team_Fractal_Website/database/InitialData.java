@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class InitialData 
 {
@@ -26,8 +27,7 @@ public class InitialData
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				User user = new User();
-				user.setUserId(userId++);;
+				User user = new StandardUser();
 				user.setUsername(i.next());
 				user.setFirstname(i.next());
 				user.setLastname(i.next());

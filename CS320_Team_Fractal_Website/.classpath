@@ -6,5 +6,30 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CS320_Jetty9"/>
+	<classpathentry kind="lib" path="/CS320_Derby/lib/derby.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://db.apache.org/derby/docs/10.10/publishedapi/jdbc4/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/CS320_Derby/lib/derbyclient.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://db.apache.org/derby/docs/10.10/publishedapi/jdbc4/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/CS320_Derby/lib/derbynet.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://db.apache.org/derby/docs/10.10/publishedapi/jdbc4/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/CS320_Derby/lib/derbyrun.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://db.apache.org/derby/docs/10.10/publishedapi/jdbc4/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/CS320_Derby/lib/derbytools.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://db.apache.org/derby/docs/10.10/publishedapi/jdbc4/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

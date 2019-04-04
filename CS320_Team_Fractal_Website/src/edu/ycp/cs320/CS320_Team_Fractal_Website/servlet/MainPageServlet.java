@@ -3,6 +3,7 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,18 +29,27 @@ public class MainPageServlet extends HttpServlet{
 		throws ServletException, IOException
 	{
 		System.out.println("Main Page Servlet: doGet");
+		
+		// otherwise
+		String currentlyLoggedInMessage = checkCookies(req, resp);
+		
+		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req,  resp);
+		
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-	{
+	{	
 		System.out.println("mainPage Servlet: doPost");
 
+		String currentlyLoggedInMessage = checkCookies(req, resp);
+		
 		// holds the error message text, if any
 		String errorMessage = null;
 		//contains fractal info
 		String fractalInfo = null;
+		
 		boolean result = false;
 		
 		int choice = -1;
@@ -97,11 +107,41 @@ public class MainPageServlet extends HttpServlet{
 			req.setAttribute(params + "i", params[i]);
 		}
 		
+		
+		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("errorMessage",  errorMessage);
 		req.setAttribute("fractalInfo",  fractalInfo);
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
+	}
+	
+	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+	{
+		// User - should be logged in.
+		String userName = null;
+		// Request any cookies
+		Cookie[] cookies = req.getCookies();
+		// If there are no cookies, redirect the user to logIn.
+		if(cookies == null)
+		{
+			resp.sendRedirect("logIn");
+			return null;
+		}
+		// otherwise:
+		for(Cookie cookie : cookies)
+		{
+			if(cookie.getName().equals("user")) userName = cookie.getValue();
+		}
+		// again, check if the user is logged in:
+		if(userName == null)
+		{
+			resp.sendRedirect("logIn");
+			return null;
+		}
+		
+		// otherwise
+		return("Currently logged in as " + userName);
 	}
 }

@@ -6,9 +6,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.LogInController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 
 public class LogInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -19,13 +22,20 @@ public class LogInServlet extends HttpServlet {
 		
 		System.out.println("LogIn Servlet: doGet");
 		
+		// Get session creation time.
+		
+		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/logIn.jsp").forward(req, resp);
+		
+		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		InitDatabase.init();
 		
 		System.out.println("LogIn Servlet: doPost");
 		
@@ -42,29 +52,31 @@ public class LogInServlet extends HttpServlet {
 		// check for errors in the form data before using is in a calculation
 		if (username.isEmpty() || password.isEmpty()) {
 			errorMessage = "Please specify a username and password";
+			return;
 		}
-		// otherwise, data is good, do the calculation
-		// must create the controller each time, since it doesn't persist between POSTs
-		// the view does not alter data, only controller methods should be used for that
-		// thus, always call a controller method to operate on the data
-		else {
-			
-			LogIn model = new LogIn();
-			LogInController controller = new LogInController();
-			controller.setModel(model);
-			model.setUsername(username);
-			model.setPassword(password);
-			
-			//attempt to log in
-			//the attempt was successful
-			if(controller.logIn()){
-				logInMessage = "You have successfully logged in.";
-			}
-			//the attempt fails
-			else{
-				logInMessage = "Could not find username and password combination";
-			}
+		
+		IDatabase db = DatabaseProvider.getInstance();
+		User user = db.getUserByUsernameAndPassword(username, password);
+		
+		if(user != null)
+		{
+			System.out.println("Login successful.");
+			logInMessage = "You have successfully logged in.";
+			// on successful login, set the cookie
+			Cookie loginCookie = new Cookie("user", user.getUsername());
+			// Set the cookie to expire in 24 hours
+			loginCookie.setMaxAge(60*60*24);
+			// Add the cookie
+			resp.addCookie(loginCookie);
+			// Redirect to the main page
+			resp.sendRedirect("mainPage");
 		}
+		else
+		{
+			System.out.println("Login failed.");
+			logInMessage = "Account was not found.";
+		} 
+		// Attempt to find the user with provided username and password
 		
 		// Add parameters as request attributes
 		// this creates attributes named "username" and "password" for the response, and grabs the

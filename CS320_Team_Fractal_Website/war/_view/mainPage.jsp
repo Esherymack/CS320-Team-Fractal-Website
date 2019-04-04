@@ -15,33 +15,35 @@
 	</head>
 
 	<body>
-			<nav class="topnav">
-			
-				<ul>	
+		<div class="mainPage-nav-bg">
+			<div class= "container">
+				<div class="topnav">
+					<ul>
 						<li>
 							<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
 								<input type="Submit" name="submit" value="Home">
 							</form>
 						</li>
 						<li>
-							<form action="${pageContext.servletContext.contextPath}/logIn" method="doGet">
-								<input type="Submit" name="submit" value="Login">
+							<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
+								<input type="Submit" name="submit" value="${currentlyLoggedInMessage}">
 							</form>
 						</li>
 						<li>
-							<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
-								<input type="Submit" name="submit" value="Your Account">
+							<form action="${pageContext.servletContext.contextPath}/logout" method="post">
+								<input type="Submit" name="submit" value="LogOut">
 							</form>
 						</li>
-				</ul>
-			</nav>
-		
+					</ul>
+				</div>
+			</div>
+		</div>
 			<div class="left-box">
 			<div class="interface">
 				<c:if test="${! empty errorMessage}">
 					<div class="error">${errorMessage}</div>
 				</c:if>
-		
+
 				<div class="image">
 				<p></p>
 						<c:choose>
@@ -58,7 +60,7 @@
 					<div class="col2">
 						<div class="info">
 							<h1>Information</h1>
-							${fractalInfo}
+							<p>${fractalInfo}</p>
 						</div>
 					</div>
 					<div class="col1">
@@ -76,31 +78,31 @@
 								<tr>
 									<td class="label" id="paramLab0" hidden=true>Param0</td>
 									<td id="paramIn0" hidden=true><input type="text" name="param0" size="12" value="${param0}" /></td>
-									
+
 									<td class="label" id="paramLab1" hidden=true>Param1</td>
 									<td id="paramIn1" hidden=true><input type="text" name="param1" size="12" value="${param1}" /></td>
-									
+
 									<td class="label" id="paramLab2" hidden=true>Param2</td>
 									<td id="paramIn2" hidden=true><input type="text" name="param2" size="12" value="${param2}" /></td>
-									
+
 									<td class="label" id="paramLab3" hidden=true>Param3</td>
 									<td id="paramIn3" hidden=true><input type="text" name="param3" size="12" value="${param3}" /></td>
-									
+
 									<td class="label" id="paramLab4" hidden=true>Param4</td>
 									<td id="paramIn4" hidden=true><input type="text" name="param4" size="12" value="${param4}" /></td>
-									
+
 									<td class="label" id="paramLab5" hidden=true>Param5</td>
 									<td id="paramIn5" hidden=true><input type="text" name="param5" size="12" value="${param5}" /></td>
-									
+
 									<td class="label" id="paramLab6" hidden=true>Param6</td>
 									<td id="paramIn6" hidden=true><input type="text" name="param6" size="12" value="${param6}" /></td>
-									
+
 									<td class="label" id="paramLab7" hidden=true>Param7</td>
 									<td id="paramIn7" hidden=true><input type="text" name="param7" size="12" value="${param7}" /></td>
-									
+
 									<td class="label" id="paramLab8" hidden=true>Param8</td>
 									<td id="paramIn8" hidden=true><input type="text" name="param8" size="12" value="${param8}" /></td>
-									
+
 									<td class="label" id="paramLab9" hidden=true>Param9</td>
 									<td id="paramIn9" hidden=true><input type="text" name="param9" size="12" value="${param9}" /></td>
 								</tr>
@@ -134,7 +136,7 @@
 				document.getElementById("paramLab2").innerHTML = "X2: "
 				document.getElementById("paramLab3").innerHTML = "Y2: "
 				document.getElementById("paramLab4").innerHTML = "Multiplier: "
-				
+
 				for(var i = 0; i < 5; i++){
 					$("#paramLab" + i).css('display', 'block')
 					$("#paramIn" + i).css('display', 'inline-block')

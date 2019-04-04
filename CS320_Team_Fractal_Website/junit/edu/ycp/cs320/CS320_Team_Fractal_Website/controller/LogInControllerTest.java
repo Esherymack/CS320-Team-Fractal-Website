@@ -6,46 +6,51 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.LogInController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.FakeDataBase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Account;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class LogInControllerTest{
 	
 	public static String username = "User12345";
 	public static String password = "pass12345";
 	public static String email = "user12345@website.com";
+	public static String firstname = "Sally";
+	public static String lastname = "Smith";
 	
-	private LogIn model;
+	private User model;
 	private LogInController controller;
 	
 	@Before
 	public void setUp(){
-		model = new LogIn();
+		model = new User(){};
 		controller = new LogInController();
 		controller.setModel(model);
 		
-		FakeDataBase db = new FakeDataBase();
+		DerbyDatabase db = new DerbyDatabase();
 		DatabaseProvider.setInstance(db);
 	}
 	
 	@Test
 	public void testCreateAccount(){
 		model.setUsername(username);
+		model.setFirstname(firstname);
+		model.setLastname(lastname);
 		model.setPassword(password);
 		model.setEmail(email);
 		controller.createAccount();
 		
 		IDatabase db = DatabaseProvider.getInstance();
-		Account a = db.getAccountByUsername(username);
+		User user = db.getUserByUsernameAndPassword(username, password);
 		
-		assertFalse(a == null);
-		assertTrue(a.getUsername().equals(username));
-		assertTrue(a.getPassword().equals(password));
-		assertTrue(a.getEmail().equals(email));
+		assertFalse(user == null);
+		assertTrue(user.getUsername().equals(username));
+		assertTrue(user.getFirstname().equals(firstname));
+		assertTrue(user.getLastname().equals(lastname));
+		assertTrue(user.getPassword().equals(password));
+		assertTrue(user.getEmail().equals(email));
 	}
 	
 	@Test
@@ -62,9 +67,9 @@ public class LogInControllerTest{
 	
 	@Test
 	public void testGetModel(){
-		LogIn log = new LogIn();
-		controller.setModel(log);
+		User user = new User(){};
+		controller.setModel(user);
 		
-		assertTrue(controller.getModel().equals(log));
+		assertTrue(controller.getModel().equals(user));
 	}
 }

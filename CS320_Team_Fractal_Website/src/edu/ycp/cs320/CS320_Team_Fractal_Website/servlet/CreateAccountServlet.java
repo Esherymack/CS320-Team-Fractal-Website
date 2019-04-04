@@ -3,12 +3,16 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.LogInController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.pages.LogIn;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -16,6 +20,8 @@ public class CreateAccountServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		InitDatabase.init();
 		
 		System.out.println("Create Account Servlet: doGet");
 		
@@ -36,6 +42,8 @@ public class CreateAccountServlet extends HttpServlet {
 		String accountCreatedMessage = null;
 		
 		// decode POSTed form parameters and dispatch to controller
+		String firstname = req.getParameter("firstname");
+		String lastname = req.getParameter("lastname");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
@@ -78,26 +86,32 @@ public class CreateAccountServlet extends HttpServlet {
 			invalidMessage = "The email is invalid. Ensure that it includes an @ and a .";
 		}
 		
-		// otherwise, data is good, do the calculation
-		// must create the controller each time, since it doesn't persist between POSTs
-		// the view does not alter data, only controller methods should be used for that
-		// thus, always call a controller method to operate on the data
-		else {
-			//notify user that their account has been created
-			accountCreatedMessage = "The account has successfully been created.";
-
-			LogIn model = new LogIn();
-			LogInController controller = new LogInController();
-			controller.setModel(model);
-			model.setUsername(username);
-			model.setPassword(password);
-			model.setEmail(email);
+		else 
+		{
+			IDatabase db = DatabaseProvider.getInstance();
 			
-			if(controller.createAccount()){
+			//add the user to the database
+			db.addUser(new StandardUser(username, firstname, lastname, email, password));
+			
+			//get the user from the database, this will return null if no user was found and give an error to the web page
+			User user = db.getUserByUsernameAndPassword(username, password);
+			
+			if(user != null)
+			{
+				//notify user that their account has been created
 				accountCreatedMessage = "The account has successfully been created.";
+				// on successful account creation, set the cookie
+				Cookie loginCookie = new Cookie("user", user.getUsername());
+				// Set the cookie to expire in 24 hours
+				loginCookie.setMaxAge(60*60*24);
+				// Add the cookie
+				resp.addCookie(loginCookie);
+				// Redirect to the main page
+				resp.sendRedirect("mainPage");
 			}
-			else{
-				accountCreatedMessage = "Selected username already taken";
+			else
+			{
+				accountCreatedMessage = "The account failed to generate.";
 			}
 		}
 		
@@ -106,6 +120,8 @@ public class CreateAccountServlet extends HttpServlet {
 		// values that were originally assigned to the request attributes, also named "username" and "password" and "email"
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
+		req.setAttribute("firstname", firstname);
+		req.setAttribute("lastname", lastname);
 		req.setAttribute("username", username);
 		req.setAttribute("password", password);
 		req.setAttribute("email", email);
