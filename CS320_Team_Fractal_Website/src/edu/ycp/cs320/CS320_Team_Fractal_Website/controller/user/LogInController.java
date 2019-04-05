@@ -2,15 +2,22 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class LogInController{
 	
+	private IDatabase database;
+	
 	private User model;
 	
 	public LogInController(){
 		model = null;
+		
+		//get database for logging in
+		InitDatabase.init();
+		database = DatabaseProvider.getInstance();
 	}
 	
 	public void setModel(User model){
@@ -67,11 +74,9 @@ public class LogInController{
 		else if (!model.getEmail().contains("@") || !model.getEmail().contains(".")) {
 			responce = "The email is invalid. Ensure that it includes an @ and a .";
 		}
-
-		IDatabase db = DatabaseProvider.getInstance();
 		
 		//add the user to the database
-		boolean added = db.addUser(new StandardUser(model.getUsername(), model.getFirstname(), model.getLastname(), model.getEmail(), model.getPassword()));
+		boolean added = database.addUser(new StandardUser(model.getUsername(), model.getFirstname(), model.getLastname(), model.getEmail(), model.getPassword()));
 		
 		if(!added) responce = "Failed to add user";
 		
@@ -87,8 +92,7 @@ public class LogInController{
 		   model.getUsername().isEmpty() || model.getPassword().isEmpty())
 			return false;
 		
-		IDatabase db = DatabaseProvider.getInstance();
-		User user = db.getUserByUsernameAndPassword(model.getUsername(), model.getPassword());
+		User user = database.getUserByUsernameAndPassword(model.getUsername(), model.getPassword());
 		
 		return user != null;
 	}
