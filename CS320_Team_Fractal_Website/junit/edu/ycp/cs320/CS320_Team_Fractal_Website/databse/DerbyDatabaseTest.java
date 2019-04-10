@@ -11,6 +11,7 @@ import org.junit.Test;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class DerbyDatabaseTest {
 	
@@ -53,6 +54,42 @@ public class DerbyDatabaseTest {
 		
 		ArrayList<User> users = database.getUsers();
 		assertTrue(users.size() > 0);
+	}
+	
+	@Test
+	public void testGetUserByUserName(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
+		
+		User u = database.getUserByUsername(username);
+		
+		assertFalse(u == null);
+		assertTrue(u.getUsername().equals(username));
+		assertTrue(u.getFirstname().equals(firstname));
+		assertTrue(u.getLastname().equals(lastname));
+		assertTrue(u.getPassword().equals(password));
+		assertTrue(u.getEmail().equals(email));
+	}
+	
+	@Test
+	public void testSaveFractal(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
+		
+		//test adding real user
+		boolean added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", username);
+		assertTrue(added);
+
+		//test adding fake user
+		added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", "263i8t6843ti");
+		assertFalse(added);
+		
+		//test adding null data
+		added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", null);
+		assertFalse(added);
+		added = database.saveFractal(new Mandelbrot(), null, username);
+		assertFalse(added);
+		added = database.saveFractal(null, "Fractal", username);
+		assertFalse(added);
+		
 	}
 
 }

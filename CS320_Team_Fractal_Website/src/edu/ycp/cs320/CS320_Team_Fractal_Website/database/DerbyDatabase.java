@@ -234,6 +234,8 @@ public class DerbyDatabase implements IDatabase
 
 	@Override
 	public boolean saveFractal(Fractal fractal, String name, String username){
+		if(fractal == null || name == null || username == null) return false;
+		
 		return executeTransaction(new Transaction<Boolean>(){
 			@Override
 			public Boolean execute(Connection conn) throws SQLException{
@@ -245,23 +247,45 @@ public class DerbyDatabase implements IDatabase
 				Boolean found = false;
 				
 				try{
-					
-					//get the user based on their username
-					User user = getUserByUsername(username);
-					
-					//get the author id of the user TODO
+					//get the user id of the user
 					int userId = -1;
+					//statement to get the id
+					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
+							+ " WHERE users.username = ?");
+					//add in the username
+					stmt.setString(1, username);
 					
-					//get data from fractal
-					String[] params = fractal.getParameters();
-					//insert the fractal
-					stmt = conn.prepareStatement("INSERT INTO fractals "
-							+ "(name, type, user_id, param0, param1, param2, param3, param4, param5, param6, param7, param8, param9) "
-							+ "VALUES (?, ?, ?, ?, ?)");
-					stmt.setString(1, name);
-					stmt.setString(2, fractal.getClass().getName());
-					stmt.setInt(3, userId);
-					for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
+					//Execute query
+					resultSet = stmt.executeQuery();
+
+					//get the id only if one is found
+					if(resultSet.next()){
+						try{
+							userId = Integer.parseInt(resultSet.getString(1));
+						}catch(NumberFormatException e){}
+					}
+					
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+					
+					//only add the fractal if the user Id was found
+					if(userId != -1){
+						
+						//get data from fractal
+						String[] params = fractal.getParameters();
+						//insert the fractal
+						stmt = conn.prepareStatement("INSERT INTO fractal "
+								+ "(name, type, user_id, param0, param1, param2, param3, param4, param5, param6, param7, param8, param9) "
+								+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						//set attributes of statement
+						stmt.setString(1, name);
+						stmt.setString(2, fractal.getClass().getSimpleName());
+						stmt.setInt(3, userId);
+						for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
+						
+						//execute the statement
+						found = stmt.executeUpdate() == 1;
+					}
 				}
 				//closing objects
 				finally{
@@ -373,7 +397,7 @@ public class DerbyDatabase implements IDatabase
 					
 					DBUtil.closeQuietly(stmt);
 					
-					stmt = conn.prepareStatement("create table fractals ("
+					stmt = conn.prepareStatement("create table fractal ("
 							+ " fractal_id integer primary key "
 							+ " generated always as identity (start with 1, increment by 1), "
 							+ " user_id integer constraint user_id references users, "
