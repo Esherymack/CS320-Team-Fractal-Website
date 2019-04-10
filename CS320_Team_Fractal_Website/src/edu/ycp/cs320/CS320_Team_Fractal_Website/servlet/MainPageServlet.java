@@ -93,11 +93,13 @@ public class MainPageServlet extends HttpServlet{
 				if(req.getParameter("submit") != null){
 					if(controller != null && sent) result = controller.render();
 				}
-				//if the request is for a save, the render the fractal and save it
+				//if the request is for a save, only save the fractal
 				if(req.getParameter("save") != null){
-					if(controller != null && sent){
-						result = controller.render();
-					}
+					//get the name the user has typed in
+					String name = req.getParameter("saveButton");
+					
+					if(name != null && controller != null && sent) controller.saveImage(name, getLoggedInUser(req, resp));
+					else errorMessage = "Please provide a name and parameters";
 				}
 				
 				//detect if invalid parameters were given
@@ -149,5 +151,26 @@ public class MainPageServlet extends HttpServlet{
 		
 		// otherwise
 		return("Currently logged in as " + userName);
+	}
+	
+	/**
+	 * Get the username of the user who is currently logged in
+	 * @param req the request for the page
+	 * @param resp the responce of the page
+	 * @return the username of the user, null if no username was found
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private String getLoggedInUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		//get cookies
+		Cookie[] cookies = req.getCookies();
+		//if no cookies were found then return null
+		if(cookies == null) return null;
+		//look for the username, if it is found, return it
+		for(Cookie cookie : cookies){
+			if(cookie.getName().equals("user")) return cookie.getValue();
+		}
+		//if no username is found, return null
+		return null;
 	}
 }

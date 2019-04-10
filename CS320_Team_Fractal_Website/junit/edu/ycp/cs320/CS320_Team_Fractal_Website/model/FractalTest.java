@@ -14,11 +14,16 @@ public class FractalTest{
 	
 	@Before
 	public void setUp(){
-		model = new Fractal(){
+		model = new Fractal() {
+			@Override
+			public String[] getParameters() {
+				return null;
+			}
 			@Override
 			public String getInfo() {
 				return null;
-			}};
+			}
+		};
 	}
 	
 	@Test

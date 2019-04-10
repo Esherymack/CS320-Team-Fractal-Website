@@ -11,6 +11,7 @@ import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 
 // Modified from CS320 Lab06
 
@@ -122,6 +123,44 @@ public class DerbyDatabase implements IDatabase
 	}
 	
 	@Override
+	public User getUserByUsername(String username) {
+		return executeTransaction(new Transaction<User>(){
+			@Override
+			public User execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try{
+					//create statement to get user
+					stmt = conn.prepareStatement(
+							"SELECT users.* FROM users " +
+							"WHERE users.username = ?");
+					stmt.setString(1, username);
+					
+					User result = new StandardUser();
+					
+					resultSet = stmt.executeQuery();
+					Boolean found = false;
+					while(resultSet.next()){
+						found = true;
+						loadUser(result, resultSet);
+					}
+					
+					if(!found){	
+						System.out.println("User not found.");
+						return null;
+					}
+					return result;
+				}
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
 	public boolean addUser(User user) 
 	{
 		return executeTransaction(new Transaction<Boolean>()
@@ -191,6 +230,48 @@ public class DerbyDatabase implements IDatabase
 			}
 		}
 		);
+	}
+
+	@Override
+	public boolean saveFractal(Fractal fractal, String name, String username){
+		return executeTransaction(new Transaction<Boolean>(){
+			@Override
+			public Boolean execute(Connection conn) throws SQLException{
+				//objects for executing the statement
+				PreparedStatement stmt = null;
+				
+				ResultSet resultSet = null;
+
+				Boolean found = false;
+				
+				try{
+					
+					//get the user based on their username
+					User user = getUserByUsername(username);
+					
+					//get the author id of the user TODO
+					int userId = -1;
+					
+					//get data from fractal
+					String[] params = fractal.getParameters();
+					//insert the fractal
+					stmt = conn.prepareStatement("INSERT INTO fractals "
+							+ "(name, type, user_id, param0, param1, param2, param3, param4, param5, param6, param7, param8, param9) "
+							+ "VALUES (?, ?, ?, ?, ?)");
+					stmt.setString(1, name);
+					stmt.setString(2, fractal.getClass().getName());
+					stmt.setInt(3, userId);
+					for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
+				}
+				//closing objects
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				//return if the statement was found
+				return found;
+			}
+		});
 	}
 	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
@@ -295,6 +376,7 @@ public class DerbyDatabase implements IDatabase
 					stmt = conn.prepareStatement("create table fractals ("
 							+ " fractal_id integer primary key "
 							+ " generated always as identity (start with 1, increment by 1), "
+							+ " user_id integer constraint user_id references users, "
 							+ " name varchar(40), "
 							+ " type varchar(40), "
 							+ " param0 varchar(40), "
@@ -306,8 +388,7 @@ public class DerbyDatabase implements IDatabase
 							+ " param6 varchar(40), "
 							+ " param7 varchar(40), "
 							+ " param8 varchar(40), "
-							+ " param9 varchar(40), "
-							+ " param10 varchar(40)"
+							+ " param9 varchar(40)"
 							+ ")"
 							);
 

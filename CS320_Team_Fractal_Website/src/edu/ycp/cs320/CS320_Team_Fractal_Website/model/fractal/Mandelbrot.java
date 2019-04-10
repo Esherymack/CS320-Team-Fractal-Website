@@ -30,4 +30,20 @@ public class Mandelbrot extends Fractal{
 				+ "when iterated from, i.e., for which the sequence, etc., remains bounded in absolute value. Its "
 				+ "definition and name are due to Adrien Douady, in tribute to the mathematician Benoit Mandelbrot.";
 	}
+
+	@Override
+	public String[] getParameters(){
+		return new String[]{
+			"" + getLocation().getX1(),
+			"" + getLocation().getY1(),
+			"" + getLocation().getX2(),
+			"" + getLocation().getY2(),
+			"" + getMultiplyTimes(),
+			"",
+			"",
+			"",
+			"",
+			""
+		};
+	}
 }

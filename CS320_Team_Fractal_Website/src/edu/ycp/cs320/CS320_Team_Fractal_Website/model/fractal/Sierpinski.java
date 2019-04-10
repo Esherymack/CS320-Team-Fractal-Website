@@ -74,4 +74,20 @@ public class Sierpinski extends Fractal{
 				+ "fractal and attractive fixed set with the overall shape of an equilateral triangle, subdivided "
 				+ "recursively into smaller equilateral triangles. ";
 	}
+
+	@Override
+	public String[] getParameters(){
+		return new String[]{
+			"" + getLevel(),
+			"" + getP1().x,
+			"" + getP1().y,
+			"" + getP2().x,
+			"" + getP2().y,
+			"" + getP3().x,
+			"" + getP3().y,
+			"",
+			"",
+			""
+		};
+	}
 }

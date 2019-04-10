@@ -6,12 +6,23 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 
 /**
  * A generic controller for a fractal controller
  */
 public abstract class FractalController{
+
+	private IDatabase database;
+	
+	public FractalController(){
+		//get database for logging in
+		InitDatabase.init();
+		database = DatabaseProvider.getInstance();
+	}
 	
 	/**
 	 * Get the model of this fractal
@@ -39,17 +50,18 @@ public abstract class FractalController{
 	
 	/**
 	 * Saves the fractal of the model to the account that is logged in
-	 * @return
+	 * @param username the username of the account that this fractal should be saved under
+	 * @return true if the fractal was saved successfully, false otherwise
 	 */
-	public boolean saveImage(){
-		return true;
+	public boolean saveImage(String name, String username){
+		return database.saveFractal(getModel(), name, username);
 	}
 	
 	/**
 	 * Takes an array of Strings and converts them to appropriate values to enter for the fractal. 
 	 * The values from the array are stored in the model of this FractalController
 	 * @param params the array of strings
-	 * @return true if the parameters were added sucessfuly, false otherwise
+	 * @return true if the parameters were added successfully, false otherwise
 	 */
 	public abstract boolean acceptParameters(String[] params);
 }

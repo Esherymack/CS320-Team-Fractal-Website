@@ -51,4 +51,10 @@ public abstract class Fractal{
 	 */
 	public abstract String getInfo();
 	
+	/**
+	 * Get an array of all the parameters for this fractal
+	 * @return
+	 */
+	public abstract String[] getParameters();
+	
 }

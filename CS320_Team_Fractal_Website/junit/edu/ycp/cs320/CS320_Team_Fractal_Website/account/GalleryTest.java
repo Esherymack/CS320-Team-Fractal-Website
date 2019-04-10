@@ -29,6 +29,11 @@ public class GalleryTest{
 			@Override
 			public String getInfo() {
 				return null;
+			}
+
+			@Override
+			public String[] getParameters() {
+				return null;
 			}};
 		gallery.addFractal(f);
 		

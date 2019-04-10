@@ -109,9 +109,13 @@
 									<td id="paramIn9" hidden=true><input type="text" name="param9" size="12" value="${param9}" /></td>
 								</tr>
 							</table>
+							</div>
+								<input type="Submit" name="submit" value="Send" class="sender">
+								<input type="Submit" name="save" value="Save" class="sender">
+								<td class="label" id="saveLabel">Name</td>
+								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" /></td>
+							</div>
 						</div>
-						<input type="Submit" name="submit" value="Send" class="sender">
-						<input type="Submit" name="save" value="Save" class="sender">
 					</form>
 				</div>
 			</div>
