@@ -11,6 +11,7 @@ import org.junit.Test;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class DerbyDatabaseTest {
@@ -89,7 +90,19 @@ public class DerbyDatabaseTest {
 		assertFalse(added);
 		added = database.saveFractal(null, "Fractal", username);
 		assertFalse(added);
+	}
+	
+	@Test
+	public void testGetAllFractals(){
+		database.saveFractal(new Mandelbrot(), "Mandelbrot2", username);
 		
+		ArrayList<Fractal> fractals = database.getAllFractals();
+		
+		assertFalse(fractals == null);
+		
+		for(Fractal f : fractals){
+			System.out.println(f.getName());
+		}
 	}
 
 }

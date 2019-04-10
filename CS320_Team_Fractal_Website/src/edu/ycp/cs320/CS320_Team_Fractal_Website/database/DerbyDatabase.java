@@ -9,9 +9,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet;
 
 // Modified from CS320 Lab06
 
@@ -279,7 +285,7 @@ public class DerbyDatabase implements IDatabase
 								+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 						//set attributes of statement
 						stmt.setString(1, name);
-						stmt.setString(2, fractal.getClass().getSimpleName());
+						stmt.setString(2, fractal.getType());
 						stmt.setInt(3, userId);
 						for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
 						
@@ -297,7 +303,71 @@ public class DerbyDatabase implements IDatabase
 			}
 		});
 	}
-	
+
+	@Override
+	public ArrayList<Fractal> getAllFractals(){
+		return executeTransaction(new Transaction<ArrayList<Fractal>>(){
+				@Override
+				public ArrayList<Fractal> execute(Connection conn) throws SQLException{
+					PreparedStatement stmt = null;
+					ResultSet resultSet = null;
+					
+					try{
+						// retrieve all accounts and populate into the list
+						stmt = conn.prepareStatement("select * from fractal");
+						ArrayList<Fractal> result = new ArrayList<Fractal>();
+						
+						resultSet = stmt.executeQuery();
+						
+						while(resultSet.next()){
+							Fractal fractal = null;
+							FractalController controller = null;
+							String name = resultSet.getObject(3).toString();
+							String type = resultSet.getObject(4).toString();
+							String[] params = new String[MainPageServlet.NUM_PARAMS];
+							for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+								params[i] = resultSet.getObject(5 + i).toString();
+							}
+							
+							//TODO should find a way to use abstraction with this and not hard code each case
+							//determine which fractal should be loaded in
+							
+							//mandelbrot
+							Mandelbrot mandelbrot = new Mandelbrot();
+							MandelbrotController mandelbrotController = new MandelbrotController();
+							mandelbrotController.setModel(mandelbrot);
+							if(type == mandelbrot.getType()){
+								fractal = mandelbrot;
+								controller = mandelbrotController;
+							}
+							
+							//serpinski
+							Sierpinski sierpinski = new Sierpinski();
+							SierpinskiController sierpinskiController = new SierpinskiController();
+							sierpinskiController.setModel(sierpinski);
+							if(type == sierpinski.getType()){
+								fractal = sierpinski;
+								controller = sierpinskiController;
+							}
+							
+							if(fractal != null && controller != null){
+								fractal.setName(name);
+								//if the parameters couldn't be added, return null
+								if(!controller.acceptParameters(params)) return null;
+								
+								result.add(fractal);
+							}
+						} 
+						return result;
+					}
+					finally
+					{
+						DBUtil.closeQuietly(resultSet);
+						DBUtil.closeQuietly(stmt);
+					}
+				}
+			});
+	}
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
 	{
 		try

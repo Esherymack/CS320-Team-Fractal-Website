@@ -56,4 +56,9 @@ public class FractalTest{
 		assertTrue(l.getY2() == -1);
 	}
 	
+	@Test
+	public void testSetNameAndGetName(){
+		model.setName("fractal 1");
+		assertTrue(model.getName().equals("fractal 1"));
+	}
 }

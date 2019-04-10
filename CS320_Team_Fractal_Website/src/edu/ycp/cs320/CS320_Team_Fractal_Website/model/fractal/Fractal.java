@@ -11,6 +11,11 @@ public abstract class Fractal{
 	 */
 	private Location location;
 	
+	/**
+	 * The name of the fractal
+	 */
+	private String name;
+	
 	public Fractal(){
 		this(new Location());
 	}
@@ -18,6 +23,15 @@ public abstract class Fractal{
 	public Fractal(Location loc){
 		this.location = loc;
 		setDefaultParameters();
+		name = "default";
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 	
 	/**
@@ -56,5 +70,13 @@ public abstract class Fractal{
 	 * @return
 	 */
 	public abstract String[] getParameters();
+	
+	/**
+	 * Get the type of the fractal used for storing in the database
+	 * @return the type of this fractal
+	 */
+	public String getType(){
+		return getClass().getSimpleName();
+	}
 	
 }

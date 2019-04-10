@@ -45,4 +45,10 @@ public interface IDatabase{
 	 */
 	public boolean saveFractal(Fractal fractal, String name, String username);
 	
+	/**
+	 * Get every fractal in the database
+	 * @return an ArrayList of every fractal, an empty list if none are found, null if an error occured
+	 */
+	public ArrayList<Fractal> getAllFractals();
+	
 }
