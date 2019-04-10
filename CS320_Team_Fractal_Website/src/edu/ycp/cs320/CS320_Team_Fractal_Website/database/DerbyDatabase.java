@@ -240,6 +240,7 @@ public class DerbyDatabase implements IDatabase
 
 	@Override
 	public boolean saveFractal(Fractal fractal, String name, String username){
+		//make sure data isn't null
 		if(fractal == null || name == null || username == null) return false;
 		
 		return executeTransaction(new Transaction<Boolean>(){
@@ -251,10 +252,11 @@ public class DerbyDatabase implements IDatabase
 				ResultSet resultSet = null;
 
 				Boolean found = false;
+
+				int userId = -1;
 				
 				try{
 					//get the user id of the user
-					int userId = -1;
 					//statement to get the id
 					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
 							+ " WHERE users.username = ?");
@@ -281,8 +283,8 @@ public class DerbyDatabase implements IDatabase
 						String[] params = fractal.getParameters();
 						//insert the fractal
 						stmt = conn.prepareStatement("INSERT INTO fractal "
-								+ "(name, type, user_id, param0, param1, param2, param3, param4, param5, param6, param7, param8, param9) "
-								+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+								+ " (name, type, user_id, param0, param1, param2, param3, param4, param5, param6, param7, param8, param9) "
+								+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 						//set attributes of statement
 						stmt.setString(1, name);
 						stmt.setString(2, fractal.getType());
@@ -290,8 +292,22 @@ public class DerbyDatabase implements IDatabase
 						for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
 						
 						//execute the statement
-						found = stmt.executeUpdate() == 1;
+						stmt.executeUpdate();
+						
+						//close statements
+						DBUtil.closeQuietly(stmt);
+						DBUtil.closeQuietly(resultSet);
+						
+						//now check if the fractal was added
+						stmt = conn.prepareStatement("SELECT fractal.name FROM fractal "
+								+ " where fractal.name = ? AND fractal.user_id = ?");
+						stmt.setString(1, name);
+						stmt.setInt(2, userId);
+
+						resultSet = stmt.executeQuery();
+						found = resultSet.next();
 					}
+					else return false;
 				}
 				//closing objects
 				finally{
@@ -313,7 +329,7 @@ public class DerbyDatabase implements IDatabase
 					ResultSet resultSet = null;
 					
 					try{
-						// retrieve all accounts and populate into the list
+						//retrieve all fractals and populate into the list
 						stmt = conn.prepareStatement("select * from fractal");
 						ArrayList<Fractal> result = new ArrayList<Fractal>();
 						
@@ -330,13 +346,14 @@ public class DerbyDatabase implements IDatabase
 							}
 							
 							//TODO should find a way to use abstraction with this and not hard code each case
+							
 							//determine which fractal should be loaded in
 							
 							//mandelbrot
 							Mandelbrot mandelbrot = new Mandelbrot();
 							MandelbrotController mandelbrotController = new MandelbrotController();
 							mandelbrotController.setModel(mandelbrot);
-							if(type == mandelbrot.getType()){
+							if(type.equals(mandelbrot.getType())){
 								fractal = mandelbrot;
 								controller = mandelbrotController;
 							}
@@ -345,7 +362,7 @@ public class DerbyDatabase implements IDatabase
 							Sierpinski sierpinski = new Sierpinski();
 							SierpinskiController sierpinskiController = new SierpinskiController();
 							sierpinskiController.setModel(sierpinski);
-							if(type == sierpinski.getType()){
+							if(type.equals(sierpinski.getType())){
 								fractal = sierpinski;
 								controller = sierpinskiController;
 							}
@@ -360,8 +377,7 @@ public class DerbyDatabase implements IDatabase
 						} 
 						return result;
 					}
-					finally
-					{
+					finally{
 						DBUtil.closeQuietly(resultSet);
 						DBUtil.closeQuietly(stmt);
 					}
