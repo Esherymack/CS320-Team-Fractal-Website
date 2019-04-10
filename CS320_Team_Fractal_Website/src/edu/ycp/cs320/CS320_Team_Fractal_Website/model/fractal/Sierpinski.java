@@ -67,4 +67,11 @@ public class Sierpinski extends Fractal{
 	public Point2D.Double getP3(){
 		return p3;
 	}
+	
+	@Override
+	public String getInfo(){
+		return "The Sierpinski triangle, also called the Sierpinski gasket or the Sierpinski sieve, is a "
+				+ "fractal and attractive fixed set with the overall shape of an equilateral triangle, subdivided "
+				+ "recursively into smaller equilateral triangles. ";
+	}
 }

@@ -286,15 +286,35 @@ public class DerbyDatabase implements IDatabase
 							+ ")"
 							);
 					int result = stmt.executeUpdate();
-					if(result > 0)
-					{
-						return true;
-					}
-					else
-					{
-						return false;
-					}
+					boolean success = result > 0;
 					
+					if(!success) return false;
+					
+					DBUtil.closeQuietly(stmt);
+					
+					stmt = conn.prepareStatement("create table fractals ("
+							+ " fractal_id integer primary key "
+							+ " generated always as identity (start with 1, increment by 1), "
+							+ " name varchar(40), "
+							+ " type varchar(40), "
+							+ " param0 varchar(40), "
+							+ " param1 varchar(40), "
+							+ " param2 varchar(40), "
+							+ " param3 varchar(40), "
+							+ " param4 varchar(40), "
+							+ " param5 varchar(40), "
+							+ " param6 varchar(40), "
+							+ " param7 varchar(40), "
+							+ " param8 varchar(40), "
+							+ " param9 varchar(40), "
+							+ " param10 varchar(40)"
+							+ ")"
+							);
+
+					result = stmt.executeUpdate();
+					success = result > 0;
+					
+					return success;
 				}
 				finally
 				{

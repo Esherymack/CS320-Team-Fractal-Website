@@ -25,7 +25,11 @@ public class GalleryTest{
 	
 	@Test
 	public void testAddFractals(){
-		Fractal f = new Fractal(){};
+		Fractal f = new Fractal(){
+			@Override
+			public String getInfo() {
+				return null;
+			}};
 		gallery.addFractal(f);
 		
 		assertTrue(gallery.getFractals().contains(f));

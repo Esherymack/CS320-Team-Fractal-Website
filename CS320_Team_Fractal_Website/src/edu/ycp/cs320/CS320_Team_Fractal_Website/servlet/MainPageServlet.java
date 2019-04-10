@@ -47,7 +47,7 @@ public class MainPageServlet extends HttpServlet{
 		
 		// holds the error message text, if any
 		String errorMessage = null;
-		//contains fractal info
+		// holds the fractla info
 		String fractalInfo = null;
 		
 		boolean result = false;
@@ -58,59 +58,65 @@ public class MainPageServlet extends HttpServlet{
 		}catch(NumberFormatException e){
 			errorMessage = "Please select a fractal";
 		}
-
-		FractalController controller = null;
 		
-		//get all parameters
-		String[] params = new String[NUM_PARAMS];
-		for(int i = 0; i < NUM_PARAMS; i++){
-			params[i] = req.getParameter("param" + i);
-		}
-		
-		//select the correct controller and model to use
-		
-		//Sierpinski
-		if(choice == 0){
-			Sierpinski sierpinskiModel = new Sierpinski();
-			controller = new SierpinskiController(sierpinskiModel);
+		//if no errors have occurred, continue processing the request
+		if(errorMessage == null){
 			
-			//contains fractal info
-			fractalInfo = "The Sierpinski triangle, also called the Sierpinski gasket or the Sierpinski sieve, is a "
-					+ "fractal and attractive fixed set with the overall shape of an equilateral triangle, subdivided "
-					+ "recursively into smaller equilateral triangles. ";
-		}
-		
-		//Mandelbrot
-		else if(choice == 1){
-			Mandelbrot mandelModel = new Mandelbrot();
-			controller = new MandelbrotController(mandelModel);
+			//get all parameters
+			String[] params = new String[NUM_PARAMS];
+			for(int i = 0; i < NUM_PARAMS; i++){
+				params[i] = req.getParameter("param" + i);
+			}
 			
-			//contains fractal info
-			fractalInfo = "The Mandelbrot set is the set of complex numbers for which the function does not diverge "
-					+ "when iterated from, i.e., for which the sequence, etc., remains bounded in absolute value. Its "
-					+ "definition and name are due to Adrien Douady, in tribute to the mathematician Benoit Mandelbrot.";
-		}
-		
-		//only generate the fractal if a value choice was found
-		if(choice != -1){
-			//send parameters
-			boolean sent = controller.acceptParameters(params);
+			//select the correct controller and model to use
+			FractalController controller = null;
 			
-			//render the fractal, only if no error occurred
-			if(controller != null && sent) result = controller.render();
+			//Sierpinski
+			if(choice == 0){
+				Sierpinski sierpinskiModel = new Sierpinski();
+				controller = new SierpinskiController(sierpinskiModel);
+			}
 			
-			//detect if invalid parameters were given
-			if(!sent) errorMessage = "Invalid parameters given";
+			//Mandelbrot
+			else if(choice == 1){
+				Mandelbrot mandelModel = new Mandelbrot();
+				controller = new MandelbrotController(mandelModel);
+			}
+			
+			//only generate the fractal if a value choice was found
+			if(choice != -1){
+				//send parameters
+				boolean sent = controller.acceptParameters(params);
+				
+				//render the fractal, only if no error occurred
+				//if the request is for a submit, then just display the fractal to the site
+				if(req.getParameter("submit") != null){
+					if(controller != null && sent) result = controller.render();
+				}
+				//if the request is for a save, the render the fractal and save it
+				if(req.getParameter("save") != null){
+					if(controller != null && sent){
+						result = controller.render();
+					}
+				}
+				
+				//detect if invalid parameters were given
+				else if(!sent) errorMessage = "Invalid parameters given";
+				
+				//set fractal info
+				fractalInfo = controller.getModel().getInfo();
+			}
+			
+			//send parameters back
+			for(int i = 0; i < NUM_PARAMS; i++){
+				req.setAttribute(params + "i", params[i]);
+			}
 		}
 		
-		for(int i = 0; i < NUM_PARAMS; i++){
-			req.setAttribute(params + "i", params[i]);
-		}
-		
-		
+		//set attributes of page
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
-		req.setAttribute("errorMessage",  errorMessage);
-		req.setAttribute("fractalInfo",  fractalInfo);
+		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("fractalInfo", fractalInfo);
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		

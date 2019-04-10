@@ -44,4 +44,11 @@ public abstract class Fractal{
 		this.location = l;
 	}
 	
+	
+	/**
+	 * Get a description of this fractal.
+	 * @return the description
+	 */
+	public abstract String getInfo();
+	
 }

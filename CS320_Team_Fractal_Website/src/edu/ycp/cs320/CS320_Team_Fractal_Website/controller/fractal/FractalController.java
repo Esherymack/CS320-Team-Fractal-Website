@@ -6,10 +6,18 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+
 /**
  * A generic controller for a fractal controller
  */
 public abstract class FractalController{
+	
+	/**
+	 * Get the model of this fractal
+	 * @return
+	 */
+	public abstract Fractal getModel();
 	
 	/**
 	 * Renders the current state of the given fractal to a BufferedImage and sets that image to the stored location
@@ -30,10 +38,18 @@ public abstract class FractalController{
 	}
 	
 	/**
+	 * Saves the fractal of the model to the account that is logged in
+	 * @return
+	 */
+	public boolean saveImage(){
+		return true;
+	}
+	
+	/**
 	 * Takes an array of Strings and converts them to appropriate values to enter for the fractal. 
 	 * The values from the array are stored in the model of this FractalController
 	 * @param params the array of strings
-	 * @return true if the parameteres were added sucessfuly, false otherwise
+	 * @return true if the parameters were added sucessfuly, false otherwise
 	 */
 	public abstract boolean acceptParameters(String[] params);
 }

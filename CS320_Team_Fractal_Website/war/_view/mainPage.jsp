@@ -111,6 +111,7 @@
 							</table>
 						</div>
 						<input type="Submit" name="submit" value="Send" class="sender">
+						<input type="Submit" name="save" value="Save" class="sender">
 					</form>
 				</div>
 			</div>
