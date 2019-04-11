@@ -13,7 +13,6 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class DerbyDatabaseTest {
 	

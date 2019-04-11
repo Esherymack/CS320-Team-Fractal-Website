@@ -1,5 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+
 /**
  * The abstract class that represents a fractal 
  * This class acts as a model that all other fractals will extend off of
@@ -16,6 +18,11 @@ public abstract class Fractal{
 	 */
 	private String name;
 	
+	/**
+	 * The id of the fractal, only used for identification when loaded from a database
+	 */
+	private int id;
+	
 	public Fractal(){
 		this(new Location());
 	}
@@ -24,6 +31,7 @@ public abstract class Fractal{
 		this.location = loc;
 		setDefaultParameters();
 		name = "default";
+		id = 0;
 	}
 	
 	public String getName(){
@@ -59,6 +67,13 @@ public abstract class Fractal{
 	}
 	
 	
+	public int getId(){
+		return id;
+	}
+	public void setId(int id){
+		this.id = id;
+	}
+	
 	/**
 	 * Get a description of this fractal.
 	 * @return the description
@@ -78,5 +93,11 @@ public abstract class Fractal{
 	public String getType(){
 		return getClass().getSimpleName();
 	}
+	
+	/**
+	 * Make a controller that is appropriate for this fractal
+	 * @return the controller
+	 */
+	public abstract FractalController createApproprateController();
 	
 }

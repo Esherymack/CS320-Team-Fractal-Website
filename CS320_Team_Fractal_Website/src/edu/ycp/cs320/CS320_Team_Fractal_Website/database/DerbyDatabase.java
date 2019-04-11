@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
@@ -338,42 +336,43 @@ public class DerbyDatabase implements IDatabase
 						while(resultSet.next()){
 							Fractal fractal = null;
 							FractalController controller = null;
-							String name = resultSet.getObject(3).toString();
-							String type = resultSet.getObject(4).toString();
-							String[] params = new String[MainPageServlet.NUM_PARAMS];
-							for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
-								params[i] = resultSet.getObject(5 + i).toString();
-							}
+							int fractalId = -1;
+							try{
+								fractalId = Integer.parseInt(resultSet.getObject(2).toString());
+							}catch(NumberFormatException e){}
 							
-							//TODO should find a way to use abstraction with this and not hard code each case
-							
-							//determine which fractal should be loaded in
-							
-							//mandelbrot
-							Mandelbrot mandelbrot = new Mandelbrot();
-							MandelbrotController mandelbrotController = new MandelbrotController();
-							mandelbrotController.setModel(mandelbrot);
-							if(type.equals(mandelbrot.getType())){
-								fractal = mandelbrot;
-								controller = mandelbrotController;
-							}
-							
-							//serpinski
-							Sierpinski sierpinski = new Sierpinski();
-							SierpinskiController sierpinskiController = new SierpinskiController();
-							sierpinskiController.setModel(sierpinski);
-							if(type.equals(sierpinski.getType())){
-								fractal = sierpinski;
-								controller = sierpinskiController;
-							}
-							
-							if(fractal != null && controller != null){
-								fractal.setName(name);
-								//if the parameters couldn't be added, return null
-								if(!controller.acceptParameters(params)) return null;
+							//only continue if the fractal id was valid
+							if(fractalId != -1){
+								String name = resultSet.getObject(3).toString();
+								String type = resultSet.getObject(4).toString();
+								String[] params = new String[MainPageServlet.NUM_PARAMS];
+								for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+									params[i] = resultSet.getObject(5 + i).toString();
+								}
 								
-								result.add(fractal);
+								//TODO should find a way to use abstraction with this and not hard code each case
+								
+								//determine which fractal should be loaded in
+								
+								//mandelbrot
+								Mandelbrot mandelbrot = new Mandelbrot();
+								if(type.equals(mandelbrot.getType())) fractal = mandelbrot;
+								
+								//serpinski
+								Sierpinski sierpinski = new Sierpinski();
+								if(type.equals(sierpinski.getType())) fractal = sierpinski;
+								
+								if(fractal != null){
+									controller = fractal.createApproprateController();
+									fractal.setName(name);
+									fractal.setId(fractalId);
+									//if the parameters couldn't be added, return null
+									if(!controller.acceptParameters(params)) return null;
+									
+									result.add(fractal);
+								}
 							}
+							
 						} 
 						return result;
 					}

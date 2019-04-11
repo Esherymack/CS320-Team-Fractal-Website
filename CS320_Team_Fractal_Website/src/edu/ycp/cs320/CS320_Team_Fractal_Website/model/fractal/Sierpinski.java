@@ -2,6 +2,9 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 import java.awt.geom.Point2D;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
+
 public class Sierpinski extends Fractal{
 	
 	public static final int SIZE = 800;
@@ -89,5 +92,12 @@ public class Sierpinski extends Fractal{
 			"",
 			""
 		};
+	}
+
+	@Override
+	public FractalController createApproprateController(){
+		SierpinskiController controller = new SierpinskiController();
+		controller.setModel(this);
+		return controller;
 	}
 }

@@ -18,6 +18,12 @@
 				<h1>Browse Fractals</h1>
 				
 				<div>
+					<c:if test="${! empty errorMessage}">
+						<div class="invalid">${errorMessage}</div>
+					</c:if>
+				</div>
+				
+				<div>
 					</form>
 					<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
 						<input type="Submit" name="submit" value="Home">
@@ -25,19 +31,25 @@
 				</div>
 				
 				<div>
+					<c:if test="${display}">
+						<img src="img/result.png" alt="result"/>
+					</c:if>
+					
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<table>
-						        
+							<input type="Submit" name="viewAllFractals" value="View Fractals">
+						    <br>
+						    
 						    <c:forEach items="${fractals}" var="fractal">
 						        <tr>
-						            <td class="nameCol">${fractal.name}</td>      
+									<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name}">
+									<br>
 						        </tr>
 						    </c:forEach>
-						    
-							<input type="Submit" name="viewFractals" value="View Fractals">
 							
 						</table>
 					</form>
+					
 				</div>
 				
 			</body>

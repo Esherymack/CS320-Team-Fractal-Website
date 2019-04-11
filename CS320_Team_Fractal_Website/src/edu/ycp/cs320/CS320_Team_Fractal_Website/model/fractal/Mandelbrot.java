@@ -1,5 +1,8 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
+
 public class Mandelbrot extends Fractal{
 	
 	/**
@@ -45,5 +48,12 @@ public class Mandelbrot extends Fractal{
 			"",
 			""
 		};
+	}
+
+	@Override
+	public FractalController createApproprateController(){
+		MandelbrotController controller = new MandelbrotController();
+		controller.setModel(this);
+		return controller;
 	}
 }
