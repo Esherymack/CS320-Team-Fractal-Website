@@ -95,13 +95,10 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testGetAllFractals(){
-		database.saveFractal(new Mandelbrot(), "Mandelbrot2", username);
-		database.saveFractal(new Sierpinski(), "Sierpinski2", username);
-		
 		ArrayList<Fractal> fractals = database.getAllFractals();
 		
 		assertFalse(fractals.size() == 0);
 		assertFalse(fractals == null);
 	}
-
+	
 }
