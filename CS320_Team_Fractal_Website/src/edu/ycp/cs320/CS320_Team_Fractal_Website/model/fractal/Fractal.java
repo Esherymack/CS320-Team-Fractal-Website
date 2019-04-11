@@ -95,7 +95,7 @@ public abstract class Fractal{
 	}
 	
 	/**
-	 * Make a controller that is appropriate for this fractal
+	 * Make a controller that is appropriate for this fractal and set the model of that controller to this fractal
 	 * @return the controller
 	 */
 	public abstract FractalController createApproprateController();

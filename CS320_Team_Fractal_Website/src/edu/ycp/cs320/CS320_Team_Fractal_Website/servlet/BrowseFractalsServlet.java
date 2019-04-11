@@ -31,16 +31,18 @@ public class BrowseFractalsServlet extends HttpServlet {
 		
 		System.out.println("Browse Fractals Servlet: doPost");
 		
-		BrowseFractalsController browseController = new BrowseFractalsController();
-		ArrayList<Fractal> fractals = browseController.getAllFractals();
-		
-		//TODO the buttons need to correctly display the corresponding fractal and the error message should only be shown when an error happens
-		
+		//variables for attributes
+		Fractal renderFractal = null;
 		String errorMessage = null;
 		Boolean display = null;
+		ArrayList<Fractal> fractals = null;
 		
+		//set up controller
+		BrowseFractalsController browseController = new BrowseFractalsController();
+		fractals = browseController.getAllFractals();
+		
+		//TODO move this stuff to the derby database?
 		//get fractal the user selected
-		Fractal renderFractal = null;
 		for(Fractal f : fractals){
 			Object found = req.getParameter("viewFractal_" + f.getId());
 			if(found != null){
@@ -48,20 +50,19 @@ public class BrowseFractalsServlet extends HttpServlet {
 				break;
 			}
 		}
-		
+
+		//check to see if the request was not to view all fractals
+		//if the request was to view all fractals, no initial fractal should be displayed
+		display = req.getParameter("viewAllFractals") == null;
 		//if the fractal was found, render it and display it
 		if(renderFractal != null){
-			display = true;
-			
 			FractalController fractalController = renderFractal.createApproprateController();
 			fractalController.render();
 		}
-		else{
-			display = false;
-			errorMessage = "Fractal couldn't be rendered";
-		}
-		//if the fractal was not found, return an error message
+		//if the fractal was not found and one should be displayed, then send an error message
+		else if(display) errorMessage = "Fractal couldn't be rendered";
 		
+		//set attributes
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("display", display);
 		req.setAttribute("fractals", fractals);

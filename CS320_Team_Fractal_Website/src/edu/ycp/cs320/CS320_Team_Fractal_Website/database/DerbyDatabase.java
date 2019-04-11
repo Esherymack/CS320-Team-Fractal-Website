@@ -350,17 +350,9 @@ public class DerbyDatabase implements IDatabase
 									params[i] = resultSet.getObject(5 + i).toString();
 								}
 								
-								//TODO should find a way to use abstraction with this and not hard code each case
-								
 								//determine which fractal should be loaded in
 								
-								//mandelbrot
-								Mandelbrot mandelbrot = new Mandelbrot();
-								if(type.equals(mandelbrot.getType())) fractal = mandelbrot;
-								
-								//serpinski
-								Sierpinski sierpinski = new Sierpinski();
-								if(type.equals(sierpinski.getType())) fractal = sierpinski;
+								fractal = loadFractalByType(type);
 								
 								if(fractal != null){
 									controller = fractal.createApproprateController();
@@ -383,6 +375,134 @@ public class DerbyDatabase implements IDatabase
 				}
 			});
 	}
+
+	@Override
+	public Fractal getFractalById(int id) {
+		return executeTransaction(new Transaction<Fractal>(){
+			@Override
+			public Fractal execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try{
+					//create statement to get fractal
+					stmt = conn.prepareStatement(
+							"SELECT fractal.* FROM fractal " +
+							"WHERE fractal.fractal_id = ?");
+					stmt.setInt(1, id);
+					
+					Fractal result = null;
+					//execute the query
+					resultSet = stmt.executeQuery();
+					
+					//load the fractal if one is found
+					if(resultSet.next()){
+						//get info from fractal
+						String name = resultSet.getObject(3).toString();
+						String type = resultSet.getObject(4).toString();
+						String[] params = new String[MainPageServlet.NUM_PARAMS];
+						for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+							params[i] = resultSet.getObject(5 + i).toString();
+						}
+						
+						//load the fractal
+						result = loadFractalByType(type);
+						
+						if(result != null){
+							//set fractal info
+							result.setId(id);
+							result.setName(name);
+							FractalController controller = result.createApproprateController();
+							controller.acceptParameters(params);
+						}
+					}
+					
+					//return fractal, null if one was not found
+					return result;
+				}
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	@Override
+	public Fractal getFractalByName(String name) {
+		return executeTransaction(new Transaction<Fractal>(){
+			@Override
+			public Fractal execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try{
+					//create statement to get fractal
+					stmt = conn.prepareStatement(
+							"SELECT fractal.* FROM fractal " +
+							"WHERE fractal.name = ?");
+					stmt.setString(1, name);
+					
+					Fractal result = null;
+					//execute the query
+					resultSet = stmt.executeQuery();
+					
+					//load the fractal if one is found
+					if(resultSet.next()){
+						//get info from fractal
+						int id = -1;
+						try {
+							id = Integer.parseInt(resultSet.getObject(2).toString());
+						}catch(NumberFormatException e){}
+						String type = resultSet.getObject(4).toString();
+						String[] params = new String[MainPageServlet.NUM_PARAMS];
+						for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+							params[i] = resultSet.getObject(5 + i).toString();
+						}
+						
+						//load the fractal
+						result = loadFractalByType(type);
+						
+						if(result != null && id != -1){
+							//set fractal info
+							result.setId(id);
+							result.setName(name);
+							FractalController controller = result.createApproprateController();
+							controller.acceptParameters(params);
+						}
+					}
+					
+					//return fractal, null if one was not found
+					return result;
+				}
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Given the type of the fractal, loads in a base fractal of that type
+	 * @param type the type
+	 * @return a default version of the requested fractal
+	 */
+	private Fractal loadFractalByType(String type){
+		//TODO should find a way to use abstraction with this and not hard code each case
+		
+		Fractal fractal = null;
+		
+		//mandelbrot
+		Mandelbrot mandelbrot = new Mandelbrot();
+		if(type.equals(mandelbrot.getType())) fractal = mandelbrot;
+		
+		//serpinski
+		Sierpinski sierpinski = new Sierpinski();
+		if(type.equals(sierpinski.getType())) fractal = sierpinski;
+		
+		return fractal;
+	}
+	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
 	{
 		try

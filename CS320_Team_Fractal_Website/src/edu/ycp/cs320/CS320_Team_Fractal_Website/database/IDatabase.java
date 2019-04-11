@@ -51,4 +51,19 @@ public interface IDatabase{
 	 */
 	public ArrayList<Fractal> getAllFractals();
 	
+	/**
+	 * Get the fractal with the given id
+	 * @param id the id of the fractal
+	 * @return the fractal with the given id, null if no fractal was found
+	 */
+	public Fractal getFractalById(int id);
+
+	
+	/**
+	 * Get the fractal with the given name
+	 * @param name the name of the fractal
+	 * @return the fractal with the given name, null if no fractal was found
+	 */
+	public Fractal getFractalByName(String name);
+	
 }

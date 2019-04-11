@@ -13,6 +13,7 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class DerbyDatabaseTest {
 	
@@ -98,6 +99,30 @@ public class DerbyDatabaseTest {
 		
 		assertFalse(fractals.size() == 0);
 		assertFalse(fractals == null);
+	}
+	
+	@Test
+	public void testGetFractalByName(){
+		String name = "Sirpinski Name Test";
+		database.saveFractal(new Sierpinski(), name, username);
+		
+		Fractal f = database.getFractalByName("Sirpinski Name Test");
+		assertFalse(f == null);
+		assertTrue(f.getName().equals(name));
+	}
+	
+	@Test
+	public void testGetFractalById(){
+		String name = "Sirpinski Id Test";
+		database.saveFractal(new Sierpinski(), name, username);
+		
+		Fractal fName = database.getFractalByName(name);
+		
+		assertFalse(fName == null);
+		
+		Fractal fId = database.getFractalById(fName.getId());
+
+		assertFalse(fId == null);
 	}
 	
 }
