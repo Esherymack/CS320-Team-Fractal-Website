@@ -1,5 +1,8 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
+
 public class Mandelbrot extends Fractal{
 	
 	/**
@@ -22,5 +25,35 @@ public class Mandelbrot extends Fractal{
 	public void setDefaultParameters(){
 		super.setDefaultParameters();
 		multiplyTimes = 1;
+	}
+	
+	@Override
+	public String getInfo(){
+		return "The Mandelbrot set is the set of complex numbers for which the function does not diverge "
+				+ "when iterated from, i.e., for which the sequence, etc., remains bounded in absolute value. Its "
+				+ "definition and name are due to Adrien Douady, in tribute to the mathematician Benoit Mandelbrot.";
+	}
+
+	@Override
+	public String[] getParameters(){
+		return new String[]{
+			"" + getLocation().getX1(),
+			"" + getLocation().getY1(),
+			"" + getLocation().getX2(),
+			"" + getLocation().getY2(),
+			"" + getMultiplyTimes(),
+			"",
+			"",
+			"",
+			"",
+			""
+		};
+	}
+
+	@Override
+	public FractalController createApproprateController(){
+		MandelbrotController controller = new MandelbrotController();
+		controller.setModel(this);
+		return controller;
 	}
 }

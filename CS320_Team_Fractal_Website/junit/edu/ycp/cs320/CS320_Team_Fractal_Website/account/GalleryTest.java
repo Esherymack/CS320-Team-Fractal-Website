@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Gallery;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class GalleryTest{
 	
@@ -25,7 +26,7 @@ public class GalleryTest{
 	
 	@Test
 	public void testAddFractals(){
-		Fractal f = new Fractal(){};
+		Fractal f = new Mandelbrot();
 		gallery.addFractal(f);
 		
 		assertTrue(gallery.getFractals().contains(f));

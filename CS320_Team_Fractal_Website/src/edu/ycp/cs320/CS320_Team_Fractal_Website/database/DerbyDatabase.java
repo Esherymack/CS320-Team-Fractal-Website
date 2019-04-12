@@ -9,8 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet;
 
 // Modified from CS320 Lab06
 
@@ -54,14 +59,9 @@ public class DerbyDatabase implements IDatabase
 						
 						resultSet = stmt.executeQuery();
 						
-						while(resultSet.next())
-						{
-							String username = resultSet.getObject(1).toString();
-							String firstname = resultSet.getObject(2).toString();
-							String lastname = resultSet.getObject(3).toString();
-							String email = resultSet.getObject(4).toString();
-							String password = resultSet.getObject(5).toString();
-							User user = new StandardUser(username, firstname, lastname, email, password);
+						while(resultSet.next()){
+							User user = new StandardUser();
+							loadUser(user, resultSet);
 							result.add(user);
 						} 
 						return result;
@@ -114,6 +114,44 @@ public class DerbyDatabase implements IDatabase
 				}
 				finally
 				{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public User getUserByUsername(String username) {
+		return executeTransaction(new Transaction<User>(){
+			@Override
+			public User execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try{
+					//create statement to get user
+					stmt = conn.prepareStatement(
+							"SELECT users.* FROM users " +
+							"WHERE users.username = ?");
+					stmt.setString(1, username);
+					
+					User result = new StandardUser();
+					
+					resultSet = stmt.executeQuery();
+					Boolean found = false;
+					while(resultSet.next()){
+						found = true;
+						loadUser(result, resultSet);
+					}
+					
+					if(!found){	
+						System.out.println("User not found.");
+						return null;
+					}
+					return result;
+				}
+				finally{
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}
@@ -191,6 +229,274 @@ public class DerbyDatabase implements IDatabase
 			}
 		}
 		);
+	}
+
+	@Override
+	public boolean saveFractal(Fractal fractal, String name, String username){
+		//make sure data isn't null
+		if(fractal == null || name == null || username == null) return false;
+		
+		return executeTransaction(new Transaction<Boolean>(){
+			@Override
+			public Boolean execute(Connection conn) throws SQLException{
+				//objects for executing the statement
+				PreparedStatement stmt = null;
+				
+				ResultSet resultSet = null;
+
+				Boolean found = false;
+
+				int userId = -1;
+				
+				try{
+					//get the user id of the user
+					//statement to get the id
+					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
+							+ " WHERE users.username = ?");
+					//add in the username
+					stmt.setString(1, username);
+					
+					//Execute query
+					resultSet = stmt.executeQuery();
+
+					//get the id only if one is found
+					if(resultSet.next()){
+						try{
+							userId = Integer.parseInt(resultSet.getString(1));
+						}catch(NumberFormatException e){}
+					}
+					
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+					
+					//only add the fractal if the user Id was found
+					if(userId != -1){
+						
+						//get data from fractal
+						String[] params = fractal.getParameters();
+						//insert the fractal
+						stmt = conn.prepareStatement("INSERT INTO fractal "
+								+ " (name, type, user_id, param0, param1, param2, param3, param4, param5, param6, param7, param8, param9) "
+								+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						//set attributes of statement
+						stmt.setString(1, name);
+						stmt.setString(2, fractal.getType());
+						stmt.setInt(3, userId);
+						for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
+						
+						//execute the statement
+						stmt.executeUpdate();
+						
+						//close statements
+						DBUtil.closeQuietly(stmt);
+						DBUtil.closeQuietly(resultSet);
+						
+						//now check if the fractal was added
+						stmt = conn.prepareStatement("SELECT fractal.name FROM fractal "
+								+ " where fractal.name = ? AND fractal.user_id = ?");
+						stmt.setString(1, name);
+						stmt.setInt(2, userId);
+
+						resultSet = stmt.executeQuery();
+						found = resultSet.next();
+					}
+					else return false;
+				}
+				//closing objects
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				//return if the statement was found
+				return found;
+			}
+		});
+	}
+
+	@Override
+	public ArrayList<Fractal> getAllFractals(){
+		return executeTransaction(new Transaction<ArrayList<Fractal>>(){
+				@Override
+				public ArrayList<Fractal> execute(Connection conn) throws SQLException{
+					PreparedStatement stmt = null;
+					ResultSet resultSet = null;
+					
+					try{
+						//retrieve all fractals and populate into the list
+						stmt = conn.prepareStatement("select * from fractal");
+						ArrayList<Fractal> result = new ArrayList<Fractal>();
+						
+						resultSet = stmt.executeQuery();
+						
+						while(resultSet.next()){
+							Fractal fractal = null;
+							FractalController controller = null;
+							int fractalId = -1;
+							try{
+								fractalId = Integer.parseInt(resultSet.getObject(1).toString());
+							}catch(NumberFormatException e){}
+							
+							//only continue if the fractal id was valid
+							if(fractalId != -1){
+								String name = resultSet.getObject(3).toString();
+								String type = resultSet.getObject(4).toString();
+								String[] params = new String[MainPageServlet.NUM_PARAMS];
+								for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+									params[i] = resultSet.getObject(5 + i).toString();
+								}
+								
+								//determine which fractal should be loaded in
+								
+								fractal = loadFractalByType(type);
+								
+								if(fractal != null){
+									controller = fractal.createApproprateController();
+									fractal.setName(name);
+									fractal.setId(fractalId);
+									//if the parameters couldn't be added, return null
+									if(!controller.acceptParameters(params)) return null;
+									
+									result.add(fractal);
+								}
+							}
+							
+						} 
+						return result;
+					}
+					finally{
+						DBUtil.closeQuietly(resultSet);
+						DBUtil.closeQuietly(stmt);
+					}
+				}
+			});
+	}
+
+	@Override
+	public Fractal getFractalById(int id) {
+		return executeTransaction(new Transaction<Fractal>(){
+			@Override
+			public Fractal execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try{
+					//create statement to get fractal
+					stmt = conn.prepareStatement(
+							"SELECT fractal.* FROM fractal " +
+							"WHERE fractal.fractal_id = ?");
+					stmt.setInt(1, id);
+					
+					Fractal result = null;
+					//execute the query
+					resultSet = stmt.executeQuery();
+					
+					//load the fractal if one is found
+					if(resultSet.next()){
+						//get info from fractal
+						String name = resultSet.getObject(3).toString();
+						String type = resultSet.getObject(4).toString();
+						String[] params = new String[MainPageServlet.NUM_PARAMS];
+						for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+							params[i] = resultSet.getObject(5 + i).toString();
+						}
+						
+						//load the fractal
+						result = loadFractalByType(type);
+						
+						if(result != null){
+							//set fractal info
+							result.setId(id);
+							result.setName(name);
+							FractalController controller = result.createApproprateController();
+							controller.acceptParameters(params);
+						}
+					}
+					
+					//return fractal, null if one was not found
+					return result;
+				}
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	@Override
+	public Fractal getFractalByName(String name) {
+		return executeTransaction(new Transaction<Fractal>(){
+			@Override
+			public Fractal execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try{
+					//create statement to get fractal
+					stmt = conn.prepareStatement(
+							"SELECT fractal.* FROM fractal " +
+							"WHERE fractal.name = ?");
+					stmt.setString(1, name);
+					
+					Fractal result = null;
+					//execute the query
+					resultSet = stmt.executeQuery();
+					
+					//load the fractal if one is found
+					if(resultSet.next()){
+						//get info from fractal
+						int id = -1;
+						try {
+							id = Integer.parseInt(resultSet.getObject(1).toString());
+						}catch(NumberFormatException e){}
+						String type = resultSet.getObject(4).toString();
+						String[] params = new String[MainPageServlet.NUM_PARAMS];
+						for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+							params[i] = resultSet.getObject(5 + i).toString();
+						}
+						
+						//load the fractal
+						result = loadFractalByType(type);
+						
+						if(result != null && id != -1){
+							//set fractal info
+							result.setId(id);
+							result.setName(name);
+							FractalController controller = result.createApproprateController();
+							controller.acceptParameters(params);
+						}
+					}
+					
+					//return fractal, null if one was not found
+					return result;
+				}
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Given the type of the fractal, loads in a base fractal of that type
+	 * @param type the type
+	 * @return a default version of the requested fractal
+	 */
+	private Fractal loadFractalByType(String type){
+		//TODO should find a way to use abstraction with this and not hard code each case
+		
+		Fractal fractal = null;
+		
+		
+		//mandelbrot
+		Mandelbrot mandelbrot = new Mandelbrot();
+		if(type.equals(mandelbrot.getType())) fractal = mandelbrot;
+		
+		//serpinski
+		Sierpinski sierpinski = new Sierpinski();
+		if(fractal == null && type.equals(sierpinski.getType())) fractal = sierpinski;
+
+		return fractal;
 	}
 	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
@@ -286,15 +592,33 @@ public class DerbyDatabase implements IDatabase
 							+ ")"
 							);
 					int result = stmt.executeUpdate();
-					if(result > 0)
-					{
-						return true;
-					}
-					else
-					{
-						return false;
-					}
+					boolean success = result > 0;
 					
+					DBUtil.closeQuietly(stmt);
+					
+					stmt = conn.prepareStatement("create table fractal ("
+							+ " fractal_id integer primary key "
+							+ " generated always as identity (start with 1, increment by 1), "
+							+ " user_id integer constraint user_id references users, "
+							+ " name varchar(40), "
+							+ " type varchar(40), "
+							+ " param0 varchar(40), "
+							+ " param1 varchar(40), "
+							+ " param2 varchar(40), "
+							+ " param3 varchar(40), "
+							+ " param4 varchar(40), "
+							+ " param5 varchar(40), "
+							+ " param6 varchar(40), "
+							+ " param7 varchar(40), "
+							+ " param8 varchar(40), "
+							+ " param9 varchar(40)"
+							+ ")"
+							);
+
+					result = stmt.executeUpdate();
+					success = result > 0;
+					
+					return success;
 				}
 				finally
 				{

@@ -16,6 +16,10 @@ public class SierpinskiController extends FractalController{
 		this.model = model;
 	}
 	
+	public SierpinskiController(){
+		this(null);
+	}
+	
 	public Sierpinski getModel(){
 		return model;
 	}

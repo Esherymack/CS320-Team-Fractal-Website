@@ -42,6 +42,11 @@
   </servlet>
   
   <servlet>
+    <servlet-name>BrowseFractalsServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.BrowseFractalsServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
     <servlet-name>GuessingGameServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.temp.GuessingGameServlet</servlet-class>
   </servlet>
@@ -81,6 +86,11 @@
   <servlet-mapping>
     <servlet-name>ViewAccountServlet</servlet-name>
     <url-pattern>/viewAccount</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>BrowseFractalsServlet</servlet-name>
+    <url-pattern>/browseFractals</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>

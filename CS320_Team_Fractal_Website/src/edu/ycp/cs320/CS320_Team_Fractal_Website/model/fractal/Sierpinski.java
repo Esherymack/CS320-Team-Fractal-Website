@@ -2,6 +2,9 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 import java.awt.geom.Point2D;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
+
 public class Sierpinski extends Fractal{
 	
 	public static final int SIZE = 800;
@@ -66,5 +69,35 @@ public class Sierpinski extends Fractal{
 	}
 	public Point2D.Double getP3(){
 		return p3;
+	}
+	
+	@Override
+	public String getInfo(){
+		return "The Sierpinski triangle, also called the Sierpinski gasket or the Sierpinski sieve, is a "
+				+ "fractal and attractive fixed set with the overall shape of an equilateral triangle, subdivided "
+				+ "recursively into smaller equilateral triangles. ";
+	}
+
+	@Override
+	public String[] getParameters(){
+		return new String[]{
+			"" + getLevel(),
+			"" + getP1().x,
+			"" + getP1().y,
+			"" + getP2().x,
+			"" + getP2().y,
+			"" + getP3().x,
+			"" + getP3().y,
+			"",
+			"",
+			""
+		};
+	}
+
+	@Override
+	public FractalController createApproprateController(){
+		SierpinskiController controller = new SierpinskiController();
+		controller.setModel(this);
+		return controller;
 	}
 }

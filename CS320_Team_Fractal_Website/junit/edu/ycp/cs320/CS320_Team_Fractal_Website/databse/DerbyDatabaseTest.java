@@ -11,6 +11,9 @@ import org.junit.Test;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class DerbyDatabaseTest {
 	
@@ -52,7 +55,84 @@ public class DerbyDatabaseTest {
 		database.addUser(new StandardUser(username, firstname, lastname, email, password));
 		
 		ArrayList<User> users = database.getUsers();
+		
 		assertTrue(users.size() > 0);
+		
+		User u = database.getUserByUsername(username);
+		assertFalse(u == null);
+		assertTrue(u.getUsername().equals(username));
+		assertTrue(u.getFirstname().equals(firstname));
+		assertTrue(u.getLastname().equals(lastname));
+		assertTrue(u.getPassword().equals(password));
+		assertTrue(u.getEmail().equals(email));
 	}
+	
+	@Test
+	public void testGetUserByUserName(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
+		
+		User u = database.getUserByUsername(username);
+		
+		assertFalse(u == null);
+		assertTrue(u.getUsername().equals(username));
+		assertTrue(u.getFirstname().equals(firstname));
+		assertTrue(u.getLastname().equals(lastname));
+		assertTrue(u.getPassword().equals(password));
+		assertTrue(u.getEmail().equals(email));
+	}
+	
+	@Test
+	public void testSaveFractal(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password));
+		
+		//test adding real user
+		boolean added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", username);
+		assertTrue(added);
 
+		//test adding fake user
+		added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", "263i8t6843ti");
+		assertFalse(added);
+		
+		//test adding null data
+		added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", null);
+		assertFalse(added);
+		added = database.saveFractal(new Mandelbrot(), null, username);
+		assertFalse(added);
+		added = database.saveFractal(null, "Fractal", username);
+		assertFalse(added);
+	}
+	
+	@Test
+	public void testGetAllFractals(){
+		ArrayList<Fractal> fractals = database.getAllFractals();
+		
+		assertFalse(fractals.size() == 0);
+		assertFalse(fractals == null);
+	}
+	
+	@Test
+	public void testGetFractalByName(){
+		String name = "Sirpinski Name Test";
+		database.saveFractal(new Sierpinski(), name, username);
+		
+		Fractal f = database.getFractalByName("Sirpinski Name Test");
+		assertFalse(f == null);
+		assertTrue(f.getName().equals(name));
+	}
+	
+	@Test
+	public void testGetFractalById(){
+		String name = "Sirpinski Id Test";
+		database.saveFractal(new Sierpinski(), name, username);
+		
+		Fractal fName = database.getFractalByName(name);
+		
+		assertFalse(fName == null);
+		
+		Fractal fId = database.getFractalById(fName.getId());
+
+		assertFalse(fId == null);
+		assertTrue(fId.getId() == fName.getId());
+	}
+	
 }

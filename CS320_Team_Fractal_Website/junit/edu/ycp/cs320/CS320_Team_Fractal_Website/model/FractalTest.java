@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
 
@@ -14,7 +15,20 @@ public class FractalTest{
 	
 	@Before
 	public void setUp(){
-		model = new Fractal(){};
+		model = new Fractal() {
+			@Override
+			public String[] getParameters() {
+				return null;
+			}
+			@Override
+			public String getInfo() {
+				return null;
+			}
+			@Override
+			public FractalController createApproprateController() {
+				return null;
+			}
+		};
 	}
 	
 	@Test
@@ -47,4 +61,15 @@ public class FractalTest{
 		assertTrue(l.getY2() == -1);
 	}
 	
+	@Test
+	public void testSetNameAndGetName(){
+		model.setName("fractal 1");
+		assertTrue(model.getName().equals("fractal 1"));
+	}
+	
+	@Test
+	public void testSetIdAndGetId(){
+		model.setId(1337);
+		assertTrue(model.getId() == 1337);
+	}
 }

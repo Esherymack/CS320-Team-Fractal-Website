@@ -21,6 +21,10 @@ public class MandelbrotController extends FractalController{
 	public MandelbrotController(Mandelbrot model){
 		this.model = model;
 	}
+	
+	public MandelbrotController(){
+		this(null);
+	}
 
 	public Mandelbrot getModel(){
 		return model;
