@@ -98,7 +98,18 @@ public class MainPageServlet extends HttpServlet{
 					//get the name the user has typed in
 					String name = req.getParameter("saveButton");
 					
-					if(name != null && controller != null && sent) controller.saveImage(name, getLoggedInUser(req, resp));
+					//save and render the fractal
+					if(name != null && controller != null && sent){
+						//try to save the fractal, if it saves, then render it
+						if(controller.saveImage(name, getLoggedInUser(req, resp))){
+							result = controller.render();
+						}
+						//otherwise send error message
+						else{
+							errorMessage = "Failed to save fractal";
+							result = false;
+						}
+					}
 					else errorMessage = "Please provide a name and parameters";
 				}
 				

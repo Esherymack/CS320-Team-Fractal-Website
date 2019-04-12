@@ -55,7 +55,16 @@ public class DerbyDatabaseTest {
 		database.addUser(new StandardUser(username, firstname, lastname, email, password));
 		
 		ArrayList<User> users = database.getUsers();
+		
 		assertTrue(users.size() > 0);
+		
+		User u = database.getUserByUsername(username);
+		assertFalse(u == null);
+		assertTrue(u.getUsername().equals(username));
+		assertTrue(u.getFirstname().equals(firstname));
+		assertTrue(u.getLastname().equals(lastname));
+		assertTrue(u.getPassword().equals(password));
+		assertTrue(u.getEmail().equals(email));
 	}
 	
 	@Test
@@ -123,6 +132,7 @@ public class DerbyDatabaseTest {
 		Fractal fId = database.getFractalById(fName.getId());
 
 		assertFalse(fId == null);
+		assertTrue(fId.getId() == fName.getId());
 	}
 	
 }

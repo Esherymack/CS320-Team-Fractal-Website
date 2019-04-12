@@ -42,7 +42,7 @@
 						    
 						    <c:forEach items="${fractals}" var="fractal">
 						        <tr>
-									<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name}">
+									<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
 									<br>
 						        </tr>
 						    </c:forEach>

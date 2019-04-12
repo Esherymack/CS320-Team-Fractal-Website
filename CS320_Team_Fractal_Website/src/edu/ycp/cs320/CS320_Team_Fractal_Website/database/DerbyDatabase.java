@@ -59,14 +59,9 @@ public class DerbyDatabase implements IDatabase
 						
 						resultSet = stmt.executeQuery();
 						
-						while(resultSet.next())
-						{
-							String username = resultSet.getObject(1).toString();
-							String firstname = resultSet.getObject(2).toString();
-							String lastname = resultSet.getObject(3).toString();
-							String email = resultSet.getObject(4).toString();
-							String password = resultSet.getObject(5).toString();
-							User user = new StandardUser(username, firstname, lastname, email, password);
+						while(resultSet.next()){
+							User user = new StandardUser();
+							loadUser(user, resultSet);
 							result.add(user);
 						} 
 						return result;
@@ -338,7 +333,7 @@ public class DerbyDatabase implements IDatabase
 							FractalController controller = null;
 							int fractalId = -1;
 							try{
-								fractalId = Integer.parseInt(resultSet.getObject(2).toString());
+								fractalId = Integer.parseInt(resultSet.getObject(1).toString());
 							}catch(NumberFormatException e){}
 							
 							//only continue if the fractal id was valid
@@ -451,7 +446,7 @@ public class DerbyDatabase implements IDatabase
 						//get info from fractal
 						int id = -1;
 						try {
-							id = Integer.parseInt(resultSet.getObject(2).toString());
+							id = Integer.parseInt(resultSet.getObject(1).toString());
 						}catch(NumberFormatException e){}
 						String type = resultSet.getObject(4).toString();
 						String[] params = new String[MainPageServlet.NUM_PARAMS];
@@ -492,14 +487,15 @@ public class DerbyDatabase implements IDatabase
 		
 		Fractal fractal = null;
 		
+		
 		//mandelbrot
 		Mandelbrot mandelbrot = new Mandelbrot();
 		if(type.equals(mandelbrot.getType())) fractal = mandelbrot;
 		
 		//serpinski
 		Sierpinski sierpinski = new Sierpinski();
-		if(type.equals(sierpinski.getType())) fractal = sierpinski;
-		
+		if(fractal == null && type.equals(sierpinski.getType())) fractal = sierpinski;
+
 		return fractal;
 	}
 	
@@ -597,8 +593,6 @@ public class DerbyDatabase implements IDatabase
 							);
 					int result = stmt.executeUpdate();
 					boolean success = result > 0;
-					
-					if(!success) return false;
 					
 					DBUtil.closeQuietly(stmt);
 					

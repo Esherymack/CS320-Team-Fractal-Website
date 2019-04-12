@@ -23,7 +23,6 @@ public class BrowseFractalsControllerTest{
 	public void testGetAllFractals(){ 
 		ArrayList<Fractal> fractals = controller.getAllFractals();
 		
-		assertFalse(fractals.size() == 0);
 		assertFalse(fractals == null);
 	}
 	
