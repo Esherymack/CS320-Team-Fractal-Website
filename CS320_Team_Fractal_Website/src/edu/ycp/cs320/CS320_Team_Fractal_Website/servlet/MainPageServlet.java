@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 
 
 public class MainPageServlet extends HttpServlet{
@@ -47,17 +44,12 @@ public class MainPageServlet extends HttpServlet{
 		
 		// holds the error message text, if any
 		String errorMessage = null;
-		// holds the fractla info
+		// holds the fractal info
 		String fractalInfo = null;
 		
 		boolean result = false;
 		
-		int choice = -1;
-		try {
-			choice = Integer.parseInt(req.getParameter("choice"));
-		}catch(NumberFormatException e){
-			errorMessage = "Please select a fractal";
-		}
+		String choice = req.getParameter("choice");
 		
 		//if no errors have occurred, continue processing the request
 		if(errorMessage == null){
@@ -68,23 +60,12 @@ public class MainPageServlet extends HttpServlet{
 				params[i] = req.getParameter("param" + i);
 			}
 			
-			//select the correct controller and model to use
-			FractalController controller = null;
-			
-			//Sierpinski
-			if(choice == 0){
-				Sierpinski sierpinskiModel = new Sierpinski();
-				controller = new SierpinskiController(sierpinskiModel);
-			}
-			
-			//Mandelbrot
-			else if(choice == 1){
-				Mandelbrot mandelModel = new Mandelbrot();
-				controller = new MandelbrotController(mandelModel);
-			}
-			
 			//only generate the fractal if a value choice was found
-			if(choice != -1){
+			if(choice != null){
+				//select the correct controller and model to use
+				Fractal f = Fractal.getDefaultFractal(choice);
+				FractalController controller = f.createApproprateController();
+				
 				//send parameters
 				boolean sent = controller.acceptParameters(params);
 				

@@ -13,8 +13,6 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalContro
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet;
 
 // Modified from CS320 Lab06
@@ -347,7 +345,7 @@ public class DerbyDatabase implements IDatabase
 								
 								//determine which fractal should be loaded in
 								
-								fractal = loadFractalByType(type);
+								fractal = Fractal.getDefaultFractal(type);
 								
 								if(fractal != null){
 									controller = fractal.createApproprateController();
@@ -401,7 +399,7 @@ public class DerbyDatabase implements IDatabase
 						}
 						
 						//load the fractal
-						result = loadFractalByType(type);
+						result = Fractal.getDefaultFractal(type);
 						
 						if(result != null){
 							//set fractal info
@@ -455,7 +453,7 @@ public class DerbyDatabase implements IDatabase
 						}
 						
 						//load the fractal
-						result = loadFractalByType(type);
+						result = Fractal.getDefaultFractal(type);
 						
 						if(result != null && id != -1){
 							//set fractal info
@@ -475,28 +473,6 @@ public class DerbyDatabase implements IDatabase
 				}
 			}
 		});
-	}
-	
-	/**
-	 * Given the type of the fractal, loads in a base fractal of that type
-	 * @param type the type
-	 * @return a default version of the requested fractal
-	 */
-	private Fractal loadFractalByType(String type){
-		//TODO should find a way to use abstraction with this and not hard code each case
-		
-		Fractal fractal = null;
-		
-		
-		//mandelbrot
-		Mandelbrot mandelbrot = new Mandelbrot();
-		if(type.equals(mandelbrot.getType())) fractal = mandelbrot;
-		
-		//serpinski
-		Sierpinski sierpinski = new Sierpinski();
-		if(fractal == null && type.equals(sierpinski.getType())) fractal = sierpinski;
-
-		return fractal;
 	}
 	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
