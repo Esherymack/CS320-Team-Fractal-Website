@@ -296,6 +296,21 @@ table.params
 	overflow: hidden;
 }
 
+/* Gallery CSS for fractal gallery */
+div.img-grid
+{
+	margin: 5px;
+	float: left;
+	width: 600px;
+}
+
+div.img-grid img
+{
+	width: 100%;
+	height: auto;
+	border-radius: 3px;
+}
+
 /*
 
 

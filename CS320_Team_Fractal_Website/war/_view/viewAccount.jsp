@@ -22,7 +22,7 @@
 					</li>
 					<li>
 						<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
-							<input type="Submit" name="submit" value="You are currently logged in as ${userName}">
+							<input type="Submit" name="submit" value="Currently logged in as ${userName}">
 						</form>
 					</li>
 					<li>
