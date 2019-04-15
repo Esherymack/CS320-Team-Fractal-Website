@@ -114,6 +114,15 @@
 								<input type="Submit" name="save" value="Save" class="sender">
 								<td class="label" id="saveLabel">Name</td>
 								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" /></td>
+								<br>
+									<c:if test="${! empty result}">
+										<div class="error">
+											<a href="img/result.png" download>
+												Download Image
+											</a>
+										</div>
+									</c:if>
+								</a>
 							</div>
 						</div>
 					</form>
