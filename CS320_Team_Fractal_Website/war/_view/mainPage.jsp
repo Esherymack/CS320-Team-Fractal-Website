@@ -70,8 +70,8 @@
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
 								<option value="" selected disabled hidden>Select Fractal</option>
-								<option value="0">Sierpinski</option>
-								<option value="1">Mandelbrot</option>
+								<option value="Sierpinski">Sierpinski</option>
+								<option value="Mandelbrot">Mandelbrot</option>
 							</select>
 						</div>
 							<input type="hidden" name="selectedChoice">
@@ -127,7 +127,7 @@
 		var selection = $(this).val();
 		sessionStorage.setItem('Selection', selection);
 		switch(selection){
-			case "0":
+			case "Sierpinski":
 				document.getElementById("paramLab0").innerHTML = "Level: "
 				$("#paramLab0").show()
 				$("#paramIn0").show()
@@ -137,7 +137,7 @@
 					$("#paramIn" + i).hide()
 				}
 				break;
-			case "1":
+			case "Mandelbrot":
 				document.getElementById("paramLab0").innerHTML = "X1: "
 				document.getElementById("paramLab1").innerHTML = "Y1: "
 				document.getElementById("paramLab2").innerHTML = "X2: "

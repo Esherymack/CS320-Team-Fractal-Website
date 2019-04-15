@@ -99,5 +99,17 @@ public abstract class Fractal{
 	 * @return the controller
 	 */
 	public abstract FractalController createApproprateController();
+	/**
+	 * Get a default fractal based on the given type, which is the class name of a fractal. This method must 
+	 * be updated each time a new fractal is added, otherwise all code that relies on this method will
+	 * only work for previously added fractal types.
+	 * @param type the type of the fractal, the class name, it Mandelbrot set is "Mandelbrot"
+	 * @return a default fractal of the given type, null if an invalid type is given
+	 */
+	public static Fractal getDefaultFractal(String type){
+		if(type.equals("Mandelbrot")) return new Mandelbrot();
+		else if(type.equals("Sierpinski")) return new Sierpinski();
+		return null;
+	}
 	
 }
