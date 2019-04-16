@@ -116,10 +116,9 @@
 								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" /></td>
 								<br>
 								<c:if test="${! empty result}">
-									<div class="error">
-										<a href="img/result.png" download>
-											Download Image
-										</a>
+									<div class="label">
+										<input onclick="document.getElementById('downloadImage').click()" value="Download Image"></input>
+										<a id="downloadImage" href="img/result.png" download hidden></a>
 									</div>
 								</c:if>
 							</div>
