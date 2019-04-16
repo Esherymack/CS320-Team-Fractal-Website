@@ -117,7 +117,7 @@
 								<br>
 								<c:if test="${! empty result}">
 									<div class="label">
-										<input onclick="document.getElementById('downloadImage').click()" value="Download Image"></input>
+										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
 										<a id="downloadImage" href="img/result.png" download hidden></a>
 									</div>
 								</c:if>
