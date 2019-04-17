@@ -41,15 +41,15 @@ public class Koch extends Fractal{
 	public String[] getParameters(){
 		return new String[]{
 				iterations + "",
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				""
 		};
 	}
 

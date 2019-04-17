@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
 public class FractalTest{
 
@@ -15,20 +15,7 @@ public class FractalTest{
 	
 	@Before
 	public void setUp(){
-		model = new Fractal() {
-			@Override
-			public String[] getParameters() {
-				return null;
-			}
-			@Override
-			public String getInfo() {
-				return null;
-			}
-			@Override
-			public FractalController createApproprateController() {
-				return null;
-			}
-		};
+		model = new Mandelbrot();
 	}
 	
 	@Test

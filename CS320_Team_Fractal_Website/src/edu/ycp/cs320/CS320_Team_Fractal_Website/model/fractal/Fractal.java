@@ -81,7 +81,8 @@ public abstract class Fractal{
 	public abstract String getInfo();
 	
 	/**
-	 * Get an array of all the parameters for this fractal. Should be the same length as MainPageServlet.NUM_PARAMS
+	 * Get an array of all the parameters for this fractal. 
+	 * Should be the same length as MainPageServlet.NUM_PARAMS
 	 * @return
 	 */
 	public abstract String[] getParameters();
