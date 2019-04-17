@@ -37,7 +37,11 @@
 					${userName}
 				</h1>
 			</div>
-
+			
+			<div class="info">
+					${firstName} ${lastName} | ${email}
+			</div>
+				
 			<div>
 				<h2>
 					Your Fractals

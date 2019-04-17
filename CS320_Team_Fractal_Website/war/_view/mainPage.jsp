@@ -70,8 +70,9 @@
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
 								<option value="" selected disabled hidden>Select Fractal</option>
-								<option value="0">Sierpinski</option>
-								<option value="1">Mandelbrot</option>
+								<option value="Sierpinski">Sierpinski</option>
+								<option value="Mandelbrot">Mandelbrot</option>
+								<option value="Koch">Koch</option>
 							</select>
 						</div>
 							<input type="hidden" name="selectedChoice">
@@ -112,8 +113,16 @@
 							</div>
 								<input type="Submit" name="submit" value="Send" class="sender">
 								<input type="Submit" name="save" value="Save" class="sender">
-								<br>			
 								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" placeholder="Save Name" /></td>
+								<br>
+									<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" placeholder="Save Name" /></td>
+								<br>
+								<c:if test="${! empty result}">
+									<div class="label">
+										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
+										<a id="downloadImage" href="img/result.png" download hidden></a>
+									</div>
+								</c:if>
 							</div>
 						</div>
 					</form>
@@ -127,7 +136,7 @@
 		var selection = $(this).val();
 		sessionStorage.setItem('Selection', selection);
 		switch(selection){
-			case "0":
+			case "Sierpinski":
 				document.getElementById("paramLab0").innerHTML = "Level: "
 				$("#paramLab0").show()
 				$("#paramIn0").show()
@@ -137,7 +146,17 @@
 					$("#paramIn" + i).hide()
 				}
 				break;
-			case "1":
+			case "Koch":
+				document.getElementById("paramLab0").innerHTML = "Iterations: "
+				$("#paramLab0").show()
+				$("#paramIn0").show()
+
+				for(var i = 1; i < 10; i++){
+					$("#paramLab" + i).hide()
+					$("#paramIn" + i).hide()
+				}
+				break;
+			case "Mandelbrot":
 				document.getElementById("paramLab0").innerHTML = "X1: "
 				document.getElementById("paramLab1").innerHTML = "Y1: "
 				document.getElementById("paramLab2").innerHTML = "X2: "

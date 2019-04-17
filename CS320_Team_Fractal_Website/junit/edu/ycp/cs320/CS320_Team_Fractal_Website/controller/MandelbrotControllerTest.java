@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
@@ -70,6 +71,28 @@ public class MandelbrotControllerTest{
 		c = new Complex(4, 0);
 		cnt = controller.computeIterCount(c);
 		assertTrue(cnt != 0);
+	}
+	
+	@Test
+	public void testAcceptParameters(){
+		
+		String[] params = new String[]{""};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1"};
+		assertFalse(controller.acceptParameters(params));
+
+		params = new String[]{"a"};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1", "2"};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1", "2", "3", "4", "5", null, null, null, null, null};
+		assertTrue(controller.acceptParameters(params));
+		
+		params = model.getParameters();
+		assertTrue(controller.acceptParameters(params));
 	}
 	
 }

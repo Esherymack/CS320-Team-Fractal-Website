@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 
 
 public class MainPageServlet extends HttpServlet{
@@ -47,59 +44,44 @@ public class MainPageServlet extends HttpServlet{
 		
 		// holds the error message text, if any
 		String errorMessage = null;
-		// holds the fractla info
+		// holds the fractal info
 		String fractalInfo = null;
 		
-		boolean result = false;
+		Boolean result = null;
 		
-		int choice = -1;
-		try {
-			choice = Integer.parseInt(req.getParameter("choice"));
-		}catch(NumberFormatException e){
-			errorMessage = "Please select a fractal";
+		String choice = req.getParameter("choice");
+		
+		//get all parameters
+		String[] params = new String[NUM_PARAMS];
+		for(int i = 0; i < NUM_PARAMS; i++){
+			params[i] = req.getParameter("param" + i);
 		}
 		
-		//if no errors have occurred, continue processing the request
-		if(errorMessage == null){
-			
-			//get all parameters
-			String[] params = new String[NUM_PARAMS];
-			for(int i = 0; i < NUM_PARAMS; i++){
-				params[i] = req.getParameter("param" + i);
-			}
-			
+		//only generate the fractal if a value choice was found
+		if(choice != null){
 			//select the correct controller and model to use
-			FractalController controller = null;
+			Fractal f = Fractal.getDefaultFractal(choice);
+			FractalController controller = f.createApproprateController();
 			
-			//Sierpinski
-			if(choice == 0){
-				Sierpinski sierpinskiModel = new Sierpinski();
-				controller = new SierpinskiController(sierpinskiModel);
+			//send parameters
+			boolean sent = controller.acceptParameters(params);
+			
+			//render the fractal, only if no error occurred
+			//if the request is for a submit, then just display the fractal to the site
+			if(req.getParameter("submit") != null){
+				if(controller != null && sent) result = controller.render();
+				else errorMessage = "Failed to render fractal";
 			}
-			
-			//Mandelbrot
-			else if(choice == 1){
-				Mandelbrot mandelModel = new Mandelbrot();
-				controller = new MandelbrotController(mandelModel);
-			}
-			
-			//only generate the fractal if a value choice was found
-			if(choice != -1){
-				//send parameters
-				boolean sent = controller.acceptParameters(params);
+			//if the request is for a save, only save the fractal
+			else if(req.getParameter("save") != null){
+				//get the name the user has typed in
+				String name = req.getParameter("saveButton");
 				
-				//render the fractal, only if no error occurred
-				//if the request is for a submit, then just display the fractal to the site
-				if(req.getParameter("submit") != null){
-					if(controller != null && sent) result = controller.render();
-				}
-				//if the request is for a save, only save the fractal
-				if(req.getParameter("save") != null){
-					//get the name the user has typed in
-					String name = req.getParameter("saveButton");
-					
-					//save and render the fractal
-					if(name != null && controller != null && sent){
+				//save and render the fractal
+				if(name != null && controller != null && sent){
+					//if no name was given, tell the user to give a name
+					if(name.isEmpty()) errorMessage = "Please specify a name for the fractal";
+					else{
 						//try to save the fractal, if it saves, then render it
 						if(controller.saveImage(name, getLoggedInUser(req, resp))){
 							result = controller.render();
@@ -110,20 +92,21 @@ public class MainPageServlet extends HttpServlet{
 							result = false;
 						}
 					}
-					else errorMessage = "Please provide a name and parameters";
 				}
-				
-				//detect if invalid parameters were given
-				else if(!sent) errorMessage = "Invalid parameters given";
-				
-				//set fractal info
-				fractalInfo = controller.getModel().getInfo();
+				else errorMessage = "Please provide a name and parameters";
 			}
 			
-			//send parameters back
-			for(int i = 0; i < NUM_PARAMS; i++){
-				req.setAttribute(params + "i", params[i]);
-			}
+			//detect if invalid parameters were given
+			if(!sent) errorMessage = "Invalid parameters given";
+			
+			//set fractal info
+			fractalInfo = controller.getModel().getInfo();
+		}
+		else errorMessage = "Please select a fractal";
+		
+		//send parameters back
+		for(int i = 0; i < NUM_PARAMS; i++){
+			req.setAttribute(params + "i", params[i]);
 		}
 		
 		//set attributes of page

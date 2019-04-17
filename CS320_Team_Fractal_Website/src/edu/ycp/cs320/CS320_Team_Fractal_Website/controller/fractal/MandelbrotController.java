@@ -52,7 +52,7 @@ public class MandelbrotController extends FractalController{
 			
 			model.setLocation(new Location(x1, y1, x2, y2));
 			model.setMultiplyTimes(multiplyTimes);
-		}catch(NumberFormatException e){
+		}catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
 			return false;
 		}
 		

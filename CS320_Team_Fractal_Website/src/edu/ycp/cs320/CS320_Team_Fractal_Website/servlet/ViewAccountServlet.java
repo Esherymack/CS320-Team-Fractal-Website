@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.ViewAccountController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+
 public class ViewAccountServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
@@ -15,11 +18,21 @@ public class ViewAccountServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException{
 		
-		System.out.println("View Accunt Servlet: doGet");
+		System.out.println("View Account Servlet: doGet");
+
+		ViewAccountController controller = new ViewAccountController();
 		
-		String currentUser = checkCookies(req, resp);
+		String currentUser = getLoggedInUser(req, resp);
+		User curUser = controller.getUserByUserName(currentUser);
+		String firstName = curUser.getFirstname();
+		String lastName = curUser.getLastname();
+		String email = curUser.getEmail();
 		
 		req.setAttribute("userName", currentUser);
+		req.setAttribute("firstName",  firstName);
+		req.setAttribute("lastName",  lastName);
+		req.setAttribute("email",  email);
+		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/viewAccount.jsp").forward(req, resp);
 	}
@@ -29,8 +42,9 @@ public class ViewAccountServlet extends HttpServlet{
 			throws ServletException, IOException{
 		
 		System.out.println("View Account Servlet: doPost");
-		String currentUser = checkCookies(req, resp);
-		req.setAttribute("userName",  currentUser);
+		
+		String currentUser = getLoggedInUser(req, resp);
+		req.setAttribute("userName", currentUser);
 	}
 	
 	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
@@ -49,7 +63,7 @@ public class ViewAccountServlet extends HttpServlet{
 		for(Cookie cookie : cookies)
 		{
 			if(cookie.getName().equals("user")) userName = cookie.getValue();
-		}
+		}	
 		// again, check if the user is logged in:
 		if(userName == null)
 		{
@@ -61,4 +75,25 @@ public class ViewAccountServlet extends HttpServlet{
 		return(userName);
 	}
 	
+	
+	/**
+	 * Get the username of the user who is currently logged in
+	 * @param req the request for the page
+	 * @param resp the responce of the page
+	 * @return the username of the user, null if no username was found
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private String getLoggedInUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		//get cookies
+		Cookie[] cookies = req.getCookies();
+		//if no cookies were found then return null
+		if(cookies == null) return null;
+		//look for the username, if it is found, return it
+		for(Cookie cookie : cookies){
+			if(cookie.getName().equals("user")) return cookie.getValue();
+		}
+		//if no username is found, return null
+		return null;
+	}
 }
