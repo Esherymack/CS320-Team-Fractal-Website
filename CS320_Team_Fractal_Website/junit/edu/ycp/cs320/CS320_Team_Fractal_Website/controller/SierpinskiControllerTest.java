@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
@@ -49,6 +50,31 @@ public class SierpinskiControllerTest{
 		
 		assertTrue(mid.getX() == 1);
 		assertTrue(mid.getY() == 3.5);
+	}
+	
+	@Test
+	public void testAcceptParameters(){
+		
+		String[] params = new String[]{""};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1"};
+		assertTrue(controller.acceptParameters(params));
+		
+		params = new String[]{"1.0"};
+		assertFalse(controller.acceptParameters(params));
+
+		params = new String[]{"a"};
+		assertFalse(controller.acceptParameters(params));
+
+		params = new String[]{"1.0", null, null, null, null, null, null, null, null, null};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1", null, null, null, null, null, null, null, null, null};
+		assertTrue(controller.acceptParameters(params));
+		
+		params = model.getParameters();
+		assertTrue(controller.acceptParameters(params));
 	}
 	
 }

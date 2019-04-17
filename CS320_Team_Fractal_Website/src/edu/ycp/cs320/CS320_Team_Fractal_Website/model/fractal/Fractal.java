@@ -81,7 +81,8 @@ public abstract class Fractal{
 	public abstract String getInfo();
 	
 	/**
-	 * Get an array of all the parameters for this fractal
+	 * Get an array of all the parameters for this fractal. 
+	 * Should be the same length as MainPageServlet.NUM_PARAMS
 	 * @return
 	 */
 	public abstract String[] getParameters();
@@ -109,6 +110,7 @@ public abstract class Fractal{
 	public static Fractal getDefaultFractal(String type){
 		if(type.equals("Mandelbrot")) return new Mandelbrot();
 		else if(type.equals("Sierpinski")) return new Sierpinski();
+		else if(type.equals("Koch")) return new Koch();
 		return null;
 	}
 	

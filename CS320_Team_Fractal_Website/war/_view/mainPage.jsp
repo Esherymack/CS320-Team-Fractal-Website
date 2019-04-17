@@ -72,6 +72,7 @@
 								<option value="" selected disabled hidden>Select Fractal</option>
 								<option value="Sierpinski">Sierpinski</option>
 								<option value="Mandelbrot">Mandelbrot</option>
+								<option value="Koch">Koch</option>
 							</select>
 						</div>
 							<input type="hidden" name="selectedChoice">
@@ -136,6 +137,16 @@
 		switch(selection){
 			case "Sierpinski":
 				document.getElementById("paramLab0").innerHTML = "Level: "
+				$("#paramLab0").show()
+				$("#paramIn0").show()
+
+				for(var i = 1; i < 10; i++){
+					$("#paramLab" + i).hide()
+					$("#paramIn" + i).hide()
+				}
+				break;
+			case "Koch":
+				document.getElementById("paramLab0").innerHTML = "Iterations: "
 				$("#paramLab0").show()
 				$("#paramIn0").show()
 
