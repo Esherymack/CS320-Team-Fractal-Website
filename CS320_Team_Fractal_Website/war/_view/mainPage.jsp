@@ -115,6 +115,13 @@
 								<input type="Submit" name="save" value="Save" class="sender">
 								<td class="label" id="saveLabel">Name</td>
 								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" /></td>
+								<br>
+								<c:if test="${! empty result}">
+									<div class="label">
+										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
+										<a id="downloadImage" href="img/result.png" download hidden></a>
+									</div>
+								</c:if>
 							</div>
 						</div>
 					</form>
