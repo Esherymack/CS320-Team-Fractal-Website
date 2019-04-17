@@ -54,8 +54,7 @@
 				
 			</body>
 		</div>
-		<div class="border">
-		</div>
+		<div class="border"></div>
 	</div>
 	
 </html>
