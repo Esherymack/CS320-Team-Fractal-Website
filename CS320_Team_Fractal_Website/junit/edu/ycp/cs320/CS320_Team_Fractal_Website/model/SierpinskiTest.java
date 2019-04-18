@@ -27,6 +27,21 @@ public class SierpinskiTest {
 	}
 
 	@Test
+	public void testConstructor(){
+		model = new Sierpinski(2);
+		assertTrue(model.getLevel() == 2);
+	}
+	
+	@Test
+	public void testGetDefaultLocation(){
+		Location l = model.getDefaultLocation();
+		assertTrue(l.getX1() == 0);
+		assertTrue(l.getY1() == 0);
+		assertTrue(l.getX2() == Sierpinski.SIZE);
+		assertTrue(l.getY2() == Sierpinski.SIZE);
+	}
+	
+	@Test
 	public void testSetDefaultParameters(){
 		
 		model.setDefaultParameters();
@@ -54,6 +69,43 @@ public class SierpinskiTest {
 		assertTrue(l.getY2() == Sierpinski.SIZE);
 	}
 
+	
+	@Test
+	public void testGetInfo(){
+		String info = model.getInfo();
+		assertFalse(info == null);
+		assertFalse(info.isEmpty());
+	}
+
+	@Test
+	public void testGetParameters(){
+		String[] params = model.getParameters();
+		assertTrue(params.length == MainPageServlet.NUM_PARAMS);
+		assertFalse(params[0] == null);
+		assertFalse(params[0].isEmpty());
+		assertFalse(params[1] == null);
+		assertFalse(params[1].isEmpty());
+		assertFalse(params[2] == null);
+		assertFalse(params[2].isEmpty());
+		assertFalse(params[3] == null);
+		assertFalse(params[3].isEmpty());
+		assertFalse(params[4] == null);
+		assertFalse(params[4].isEmpty());
+		assertFalse(params[5] == null);
+		assertFalse(params[5].isEmpty());
+		assertFalse(params[6] == null);
+		assertFalse(params[6].isEmpty());
+	}
+	
+	@Test
+	public void testCreateAppropriateController(){
+		FractalController control = model.createApproprateController();
+		
+		assertFalse(control == null);
+		assertTrue(control.getModel().equals(model));
+		assertTrue(control instanceof SierpinskiController);
+	}
+	
 	@Test
 	public void testSetLevel(){
 		model.setLevel(2);
@@ -85,29 +137,6 @@ public class SierpinskiTest {
 
 		assertEquals(p3.getX(), 4.2, DELTA);
 		assertEquals(p3.getY(), 1337, DELTA);
-		
-	}
-	
-	@Test
-	public void testGetInfo(){
-		String info = model.getInfo();
-		assertFalse(info == null);
-		assertFalse(info.isEmpty());
-	}
-	
-	@Test
-	public void testGetParameters(){
-		String[] params = model.getParameters();
-		assertTrue(params.length == MainPageServlet.NUM_PARAMS);
-	}
-	
-	@Test
-	public void testCreateAppropriateController(){
-		FractalController control = model.createApproprateController();
-		
-		assertFalse(control == null);
-		assertTrue(control.getModel().equals(model));
-		assertTrue(control instanceof SierpinskiController);
 	}
 	
 }

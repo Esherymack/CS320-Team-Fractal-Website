@@ -25,11 +25,10 @@ public abstract class Fractal{
 	
 	public Fractal(){
 		this(new Location());
+		setDefaultParameters();
 	}
-	
 	public Fractal(Location loc){
 		this.location = loc;
-		setDefaultParameters();
 		name = "default";
 		id = 0;
 	}
@@ -40,6 +39,13 @@ public abstract class Fractal{
 	
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	public int getId(){
+		return id;
+	}
+	public void setId(int id){
+		this.id = id;
 	}
 	
 	/**
@@ -64,14 +70,6 @@ public abstract class Fractal{
 	
 	public void setLocation(Location l){
 		this.location = l;
-	}
-	
-	
-	public int getId(){
-		return id;
-	}
-	public void setId(int id){
-		this.id = id;
 	}
 	
 	/**

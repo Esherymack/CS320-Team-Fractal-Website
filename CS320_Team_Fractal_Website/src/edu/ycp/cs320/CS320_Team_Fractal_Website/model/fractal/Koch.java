@@ -7,23 +7,12 @@ public class Koch extends Fractal{
 	
 	private int iterations;
 	
-	public Koch(){
+	public Koch(int iterations){
 		super();
-	}
-	
-	/**
-	 * Get the iteration count of this fractal
-	 * @return the iteration count
-	 */
-	public int getIterations(){
-		return iterations;
-	}
-	/**
-	 * Set the iteration count of this fractal
-	 * @param iterations the new iteration count
-	 */
-	public void setIterations(int iterations){
 		this.iterations = iterations;
+	}
+	public Koch(){
+		this(0);
 	}
 	
 	@Override
@@ -58,6 +47,21 @@ public class Koch extends Fractal{
 		KochController controller = new KochController();
 		controller.setModel(this);
 		return controller;
+	}
+	
+	/**
+	 * Get the iteration count of this fractal
+	 * @return the iteration count
+	 */
+	public int getIterations(){
+		return iterations;
+	}
+	/**
+	 * Set the iteration count of this fractal
+	 * @param iterations the new iteration count
+	 */
+	public void setIterations(int iterations){
+		this.iterations = iterations;
 	}
 
 }

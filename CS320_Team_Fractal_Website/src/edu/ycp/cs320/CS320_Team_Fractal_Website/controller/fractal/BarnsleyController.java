@@ -14,12 +14,44 @@ public class BarnsleyController extends FractalController{
 	
 	private Barnsley model;
 	
+	public BarnsleyController(Barnsley model){
+		super();
+		this.model = model;
+	}
 	public BarnsleyController(){
 		this(null);
 	}
 	
-	public BarnsleyController(Barnsley model){
+	@Override
+	public Fractal getModel(){
+		return model;
+	}
+	public void setModel(Barnsley model){
 		this.model = model;
+	}
+
+
+	/*
+	 * params[0] = f1
+	 * params[1] = f2
+	 * params[2] = f3
+	 * params[3] = f4
+	 * params[4] = seed
+	 * params[5] = iterations
+	 */
+	@Override
+	public boolean acceptParameters(String[] params){
+		try{
+			model.setF1(Double.parseDouble(params[0]));
+			model.setF2(Double.parseDouble(params[1]));
+			model.setF3(Double.parseDouble(params[2]));
+			model.setF4(Double.parseDouble(params[3]));
+			model.setSeed(Integer.parseInt(params[4]));
+			model.setIterations(Integer.parseInt(params[5]));
+		}catch(NumberFormatException | NullPointerException | ArrayIndexOutOfBoundsException e){
+			return false;
+		}
+		return true;
 	}
 	
 	@Override
@@ -101,29 +133,6 @@ public class BarnsleyController extends FractalController{
 		}
 		
 		return img;
-	}
-	
-	@Override
-	public Fractal getModel(){
-		return model;
-	}
-	public void setModel(Barnsley model){
-		this.model = model;
-	}
-
-	@Override
-	public boolean acceptParameters(String[] params){
-		try{
-			model.setF1(Double.parseDouble(params[0]));
-			model.setF2(Double.parseDouble(params[1]));
-			model.setF3(Double.parseDouble(params[2]));
-			model.setF4(Double.parseDouble(params[3]));
-			model.setSeed(Integer.parseInt(params[4]));
-			model.setIterations(Integer.parseInt(params[5]));
-		}catch(NumberFormatException | NullPointerException | ArrayIndexOutOfBoundsException e){
-			return false;
-		}
-		return true;
 	}
 
 }

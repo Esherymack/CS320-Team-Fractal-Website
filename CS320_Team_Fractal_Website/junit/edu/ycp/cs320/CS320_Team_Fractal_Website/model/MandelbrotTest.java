@@ -22,9 +22,9 @@ public class MandelbrotTest{
 	}
 	
 	@Test
-	public void testSetMultiplyTimes(){
-		model.setMultiplyTimes(2);
-		assertTrue(model.getMultiplyTimes() == 2);
+	public void testConstructor(){
+		model = new Mandelbrot(4);
+		assertTrue(model.getMultiplyTimes() == 4);
 	}
 	
 	@Test
@@ -33,10 +33,20 @@ public class MandelbrotTest{
 		assertTrue(model.getMultiplyTimes() == 1);
 		
 		Location l = model.getLocation();
-		assertTrue(l.getX1() == -1);
-		assertTrue(l.getY1() == 1);
-		assertTrue(l.getX2() == 1);
-		assertTrue(l.getY2() == -1);
+		assertTrue(l.getX1() == -2);
+		assertTrue(l.getY1() == -2);
+		assertTrue(l.getX2() == 2);
+		assertTrue(l.getY2() == 2);
+	}
+	
+	@Test
+	public void testGetDefaultLocation(){
+		Location l = model.getDefaultLocation();
+		
+		assertTrue(l.getX1() == -2);
+		assertTrue(l.getY1() == -2);
+		assertTrue(l.getX2() == 2);
+		assertTrue(l.getY2() == 2);
 	}
 	
 	@Test
@@ -50,6 +60,16 @@ public class MandelbrotTest{
 	public void testGetParameters(){
 		String[] params = model.getParameters();
 		assertTrue(params.length == MainPageServlet.NUM_PARAMS);
+		assertFalse(params[0] == null);
+		assertFalse(params[0].isEmpty());
+		assertFalse(params[1] == null);
+		assertFalse(params[1].isEmpty());
+		assertFalse(params[2] == null);
+		assertFalse(params[2].isEmpty());
+		assertFalse(params[3] == null);
+		assertFalse(params[3].isEmpty());
+		assertFalse(params[4] == null);
+		assertFalse(params[4].isEmpty());
 	}
 	
 	@Test
@@ -59,6 +79,12 @@ public class MandelbrotTest{
 		assertFalse(control == null);
 		assertTrue(control.getModel().equals(model));
 		assertTrue(control instanceof MandelbrotController);
+	}
+	
+	@Test
+	public void testSetMultiplyTimes(){
+		model.setMultiplyTimes(2);
+		assertTrue(model.getMultiplyTimes() == 2);
 	}
 
 }

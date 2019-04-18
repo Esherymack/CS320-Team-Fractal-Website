@@ -22,16 +22,17 @@ public class BarnsleyControllerTest {
 		controller = new BarnsleyController();
 		controller.setModel(model);
 	}
+	
+	@Test
+	public void testConstructor(){
+		controller = new BarnsleyController(model);
+		assertTrue(controller.getModel().equals(model));
+	}
 
 	@Test
 	public void testSetModel(){
 		controller.setModel(model);
 		assertEquals(model, controller.getModel());
-	}
-	
-	@Test
-	public void testRender(){
-		assertTrue(controller.render());
 	}
 	
 	@Test
@@ -57,5 +58,15 @@ public class BarnsleyControllerTest {
 		
 		params = model.getParameters();
 		assertTrue(controller.acceptParameters(params));
+	}
+	
+	@Test
+	public void testRender(){
+		assertTrue(controller.render());
+	}
+	
+	@Test
+	public void testRenderBarnsleyFern(){
+		assertFalse(controller.renderBarnleyFern() == null);
 	}
 }

@@ -9,14 +9,25 @@ public class Sierpinski extends Fractal{
 	
 	public static final int SIZE = 800;
 	
+	/**
+	 * The number of levels this triangle will be rendered
+	 */
 	private int level;
+	/**
+	 * The height of this triangle
+	 */
 	private double height;
-	private Point2D.Double p1;
-	private Point2D.Double p2;
-	private Point2D.Double p3;
+	/**
+	 * A point on the triangle
+	 */
+	private Point2D.Double p1, p2, p3;
 	
-	public Sierpinski(){
+	public Sierpinski(int level){
 		super();
+		this.level = level;
+	}
+	public Sierpinski(){
+		this(1);
 	}
 	
 	@Override
@@ -34,41 +45,6 @@ public class Sierpinski extends Fractal{
 		this.p1 = new Point2D.Double(0, height);
 		this.p2 = new Point2D.Double(SIZE / 2, 0);
 		this.p3 = new Point2D.Double(SIZE, height);
-	}
-
-	public int getLevel(){
-		return level;
-	}
-	public void setLevel(int levelParam){
-		this.level = levelParam;
-		if(this.level < 1) this.level = 1;
-	}
-
-	public double getHeight(){
-		return this.height;
-	}
-	public void setHeight(double height){
-		this.height = height;
-	}
-	
-	public void setP1(Point2D.Double p){
-		this.p1 = p;
-	}
-	public void setP2(Point2D.Double p){
-		this.p2 = p;
-	}
-	public void setP3(Point2D.Double p){
-		this.p3 = p;
-	}
-	
-	public Point2D.Double getP1(){
-		return p1;
-	}
-	public Point2D.Double getP2(){
-		return p2;
-	}
-	public Point2D.Double getP3(){
-		return p3;
 	}
 	
 	@Override
@@ -99,5 +75,40 @@ public class Sierpinski extends Fractal{
 		SierpinskiController controller = new SierpinskiController();
 		controller.setModel(this);
 		return controller;
+	}
+
+	public int getLevel(){
+		return level;
+	}
+	public void setLevel(int levelParam){
+		this.level = levelParam;
+		if(this.level < 1) this.level = 1;
+	}
+
+	public double getHeight(){
+		return this.height;
+	}
+	public void setHeight(double height){
+		this.height = height;
+	}
+	
+	public Point2D.Double getP1(){
+		return p1;
+	}
+	public Point2D.Double getP2(){
+		return p2;
+	}
+	public Point2D.Double getP3(){
+		return p3;
+	}
+	
+	public void setP1(Point2D.Double p){
+		this.p1 = p;
+	}
+	public void setP2(Point2D.Double p){
+		this.p2 = p;
+	}
+	public void setP3(Point2D.Double p){
+		this.p3 = p;
 	}
 }

@@ -9,6 +9,7 @@ import org.junit.Test;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.BarnsleyController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Barnsley;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet;
 
 public class BarnsleyTest {
 	
@@ -17,6 +18,25 @@ public class BarnsleyTest {
 	@Before
 	public void setUp(){
 		model = new Barnsley();
+	}
+	
+	@Test
+	public void testConstructor(){
+		model = new Barnsley(1, 2, 3, 4, 5, 6);
+		
+		assertTrue(model.getF1() == 1);
+		assertTrue(model.getF2() == 2);
+		assertTrue(model.getF3() == 3);
+		assertTrue(model.getF4() == 4);
+		assertTrue(model.getSeed() == 5);
+		assertTrue(model.getIterations() == 6);
+	}
+	
+	@Test
+	public void testGetInfo(){
+		String info = model.getInfo();
+		assertFalse(info == null);
+		assertFalse(info.isEmpty());
 	}
 
 	@Test
@@ -28,19 +48,13 @@ public class BarnsleyTest {
 		assertTrue(model.getF3() == 0);
 		assertTrue(model.getF4() == 0);
 		assertTrue(model.getSeed() == 0);
-		assertTrue(model.getSeed() == 0);
-	}
-	
-	@Test
-	public void testGetInfo(){
-		String info = model.getInfo();
-		assertFalse(info == null);
-		assertFalse(info.isEmpty());
+		assertTrue(model.getIterations() == 1);
 	}
 	
 	@Test
 	public void testGetParameters(){
 		String[] params = model.getParameters();
+		assertTrue(params.length == MainPageServlet.NUM_PARAMS);
 		assertTrue(params[0] != null);
 		assertFalse(params[0].isEmpty());
 		assertTrue(params[1] != null);
@@ -53,6 +67,15 @@ public class BarnsleyTest {
 		assertFalse(params[4].isEmpty());
 		assertTrue(params[5] != null);
 		assertFalse(params[5].isEmpty());
+	}
+	
+	@Test
+	public void testCreateAppropriateController(){
+		FractalController control = model.createApproprateController();
+		
+		assertFalse(control == null);
+		assertTrue(control.getModel().equals(model));
+		assertTrue(control instanceof BarnsleyController);
 	}
 	
 	@Test
@@ -78,15 +101,6 @@ public class BarnsleyTest {
 	public void testSetIterations(){
 		model.setIterations(2);
 		assertTrue(model.getIterations() == 2);
-	}
-	
-	@Test
-	public void testCreateAppropriateController(){
-		FractalController control = model.createApproprateController();
-		
-		assertFalse(control == null);
-		assertTrue(control.getModel().equals(model));
-		assertTrue(control instanceof BarnsleyController);
 	}
 
 }

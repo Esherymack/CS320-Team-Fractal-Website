@@ -10,12 +10,13 @@ import java.util.concurrent.ThreadLocalRandom;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class SierpinskiController extends FractalController{
+	
 	private Sierpinski model;
 	
 	public SierpinskiController(Sierpinski model){
+		super();
 		this.model = model;
 	}
-	
 	public SierpinskiController(){
 		this(null);
 	}
@@ -23,7 +24,6 @@ public class SierpinskiController extends FractalController{
 	public Sierpinski getModel(){
 		return model;
 	}
-	
 	public void setModel(Sierpinski model){
 		this.model = model;
 	}
@@ -73,13 +73,13 @@ public class SierpinskiController extends FractalController{
 	
 	/**
 	 * Recursively draw the triangle at the given parameters
-	 * @param level
-	 * @param g
-	 * @param p1
-	 * @param p2
-	 * @param p3
+	 * @param level the remaining levels to draw the fractal
+	 * @param g the graphics object used to draw the fractal
+	 * @param p1 the first point on the triangle
+	 * @param p2 the second point on the triangle
+	 * @param p3 the third point on the triangle
 	 */
-	public void drawSierpinski(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3){
+	private void drawSierpinski(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3){
 		
 		int r = ThreadLocalRandom.current().nextInt(0, 256);
 		int gr = ThreadLocalRandom.current().nextInt(0, 256);
@@ -88,7 +88,7 @@ public class SierpinskiController extends FractalController{
 		g.setColor(new Color(r, gr, b));
 		
 		// this is a recursive function
-		if(level == 1){
+		if(level <= 1){
 			Polygon p = new Polygon();
 			p.addPoint((int)Math.round(p1.x),  (int)Math.round(p1.y));
 			p.addPoint((int)Math.round(p2.x),  (int)Math.round(p2.y));
@@ -96,16 +96,22 @@ public class SierpinskiController extends FractalController{
 			g.fillPolygon(p);
 		}
 		else{
-			Point2D.Double p4 = midpoint(p1, p2);
-			Point2D.Double p5 = midpoint(p2, p3);
-			Point2D.Double p6 = midpoint(p1, p3);
+			Point2D.Double p4 = midPoint(p1, p2);
+			Point2D.Double p5 = midPoint(p2, p3);
+			Point2D.Double p6 = midPoint(p1, p3);
 			drawSierpinski(level - 1, g, p1, p4, p6);
 			drawSierpinski(level - 1, g, p4, p2, p5);
 			drawSierpinski(level - 1, g, p6, p5, p3);
 		}
 	}
 	
-	public static Point2D.Double midpoint(Point2D.Double p1, Point2D.Double p2){
+	/**
+	 * Find the midpoint of the two given points
+	 * @param p1 the first point
+	 * @param p2 the second point
+	 * @return the midpoint
+	 */
+	public static Point2D.Double midPoint(Point2D.Double p1, Point2D.Double p2){
 		return new Point2D.Double((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 	}
 }

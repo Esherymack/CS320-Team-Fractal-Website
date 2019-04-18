@@ -25,16 +25,17 @@ public class KochControllerTest {
 		controller = new KochController();
 		controller.setModel(model);
 	}
+	
+	@Test
+	public void testConstructor(){
+		controller = new KochController(model);
+		assertTrue(controller.getModel().equals(model));
+	}
 
 	@Test
 	public void testSetModel(){
 		controller.setModel(model);
 		assertEquals(model, controller.getModel());
-	}
-	
-	@Test
-	public void testRender(){
-		assertTrue(controller.render());
 	}
 	
 	@Test
@@ -63,41 +64,46 @@ public class KochControllerTest {
 	}
 	
 	@Test
-	public void testGetThirdPoint(){
-		Point2D.Double p = controller.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(3, 0));
-		assertEquals(1.0, p.x, DELTA);
-		assertEquals(0.0, p.y, DELTA);
-		
-		p = controller.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(-3, 0));
-		assertEquals(-1.0, p.x, DELTA);
-		assertEquals(0.0, p.y, DELTA);
-		
-		p = controller.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(0, 3));
-		assertEquals(0.0, p.x, DELTA);
-		assertEquals(1.0, p.y, DELTA);
-		
-		p = controller.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(0, -3));
-		assertEquals(0.0, p.x, DELTA);
-		assertEquals(-1.0, p.y, DELTA);
-		
-		p = controller.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(3, -3));
-		assertEquals(1.0, p.x, DELTA);
-		assertEquals(-1.0, p.y, DELTA);
-		
-		p = controller.getThirdPoint(new Point2D.Double(-1, -1), new Point2D.Double(2, 2));
-		assertEquals(0.0, p.x, DELTA);
-		assertEquals(0.0, p.y, DELTA);
+	public void testRender(){
+		assertTrue(controller.render());
 	}
 	
 	@Test
 	public void testGetEquilateralPoint(){
-		Point2D.Double p = controller.getEquilateralPoint(new Point2D.Double(-1, 0), new Point2D.Double(1, 0));
+		Point2D.Double p = KochController.getEquilateralPoint(new Point2D.Double(-1, 0), new Point2D.Double(1, 0));
 		assertEquals(0.0, p.x, DELTA);
 		assertEquals(-2 * Math.sqrt(3.0) / 2.0, p.y, DELTA);
 	
-		p = controller.getEquilateralPoint(new Point2D.Double(1, 0), new Point2D.Double(-1, 0));
+		p = KochController.getEquilateralPoint(new Point2D.Double(1, 0), new Point2D.Double(-1, 0));
 		assertEquals(0.0, p.x, DELTA);
 		assertEquals(2 * Math.sqrt(3.0) / 2.0, p.y, DELTA);
+	}
+	
+	@Test
+	public void testGetThirdPoint(){
+		Point2D.Double p = KochController.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(3, 0));
+		assertEquals(1.0, p.x, DELTA);
+		assertEquals(0.0, p.y, DELTA);
+		
+		p = KochController.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(-3, 0));
+		assertEquals(-1.0, p.x, DELTA);
+		assertEquals(0.0, p.y, DELTA);
+		
+		p = KochController.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(0, 3));
+		assertEquals(0.0, p.x, DELTA);
+		assertEquals(1.0, p.y, DELTA);
+		
+		p = KochController.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(0, -3));
+		assertEquals(0.0, p.x, DELTA);
+		assertEquals(-1.0, p.y, DELTA);
+		
+		p = KochController.getThirdPoint(new Point2D.Double(0, 0), new Point2D.Double(3, -3));
+		assertEquals(1.0, p.x, DELTA);
+		assertEquals(-1.0, p.y, DELTA);
+		
+		p = KochController.getThirdPoint(new Point2D.Double(-1, -1), new Point2D.Double(2, 2));
+		assertEquals(0.0, p.x, DELTA);
+		assertEquals(0.0, p.y, DELTA);
 	}
 	
 }
