@@ -63,7 +63,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 				break;
 			}
 		}
-
+		//
+		
 		//check to see if the request was not to view all fractals
 		//if the request was to view all fractals, no initial fractal should be displayed
 		if (req.getParameter("viewAllFractals") == null && req.getParameter("viewAllFractalsByTypeMandelbrot") == null && req.getParameter("viewAllFractalsByTypeSierpinski") == null && req.getParameter("viewAllFractalsByTypeKoch") == null) {
