@@ -111,6 +111,7 @@ public abstract class Fractal{
 		if(type.equals("Mandelbrot")) return new Mandelbrot();
 		else if(type.equals("Sierpinski")) return new Sierpinski();
 		else if(type.equals("Koch")) return new Koch();
+		else if(type.equals("Barnsley")) return new Barnsley();
 		return null;
 	}
 	

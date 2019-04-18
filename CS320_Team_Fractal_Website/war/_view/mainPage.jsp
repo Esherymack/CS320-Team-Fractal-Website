@@ -73,6 +73,7 @@
 								<option value="Sierpinski">Sierpinski</option>
 								<option value="Mandelbrot">Mandelbrot</option>
 								<option value="Koch">Koch</option>
+								<option value="Barnsley">Barnsley</option>
 							</select>
 						</div>
 							<input type="hidden" name="selectedChoice">
@@ -168,6 +169,24 @@
 				}
 
 				for(var i = 5; i < 10; i++){
+					$("#paramLab" + i).css('display', 'none')
+					$("#paramIn" + i).css('display', 'none')
+				}
+				break;
+			case "Barnsley":
+				document.getElementById("paramLab0").innerHTML = "f1: "
+				document.getElementById("paramLab1").innerHTML = "f2: "
+				document.getElementById("paramLab2").innerHTML = "f3: "
+				document.getElementById("paramLab3").innerHTML = "f4: "
+				document.getElementById("paramLab4").innerHTML = "seed: "
+				document.getElementById("paramLab5").innerHTML = "iterations: "
+
+				for(var i = 0; i < 6; i++){
+					$("#paramLab" + i).css('display', 'block')
+					$("#paramIn" + i).css('display', 'inline-block')
+				}
+
+				for(var i = 6; i < 10; i++){
 					$("#paramLab" + i).css('display', 'none')
 					$("#paramIn" + i).css('display', 'none')
 				}
