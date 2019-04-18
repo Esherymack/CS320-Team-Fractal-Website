@@ -368,6 +368,69 @@ public class DerbyDatabase implements IDatabase
 				}
 			});
 	}
+	
+	@Override
+	public ArrayList<Fractal> getAllFractalsByType(String type){
+		return executeTransaction(new Transaction<ArrayList<Fractal>>(){
+				@Override
+				public ArrayList<Fractal> execute(Connection conn) throws SQLException{
+					PreparedStatement stmt = null;
+					ResultSet resultSet = null;
+					
+					try{
+						//retrieve all fractals and populate into the list
+						stmt = conn.prepareStatement("select fractal.* from fractal " +
+													 "where fractal.type = ?");
+						
+						stmt.setString(1, type);
+						
+						ArrayList<Fractal> result = new ArrayList<Fractal>();
+						
+						resultSet = stmt.executeQuery();
+						
+						while(resultSet.next()){
+							Fractal fractal = null;
+							FractalController controller = null;
+							int fractalId = -1;
+							try{
+								fractalId = Integer.parseInt(resultSet.getObject(1).toString());
+							}catch(NumberFormatException e){}
+							
+							//only continue if the fractal id was valid
+							if(fractalId != -1){
+								String name = resultSet.getObject(3).toString();
+								String type = resultSet.getObject(4).toString();
+								String[] params = new String[MainPageServlet.NUM_PARAMS];
+								for(int i = 0; i < MainPageServlet.NUM_PARAMS; i++){
+									params[i] = resultSet.getObject(5 + i).toString();
+								}
+								
+								//determine which fractal should be loaded in
+								
+								fractal = Fractal.getDefaultFractal(type);
+								
+								if(fractal != null){
+									controller = fractal.createApproprateController();
+									fractal.setName(name);
+									fractal.setId(fractalId);
+									//if the parameters couldn't be added, return null
+									if(!controller.acceptParameters(params)) return null;
+									
+									result.add(fractal);
+								}
+							}
+							
+						} 
+						return result;
+					}
+					finally{
+						DBUtil.closeQuietly(resultSet);
+						DBUtil.closeQuietly(stmt);
+					}
+				}
+			});
+	}
+
 
 	@Override
 	public Fractal getFractalById(int id) {

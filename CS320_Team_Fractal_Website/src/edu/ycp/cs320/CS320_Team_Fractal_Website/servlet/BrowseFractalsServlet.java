@@ -34,12 +34,25 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//variables for attributes
 		Fractal renderFractal = null;
 		String errorMessage = null;
-		Boolean display = null;
+		Boolean display = false;
 		ArrayList<Fractal> fractals = null;
 		
 		//set up controller
 		BrowseFractalsController browseController = new BrowseFractalsController();
-		fractals = browseController.getAllFractals();
+		
+		
+		if (req.getParameter("viewAllFractals") != null) {
+			fractals = browseController.getAllFractals();
+		}
+		else if (req.getParameter("viewAllFractalsByTypeMandelbrot") != null) {
+			fractals = browseController.getAllFractalsByType("Mandelbrot");
+		}
+		else if (req.getParameter("viewAllFractalsByTypeSierpinski") != null) {
+			fractals = browseController.getAllFractalsByType("Sierpinski");
+		}
+		else if (req.getParameter("viewAllFractalsByTypeKoch") != null) {
+			fractals = browseController.getAllFractalsByType("Koch");
+		}
 		
 		//TODO move this stuff to the derby database?
 		//get fractal the user selected
@@ -53,12 +66,16 @@ public class BrowseFractalsServlet extends HttpServlet {
 
 		//check to see if the request was not to view all fractals
 		//if the request was to view all fractals, no initial fractal should be displayed
-		display = req.getParameter("viewAllFractals") == null;
+		if (req.getParameter("viewAllFractals") == null && req.getParameter("viewAllFractalsByTypeMandelbrot") == null && req.getParameter("viewAllFractalsByTypeSierpinski") == null && req.getParameter("viewAllFractalsByTypeKoch") == null) {
+			display = true;
+		}
+		
 		//if the fractal was found, render it and display it
 		if(renderFractal != null){
 			FractalController fractalController = renderFractal.createApproprateController();
 			fractalController.render();
 		}
+		
 		//if the fractal was not found and one should be displayed, then send an error message
 		else if(display) errorMessage = "Fractal couldn't be rendered";
 		

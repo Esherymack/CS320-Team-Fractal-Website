@@ -42,10 +42,10 @@
 					${firstName} ${lastName} | ${email}
 			</div>
 				
-			<div>
-				<h2>
+			<div class="account-header">
+				<h1>
 					Your Fractals
-				</h2>
+				</h1>
 			</div>
 		</body>
 		</div>

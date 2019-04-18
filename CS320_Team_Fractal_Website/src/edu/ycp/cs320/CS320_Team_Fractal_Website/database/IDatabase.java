@@ -52,6 +52,12 @@ public interface IDatabase{
 	public ArrayList<Fractal> getAllFractals();
 	
 	/**
+	 * Get every fractal in the database by type
+	 * @return an ArrayList of every fractal of type, an empty list if none are found, null if an error occured
+	 */
+	public ArrayList<Fractal> getAllFractalsByType(String type);
+	
+	/**
 	 * Get the fractal with the given id
 	 * @param id the id of the fractal
 	 * @return the fractal with the given id, null if no fractal was found

@@ -31,13 +31,13 @@
 				</div>
 				
 				<div>
-					<c:if test="${display}">
-						<img src="img/result.png" alt="result"/>
-					</c:if>
 					
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<table>
 							<input type="Submit" name="viewAllFractals" value="View Fractals">
+							<input type="Submit" name="viewAllFractalsByTypeMandelbrot" value="View Mandelbrot Fractals">
+							<input type="Submit" name="viewAllFractalsByTypeSierpinski" value="View Sierpinski Fractals">
+							<input type="Submit" name="viewAllFractalsByTypeKoch" value="View Koch Fractals">
 						    <br>
 						    
 						    <c:forEach items="${fractals}" var="fractal">
@@ -49,6 +49,10 @@
 							
 						</table>
 					</form>
+					
+					<c:if test="${display}">
+						<img src="img/result.png" alt="result"/>
+					</c:if>
 					
 				</div>
 				
