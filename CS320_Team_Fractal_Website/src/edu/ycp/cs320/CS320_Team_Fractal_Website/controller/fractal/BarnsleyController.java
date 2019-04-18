@@ -65,42 +65,39 @@ public class BarnsleyController extends FractalController{
 		rand.setSeed(model.getSeed());
 		
 		//get parameters for initial state
-		double f1 = model.getF1();
-		double f2 = model.getF2();
-		double f3 = model.getF3();
-		double f4 = model.getF4();
+		double x1 = 0;
+		double y1 = 0;
+		double x2 = 0;
+		double y2 = 0;
 		
 		//create the fractal
 		g.setColor(new Color(0, 170, 0));
+		for(int j = 0; j < 1000; j++)
 		for(int i = 0; i < model.getIterations(); i++){
 			//get the random number for this iteration
 			double num = rand.nextDouble();
 			
 			if(num < .1){
-				f3 = 0;
-				f4 = 0.16 * f2;
+				x2 = 0;
+				y2 = 0.16 * y1;
 			}
 			else if(num < .86){
-				f3 = -0.15 * f1 + 0.28 * f2;
-				f4 = 0.26 * f1 + 0.24 * f2 + 0.44;
+				x2 = -0.15 * x1 + 0.28 * y1;
+				y2 = 0.26 * x1 + 0.24 * y1 + 0.44;
 			}
 			else if(num < .93){
-				f3 = 0.2 * f1 - 0.26 * f2;
-				f4 = 0.23 * f1 + 0.22 * f2 + 1.6;
+				x2 = 0.2 * x1 - 0.26 * y1;
+				y2 = 0.23 * x1 + 0.22 * y1 + 1.6;
 			}
 			else{
-				f3 = 0.85 * f1 + 0.04 * f2;
-				f4 = -0.04 * f1 + 0.85 * f2 + 1.6;
+				x2 = 0.85 * x1 + 0.04 * y1;
+				y2 = -0.04 * x1 + 0.85 * y2 + 1.6;
 			}
 			
-			g.drawLine(
-					(int)Math.round(-30 * f3 + SIZE / 2),
-					(int)Math.round(-30 * f4 + SIZE),
-					(int)Math.round(-30 * f1 + SIZE / 2),
-					(int)Math.round(-30 * f2 + SIZE));
+			g.fillRect((int)Math.round(-100 * x2 + SIZE / 2),(int)Math.round(-100 * y2 + SIZE), 1, 1);
 			
-			f1 = f3;
-			f2 = f4;
+			x1 = x2;
+			y1 = y2;
 		}
 		
 		return img;
