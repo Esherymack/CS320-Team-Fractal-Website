@@ -40,7 +40,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//set up controller
 		BrowseFractalsController browseController = new BrowseFractalsController();
 		
-		
+		//check to see if the request was not to view all fractals
+		//if the request was to view all fractals, no initial fractal should be displayed
 		if (req.getParameter("viewAllFractals") != null) {
 			fractals = browseController.getAllFractals();
 		}
@@ -53,6 +54,10 @@ public class BrowseFractalsServlet extends HttpServlet {
 		else if (req.getParameter("viewAllFractalsByTypeKoch") != null) {
 			fractals = browseController.getAllFractalsByType("Koch");
 		}
+		else {
+			fractals = browseController.getAllFractals();
+			display = true;
+		}
 		
 		//TODO move this stuff to the derby database?
 		//get fractal the user selected
@@ -62,13 +67,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 				renderFractal = f;
 				break;
 			}
-		}
-		//
-		
-		//check to see if the request was not to view all fractals
-		//if the request was to view all fractals, no initial fractal should be displayed
-		if (req.getParameter("viewAllFractals") == null && req.getParameter("viewAllFractalsByTypeMandelbrot") == null && req.getParameter("viewAllFractalsByTypeSierpinski") == null && req.getParameter("viewAllFractalsByTypeKoch") == null) {
-			display = true;
 		}
 		
 		//if the fractal was found, render it and display it
