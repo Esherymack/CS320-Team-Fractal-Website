@@ -30,7 +30,6 @@ public class BarnsleyController extends FractalController{
 		this.model = model;
 	}
 
-
 	/*
 	 * params[0] = f1
 	 * params[1] = f2
@@ -104,7 +103,6 @@ public class BarnsleyController extends FractalController{
 		
 		//create the fractal
 		g.setColor(new Color(0, 170, 0));
-		for(int j = 0; j < 1000; j++)
 		for(int i = 0; i < model.getIterations(); i++){
 			//get the random number for this iteration
 			double num = rand.nextDouble();
@@ -114,19 +112,22 @@ public class BarnsleyController extends FractalController{
 				y2 = 0.16 * y1;
 			}
 			else if(num < .86){
-				x2 = -0.15 * x1 + 0.28 * y1;
-				y2 = 0.26 * x1 + 0.24 * y1 + 0.44;
+				x2 = 0.85 * x1 + 0.04 * y1;
+				y2 = -0.04 * x1 + 0.85 * y2 + 1.6;
 			}
 			else if(num < .93){
 				x2 = 0.2 * x1 - 0.26 * y1;
 				y2 = 0.23 * x1 + 0.22 * y1 + 1.6;
 			}
 			else{
-				x2 = 0.85 * x1 + 0.04 * y1;
-				y2 = -0.04 * x1 + 0.85 * y2 + 1.6;
+				x2 = -0.15 * x1 + 0.28 * y1;
+				y2 = 0.26 * x1 + 0.24 * y1 + 0.44;
 			}
 			
-			g.fillRect((int)Math.round(-100 * x2 + SIZE / 2),(int)Math.round(-100 * y2 + SIZE), 1, 1);
+			g.fillOval(
+					(int)Math.round(SIZE / 2 + (SIZE / 4.8378) * x2),
+					(int)Math.round(SIZE - (SIZE / 9.99983) * y2),
+					2, 2);
 			
 			x1 = x2;
 			y1 = y2;
