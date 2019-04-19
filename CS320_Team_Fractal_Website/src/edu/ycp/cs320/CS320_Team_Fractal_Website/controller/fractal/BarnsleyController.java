@@ -101,21 +101,28 @@ public class BarnsleyController extends FractalController{
 		double x2 = 0;
 		double y2 = 0;
 		
+		//list of probabilities for which option of the fern to take
+		double[] chances = new double[4];
+		for(int i = 0; i < 4; i++) chances[i] += model.getF1();
+		for(int i = 1; i < 4; i++) chances[i] += model.getF2();
+		for(int i = 2; i < 4; i++) chances[i] += model.getF3();
+		for(int i = 3; i < 4; i++) chances[i] += model.getF4();
+		
 		//create the fractal
 		g.setColor(new Color(0, 170, 0));
 		for(int i = 0; i < model.getIterations(); i++){
 			//get the random number for this iteration
 			double num = rand.nextDouble();
 			
-			if(num < .1){
+			if(num < chances[0]){
 				x2 = 0;
 				y2 = 0.16 * y1;
 			}
-			else if(num < .86){
+			else if(num < chances[1]){
 				x2 = 0.85 * x1 + 0.04 * y1;
 				y2 = -0.04 * x1 + 0.85 * y2 + 1.6;
 			}
-			else if(num < .93){
+			else if(num < chances[2]){
 				x2 = 0.2 * x1 - 0.26 * y1;
 				y2 = 0.23 * x1 + 0.22 * y1 + 1.6;
 			}
@@ -124,10 +131,10 @@ public class BarnsleyController extends FractalController{
 				y2 = 0.26 * x1 + 0.24 * y1 + 0.44;
 			}
 			
-			g.fillOval(
-					(int)Math.round(SIZE / 2 + (SIZE / 4.8378) * x2),
-					(int)Math.round(SIZE - (SIZE / 9.99983) * y2),
-					2, 2);
+			g.fillRect(
+					(int)Math.round(SIZE / 2 + (SIZE * .95 / 4.8378) * x2),
+					(int)Math.round(SIZE - (SIZE * .95 / 9.99983) * y2 - (SIZE * .05)),
+					1, 1);
 			
 			x1 = x2;
 			y1 = y2;

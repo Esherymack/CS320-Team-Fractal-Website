@@ -43,12 +43,12 @@ public class BarnsleyTest {
 	public void testSetDefaultParameters(){
 		model.setDefaultParameters();
 		
-		assertTrue(model.getF1() == 0);
-		assertTrue(model.getF2() == 0);
-		assertTrue(model.getF3() == 0);
-		assertTrue(model.getF4() == 0);
+		assertTrue(model.getF1() == 0.01);
+		assertTrue(model.getF2() == 0.85);
+		assertTrue(model.getF3() == 0.07);
+		assertTrue(model.getF4() == 0.07);
 		assertTrue(model.getSeed() == 0);
-		assertTrue(model.getIterations() == 1);
+		assertTrue(model.getIterations() == 100000);
 	}
 	
 	@Test

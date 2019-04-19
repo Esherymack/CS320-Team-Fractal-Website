@@ -40,12 +40,12 @@ public class Barnsley extends Fractal{
 	@Override
 	public void setDefaultParameters(){
 		super.setDefaultParameters();
-		setF1(0);
-		setF2(0);
-		setF3(0);
-		setF4(0);
+		setF1(0.01);
+		setF2(0.85);
+		setF3(0.07);
+		setF4(0.07);
 		setSeed(0);
-		setIterations(1);
+		setIterations(100000);
 	}
 
 	@Override
