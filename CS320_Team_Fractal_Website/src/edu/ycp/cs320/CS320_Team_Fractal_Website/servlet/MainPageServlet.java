@@ -30,7 +30,13 @@ public class MainPageServlet extends HttpServlet{
 		// otherwise
 		String currentlyLoggedInMessage = checkCookies(req, resp);
 		
+		//message for logging in
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
+		
+		//list of parameters that need to be sent for which values are displayed
+		sendParamAttributes(req);
+		
+		//view page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req,  resp);
 		
 	}
@@ -60,8 +66,8 @@ public class MainPageServlet extends HttpServlet{
 		//only generate the fractal if a value choice was found
 		if(choice != null){
 			//select the correct controller and model to use
-			Fractal f = Fractal.getDefaultFractal(choice);
-			FractalController controller = f.createApproprateController();
+			Fractal fractal = Fractal.getDefaultFractal(choice);
+			FractalController controller = fractal.createApproprateController();
 			
 			//send parameters
 			boolean sent = controller.acceptParameters(params);
@@ -96,18 +102,30 @@ public class MainPageServlet extends HttpServlet{
 				else errorMessage = "Please provide a name and parameters";
 			}
 			
-			//detect if invalid parameters were given
-			if(!sent) errorMessage = "Invalid parameters given";
-			
-			//set fractal info
-			fractalInfo = controller.getModel().getInfo();
+			//if the default values button is pressed, set all the parameters to the correct fractal type
+			if(req.getParameter("setDefaultValues") != null){
+				fractal.setDefaultParameters();
+				params = fractal.getParameters();
+			}
+			//otherwise check if the fractal should be updated
+			else{
+				//detect if invalid parameters were given
+				if(!sent) errorMessage = "Invalid parameters given";
+				
+				//set fractal info
+				fractalInfo = controller.getModel().getInfo();
+			}
 		}
 		else errorMessage = "Please select a fractal";
 		
 		//send parameters back
 		for(int i = 0; i < NUM_PARAMS; i++){
-			req.setAttribute(params + "i", params[i]);
+			req.setAttribute("param" + i, params[i]);
 		}
+		//list of parameters that need to be sent for which values are displayed
+		sendParamAttributes(req);
+		
+		//TODO fix this, the attributes are not set at all for the choice, params, and paramLabelList
 		
 		//set attributes of page
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
@@ -116,7 +134,26 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		
+		//go back to the page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
+	}
+	
+	private void sendParamAttributes(HttpServletRequest req){
+		//list of parameters that need to be sent for which values are displayed
+		req.setAttribute("paramLabelList", getParamLabelList());
+		
+		//list of fractal names that need to be sent for which fractals are used as options
+		req.setAttribute("fractalTypeList", Fractal.getAllFractalTypes());
+	}
+	
+	/**
+	 * Get a list of all the names of the parameters that are used for input values and their associated labels
+	 * @return
+	 */
+	private String[] getParamLabelList(){
+		String[] paramList = new String[NUM_PARAMS];
+		for(int i = 0; i < paramList.length; i++) paramList[i] = "param" + i;
+		return paramList;
 	}
 	
 	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException

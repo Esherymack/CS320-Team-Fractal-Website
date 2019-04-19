@@ -113,4 +113,16 @@ public abstract class Fractal{
 		return null;
 	}
 	
+	/**
+	 * Get a list of strings containing the type of every avaliable fractal
+	 * @return the list of types
+	 */
+	public static String[] getAllFractalTypes(){
+		return new String[]{
+			"Mandelbrot",
+			"Sierpinski",
+			"Koch",
+		};
+	}
+	
 }

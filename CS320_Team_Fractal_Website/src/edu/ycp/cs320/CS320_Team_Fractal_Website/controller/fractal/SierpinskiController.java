@@ -35,7 +35,8 @@ public class SierpinskiController extends FractalController{
 	public boolean acceptParameters(String[] params){
 		try{
 			model.setLevel(Integer.parseInt(params[0]));
-		}catch(NumberFormatException e){
+		}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException e){
+			e.printStackTrace();
 			return false;
 		}
 		
