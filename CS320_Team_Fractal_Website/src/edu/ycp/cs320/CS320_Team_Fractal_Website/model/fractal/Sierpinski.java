@@ -77,6 +77,22 @@ public class Sierpinski extends Fractal{
 		return controller;
 	}
 
+	@Override
+	public String[] getParamLabels(){
+		return new String[]{
+				"Level: ",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				""
+		};
+	}
+	
 	public int getLevel(){
 		return level;
 	}

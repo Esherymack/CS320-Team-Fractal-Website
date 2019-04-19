@@ -125,8 +125,6 @@ public class MainPageServlet extends HttpServlet{
 		//list of parameters that need to be sent for which values are displayed
 		sendParamAttributes(req);
 		
-		//TODO fix this, the attributes are not set at all for the choice, params, and paramLabelList
-		
 		//set attributes of page
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("errorMessage", errorMessage);
@@ -143,7 +141,18 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("paramLabelList", getParamLabelList());
 		
 		//list of fractal names that need to be sent for which fractals are used as options
-		req.setAttribute("fractalTypeList", Fractal.getAllFractalTypes());
+		String[] types = Fractal.getAllFractalTypes();
+		req.setAttribute("fractalTypeList", types);
+		
+		//add attributes for all fractal type labels
+		for(int j = 0; j < types.length; j++){
+			Fractal f = Fractal.getDefaultFractal(types[j]);
+			String[] labels = f.getParamLabels();
+			for(int i = 0; i < labels.length; i++){
+				req.setAttribute("fractalLabels" + types[j] + "param" + i, labels[i]);
+			}
+		}
+		
 	}
 	
 	/**

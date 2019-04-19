@@ -43,6 +43,22 @@ public class Koch extends Fractal{
 	}
 
 	@Override
+	public String[] getParamLabels(){
+		return new String[]{
+				"Iterations: ",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				""
+		};
+	}
+
+	@Override
 	public FractalController createApproprateController(){
 		KochController controller = new KochController();
 		controller.setModel(this);

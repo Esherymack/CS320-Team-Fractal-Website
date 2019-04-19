@@ -65,14 +65,28 @@
 						<p>${fractalInfo}</p>
 					</div>
 				</div>
+				
+				<!- Adding attributes for the function that sets which labels are displayed ->
+				<c:forEach items="${fractalTypeList}" var="type">
+					<c:forEach items="${paramLabelList}" var="i">
+						<c:set var="iValue" value="fractalLabels${type}${i}" />
+						<input type="hidden" id="fractalLabels${type}${i}" value="${requestScope[iValue]}" />
+					</c:forEach>
+				</c:forEach>
+				
 				<div class="col1">
 				<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
+							
 								<option value="" ${choice == "" || empty choice ? 'selected="selected"' : ''} disabled hidden>Select Fractal</option>
+								
 								<c:forEach items="${fractalTypeList}" var="type">
 									<option value="${type}" ${choice == type ? 'selected="selected"' : ''}>${type}</option>
+									
+									
 								</c:forEach>
+								
 							</select>
 						</div>
 							<input type="hidden" name="selectedChoice">
@@ -86,6 +100,7 @@
 											<input name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
 										</td>
 									</tr>
+									
 								</c:forEach>
 							</table>
 							</div>
@@ -125,54 +140,19 @@
 			$("#setDefaultValues").show()
 		}
 		
-		switch(selection){
-			case "Sierpinski":
-				document.getElementById("paramLabparam0").innerHTML = "Level: "
-				$("#paramInputparam0").show()
-
-				for(var i = 1; i < 10; i++){
-					$("#paramInputparam" + i).hide()
-				}
-				break;
-			case "Koch":
-				document.getElementById("paramLabparam0").innerHTML = "Iterations: "
-				$("#paramInputparam0").show()
-
-				for(var i = 1; i < 10; i++){
-					$("#paramInputparam" + i).hide()
-				}
-				break;
-			case "Mandelbrot":
-				document.getElementById("paramLabparam0").innerHTML = "X1: "
-				document.getElementById("paramLabparam1").innerHTML = "Y1: "
-				document.getElementById("paramLabparam2").innerHTML = "X2: "
-				document.getElementById("paramLabparam3").innerHTML = "Y2: "
-				document.getElementById("paramLabparam4").innerHTML = "Multiplier: "
-
-				for(var i = 0; i < 5; i++){
-					$("#paramInputparam" + i).show()
-				}
-
-				for(var i = 5; i < 10; i++){
-					$("#paramInputparam" + i).hide()
-				}
-				break;
-			case "Barnsley":
-				document.getElementById("paramLabparam0").innerHTML = "f1: "
-				document.getElementById("paramLabparam1").innerHTML = "f2: "
-				document.getElementById("paramLabparam2").innerHTML = "f3: "
-				document.getElementById("paramLabparam3").innerHTML = "f4: "
-				document.getElementById("paramLabparam4").innerHTML = "seed: "
-				document.getElementById("paramLabparam5").innerHTML = "iterations: "
-
-				for(var i = 0; i < 6; i++){
-					$("#paramInputparam" + i).show()
-				}
-
-				for(var i = 6; i < 10; i++){
-					$("#paramInputparam" + i).hide()
-				}
-				break;
+		for(var i = 0; i < 10; i++){
+			var s = 
+				document.getElementById(
+					"fractalLabels" + selection + "param" + i
+				).getAttribute("value");
+			document.getElementById("paramLabparam" + i).innerHTML = s;
+			
+			if(s == ""){
+				$("#paramInputparam" + i).hide()
+			}
+			else{
+				$("#paramInputparam" + i).show()
+			}
 		}
 	});
 

@@ -29,6 +29,10 @@ public class FractalTest{
 			public FractalController createApproprateController() {
 				return null;
 			}
+			@Override
+			public String[] getParamLabels() {
+				return null;
+			}
 		};
 	}
 	
@@ -45,6 +49,10 @@ public class FractalTest{
 			}
 			@Override
 			public FractalController createApproprateController() {
+				return null;
+			}
+			@Override
+			public String[] getParamLabels() {
 				return null;
 			}
 		};

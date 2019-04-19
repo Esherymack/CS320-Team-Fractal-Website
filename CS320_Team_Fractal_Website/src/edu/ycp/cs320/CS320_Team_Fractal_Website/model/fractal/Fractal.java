@@ -105,6 +105,15 @@ public abstract class Fractal{
 	 * @param type the type of the fractal, the class name, it Mandelbrot set is "Mandelbrot"
 	 * @return a default fractal of the given type, null if an invalid type is given
 	 */
+	
+	/**
+	 * Get a list of all the labels for the parameters used for display. 
+	 * The list length should = MainPageServlet.NUM_PARAMS. 
+	 * Use an empty string for a parameter that shouldn't be displayed
+	 * @return the label list
+	 */
+	public abstract String[] getParamLabels();
+	
 	public static Fractal getDefaultFractal(String type){
 		if(type.equals("Mandelbrot")) return new Mandelbrot();
 		else if(type.equals("Sierpinski")) return new Sierpinski();

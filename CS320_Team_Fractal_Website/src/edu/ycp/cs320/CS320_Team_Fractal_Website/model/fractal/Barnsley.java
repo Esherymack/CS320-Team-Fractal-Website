@@ -18,7 +18,7 @@ public class Barnsley extends Fractal{
 	/**
 	 * The number of iterations the fractal will generate for
 	 */
-	private int itterations;
+	private int iterations;
 	
 	public Barnsley(){
 		this(0, 0, 0, 0, 0, 1);
@@ -29,7 +29,7 @@ public class Barnsley extends Fractal{
 		this.f3 = f3;
 		this.f4 = f4;
 		this.seed = seed;
-		this.itterations = iterations;
+		this.iterations = iterations;
 	}
 
 	@Override
@@ -56,7 +56,23 @@ public class Barnsley extends Fractal{
 				"" + f3,
 				"" + f4,
 				"" + seed,
-				"" + itterations,
+				"" + iterations,
+				"",
+				"",
+				"",
+				""
+		};
+	}
+
+	@Override
+	public String[] getParamLabels(){
+		return new String[]{
+				"F1: ",
+				"F2: ",
+				"F3: ",
+				"F4: ",
+				"Seed: ",
+				"Iterations: ",
 				"",
 				"",
 				"",
@@ -107,10 +123,10 @@ public class Barnsley extends Fractal{
 	}
 
 	public int getIterations(){
-		return itterations;
+		return iterations;
 	}
 	public void setIterations(int iterations){
-		this.itterations = iterations;
+		this.iterations = iterations;
 	}
 
 }

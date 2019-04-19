@@ -36,6 +36,10 @@ public class FractalControllerTest{
 					public FractalController createApproprateController() {
 						return null;
 					}
+					@Override
+					public String[] getParamLabels() {
+						return null;
+					}
 				};
 			}
 			@Override
