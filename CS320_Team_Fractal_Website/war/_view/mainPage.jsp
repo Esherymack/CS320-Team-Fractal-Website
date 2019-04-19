@@ -39,76 +39,54 @@
 			</div>
 		</div>
 			<div class="left-box">
-			<div class="interface">
-				<c:if test="${! empty errorMessage}">
-					<div class="error">${errorMessage}</div>
-				</c:if>
+				<div class="interface">
+					<c:if test="${! empty errorMessage}">
+						<div class="error">${errorMessage}</div>
+					</c:if>
 
-				<div class="image">
-				<p></p>
-						<c:choose>
-							<c:when test="${not result}">
-								<img src="img/square.jpg" alt="placeholder"/>
-							</c:when>
-							<c:otherwise>
-								<img src="img/result.png" alt="result" />
-							</c:otherwise>
-						</c:choose>
+					<div class="image">
+					<p></p>
+					<c:choose>
+						<c:when test="${not result}">
+							<img src="img/square.jpg" alt="placeholder"/>
+						</c:when>
+						<c:otherwise>
+							<img src="img/result.png" alt="result" />
+						</c:otherwise>
+					</c:choose>
 				</div>
-				</div>
-				<div class="right-box">
-					<div class="col2">
-						<div class="info">
-							<c:if test="${! empty fractalInfo}">
-								<h1>Information</h1>
+			</div>
+			<div class="right-box">
+				<div class="col2">
+					<div class="info">
+						<c:if test="${! empty fractalInfo}">
+							<h1>Information</h1>
 							</c:if>
-							<p>${fractalInfo}</p>
-						</div>
+						<p>${fractalInfo}</p>
 					</div>
-					<div class="col1">
+				</div>
+				<div class="col1">
 				<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
-								<option value="" selected disabled hidden>Select Fractal</option>
-								<option value="Sierpinski">Sierpinski</option>
-								<option value="Mandelbrot">Mandelbrot</option>
-								<option value="Koch">Koch</option>
+								<option value="" ${choice == "" || empty choice ? 'selected="selected"' : ''} disabled hidden>Select Fractal</option>
+								<c:forEach items="${fractalTypeList}" var="type">
+									<option value="${type}" ${choice == type ? 'selected="selected"' : ''}>${type}</option>
+								</c:forEach>
 							</select>
 						</div>
 							<input type="hidden" name="selectedChoice">
 						<div class="form-labels">
 							<table class="params">
-								<tr>
-									<td class="label" id="paramLab0" hidden=true>Param0</td>
-									<td id="paramIn0" hidden=true><input type="text" name="param0" size="12" value="${param0}" /></td>
-
-									<td class="label" id="paramLab1" hidden=true>Param1</td>
-									<td id="paramIn1" hidden=true><input type="text" name="param1" size="12" value="${param1}" /></td>
-
-									<td class="label" id="paramLab2" hidden=true>Param2</td>
-									<td id="paramIn2" hidden=true><input type="text" name="param2" size="12" value="${param2}" /></td>
-
-									<td class="label" id="paramLab3" hidden=true>Param3</td>
-									<td id="paramIn3" hidden=true><input type="text" name="param3" size="12" value="${param3}" /></td>
-
-									<td class="label" id="paramLab4" hidden=true>Param4</td>
-									<td id="paramIn4" hidden=true><input type="text" name="param4" size="12" value="${param4}" /></td>
-
-									<td class="label" id="paramLab5" hidden=true>Param5</td>
-									<td id="paramIn5" hidden=true><input type="text" name="param5" size="12" value="${param5}" /></td>
-
-									<td class="label" id="paramLab6" hidden=true>Param6</td>
-									<td id="paramIn6" hidden=true><input type="text" name="param6" size="12" value="${param6}" /></td>
-
-									<td class="label" id="paramLab7" hidden=true>Param7</td>
-									<td id="paramIn7" hidden=true><input type="text" name="param7" size="12" value="${param7}" /></td>
-
-									<td class="label" id="paramLab8" hidden=true>Param8</td>
-									<td id="paramIn8" hidden=true><input type="text" name="param8" size="12" value="${param8}" /></td>
-
-									<td class="label" id="paramLab9" hidden=true>Param9</td>
-									<td id="paramIn9" hidden=true><input type="text" name="param9" size="12" value="${param9}" /></td>
-								</tr>
+								<c:forEach items="${paramLabelList}" var="i">
+									<tr>
+										<td class="label" id="paramInput${i}" hidden=true>
+											<label id="paramLab${i}"> ${i} </label>
+											<c:set var="iValue" value="${i}" />
+											<input name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
+										</td>
+									</tr>
+								</c:forEach>
 							</table>
 							</div>
 								<input type="Submit" name="submit" value="Send" class="sender">
@@ -116,6 +94,9 @@
 								<td class="label" id="saveLabel">Name</td>
 								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" /></td>
 								<br>
+								<div class="label">
+									<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
+								</div>
 								<c:if test="${! empty result}">
 									<div class="label">
 										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
@@ -130,46 +111,50 @@
 	</body>
 
 	<script>
-
+	window.onload = function(){
+		$('#choice').change()
+	}
 	$('#choice').change(function() {
 		var selection = $(this).val();
 		sessionStorage.setItem('Selection', selection);
+		
+		if(selection == ""){
+			$("#setDefaultValues").hide()
+		}
+		else{
+			$("#setDefaultValues").show()
+		}
+		
 		switch(selection){
 			case "Sierpinski":
-				document.getElementById("paramLab0").innerHTML = "Level: "
-				$("#paramLab0").show()
-				$("#paramIn0").show()
+				document.getElementById("paramLabparam0").innerHTML = "Level: "
+				$("#paramInputparam0").show()
 
 				for(var i = 1; i < 10; i++){
-					$("#paramLab" + i).hide()
-					$("#paramIn" + i).hide()
+					$("#paramInputparam" + i).hide()
 				}
 				break;
 			case "Koch":
-				document.getElementById("paramLab0").innerHTML = "Iterations: "
-				$("#paramLab0").show()
-				$("#paramIn0").show()
+				document.getElementById("paramLabparam0").innerHTML = "Iterations: "
+				$("#paramInputparam0").show()
 
 				for(var i = 1; i < 10; i++){
-					$("#paramLab" + i).hide()
-					$("#paramIn" + i).hide()
+					$("#paramInputparam" + i).hide()
 				}
 				break;
 			case "Mandelbrot":
-				document.getElementById("paramLab0").innerHTML = "X1: "
-				document.getElementById("paramLab1").innerHTML = "Y1: "
-				document.getElementById("paramLab2").innerHTML = "X2: "
-				document.getElementById("paramLab3").innerHTML = "Y2: "
-				document.getElementById("paramLab4").innerHTML = "Multiplier: "
+				document.getElementById("paramLabparam0").innerHTML = "X1: "
+				document.getElementById("paramLabparam1").innerHTML = "Y1: "
+				document.getElementById("paramLabparam2").innerHTML = "X2: "
+				document.getElementById("paramLabparam3").innerHTML = "Y2: "
+				document.getElementById("paramLabparam4").innerHTML = "Multiplier: "
 
 				for(var i = 0; i < 5; i++){
-					$("#paramLab" + i).css('display', 'block')
-					$("#paramIn" + i).css('display', 'inline-block')
+					$("#paramInputparam" + i).show()
 				}
 
 				for(var i = 5; i < 10; i++){
-					$("#paramLab" + i).css('display', 'none')
-					$("#paramIn" + i).css('display', 'none')
+					$("#paramInputparam" + i).hide()
 				}
 				break;
 		}
