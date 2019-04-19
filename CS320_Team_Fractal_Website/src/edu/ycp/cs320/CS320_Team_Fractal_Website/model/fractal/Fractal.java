@@ -122,6 +122,7 @@ public abstract class Fractal{
 			"Mandelbrot",
 			"Sierpinski",
 			"Koch",
+			"Barnsley"
 		};
 	}
 	
