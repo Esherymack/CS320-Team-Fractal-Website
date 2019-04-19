@@ -39,7 +39,7 @@ public class Sierpinski extends Fractal{
 	public void setDefaultParameters(){
 		super.setDefaultParameters();
 		
-		level = 0;
+		level = 2;
 		height = Math.round(SIZE * Math.sqrt(3.0) / 2.0);
 
 		this.p1 = new Point2D.Double(0, height);
@@ -81,12 +81,12 @@ public class Sierpinski extends Fractal{
 	public String[] getParamLabels(){
 		return new String[]{
 				"Level: ",
-				"",
-				"",
-				"",
-				"",
-				"",
-				"",
+				"P1x: ",
+				"P1y: ",
+				"P2x: ",
+				"P2y: ",
+				"P3x: ",
+				"P3y: ",
 				"",
 				"",
 				""

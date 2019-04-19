@@ -28,13 +28,19 @@ public class SierpinskiController extends FractalController{
 		this.model = model;
 	}
 	
-	/**
-	 * params[0] = level
-	 */
 	@Override
 	public boolean acceptParameters(String[] params){
 		try{
 			model.setLevel(Integer.parseInt(params[0]));
+			double x = Double.parseDouble(params[1]);
+			double y = Double.parseDouble(params[2]);
+			model.setP1(new Point2D.Double(x, y));
+			x = Double.parseDouble(params[3]);
+			y = Double.parseDouble(params[4]);
+			model.setP2(new Point2D.Double(x, y));
+			x = Double.parseDouble(params[5]);
+			y = Double.parseDouble(params[6]);
+			model.setP3(new Point2D.Double(x, y));
 		}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException e){
 			e.printStackTrace();
 			return false;
