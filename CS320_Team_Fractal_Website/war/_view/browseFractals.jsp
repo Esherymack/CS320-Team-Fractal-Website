@@ -23,40 +23,44 @@
 					</c:if>
 				</div>
 				
-				<div>
-					</form>
-					<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
-						<input type="Submit" name="submit" value="Home">
-					</form>
-				</div>
+				<nav class="topnav">
+					<ul>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
+								<input type="Submit" name="submit" value="Home">
+							</form>
+						</li>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
+								<input type="Submit" name="submit" value="Create a fractal">
+							</form>
+						</li>
+					</ul>
+				</nav>
 				
-				<div>
+				<nav class="filternav">
 					
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
-						<table>
-						
-							<ul>
-								<li>
-									<input type="Submit" name="viewAllFractals" value="View Fractals">
-								</li>
-								<li>
-									<input type="Submit" name="viewAllMandelbrotFractals" value="View Mandelbrot Fractals">
-								</li>
-								<li>
-									<input type="Submit" name="viewAllSierpinskiFractals" value="View Sierpinski Fractals">
-								</li>
-								<li>
-									<input type="Submit" name="viewAllKochFractals" value="View Koch Fractals">
-								</li>
-								<li>
-									<input type="text" name="name" value="${name}">
-								</li>
-								<li>
-									<input type="Submit" name="searchForFractals" value="Search For Fractals">
-								</li>
-							</ul>
-							<br>
-						    
+						<ul>
+							<li>
+								<input type="Submit" name="viewAllFractals" value="View Fractals">
+							</li>
+							<li>
+								<input type="Submit" name="viewAllMandelbrotFractals" value="View Mandelbrot Fractals">
+							</li>
+							<li>
+								<input type="Submit" name="viewAllSierpinskiFractals" value="View Sierpinski Fractals">
+							</li>
+							<li>
+								<input type="Submit" name="viewAllKochFractals" value="View Koch Fractals">
+							</li>
+							<li>
+								<input type="text" name="name" value="${name}">
+								<input type="Submit" name="searchForFractals" value="Search For Fractals">
+							</li>
+						</ul>
+							
+						<table>    
 						    <c:forEach items="${fractals}" var="fractal">
 						        <tr>
 									<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
@@ -71,7 +75,7 @@
 						<img src="img/result.png" alt="result"/>
 					</c:if>
 					
-				</div>
+				<nav class="topnav">
 				
 			</body>
 		</div>

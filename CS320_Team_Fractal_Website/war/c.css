@@ -171,6 +171,46 @@ p
 	position: absolute;
 }
 
+.filternav ul
+{
+	list-style-type: none;
+	margin: 0;
+	overflow: hidden;
+	padding: 0px 22px;
+
+}
+
+.filternav li
+{
+	display: inline;
+	padding: 15px;
+	float: left;
+}
+
+.filternav a
+{
+	display: block;
+	color: ##FFF4E0;
+	border-radius: 3px;
+	text-align: center;
+	padding: 10px;
+	text-decoration: none;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	background-color: #FFF4E0;
+	-o-transition: .2s ease-in-out;
+	-ms-transition: .2s ease-in-out;
+    -moz-transition: .2s ease-in-out;
+    -webkit-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
+    cursor: pointer;
+}
+
+.filternav
+{
+	position: absolute;
+}
+
 .mainPage-nav-bg
 {
 	background-image: url('img/mandelbrot.jpg');
