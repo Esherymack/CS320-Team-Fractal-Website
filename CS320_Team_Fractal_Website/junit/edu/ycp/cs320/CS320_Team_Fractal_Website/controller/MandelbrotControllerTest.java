@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,13 @@ public class MandelbrotControllerTest{
 		model = new Mandelbrot();
 		controller = new MandelbrotController(model);
 	}
-	
+
+	@Test
+	public void testConstructor(){
+		controller = new MandelbrotController(model);
+		assertTrue(controller.getModel().equals(model));
+	}
+
 	@Test
 	public void testSetModel(){
 		controller.setModel(model);
@@ -31,15 +38,49 @@ public class MandelbrotControllerTest{
 	}
 	
 	@Test
-	public void testGenerateColor(){
-		Color c = controller.generateColor();
+	public void testAcceptParameters(){
+		
+		String[] params = new String[]{""};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1"};
+		assertFalse(controller.acceptParameters(params));
 
-		assertTrue(c.getBlue() <= 255);
-		assertTrue(c.getBlue() > 0);
-		assertTrue(c.getRed() <= 255);
-		assertTrue(c.getRed() > 0);
-		assertTrue(c.getGreen() <= 255);
-		assertTrue(c.getGreen() > 0);
+		params = new String[]{"a"};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1", "2"};
+		assertFalse(controller.acceptParameters(params));
+		
+		params = new String[]{"1", "2", "3", "4", "5", null, null, null, null, null};
+		assertTrue(controller.acceptParameters(params));
+		
+		params = model.getParameters();
+		assertTrue(controller.acceptParameters(params));
+	}
+
+	@Test
+	public void testRender(){
+		assertTrue(controller.render());
+	}
+	
+	@Test
+	public void testRenderIterCounts(){
+		BufferedImage img = controller.renderIterCounts();
+		assertFalse(img == null);
+	}
+	
+	@Test
+	public void testCalculateIterCounts(){
+		int[][] counts = controller.calculateIterCounts(100, 80);
+		assertFalse(counts == null);
+		assertTrue(counts.length == 100);
+		for(int[] i : counts){
+			assertTrue(i.length == 80);
+			for(int j : i){
+				assertTrue(j >= 0);
+			}
+		}
 	}
 	
 	@Test
@@ -72,27 +113,17 @@ public class MandelbrotControllerTest{
 		cnt = controller.computeIterCount(c);
 		assertTrue(cnt != 0);
 	}
-	
-	@Test
-	public void testAcceptParameters(){
-		
-		String[] params = new String[]{""};
-		assertFalse(controller.acceptParameters(params));
-		
-		params = new String[]{"1"};
-		assertFalse(controller.acceptParameters(params));
 
-		params = new String[]{"a"};
-		assertFalse(controller.acceptParameters(params));
+	@Test
+	public void testGenerateColor(){
+		Color c = MandelbrotController.generateColor();
 		
-		params = new String[]{"1", "2"};
-		assertFalse(controller.acceptParameters(params));
-		
-		params = new String[]{"1", "2", "3", "4", "5", null, null, null, null, null};
-		assertTrue(controller.acceptParameters(params));
-		
-		params = model.getParameters();
-		assertTrue(controller.acceptParameters(params));
+		assertFalse(c == null);
+		assertTrue(c.getBlue() <= 255);
+		assertTrue(c.getBlue() > 0);
+		assertTrue(c.getRed() <= 255);
+		assertTrue(c.getRed() > 0);
+		assertTrue(c.getGreen() <= 255);
+		assertTrue(c.getGreen() > 0);
 	}
-	
 }

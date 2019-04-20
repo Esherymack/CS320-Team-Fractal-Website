@@ -39,13 +39,16 @@ public abstract class FractalController{
 	/**
 	 * Sends the given image to be saved in the database
 	 * @param img
+	 * @return true if the image was sent successfully, false otherwise
 	 */
-	public void sendImage(BufferedImage img){
+	public boolean sendImage(BufferedImage img){
 		try{
 			ImageIO.write(img, "PNG", new File("./war/img/result.png"));
 		}catch(IOException e){
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 	
 	/**

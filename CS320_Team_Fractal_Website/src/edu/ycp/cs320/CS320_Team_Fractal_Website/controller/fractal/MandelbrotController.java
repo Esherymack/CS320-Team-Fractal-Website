@@ -19,22 +19,22 @@ public class MandelbrotController extends FractalController{
 	private Mandelbrot model;
 	
 	public MandelbrotController(Mandelbrot model){
+		super();
 		this.model = model;
 	}
-	
 	public MandelbrotController(){
 		this(null);
 	}
 
+	@Override
 	public Mandelbrot getModel(){
 		return model;
 	}
-	
 	public void setModel(Mandelbrot model){
 		this.model = model;
 	}
 
-	/**
+	/*
 	 * params[0] = location.x1, 
 	 * params[1] = location.y1, 
 	 * params[2] = location.x2, 
@@ -52,7 +52,7 @@ public class MandelbrotController extends FractalController{
 			
 			model.setLocation(new Location(x1, y1, x2, y2));
 			model.setMultiplyTimes(multiplyTimes);
-		}catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
+		}catch(NumberFormatException | NullPointerException | ArrayIndexOutOfBoundsException e){
 			return false;
 		}
 		
@@ -82,10 +82,14 @@ public class MandelbrotController extends FractalController{
 		
 	}
 	
-	private BufferedImage renderIterCounts(){
+	/**
+	 * Finds the iteration counts of this fractal and renders the fractal to a 
+	 * BufferedImage that is returned
+	 * @return the BufferedImage with the rendered fractal
+	 */
+	public BufferedImage renderIterCounts(){
 		int width = 800;
 		int height = 800;
-		
 
 		int[][] iters = calculateIterCounts(width, height);
 
@@ -124,23 +128,6 @@ public class MandelbrotController extends FractalController{
 		return img;
 	}
 	
-	
-	/**
-	 * Generates random colors for the image
-	 * @return a new random color
-	 */
-	public Color generateColor()
-	{
-		// nextInt isn't inclusive so adding 1 to 255 to cover whole spectrum of RGB values
-        int r = ThreadLocalRandom.current().nextInt(0, 256);
-        int g = ThreadLocalRandom.current().nextInt(0, 256);
-        int b = ThreadLocalRandom.current().nextInt(0, 256);
-        
-        Color color = new Color(r, g, b);
-        return color;
-	}
-	
-	
 	/**
 	 * Calculates the values of every iteration of this fractal 
 	 * The values calculated are based on the current x,y coordinates of the location of this fractal, 
@@ -149,7 +136,7 @@ public class MandelbrotController extends FractalController{
 	 * @param height the number of pixels in the height of the image that these iter counts will use
 	 * @return
 	 */
-	private int[][] calculateIterCounts(int width, int height){
+	public int[][] calculateIterCounts(int width, int height){
 		int[][] iterCounts = new int[width][height];
 		
 		double x1 = model.getLocation().getX1();
@@ -205,4 +192,19 @@ public class MandelbrotController extends FractalController{
     	}
     	return count;
     }
+	
+	/**
+	 * Generates random colors for the image
+	 * @return a new random color
+	 */
+	public static Color generateColor()
+	{
+		// nextInt isn't inclusive so adding 1 to 255 to cover whole spectrum of RGB values
+        int r = ThreadLocalRandom.current().nextInt(0, 256);
+        int g = ThreadLocalRandom.current().nextInt(0, 256);
+        int b = ThreadLocalRandom.current().nextInt(0, 256);
+        
+        Color color = new Color(r, g, b);
+        return color;
+	}
 }

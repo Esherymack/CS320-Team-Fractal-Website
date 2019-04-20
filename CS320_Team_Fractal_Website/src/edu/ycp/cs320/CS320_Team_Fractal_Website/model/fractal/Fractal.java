@@ -25,11 +25,10 @@ public abstract class Fractal{
 	
 	public Fractal(){
 		this(new Location());
+		setDefaultParameters();
 	}
-	
 	public Fractal(Location loc){
 		this.location = loc;
-		setDefaultParameters();
 		name = "default";
 		id = 0;
 	}
@@ -40,6 +39,13 @@ public abstract class Fractal{
 	
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	public int getId(){
+		return id;
+	}
+	public void setId(int id){
+		this.id = id;
 	}
 	
 	/**
@@ -64,14 +70,6 @@ public abstract class Fractal{
 	
 	public void setLocation(Location l){
 		this.location = l;
-	}
-	
-	
-	public int getId(){
-		return id;
-	}
-	public void setId(int id){
-		this.id = id;
 	}
 	
 	/**
@@ -107,11 +105,34 @@ public abstract class Fractal{
 	 * @param type the type of the fractal, the class name, it Mandelbrot set is "Mandelbrot"
 	 * @return a default fractal of the given type, null if an invalid type is given
 	 */
+	
+	/**
+	 * Get a list of all the labels for the parameters used for display. 
+	 * The list length should = MainPageServlet.NUM_PARAMS. 
+	 * Use an empty string for a parameter that shouldn't be displayed
+	 * @return the label list
+	 */
+	public abstract String[] getParamLabels();
+	
 	public static Fractal getDefaultFractal(String type){
 		if(type.equals("Mandelbrot")) return new Mandelbrot();
 		else if(type.equals("Sierpinski")) return new Sierpinski();
 		else if(type.equals("Koch")) return new Koch();
+		else if(type.equals("Barnsley")) return new Barnsley();
 		return null;
+	}
+	
+	/**
+	 * Get a list of strings containing the type of every avaliable fractal
+	 * @return the list of types
+	 */
+	public static String[] getAllFractalTypes(){
+		return new String[]{
+			"Mandelbrot",
+			"Sierpinski",
+			"Koch",
+			"Barnsley"
+		};
 	}
 	
 }

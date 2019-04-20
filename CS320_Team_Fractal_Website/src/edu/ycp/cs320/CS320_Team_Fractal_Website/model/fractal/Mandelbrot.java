@@ -9,22 +9,24 @@ public class Mandelbrot extends Fractal{
 	 * The number of times a complex number is multiplied during each Mandelbrot calculation
 	 */
 	private int multiplyTimes;
-	
-	public Mandelbrot(){
+
+	public Mandelbrot(int multiplyTimes){
 		super();
-	}
-	
-	public int getMultiplyTimes() {
-		return multiplyTimes;
-	}
-	public void setMultiplyTimes(int multiplyTimes) {
 		this.multiplyTimes = multiplyTimes;
 	}
-	
+	public Mandelbrot(){
+		this(0);
+	}
+
 	@Override
 	public void setDefaultParameters(){
 		super.setDefaultParameters();
 		multiplyTimes = 1;
+	}
+	
+	@Override
+	public Location getDefaultLocation() {
+		return new Location(-2, -2, 2, 2);
 	}
 	
 	@Override
@@ -51,9 +53,32 @@ public class Mandelbrot extends Fractal{
 	}
 
 	@Override
+	public String[] getParamLabels(){
+		return new String[]{
+				"X1: ",
+				"Y1: ",
+				"X2: ",
+				"Y2: ",
+				"Multiplier: ",
+				"",
+				"",
+				"",
+				"",
+				""
+		};
+	}
+	
+	@Override
 	public FractalController createApproprateController(){
 		MandelbrotController controller = new MandelbrotController();
 		controller.setModel(this);
 		return controller;
+	}
+	
+	public int getMultiplyTimes() {
+		return multiplyTimes;
+	}
+	public void setMultiplyTimes(int multiplyTimes) {
+		this.multiplyTimes = multiplyTimes;
 	}
 }
