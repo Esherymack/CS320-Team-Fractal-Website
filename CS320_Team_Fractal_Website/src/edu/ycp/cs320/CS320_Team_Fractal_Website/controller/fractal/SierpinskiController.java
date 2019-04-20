@@ -42,7 +42,6 @@ public class SierpinskiController extends FractalController{
 			y = Double.parseDouble(params[6]);
 			model.setP3(new Point2D.Double(x, y));
 		}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException e){
-			e.printStackTrace();
 			return false;
 		}
 		

@@ -62,5 +62,14 @@ public class KochTest{
 		model.setIterations(2);
 		assertTrue(model.getIterations() == 2);
 	}
+	
+	@Test
+	public void testGetParamLabels(){
+		String[] labels = model.getParamLabels();
+		for(int i = 0; i < 1; i++){
+			assertFalse(labels[i] == null);
+			assertFalse(labels[i].isEmpty());
+		}
+	}
 
 }

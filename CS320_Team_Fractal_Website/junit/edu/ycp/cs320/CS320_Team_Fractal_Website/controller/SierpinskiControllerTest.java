@@ -40,7 +40,7 @@ public class SierpinskiControllerTest{
 		assertFalse(controller.acceptParameters(params));
 		
 		params = new String[]{"1"};
-		assertTrue(controller.acceptParameters(params));
+		assertFalse(controller.acceptParameters(params));
 		
 		params = new String[]{"1.0"};
 		assertFalse(controller.acceptParameters(params));
@@ -51,7 +51,7 @@ public class SierpinskiControllerTest{
 		params = new String[]{"1.0", null, null, null, null, null, null, null, null, null};
 		assertFalse(controller.acceptParameters(params));
 		
-		params = new String[]{"1", null, null, null, null, null, null, null, null, null};
+		params = new String[]{"1", "2", "2", "2", "2", "2", "2", null, null, null};
 		assertTrue(controller.acceptParameters(params));
 		
 		params = model.getParameters();

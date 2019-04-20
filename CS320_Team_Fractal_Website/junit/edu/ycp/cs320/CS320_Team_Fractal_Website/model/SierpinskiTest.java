@@ -47,7 +47,7 @@ public class SierpinskiTest {
 		model.setDefaultParameters();
 		
 		assertTrue(model.getHeight() == Math.round(Sierpinski.SIZE * Math.sqrt(3.0)/2.0));
-		assertTrue(model.getLevel() == 0);
+		assertTrue(model.getLevel() == 2);
 
 		Point2D.Double p1 = model.getP1();
 		Point2D.Double p2 = model.getP2();
@@ -139,4 +139,12 @@ public class SierpinskiTest {
 		assertEquals(p3.getY(), 1337, DELTA);
 	}
 	
+	@Test
+	public void testGetParamLabels(){
+		String[] labels = model.getParamLabels();
+		for(int i = 0; i < 7; i++){
+			assertFalse(labels[i] == null);
+			assertFalse(labels[i].isEmpty());
+		}
+	}
 }

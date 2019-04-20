@@ -4,30 +4,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.JuilaController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Julia;
 
-public class MandelbrotControllerTest{
+public class JuliaControllerTest {
+
 	
-	private Mandelbrot model;
-	private MandelbrotController controller;
+	private Julia model;
+	private JuilaController controller;
 	
 	@Before
 	public void setUp(){
-		model = new Mandelbrot();
-		controller = new MandelbrotController(model);
+		model = new Julia();
+		controller = new JuilaController(model);
 	}
 
 	@Test
 	public void testConstructor(){
-		controller = new MandelbrotController(model);
+		controller = new JuilaController(model);
 		assertTrue(controller.getModel().equals(model));
 	}
 
@@ -52,7 +52,7 @@ public class MandelbrotControllerTest{
 		params = new String[]{"1", "2"};
 		assertFalse(controller.acceptParameters(params));
 		
-		params = new String[]{"1", "2", "3", "4", "5", null, null, null, null, null};
+		params = new String[]{"1", "2", "3", "4", "5", "6", null, null, null, null};
 		assertTrue(controller.acceptParameters(params));
 		
 		params = model.getParameters();
@@ -111,6 +111,6 @@ public class MandelbrotControllerTest{
 		
 		c = new Complex(4, 0);
 		cnt = controller.computeIterCount(c);
-		assertTrue(cnt != 0);
+		assertTrue(cnt == 0);
 	}
 }

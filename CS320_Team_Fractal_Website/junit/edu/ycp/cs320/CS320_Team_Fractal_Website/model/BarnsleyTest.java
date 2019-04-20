@@ -103,4 +103,12 @@ public class BarnsleyTest {
 		assertTrue(model.getIterations() == 2);
 	}
 
+	@Test
+	public void testGetParamLabels(){
+		String[] labels = model.getParamLabels();
+		for(int i = 0; i < 6; i++){
+			assertFalse(labels[i] == null);
+			assertFalse(labels[i].isEmpty());
+		}
+	}
 }
