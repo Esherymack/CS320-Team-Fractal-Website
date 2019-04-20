@@ -113,17 +113,4 @@ public class MandelbrotControllerTest{
 		cnt = controller.computeIterCount(c);
 		assertTrue(cnt != 0);
 	}
-
-	@Test
-	public void testGenerateColor(){
-		Color c = MandelbrotController.generateColor();
-		
-		assertFalse(c == null);
-		assertTrue(c.getBlue() <= 255);
-		assertTrue(c.getBlue() > 0);
-		assertTrue(c.getRed() <= 255);
-		assertTrue(c.getRed() > 0);
-		assertTrue(c.getGreen() <= 255);
-		assertTrue(c.getGreen() > 0);
-	}
 }
