@@ -21,8 +21,13 @@
 						</form>
 					</li>
 					<li>
-						<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
-							<input type="Submit" name="submit" value="You are currently logged in as ${userName}">
+						<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
+							<input type="Submit" name="submit" value="Create a fractal">
+						</form>
+					</li>
+					<li>
+						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="doGet">
+							<input type="Submit" name="submit" value="Browse all fractals">
 						</form>
 					</li>
 					<li>

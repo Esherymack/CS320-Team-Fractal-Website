@@ -35,13 +35,12 @@
 									<input type="Submit" name="submit" value="Create a fractal">
 								</form>
 							</li>
+							<li>
+								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="doGet">
+									<input type="Submit" name="submit" value="Browse all fractals">
+								</form>
+							</li>
 						</c:if>
-						<li>
-							</form>
-							<form action="${pageContext.servletContext.contextPath}/browseFractals" method="doGet">
-								<input type="Submit" name="submit" value="Browse all fractals">
-							</form>
-						</li>
 					</ul>
 				</nav>
 			</body>

@@ -10,12 +10,9 @@
 	</head>
 	
 	<div class="flex-container">
-		<div class="border">
-		</div>
+		<div class="border"></div>
 		<div class="center">
 			<body id="home">
-			
-				<h1>Browse Fractals</h1>
 				
 				<div>
 					<c:if test="${! empty errorMessage}">
@@ -23,7 +20,7 @@
 					</c:if>
 				</div>
 				
-				<nav class="topnav">
+				<div class="topnav">
 					<ul>
 						<li>
 							<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
@@ -31,19 +28,33 @@
 							</form>
 						</li>
 						<li>
+							<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
+								<input type="Submit" name="submit" value="${currentlyLoggedInMessage}">
+							</form>
+						</li>
+						<li>
 							<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
 								<input type="Submit" name="submit" value="Create a fractal">
 							</form>
 						</li>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/logout" method="post">
+								<input type="Submit" name="submit" value="LogOut">
+							</form>
+						</li>
 					</ul>
-				</nav>
+				</div>
 				
-				<nav class="filternav">
+				<div class="account-header">
+					<h1>Browse Fractals</h1>
+				</div>
+				
+				<div class="filternav">
 					
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<ul>
 							<li>
-								<input type="Submit" name="viewAllFractals" value="View Fractals">
+								<input type="Submit" name="viewAllFractals" value="View All Fractals">
 							</li>
 							<li>
 								<input type="Submit" name="viewAllMandelbrotFractals" value="View Mandelbrot Fractals">
@@ -75,7 +86,7 @@
 						<img src="img/result.png" alt="result"/>
 					</c:if>
 					
-				<nav class="topnav">
+				</div>
 				
 			</body>
 		</div>
