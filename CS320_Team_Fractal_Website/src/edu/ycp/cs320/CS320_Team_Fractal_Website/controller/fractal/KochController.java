@@ -49,7 +49,7 @@ public class KochController extends FractalController{
 		BufferedImage img = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_3BYTE_BGR);
 		Graphics g = img.getGraphics();
 		
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SIZE, SIZE);
 		
 		//size of triangle
@@ -75,7 +75,13 @@ public class KochController extends FractalController{
 		
 		//draw new lines
 		if(iterations == 1){
-			g.setColor(Color.BLACK);
+			
+			//pick color
+			int r = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
+			int gr = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
+			int b = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
+			g.setColor(new Color(r, gr, b));
+			
 			g.drawLine(
 					(int)Math.round(start.x),
 					(int)Math.round(start.y),

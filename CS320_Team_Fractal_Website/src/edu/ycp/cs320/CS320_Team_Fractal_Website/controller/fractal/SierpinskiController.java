@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.ThreadLocalRandom;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
@@ -70,14 +69,16 @@ public class SierpinskiController extends FractalController{
 	 */
 	private void drawSierpinski(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3){
 		
-		int r = ThreadLocalRandom.current().nextInt(0, 256);
-		int gr = ThreadLocalRandom.current().nextInt(0, 256);
-		int b = ThreadLocalRandom.current().nextInt(0, 256);
-		
-		g.setColor(new Color(r, gr, b));
-		
 		// this is a recursive function
 		if(level <= 1){
+			Point2D.Double middle = midPoint(p1, p2);
+			middle = midPoint(middle, p3);
+			
+			int r = (int)(255.0 * (middle.x / Sierpinski.SIZE));
+			int gr = (int)(255.0 * (middle.y / Sierpinski.SIZE));
+			int b = (int)((Math.sin(level * 3.5) + 1) * 127);
+			g.setColor(new Color(r, gr, b));
+			
 			Polygon p = new Polygon();
 			p.addPoint((int)Math.round(p1.x),  (int)Math.round(p1.y));
 			p.addPoint((int)Math.round(p2.x),  (int)Math.round(p2.y));
