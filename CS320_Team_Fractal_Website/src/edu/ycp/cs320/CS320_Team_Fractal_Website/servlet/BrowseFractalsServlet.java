@@ -45,13 +45,13 @@ public class BrowseFractalsServlet extends HttpServlet {
 		if (req.getParameter("viewAllFractals") != null) {
 			fractals = browseController.getAllFractals();
 		}
-		else if (req.getParameter("viewAllFractalsByTypeMandelbrot") != null) {
+		else if (req.getParameter("viewAllMandelbrotFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Mandelbrot");
 		}
-		else if (req.getParameter("viewAllFractalsByTypeSierpinski") != null) {
+		else if (req.getParameter("viewAllSierpinskiFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Sierpinski");
 		}
-		else if (req.getParameter("viewAllFractalsByTypeKoch") != null) {
+		else if (req.getParameter("viewAllKochFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Koch");
 		}
 		else {

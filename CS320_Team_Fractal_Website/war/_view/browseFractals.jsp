@@ -34,11 +34,25 @@
 					
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<table>
-							<input type="Submit" name="viewAllFractals" value="View Fractals">
-							<input type="Submit" name="viewAllFractalsByTypeMandelbrot" value="View Mandelbrot Fractals">
-							<input type="Submit" name="viewAllFractalsByTypeSierpinski" value="View Sierpinski Fractals">
-							<input type="Submit" name="viewAllFractalsByTypeKoch" value="View Koch Fractals">
-						    <br>
+						
+							<ul>
+								<li>
+									<input type="Submit" name="viewAllFractals" value="View Fractals">
+								</li>
+								<li>
+									<input type="Submit" name="viewAllMandelbrotFractals" value="View Mandelbrot Fractals">
+								</li>
+								<li>
+									<input type="Submit" name="viewAllSierpinskiFractals" value="View Sierpinski Fractals">
+								</li>
+								<li>
+									<input type="Submit" name="viewAllKochFractals" value="View Koch Fractals">
+								</li>
+								<li>
+									<input type="text" name="name" value="${name}">
+								</li>
+							</ul>
+							<br>
 						    
 						    <c:forEach items="${fractals}" var="fractal">
 						        <tr>
