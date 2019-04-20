@@ -7,30 +7,34 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.JuilaController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Julia;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet;
 
-public class MandelbrotTest{
+public class JuliaTest{
 
-	private Mandelbrot model;
+	private Julia model;
 	
 	@Before
 	public void setUp(){
-		model = new Mandelbrot();
+		model = new Julia();
 	}
 	
 	@Test
 	public void testConstructor(){
-		model = new Mandelbrot(4);
-		assertTrue(model.getMultiplyTimes() == 4);
+		Complex c = new Complex(1, -2);
+		model = new Julia(c);
+		assertTrue(model.getConstant().equals(c));
 	}
 	
 	@Test
 	public void testSetDefaultParameters(){
 		model.setDefaultParameters();
-		assertTrue(model.getMultiplyTimes() == 1);
+		
+		Complex c = model.getConstant();
+		assertTrue(c.getRealNum() == 0);
+		assertTrue(c.getImagNum() == 0);
 		
 		Location l = model.getLocation();
 		assertTrue(l.getX1() == -2);
@@ -70,6 +74,8 @@ public class MandelbrotTest{
 		assertFalse(params[3].isEmpty());
 		assertFalse(params[4] == null);
 		assertFalse(params[4].isEmpty());
+		assertFalse(params[4] == null);
+		assertFalse(params[4].isEmpty());
 	}
 	
 	@Test
@@ -78,15 +84,18 @@ public class MandelbrotTest{
 		
 		assertFalse(control == null);
 		assertTrue(control.getModel().equals(model));
-		assertTrue(control instanceof MandelbrotController);
+		assertTrue(control instanceof JuilaController);
 	}
 	
 	@Test
-	public void testSetMultiplyTimes(){
-		model.setMultiplyTimes(2);
-		assertTrue(model.getMultiplyTimes() == 2);
+	public void testSetConstant(){
+		Complex c = new Complex(1, -2);
+		
+		model.setConstant(c);
+		
+		assertTrue(model.getConstant().equals(c));
 	}
-	
+
 	@Test
 	public void testGetParamLabels(){
 		String[] labels = model.getParamLabels();

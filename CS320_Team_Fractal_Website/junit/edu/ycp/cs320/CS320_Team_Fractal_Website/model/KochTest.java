@@ -20,19 +20,17 @@ public class KochTest{
 	public void setUp(){
 		model = new Koch();
 	}
-
+	
 	@Test
-	public void testSetDefaultParameters(){
-		
-		model.setDefaultParameters();
-		
-		assertTrue(model.getIterations() == 1);
+	public void testConstructor(){
+		model = new Koch(3);
+		assertTrue(model.getIterations() == 3);
 	}
 
 	@Test
-	public void testSetIterations(){
-		model.setIterations(2);
-		assertTrue(model.getIterations() == 2);
+	public void testSetDefaultParameters(){
+		model.setDefaultParameters();
+		assertTrue(model.getIterations() == 1);
 	}
 	
 	@Test
@@ -46,6 +44,8 @@ public class KochTest{
 	public void testGetParameters(){
 		String[] params = model.getParameters();
 		assertTrue(params.length == MainPageServlet.NUM_PARAMS);
+		assertFalse(params[0] == null);
+		assertFalse(params[0].isEmpty());
 	}
 	
 	@Test
@@ -55,6 +55,21 @@ public class KochTest{
 		assertFalse(control == null);
 		assertTrue(control.getModel().equals(model));
 		assertTrue(control instanceof KochController);
+	}
+
+	@Test
+	public void testSetIterations(){
+		model.setIterations(2);
+		assertTrue(model.getIterations() == 2);
+	}
+	
+	@Test
+	public void testGetParamLabels(){
+		String[] labels = model.getParamLabels();
+		for(int i = 0; i < 1; i++){
+			assertFalse(labels[i] == null);
+			assertFalse(labels[i].isEmpty());
+		}
 	}
 
 }
