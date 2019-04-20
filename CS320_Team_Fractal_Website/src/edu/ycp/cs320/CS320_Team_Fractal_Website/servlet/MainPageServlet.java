@@ -213,4 +213,5 @@ public class MainPageServlet extends HttpServlet{
 		//if no username is found, return null
 		return null;
 	}
+	
 }

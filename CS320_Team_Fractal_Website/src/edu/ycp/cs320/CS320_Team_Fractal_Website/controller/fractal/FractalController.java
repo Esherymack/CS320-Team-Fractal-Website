@@ -31,10 +31,36 @@ public abstract class FractalController{
 	public abstract Fractal getModel();
 	
 	/**
-	 * Renders the current state of the given fractal to a BufferedImage and sets that image to the stored location
-	 * @return true if the fractal was rendered, false otherwise
+	 * Renders the current state of the given fractal to a BufferedImage and returns that image. 
+	 * This method should be overwriten and then render() should be called to save the image
+	 * @return the rendered image
 	 */
-	public abstract boolean render();
+	public abstract BufferedImage renderImage();
+	
+	/**
+	 * Renders the fractal and saves it to the image folder
+	 * @return
+	 */
+	public boolean render(){
+		//create a thread to render and calculate the set
+		//TODO make this use multiple threads
+		Thread thread = new Thread(new Runnable(){
+			@Override
+			public void run(){
+				BufferedImage img = renderImage();
+				sendImage(img);
+			}
+		});
+		
+		thread.start();
+		try{
+			thread.join();
+		}catch (InterruptedException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 	/**
 	 * Sends the given image to be saved in the database

@@ -49,32 +49,15 @@ public class SierpinskiController extends FractalController{
 	}
 		
 	@Override
-	public boolean render(){
-		//create a thread to render and calculate the set
-		//TODO make this use multiple threads
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run(){
-				BufferedImage img = new BufferedImage(Sierpinski.SIZE, Sierpinski.SIZE, BufferedImage.TYPE_INT_ARGB);
-		        Graphics g = img.getGraphics();
-		        
-		        g.setColor(Color.BLACK);
-		        g.fillRect(0, 0, Sierpinski.SIZE, Sierpinski.SIZE);
-		        
-		        
-				drawSierpinski(model.getLevel(), g, model.getP1(), model.getP2(), model.getP3());
-				sendImage(img);
-			}
-		});
+	public BufferedImage renderImage(){
+		BufferedImage img = new BufferedImage(Sierpinski.SIZE, Sierpinski.SIZE, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
 		
-		thread.start();
-		try{
-			thread.join();
-		}catch (InterruptedException e){
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, Sierpinski.SIZE, Sierpinski.SIZE);
+		
+		drawSierpinski(model.getLevel(), g, model.getP1(), model.getP2(), model.getP3());
+		return img;
 	}
 	
 	/**
