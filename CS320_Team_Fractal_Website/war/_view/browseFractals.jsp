@@ -51,6 +51,9 @@
 								<li>
 									<input type="text" name="name" value="${name}">
 								</li>
+								<li>
+									<input type="Submit" name="searchForFractals" value="Search For Fractals">
+								</li>
 							</ul>
 							<br>
 						    

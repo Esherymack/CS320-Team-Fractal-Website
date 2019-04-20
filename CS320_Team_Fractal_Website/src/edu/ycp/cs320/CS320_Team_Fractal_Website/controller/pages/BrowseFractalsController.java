@@ -32,4 +32,13 @@ public class BrowseFractalsController{
 		return database.getAllFractalsByType(type);
 	}
 	
+	/**
+	 * 
+	 * Get every fractal from the database with the given name
+	 * @return and ArrayList of all the fractals of name
+	 */
+	public ArrayList<Fractal> getAllFractalsByName(String name){
+		return database.getAllFractalsByName(name);
+	}
+	
 }

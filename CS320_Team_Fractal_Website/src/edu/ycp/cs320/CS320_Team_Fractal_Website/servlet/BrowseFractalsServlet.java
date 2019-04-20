@@ -36,6 +36,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		String errorMessage = null;
 		Boolean display = false;
 		ArrayList<Fractal> fractals = null;
+		String name = req.getParameter("name");
 		
 		//set up controller
 		BrowseFractalsController browseController = new BrowseFractalsController();
@@ -53,6 +54,9 @@ public class BrowseFractalsServlet extends HttpServlet {
 		}
 		else if (req.getParameter("viewAllKochFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Koch");
+		}
+		else if (req.getParameter("searchForFractals") != null) {
+			fractals = browseController.getAllFractalsByName(name);
 		}
 		else {
 			fractals = browseController.getAllFractals();
@@ -79,6 +83,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		else if(display) errorMessage = "Fractal couldn't be rendered";
 		
 		//set attributes
+		req.setAttribute("name", name);
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("display", display);
 		req.setAttribute("fractals", fractals);
