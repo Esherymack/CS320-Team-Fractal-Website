@@ -252,6 +252,7 @@ div.right-box
 table.params
 {
 	display: block;
+	text-align: right;
 }
 
 #choice

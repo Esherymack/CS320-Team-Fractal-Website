@@ -5,41 +5,33 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Julia;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
-public class MandelbrotController extends FractalController{
+public class JuilaController extends FractalController{
+
+	public static final int MAX_ITER = 1000;
 	
-	/**
-	 * The maximum number of iterations that a calculation will take
-	 */
-	public static final int MAX_ITER = 4000;
+	private Julia model;
 	
-	private Mandelbrot model;
-	
-	public MandelbrotController(Mandelbrot model){
+	public JuilaController(Julia model){
 		super();
 		this.model = model;
 	}
-	public MandelbrotController(){
+	
+	public JuilaController(){
 		this(null);
 	}
-
+	
 	@Override
-	public Mandelbrot getModel(){
+	public Fractal getModel() {
 		return model;
 	}
-	public void setModel(Mandelbrot model){
+	public void setModel(Julia model){
 		this.model = model;
 	}
 
-	/*
-	 * params[0] = location.x1, 
-	 * params[1] = location.y1, 
-	 * params[2] = location.x2, 
-	 * params[3] = location.y2, 
-	 * params[4] = multiplyTimes
-	 */
 	@Override
 	public boolean acceptParameters(String[] params){
 		try{
@@ -47,17 +39,19 @@ public class MandelbrotController extends FractalController{
 			double y1 = Double.parseDouble(params[1]);
 			double x2 = Double.parseDouble(params[2]);
 			double y2 = Double.parseDouble(params[3]);
-			int multiplyTimes = Integer.parseInt(params[4]);
+			double real = Double.parseDouble(params[4]);
+			double imaginary = Double.parseDouble(params[5]);
 			
 			model.setLocation(new Location(x1, y1, x2, y2));
-			model.setMultiplyTimes(multiplyTimes);
+			model.setConstant(new Complex(real, imaginary));
+			
 		}catch(NumberFormatException | NullPointerException | ArrayIndexOutOfBoundsException e){
 			return false;
 		}
 		
 		return true;
 	}
-	
+
 	@Override
 	public boolean render(){
 		//create a thread to render and calculate the set
@@ -100,6 +94,7 @@ public class MandelbrotController extends FractalController{
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
+	        	//select the color based on the iter count
 	        	if (iters[i][j] <= 0) g.setColor(Color.BLACK);
 	        	else{
 	        		double red = (Math.sin(iters[i][j] * Math.PI / 2) + 1) * 127.0;
@@ -135,15 +130,15 @@ public class MandelbrotController extends FractalController{
     	double dx = (x2 - x1);
     	double dy = (y2 - y1);
     	
-    	double step_x = dx / width;
-    	double step_y = dy / height;
+    	double stepX = dx / width;
+    	double stepY = dy / height;
 
         for(int x = 0; x < width; x++){
         	for(int y = 0; y < height; y++){
-            	double real_x = x1 + x * step_x;
-            	double real_y = y1 + y * step_y;
+            	double realX = x1 + x * stepX;
+            	double realY = y1 + y * stepY;
             	
-                Complex c = new Complex(real_x, real_y);
+                Complex c = new Complex(realX, realY);
                         
                 iterCounts[x][y] = computeIterCount(c);
             }
@@ -158,25 +153,21 @@ public class MandelbrotController extends FractalController{
 	 */
 	public int computeIterCount(Complex complex){
     	//Z is initially 0+0i
-    	Complex z = new Complex(0,0);
     	Complex c = new Complex(complex.getRealNum(), complex.getImagNum());
     	
     	//# of iterations
     	int count = 0;
     	//while z has magnitude of less than 2 and iteration counts its below the max
-    	while (z.getMagnitude() < 2.0){
+    	while(c.getMagnitude() < 4.0){
     		if (count > MAX_ITER){
     			return 0;
     		}
     		//iterate complex number
-    		for(int i = 1; i < model.getMultiplyTimes(); i++){
-    			z = z.multiply(z);
-    		}
-        	z = z.multiply(z).add(c);
+        	c = c.multiply(c);
+        	c = c.add(model.getConstant());
         	//increment count
     		count++;
     	}
     	return count;
     }
-	
 }
