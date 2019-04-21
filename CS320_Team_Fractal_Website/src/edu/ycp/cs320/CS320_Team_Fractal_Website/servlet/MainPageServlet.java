@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 
 public class MainPageServlet extends HttpServlet{
@@ -42,8 +43,7 @@ public class MainPageServlet extends HttpServlet{
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-	{	
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{	
 		System.out.println("mainPage Servlet: doPost");
 
 		String currentlyLoggedInMessage = checkCookies(req, resp);
@@ -55,6 +55,7 @@ public class MainPageServlet extends HttpServlet{
 		
 		Boolean result = null;
 		
+		//choice from the drop down menu
 		String choice = req.getParameter("choice");
 		
 		//get all parameters
@@ -62,6 +63,19 @@ public class MainPageServlet extends HttpServlet{
 		for(int i = 0; i < NUM_PARAMS; i++){
 			params[i] = req.getParameter("param" + i);
 		}
+		
+		//color parameters
+		String red = null;
+		String green = null;
+		String blue = null;
+
+		//get color parameters
+		red = req.getParameter("gradientRed");
+		green = req.getParameter("gradientGreen");
+		blue = req.getParameter("gradientBlue");
+		
+		//name parameter
+		String name = null;
 		
 		//only generate the fractal if a value choice was found
 		if(choice != null){
@@ -72,6 +86,25 @@ public class MainPageServlet extends HttpServlet{
 			//send parameters
 			boolean sent = controller.acceptParameters(params);
 			
+			//get the color of the gradient for the controller
+			Gradient gradient;
+			try{
+				int r = Integer.parseInt(red);
+				int g = Integer.parseInt(green);
+				int b = Integer.parseInt(blue);
+				gradient = new Gradient(r, g, b);
+
+				red = "" + gradient.getBaseColor().getRed();
+				green = "" + gradient.getBaseColor().getGreen();
+				blue = "" + gradient.getBaseColor().getBlue();
+				
+			}catch(NullPointerException | NumberFormatException e){
+				gradient = new Gradient();
+			}
+			
+			//set the gradient
+			controller.setGradient(gradient);
+			
 			//render the fractal, only if no error occurred
 			//if the request is for a submit, then just display the fractal to the site
 			if(req.getParameter("submit") != null){
@@ -81,7 +114,7 @@ public class MainPageServlet extends HttpServlet{
 			//if the request is for a save, only save the fractal
 			else if(req.getParameter("save") != null){
 				//get the name the user has typed in
-				String name = req.getParameter("saveButton");
+				name = req.getParameter("saveName");
 				
 				//save and render the fractal
 				if(name != null && controller != null && sent){
@@ -131,6 +164,14 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("fractalInfo", fractalInfo);
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
+		
+		//set color attributes
+		req.setAttribute("gradientRed", red);
+		req.setAttribute("gradientGreen", green);
+		req.setAttribute("gradientBlue", blue);
+		
+		//set name attribute
+		req.setAttribute("saveName", name);
 		
 		//go back to the page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);

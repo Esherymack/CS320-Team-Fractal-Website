@@ -6,6 +6,7 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class SierpinskiController extends FractalController{
@@ -74,15 +75,27 @@ public class SierpinskiController extends FractalController{
 			Point2D.Double middle = midPoint(p1, p2);
 			middle = midPoint(middle, p3);
 			
-			int r = (int)(255.0 * (middle.x / Sierpinski.SIZE));
-			int gr = (int)(255.0 * (middle.y / Sierpinski.SIZE));
-			int b = (int)((Math.sin(level * 3.5) + 1) * 127);
-			g.setColor(new Color(r, gr, b));
+			Color gColor = getGradient().getBaseColor();
+			
+			int red = Math.max(0, Math.min(255, (int)(255.0 * (middle.x / Sierpinski.SIZE))));
+			int green = Math.max(0, Math.min(255, (int)(255.0 * (middle.y / Sierpinski.SIZE))));
+			int blue = Math.max(0, Math.min(255, (int)((255.0 * (middle.x * middle.y) / (Sierpinski.SIZE * Sierpinski.SIZE)))));
+			
+			float h = Gradient.getHue(
+					(red + gColor.getRed()) / 2,
+					(green + gColor.getGreen()) / 2,
+					(blue + gColor.getBlue()) / 2
+			);
+			
+			float s = .6f;
+			float b = .7f;
+			Color c = Color.getHSBColor(h, s, b);
+			g.setColor(c);
 			
 			Polygon p = new Polygon();
-			p.addPoint((int)Math.round(p1.x),  (int)Math.round(p1.y));
-			p.addPoint((int)Math.round(p2.x),  (int)Math.round(p2.y));
-			p.addPoint((int)Math.round(p3.x),  (int)Math.round(p3.y));
+			p.addPoint((int)Math.round(p1.x), (int)Math.round(p1.y));
+			p.addPoint((int)Math.round(p2.x), (int)Math.round(p2.y));
+			p.addPoint((int)Math.round(p3.x), (int)Math.round(p3.y));
 			g.fillPolygon(p);
 		}
 		else{

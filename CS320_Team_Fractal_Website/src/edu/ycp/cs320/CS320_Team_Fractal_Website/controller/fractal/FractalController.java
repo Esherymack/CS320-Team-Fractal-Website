@@ -10,18 +10,34 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 /**
  * A generic controller for a fractal controller
  */
 public abstract class FractalController{
-
+	
+	/**
+	 * The database this controller uses to save a fractal
+	 */
 	private IDatabase database;
+	
+	/**
+	 * The gradient that this controller uses to render fractals
+	 */
+	private Gradient gradient;
 	
 	public FractalController(){
 		//get database for logging in
 		InitDatabase.init();
 		database = DatabaseProvider.getInstance();
+	}
+	
+	public Gradient getGradient(){
+		return gradient;
+	}
+	public void setGradient(Gradient gradient){
+		this.gradient = gradient;
 	}
 	
 	/**

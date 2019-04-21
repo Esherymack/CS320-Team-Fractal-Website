@@ -81,9 +81,11 @@ public class JuilaController extends FractalController{
 	        	//select the color based on the iter count
 	        	if(iters[i][j] == MAX_ITER) g.setColor(Color.BLACK);
 	        	else{
-	        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2) + 1) * 127.0;
-	        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI) + 1) * 127.0;
-	        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2) + 1) * 127.0;
+	        		Color color = getGradient().getBaseColor();
+	        		
+	        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
+	        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
+	        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
 	        		g.setColor(new Color((int)red, (int)green, (int)blue));
 	        	}
 	        	//draw each point after determining color

@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Koch;
 
 public class KochController extends FractalController{
@@ -63,7 +64,7 @@ public class KochController extends FractalController{
 		return img;
 	}
 	
-	public static void renderKochLine(Graphics g, Point2D.Double start, Point2D.Double end, int iterations){
+	public void renderKochLine(Graphics g, Point2D.Double start, Point2D.Double end, int iterations){
 		if(iterations <= 0) return;
 		
 		//get the point one third the distance from start to end, closest to start
@@ -77,10 +78,22 @@ public class KochController extends FractalController{
 		if(iterations == 1){
 			
 			//pick color
-			int r = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
-			int gr = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
-			int b = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
-			g.setColor(new Color(r, gr, b));
+			int red = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
+			int green = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
+			int blue = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
+
+			Color gColor = getGradient().getBaseColor();
+			
+			float h = Gradient.getHue(
+					(red + gColor.getRed()) / 2,
+					(green + gColor.getGreen()) / 2,
+					(blue + gColor.getBlue()) / 2
+			);
+			
+			float s = .6f;
+			float b = .7f;
+			Color c = Color.getHSBColor(h, s, b);
+			g.setColor(c);
 			
 			g.drawLine(
 					(int)Math.round(start.x),

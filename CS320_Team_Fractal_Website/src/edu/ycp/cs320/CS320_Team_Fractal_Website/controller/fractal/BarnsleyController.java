@@ -7,6 +7,7 @@ import java.util.Random;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Barnsley;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 public class BarnsleyController extends FractalController{
 	
@@ -119,10 +120,22 @@ public class BarnsleyController extends FractalController{
 			double y = SIZE - (SIZE * .95 / 9.99983) * y2 - (SIZE * .05) + 20;
 			
 			//pick color
-			int r = (int)(Math.max(Math.min(255.0 * (x / SIZE), 255), 0));
-			int gr = (int)(Math.max(Math.min(255.0 * (y / SIZE), 255), 0));
-			int b = (int)(Math.max(Math.min(255.0 * ((x * y) / (SIZE * SIZE)), 255), 0));
-			g.setColor(new Color(r, gr, b));
+			int red = (int)(Math.max(Math.min(255.0 * (x / SIZE), 255), 0));
+			int green = (int)(Math.max(Math.min(255.0 * (y / SIZE), 255), 0));
+			int blue = (int)(Math.max(Math.min(255.0 * ((x * y) / (SIZE * SIZE)), 255), 0));
+
+			Color gColor = getGradient().getBaseColor();
+			
+			float h = Gradient.getHue(
+					(red + gColor.getRed()) / 2,
+					(green + gColor.getGreen()) / 2,
+					(blue + gColor.getBlue()) / 2
+			);
+			
+			float s = .6f;
+			float b = .7f;
+			Color c = Color.getHSBColor(h, s, b);
+			g.setColor(c);
 			
 			//draw pixel
 			g.fillRect((int)Math.round(x), (int)Math.round(y), 1, 1);
