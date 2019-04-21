@@ -21,7 +21,7 @@ public class ViewAccountServlet extends HttpServlet{
 		System.out.println("View Account Servlet: doGet");
 
 		ViewAccountController controller = new ViewAccountController();
-		
+		//
 		String currentUser = getLoggedInUser(req, resp);
 		User curUser = controller.getUserByUserName(currentUser);
 		String firstName = curUser.getFirstname();
