@@ -78,22 +78,27 @@ public class KochController extends FractalController{
 		if(iterations == 1){
 			
 			//pick color
-			int red = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
-			int green = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
-			int blue = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
-
-			Color gColor = getGradient().getBaseColor();
-			
-			float h = Gradient.getHue(
-					(red + gColor.getRed()) / 2,
-					(green + gColor.getGreen()) / 2,
-					(blue + gColor.getBlue()) / 2
-			);
-			
-			float s = .6f;
-			float b = .7f;
-			Color c = Color.getHSBColor(h, s, b);
-			g.setColor(c);
+			if(getUseGradient()){
+				int red = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
+				int green = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
+				int blue = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
+	
+				Color gColor = getGradient().getBaseColor();
+				
+				float h = Gradient.getHue(
+						(red + gColor.getRed()) / 2,
+						(green + gColor.getGreen()) / 2,
+						(blue + gColor.getBlue()) / 2
+				);
+				
+				float s = .6f;
+				float b = .7f;
+				Color c = Color.getHSBColor(h, s, b);
+				g.setColor(c);
+			}
+			else{
+				g.setColor(Color.WHITE);
+			}
 			
 			g.drawLine(
 					(int)Math.round(start.x),

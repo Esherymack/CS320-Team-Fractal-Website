@@ -78,20 +78,25 @@ public class MandelbrotController extends FractalController{
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
 		Graphics g = img.getGraphics();
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
-	        	if (iters[i][j] <= 0) g.setColor(Color.BLACK);
+	        	if(iters[i][j] <= 0) g.setColor(Color.BLACK);
 	        	else{
-	        		Color color = getGradient().getBaseColor();
-	        		
-	        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
-	        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
-	        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
-	        		g.setColor(new Color((int)red, (int)green, (int)blue));
+	        		if(getUseGradient()){
+		        		Color color = getGradient().getBaseColor();
+		        		
+		        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
+		        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
+		        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
+		        		g.setColor(new Color((int)red, (int)green, (int)blue));
+	        		}
+	    			else{
+	    				g.setColor(Color.WHITE);
+	    			}
 	        	}
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);

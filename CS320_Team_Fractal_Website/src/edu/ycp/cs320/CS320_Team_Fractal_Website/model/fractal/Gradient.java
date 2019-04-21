@@ -8,7 +8,7 @@ public class Gradient{
 	 * The color that this gradient starts at
 	 */
 	private Color baseColor;
-
+	
 	public Gradient(int r, int g, int b){
 		r = Math.max(0, Math.min(255, r));
 		g = Math.max(0, Math.min(255, g));

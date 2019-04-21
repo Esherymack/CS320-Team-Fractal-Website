@@ -61,8 +61,8 @@
 					<div class="info">
 						<c:if test="${! empty fractalInfo}">
 							<h1>Information</h1>
-							</c:if>
-						<p>${fractalInfo}</p>
+							<p>${fractalInfo}</p>
+						</c:if>
 					</div>
 				</div>
 				
@@ -118,6 +118,10 @@
 									<tr>
 										<td class="label"> <label>Blue:</label> </td>
 										<td class="label"> <input type="text" name="gradientBlue" size="12" value="${gradientBlue}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Use gradient:</label> </td>
+										<td><input type="checkbox" value="useGradient" name="useGradient" ${useGradient ? 'checked' : ''}></td>
 									</tr>
 									
 								</table>

@@ -1,5 +1,6 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.image.BufferedImage;
@@ -48,6 +49,14 @@ public class FractalControllerTest{
 				return false;
 			}
 		};
+	}
+	
+	@Test
+	public void testSetUseGradient(){
+		controller.setUseGradient(true);
+		assertTrue(controller.getUseGradient());
+		controller.setUseGradient(false);
+		assertFalse(controller.getUseGradient());
 	}
 	
 	@Test

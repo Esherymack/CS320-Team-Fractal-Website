@@ -23,7 +23,9 @@ public class Koch extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "This is the Koch set (add a real description here)";
+		return	"The Koch set, often called the snowflake fractal, takes a line, splits it into 3 " +
+				"segments, and creates a trianlge on the new line. Each of those lines has the same " +
+				"process done to it fdor each iteration.";
 	}
 
 	@Override

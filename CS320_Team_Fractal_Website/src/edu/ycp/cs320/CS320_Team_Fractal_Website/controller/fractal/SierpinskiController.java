@@ -72,25 +72,30 @@ public class SierpinskiController extends FractalController{
 		
 		// this is a recursive function
 		if(level <= 1){
-			Point2D.Double middle = midPoint(p1, p2);
-			middle = midPoint(middle, p3);
-			
-			Color gColor = getGradient().getBaseColor();
-			
-			int red = Math.max(0, Math.min(255, (int)(255.0 * (middle.x / Sierpinski.SIZE))));
-			int green = Math.max(0, Math.min(255, (int)(255.0 * (middle.y / Sierpinski.SIZE))));
-			int blue = Math.max(0, Math.min(255, (int)((255.0 * (middle.x * middle.y) / (Sierpinski.SIZE * Sierpinski.SIZE)))));
-			
-			float h = Gradient.getHue(
-					(red + gColor.getRed()) / 2,
-					(green + gColor.getGreen()) / 2,
-					(blue + gColor.getBlue()) / 2
-			);
-			
-			float s = .6f;
-			float b = .7f;
-			Color c = Color.getHSBColor(h, s, b);
-			g.setColor(c);
+			if(getUseGradient()){
+				Point2D.Double middle = midPoint(p1, p2);
+				middle = midPoint(middle, p3);
+				
+				Color gColor = getGradient().getBaseColor();
+				
+				int red = Math.max(0, Math.min(255, (int)(255.0 * (middle.x / Sierpinski.SIZE))));
+				int green = Math.max(0, Math.min(255, (int)(255.0 * (middle.y / Sierpinski.SIZE))));
+				int blue = Math.max(0, Math.min(255, (int)((255.0 * (middle.x * middle.y) / (Sierpinski.SIZE * Sierpinski.SIZE)))));
+				
+				float h = Gradient.getHue(
+						(red + gColor.getRed()) / 2,
+						(green + gColor.getGreen()) / 2,
+						(blue + gColor.getBlue()) / 2
+				);
+				
+				float s = .6f;
+				float b = .7f;
+				Color c = Color.getHSBColor(h, s, b);
+				g.setColor(c);
+			}
+			else{
+				g.setColor(Color.WHITE);
+			}
 			
 			Polygon p = new Polygon();
 			p.addPoint((int)Math.round(p1.x), (int)Math.round(p1.y));
