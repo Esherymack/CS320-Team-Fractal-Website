@@ -64,6 +64,12 @@ public interface IDatabase{
 	public ArrayList<Fractal> getAllFractalsByName(String name);
 	
 	/**
+	 * Get every fractal in the database containing character sequence in name
+	 * @return an ArrayList of every fractal containing char sequence in name, an empty list if none are found, null if an error occured
+	 */
+	public ArrayList<Fractal> getAllFractalsWithCharSeq(String charSeq);
+	
+	/**
 	 * Get the fractal with the given id
 	 * @param id the id of the fractal
 	 * @return the fractal with the given id, null if no fractal was found

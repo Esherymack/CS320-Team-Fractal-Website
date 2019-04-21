@@ -41,4 +41,13 @@ public class BrowseFractalsController{
 		return database.getAllFractalsByName(name);
 	}
 	
+	/**
+	 * 
+	 * Get every fractal from the database with the given character sequence
+	 * @return and ArrayList of all the fractals of name with character sequence
+	 */
+	public ArrayList<Fractal> getAllFractalsWithCharSeq(String charSeq){
+		return database.getAllFractalsWithCharSeq(charSeq);
+	}
+	
 }

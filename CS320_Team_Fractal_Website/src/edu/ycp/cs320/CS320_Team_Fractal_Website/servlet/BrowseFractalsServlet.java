@@ -23,8 +23,10 @@ public class BrowseFractalsServlet extends HttpServlet {
 		System.out.println("Browse Fractals Servlet: doGet");
 		
 		String currentlyLoggedInMessage = checkCookies(req, resp);
+		String[] fractalTypes = Fractal.getAllFractalTypes();
 		
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
+		req.setAttribute("fractalTypes", fractalTypes);
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
@@ -43,7 +45,9 @@ public class BrowseFractalsServlet extends HttpServlet {
 		String errorMessage = null;
 		Boolean display = false;
 		ArrayList<Fractal> fractals = null;
+		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String name = req.getParameter("name");
+		String charSeq = req.getParameter("charSeq");
 		
 		//set up controller
 		BrowseFractalsController browseController = new BrowseFractalsController();
@@ -62,8 +66,17 @@ public class BrowseFractalsServlet extends HttpServlet {
 		else if (req.getParameter("viewAllKochFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Koch");
 		}
+		else if (req.getParameter("viewAllBarnsleyFractals") != null) {
+			fractals = browseController.getAllFractalsByType("Barnsley");
+		}
+		else if (req.getParameter("viewAllJuliaFractals") != null) {
+			fractals = browseController.getAllFractalsByType("Julia");
+		}
 		else if (req.getParameter("searchForFractals") != null) {
 			fractals = browseController.getAllFractalsByName(name);
+		}
+		else if (req.getParameter("searchForFractals2") != null) {
+			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
 		}
 		else {
 			fractals = browseController.getAllFractals();
@@ -92,9 +105,11 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//set attributes
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("name", name);
+		req.setAttribute("charSeq", charSeq);
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("display", display);
 		req.setAttribute("fractals", fractals);
+		req.setAttribute("fractalTypes", fractalTypes);
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);

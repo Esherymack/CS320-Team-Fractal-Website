@@ -21,13 +21,16 @@ public class ViewAccountServlet extends HttpServlet{
 		System.out.println("View Account Servlet: doGet");
 
 		ViewAccountController controller = new ViewAccountController();
-		//
+		
+		String currentlyLoggedInMessage = checkCookies(req, resp);
+		
 		String currentUser = getLoggedInUser(req, resp);
 		User curUser = controller.getUserByUserName(currentUser);
 		String firstName = curUser.getFirstname();
 		String lastName = curUser.getLastname();
 		String email = curUser.getEmail();
 		
+		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("userName", currentUser);
 		req.setAttribute("firstName",  firstName);
 		req.setAttribute("lastName",  lastName);
