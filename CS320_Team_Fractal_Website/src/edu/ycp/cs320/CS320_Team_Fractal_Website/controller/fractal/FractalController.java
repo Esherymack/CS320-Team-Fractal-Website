@@ -28,6 +28,8 @@ public abstract class FractalController{
 	private Gradient gradient;
 	
 	public FractalController(){
+		gradient = new Gradient();
+		
 		//get database for logging in
 		InitDatabase.init();
 		database = DatabaseProvider.getInstance();
