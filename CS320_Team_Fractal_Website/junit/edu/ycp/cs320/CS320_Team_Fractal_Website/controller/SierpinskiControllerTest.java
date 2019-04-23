@@ -21,6 +21,12 @@ public class SierpinskiControllerTest{
 		model = new Sierpinski();
 		controller = new SierpinskiController(model);
 	}
+	
+	@Test
+	public void testConstructor(){
+		controller = new SierpinskiController(model);
+		assertTrue(controller.getModel().equals(model));
+	}
 
 	@Test
 	public void testSetModel(){
@@ -29,37 +35,12 @@ public class SierpinskiControllerTest{
 	}
 	
 	@Test
-	public void testMidPoint(){
-		Point2D.Double p1 = new Point2D.Double(2, 0);
-		Point2D.Double p2 = new Point2D.Double(0, 0);
-		Point2D.Double mid = SierpinskiController.midpoint(p1, p2);
-		
-		assertTrue(mid.getX() == 1.0);
-		assertTrue(mid.getY() == 0);
-		
-		p1 = new Point2D.Double(0, 5);
-		p2 = new Point2D.Double(0, 0);
-		mid = SierpinskiController.midpoint(p1, p2);
-		
-		assertTrue(mid.getX() == 0);
-		assertTrue(mid.getY() == 2.5);
-		
-		p1 = new Point2D.Double(-2, 4);
-		p2 = new Point2D.Double(4, 3);
-		mid = SierpinskiController.midpoint(p1, p2);
-		
-		assertTrue(mid.getX() == 1);
-		assertTrue(mid.getY() == 3.5);
-	}
-	
-	@Test
 	public void testAcceptParameters(){
-		
 		String[] params = new String[]{""};
 		assertFalse(controller.acceptParameters(params));
 		
 		params = new String[]{"1"};
-		assertTrue(controller.acceptParameters(params));
+		assertFalse(controller.acceptParameters(params));
 		
 		params = new String[]{"1.0"};
 		assertFalse(controller.acceptParameters(params));
@@ -70,11 +51,40 @@ public class SierpinskiControllerTest{
 		params = new String[]{"1.0", null, null, null, null, null, null, null, null, null};
 		assertFalse(controller.acceptParameters(params));
 		
-		params = new String[]{"1", null, null, null, null, null, null, null, null, null};
+		params = new String[]{"1", "2", "2", "2", "2", "2", "2", null, null, null};
 		assertTrue(controller.acceptParameters(params));
 		
 		params = model.getParameters();
 		assertTrue(controller.acceptParameters(params));
+	}
+	
+	@Test
+	public void testRender(){
+		assertTrue(controller.render());
+	}
+	
+	@Test
+	public void testMidPoint(){
+		Point2D.Double p1 = new Point2D.Double(2, 0);
+		Point2D.Double p2 = new Point2D.Double(0, 0);
+		Point2D.Double mid = SierpinskiController.midPoint(p1, p2);
+		
+		assertTrue(mid.getX() == 1.0);
+		assertTrue(mid.getY() == 0);
+		
+		p1 = new Point2D.Double(0, 5);
+		p2 = new Point2D.Double(0, 0);
+		mid = SierpinskiController.midPoint(p1, p2);
+		
+		assertTrue(mid.getX() == 0);
+		assertTrue(mid.getY() == 2.5);
+		
+		p1 = new Point2D.Double(-2, 4);
+		p2 = new Point2D.Double(4, 3);
+		mid = SierpinskiController.midPoint(p1, p2);
+		
+		assertTrue(mid.getX() == 1);
+		assertTrue(mid.getY() == 3.5);
 	}
 	
 }
