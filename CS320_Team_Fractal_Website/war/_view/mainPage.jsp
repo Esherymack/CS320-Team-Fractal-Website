@@ -113,7 +113,6 @@
 							</div>
 								<input type="Submit" name="submit" value="Send" class="sender">
 								<input type="Submit" name="save" value="Save" class="sender">
-								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" placeholder="Save Name" /></td>
 								<br>
 									<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" placeholder="Save Name" /></td>
 								<br>
