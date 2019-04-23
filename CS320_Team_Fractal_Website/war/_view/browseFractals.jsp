@@ -34,21 +34,14 @@
 					<c:if test="${display}">
 						<img src="img/result.png" alt="result"/>
 					</c:if>
-					
-					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
-						<table>
-							<input type="Submit" name="viewAllFractals" value="View Fractals">
-						    <br>
-						    
-						    <c:forEach items="${fractals}" var="fractal">
-						        <tr>
-									<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
-									<br>
-						        </tr>
-						    </c:forEach>
-							
-						</table>
-					</form>
+					<table>						    
+					    <c:forEach items="${fractals}" var="fractals">
+					        <tr>
+								<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
+								<br>
+					        </tr>
+					    </c:forEach>					
+					</table>
 					
 				</div>
 				

@@ -107,6 +107,7 @@ public class MainPageServlet extends HttpServlet{
 				green = "" + gradient.getBaseColor().getGreen();
 				blue = "" + gradient.getBaseColor().getBlue();
 				
+				
 			}catch(NullPointerException | NumberFormatException e){
 				gradient = new Gradient();
 			}

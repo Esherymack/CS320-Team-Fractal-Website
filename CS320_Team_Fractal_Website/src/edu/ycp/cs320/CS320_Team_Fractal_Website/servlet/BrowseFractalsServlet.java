@@ -20,6 +20,14 @@ public class BrowseFractalsServlet extends HttpServlet {
 			throws ServletException, IOException{
 		
 		System.out.println("Browse Fractals Servlet: doGet");
+
+		//variables for attributes
+		Fractal renderFractal = null;
+		String errorMessage = null;
+		Boolean display = null;
+		ArrayList<Fractal> fractals = null;
+			
+		doThing(renderFractal, errorMessage, display, fractals, req, resp);
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
@@ -30,13 +38,25 @@ public class BrowseFractalsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Browse Fractals Servlet: doPost");
-		
 		//variables for attributes
 		Fractal renderFractal = null;
 		String errorMessage = null;
 		Boolean display = null;
 		ArrayList<Fractal> fractals = null;
 		
+		doThing(renderFractal, errorMessage, display, fractals, req, resp);
+
+		//set attributes
+		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("display", display);
+		req.setAttribute("fractals", fractals);
+		
+		// Forward to view to render the result HTML document
+		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
+	}
+	
+	public void doThing(Fractal renderFractal, String errorMessage, Boolean display, ArrayList<Fractal> fractals, HttpServletRequest req, HttpServletResponse resp)
+	{	
 		//set up controller
 		BrowseFractalsController browseController = new BrowseFractalsController();
 		fractals = browseController.getAllFractals();
@@ -62,13 +82,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//if the fractal was not found and one should be displayed, then send an error message
 		else if(display) errorMessage = "Fractal couldn't be rendered";
 		
-		//set attributes
-		req.setAttribute("errorMessage", errorMessage);
-		req.setAttribute("display", display);
-		req.setAttribute("fractals", fractals);
-		
-		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
 	}
-		
+	
 }

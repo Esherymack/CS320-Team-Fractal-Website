@@ -105,23 +105,24 @@
 
 							<!- color parameters ->
 							<div>
-								<label>Gradient</label>
+								<tr>
+									<p>Use gradient:
+									<input type="checkbox" value="useGradient" name="useGradient" ${useGradient ? 'checked' : ''}>
+									</p>
+								</tr>
+								<p>Gradient</p>
 								<table class="params">
 									<tr>
-										<td class="label"> <label>Red:</label> </td>
+										<td class="label"> <label>Red 1:</label> </td>
 										<td class="label"> <input type="text" name="gradientRed" size="12" value="${gradientRed}" /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Green:</label> </td>
+										<td class="label"> <label>Green 1:</label> </td>
 										<td class="label"> <input type="text" name="gradientGreen" size="12" value="${gradientGreen}" /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Blue:</label> </td>
+										<td class="label"> <label>Blue 1:</label> </td>
 										<td class="label"> <input type="text" name="gradientBlue" size="12" value="${gradientBlue}" /> </td>
-									</tr>
-									<tr>
-										<td class="label"> <label>Use gradient:</label> </td>
-										<td><input type="checkbox" value="useGradient" name="useGradient" ${useGradient ? 'checked' : ''}></td>
 									</tr>
 
 								</table>
@@ -129,8 +130,7 @@
 						</div>
 						<input type="Submit" name="submit" value="Send" class="sender">
 						<input type="Submit" name="save" value="Save" class="sender">
-						<td class="label" id="saveLabel">Name</td>
-						<td id="saveName"><input type="text" name="saveName" size="12" value="${saveName}" /></td>
+						<td id="saveName"><input type="text" name="saveName" size="12" value="${saveName}" placeholder="Name" /></td>
 						<br>
 						<div class="label">
 							<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
