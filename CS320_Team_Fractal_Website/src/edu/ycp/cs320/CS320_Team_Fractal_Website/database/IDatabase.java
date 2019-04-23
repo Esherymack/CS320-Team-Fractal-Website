@@ -52,6 +52,12 @@ public interface IDatabase{
 	public ArrayList<Fractal> getAllFractals();
 	
 	/**
+	 * Get fractals by username
+	 * @return an Arraylist of every fractal by a specific user
+	 */
+	public ArrayList<Fractal> getAllFractalsByUsername(String username);
+	
+	/**
 	 * Get the fractal with the given id
 	 * @param id the id of the fractal
 	 * @return the fractal with the given id, null if no fractal was found
