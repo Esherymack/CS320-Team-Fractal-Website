@@ -61,8 +61,8 @@
 					<div class="info">
 						<c:if test="${! empty fractalInfo}">
 							<h1>Information</h1>
-							</c:if>
-						<p>${fractalInfo}</p>
+							<p>${fractalInfo}</p>
+						</c:if>
 					</div>
 				</div>
 				
@@ -75,7 +75,7 @@
 				</c:forEach>
 				
 				<div class="col1">
-				<div class="parameters">
+					<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
 							
@@ -84,12 +84,11 @@
 								<c:forEach items="${fractalTypeList}" var="type">
 									<option value="${type}" ${choice == type ? 'selected="selected"' : ''}>${type}</option>
 									
-									
 								</c:forEach>
 								
 							</select>
 						</div>
-							<input type="hidden" name="selectedChoice">
+						<input type="hidden" name="selectedChoice">
 						<div class="form-labels">
 							<table class="params">
 								<c:forEach items="${paramLabelList}" var="i">
@@ -103,26 +102,50 @@
 									
 								</c:forEach>
 							</table>
-							</div>
-								<input type="Submit" name="submit" value="Send" class="sender">
-								<input type="Submit" name="save" value="Save" class="sender">
-								<td class="label" id="saveLabel">Name</td>
-								<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" /></td>
-								<br>
-								<div class="label">
-									<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
-								</div>
-								<c:if test="${! empty result}">
-									<div class="label">
-										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
-										<a id="downloadImage" href="img/result.png" download hidden></a>
-									</div>
-								</c:if>
+							
+							<!- color parameters ->
+							<div>
+								<label>Gradient</label>
+								<table class="params">
+									<tr>
+										<td class="label"> <label>Red:</label> </td>
+										<td class="label"> <input type="text" name="gradientRed" size="12" value="${gradientRed}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Green:</label> </td>
+										<td class="label"> <input type="text" name="gradientGreen" size="12" value="${gradientGreen}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Blue:</label> </td>
+										<td class="label"> <input type="text" name="gradientBlue" size="12" value="${gradientBlue}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Use gradient:</label> </td>
+										<td><input type="checkbox" value="useGradient" name="useGradient" ${useGradient ? 'checked' : ''}></td>
+									</tr>
+									
+								</table>
 							</div>
 						</div>
-					</form>
-				</div>
+						<input type="Submit" name="submit" value="Send" class="sender">
+						<input type="Submit" name="save" value="Save" class="sender">
+						<td class="label" id="saveLabel">Name</td>
+						<td id="saveName"><input type="text" name="saveName" size="12" value="${saveName}" /></td>
+						<br>
+						<div class="label">
+							<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
+						</div>
+							<c:if test="${! empty result}">
+								<div class="label">
+									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
+									<a id="downloadImage" href="img/result.png" download hidden></a>
+								</div>
+							</c:if>
+						</div>
+					</div>
+				</form>
 			</div>
+		</div>
 	</body>
 
 	<script>

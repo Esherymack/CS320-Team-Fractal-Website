@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.ThreadLocalRandom;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class SierpinskiController extends FractalController{
@@ -49,32 +49,15 @@ public class SierpinskiController extends FractalController{
 	}
 		
 	@Override
-	public boolean render(){
-		//create a thread to render and calculate the set
-		//TODO make this use multiple threads
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run(){
-				BufferedImage img = new BufferedImage(Sierpinski.SIZE, Sierpinski.SIZE, BufferedImage.TYPE_INT_ARGB);
-		        Graphics g = img.getGraphics();
-		        
-		        g.setColor(Color.BLACK);
-		        g.fillRect(0, 0, Sierpinski.SIZE, Sierpinski.SIZE);
-		        
-		        
-				drawSierpinski(model.getLevel(), g, model.getP1(), model.getP2(), model.getP3());
-				sendImage(img);
-			}
-		});
+	public BufferedImage renderImage(){
+		BufferedImage img = new BufferedImage(Sierpinski.SIZE, Sierpinski.SIZE, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
 		
-		thread.start();
-		try{
-			thread.join();
-		}catch (InterruptedException e){
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, Sierpinski.SIZE, Sierpinski.SIZE);
+		
+		drawSierpinski(model.getLevel(), g, model.getP1(), model.getP2(), model.getP3());
+		return img;
 	}
 	
 	/**
@@ -87,18 +70,37 @@ public class SierpinskiController extends FractalController{
 	 */
 	private void drawSierpinski(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3){
 		
-		int r = ThreadLocalRandom.current().nextInt(0, 256);
-		int gr = ThreadLocalRandom.current().nextInt(0, 256);
-		int b = ThreadLocalRandom.current().nextInt(0, 256);
-		
-		g.setColor(new Color(r, gr, b));
-		
 		// this is a recursive function
 		if(level <= 1){
+			if(getUseGradient()){
+				Point2D.Double middle = midPoint(p1, p2);
+				middle = midPoint(middle, p3);
+				
+				Color gColor = getGradient().getBaseColor();
+				
+				int red = Math.max(0, Math.min(255, (int)(255.0 * (middle.x / Sierpinski.SIZE))));
+				int green = Math.max(0, Math.min(255, (int)(255.0 * (middle.y / Sierpinski.SIZE))));
+				int blue = Math.max(0, Math.min(255, (int)((255.0 * (middle.x * middle.y) / (Sierpinski.SIZE * Sierpinski.SIZE)))));
+				
+				float h = Gradient.getHue(
+						(red + gColor.getRed()) / 2,
+						(green + gColor.getGreen()) / 2,
+						(blue + gColor.getBlue()) / 2
+				);
+				
+				float s = .6f;
+				float b = .7f;
+				Color c = Color.getHSBColor(h, s, b);
+				g.setColor(c);
+			}
+			else{
+				g.setColor(Color.WHITE);
+			}
+			
 			Polygon p = new Polygon();
-			p.addPoint((int)Math.round(p1.x),  (int)Math.round(p1.y));
-			p.addPoint((int)Math.round(p2.x),  (int)Math.round(p2.y));
-			p.addPoint((int)Math.round(p3.x),  (int)Math.round(p3.y));
+			p.addPoint((int)Math.round(p1.x), (int)Math.round(p1.y));
+			p.addPoint((int)Math.round(p2.x), (int)Math.round(p2.y));
+			p.addPoint((int)Math.round(p3.x), (int)Math.round(p3.y));
 			g.fillPolygon(p);
 		}
 		else{

@@ -1,5 +1,6 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.controller;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.image.BufferedImage;
@@ -9,6 +10,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class FractalControllerTest{
 	
@@ -18,8 +20,8 @@ public class FractalControllerTest{
 	public void setUp(){
 		controller = new FractalController() {
 			@Override
-			public boolean render() {
-				return true;
+			public BufferedImage renderImage() {
+				return null;
 			}
 			@Override
 			public Fractal getModel() {
@@ -50,9 +52,24 @@ public class FractalControllerTest{
 	}
 	
 	@Test
+	public void testSetUseGradient(){
+		controller.setUseGradient(true);
+		assertTrue(controller.getUseGradient());
+		controller.setUseGradient(false);
+		assertFalse(controller.getUseGradient());
+	}
+	
+	@Test
 	public void testSendImage(){
 		BufferedImage img = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 		assertTrue(controller.sendImage(img));
+	}
+	
+	@Test
+	public void testRender(){
+		Fractal f = new Sierpinski();
+		FractalController c = f.createApproprateController();
+		assertTrue(c.render());
 	}
 	
 }

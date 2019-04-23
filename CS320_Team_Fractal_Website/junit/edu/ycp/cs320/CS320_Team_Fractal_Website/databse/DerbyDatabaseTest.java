@@ -112,17 +112,17 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testGetFractalByName(){
-		String name = "Sirpinski Name Test";
+		String name = "Sierpinski Name Test";
 		database.saveFractal(new Sierpinski(), name, username);
 		
-		Fractal f = database.getFractalByName("Sirpinski Name Test");
+		Fractal f = database.getFractalByName("Sierpinski Name Test");
 		assertFalse(f == null);
 		assertTrue(f.getName().equals(name));
 	}
 	
 	@Test
 	public void testGetFractalById(){
-		String name = "Sirpinski Id Test";
+		String name = "Sierpinski Id Test";
 		database.saveFractal(new Sierpinski(), name, username);
 		
 		Fractal fName = database.getFractalByName(name);

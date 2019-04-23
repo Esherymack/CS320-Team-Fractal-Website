@@ -10,18 +10,50 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 /**
  * A generic controller for a fractal controller
  */
 public abstract class FractalController{
-
+	
+	/**
+	 * The database this controller uses to save a fractal
+	 */
 	private IDatabase database;
 	
+	/**
+	 * The gradient that this controller uses to render fractals
+	 */
+	private Gradient gradient;
+	
+	/**
+	 * True if this controller should render a fractal with a gradient or not. 
+	 * If not using a gradient, then it should only use 2 colors, one for in the fractal, one for out
+	 */
+	private boolean useGradient;
+	
 	public FractalController(){
+		gradient = new Gradient();
+		useGradient = true;
+		
 		//get database for logging in
 		InitDatabase.init();
 		database = DatabaseProvider.getInstance();
+	}
+	
+	public Gradient getGradient(){
+		return gradient;
+	}
+	public void setGradient(Gradient gradient){
+		this.gradient = gradient;
+	}
+	
+	public boolean getUseGradient(){
+		return useGradient;
+	}
+	public void setUseGradient(boolean useGradient){
+		this.useGradient = useGradient;
 	}
 	
 	/**
@@ -31,10 +63,36 @@ public abstract class FractalController{
 	public abstract Fractal getModel();
 	
 	/**
-	 * Renders the current state of the given fractal to a BufferedImage and sets that image to the stored location
-	 * @return true if the fractal was rendered, false otherwise
+	 * Renders the current state of the given fractal to a BufferedImage and returns that image. 
+	 * This method should be overwriten and then render() should be called to save the image
+	 * @return the rendered image
 	 */
-	public abstract boolean render();
+	public abstract BufferedImage renderImage();
+	
+	/**
+	 * Renders the fractal and saves it to the image folder
+	 * @return
+	 */
+	public boolean render(){
+		//create a thread to render and calculate the set
+		//TODO make this use multiple threads
+		Thread thread = new Thread(new Runnable(){
+			@Override
+			public void run(){
+				BufferedImage img = renderImage();
+				sendImage(img);
+			}
+		});
+		
+		thread.start();
+		try{
+			thread.join();
+		}catch (InterruptedException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 	/**
 	 * Sends the given image to be saved in the database
