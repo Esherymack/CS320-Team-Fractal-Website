@@ -62,10 +62,10 @@ public class KochControllerTest {
 		params = model.getParameters();
 		assertTrue(controller.acceptParameters(params));
 	}
-	
+
 	@Test
-	public void testRender(){
-		assertTrue(controller.render());
+	public void testRenderImage(){
+		assertFalse(controller.renderImage() == null);
 	}
 	
 	@Test

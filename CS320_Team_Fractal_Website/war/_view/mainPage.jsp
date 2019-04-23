@@ -61,11 +61,11 @@
 					<div class="info">
 						<c:if test="${! empty fractalInfo}">
 							<h1>Information</h1>
-							</c:if>
-						<p>${fractalInfo}</p>
+							<p>${fractalInfo}</p>
+						</c:if>
 					</div>
 				</div>
-				
+
 				<!- Adding attributes for the function that sets which labels are displayed ->
 				<c:forEach items="${fractalTypeList}" var="type">
 					<c:forEach items="${paramLabelList}" var="i">
@@ -73,23 +73,22 @@
 						<input type="hidden" id="fractalLabels${type}${i}" value="${requestScope[iValue]}" />
 					</c:forEach>
 				</c:forEach>
-				
+
 				<div class="col1">
-				<div class="parameters">
+					<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
-							
+
 								<option value="" ${choice == "" || empty choice ? 'selected="selected"' : ''} disabled hidden>Select Fractal</option>
-								
+
 								<c:forEach items="${fractalTypeList}" var="type">
 									<option value="${type}" ${choice == type ? 'selected="selected"' : ''}>${type}</option>
-									
-									
+
 								</c:forEach>
-								
+
 							</select>
 						</div>
-							<input type="hidden" name="selectedChoice">
+						<input type="hidden" name="selectedChoice">
 						<div class="form-labels">
 							<table class="params">
 								<c:forEach items="${paramLabelList}" var="i">
@@ -100,29 +99,53 @@
 											<input name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
 										</td>
 									</tr>
-									
+
 								</c:forEach>
 							</table>
-							</div>
-								<input type="Submit" name="submit" value="Send" class="sender">
-								<input type="Submit" name="save" value="Save" class="sender">
-								<br>
-									<td id="saveButton"><input type="text" name="saveButton" size="12" value="${saveButton}" placeholder="Save Name" /></td>
-								<br>
-								<div class="label">
-									<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
-								</div>
-								<c:if test="${! empty result}">
-									<div class="label">
-										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
-										<a id="downloadImage" href="img/result.png" download hidden></a>
-									</div>
-								</c:if>
+
+							<!- color parameters ->
+							<div>
+								<label>Gradient</label>
+								<table class="params">
+									<tr>
+										<td class="label"> <label>Red:</label> </td>
+										<td class="label"> <input type="text" name="gradientRed" size="12" value="${gradientRed}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Green:</label> </td>
+										<td class="label"> <input type="text" name="gradientGreen" size="12" value="${gradientGreen}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Blue:</label> </td>
+										<td class="label"> <input type="text" name="gradientBlue" size="12" value="${gradientBlue}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Use gradient:</label> </td>
+										<td><input type="checkbox" value="useGradient" name="useGradient" ${useGradient ? 'checked' : ''}></td>
+									</tr>
+
+								</table>
 							</div>
 						</div>
-					</form>
-				</div>
+						<input type="Submit" name="submit" value="Send" class="sender">
+						<input type="Submit" name="save" value="Save" class="sender">
+						<td class="label" id="saveLabel">Name</td>
+						<td id="saveName"><input type="text" name="saveName" size="12" value="${saveName}" /></td>
+						<br>
+						<div class="label">
+							<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
+						</div>
+							<c:if test="${! empty result}">
+								<div class="label">
+									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
+									<a id="downloadImage" href="img/result.png" download hidden></a>
+								</div>
+							</c:if>
+						</div>
+					</div>
+				</form>
 			</div>
+		</div>
 	</body>
 
 	<script>
@@ -132,21 +155,21 @@
 	$('#choice').change(function() {
 		var selection = $(this).val();
 		sessionStorage.setItem('Selection', selection);
-		
+
 		if(selection == ""){
 			$("#setDefaultValues").hide()
 		}
 		else{
 			$("#setDefaultValues").show()
 		}
-		
+
 		for(var i = 0; i < 10; i++){
-			var s = 
+			var s =
 				document.getElementById(
 					"fractalLabels" + selection + "param" + i
 				).getAttribute("value");
 			document.getElementById("paramLabparam" + i).innerHTML = s;
-			
+
 			if(s == ""){
 				$("#paramInputparam" + i).hide()
 			}

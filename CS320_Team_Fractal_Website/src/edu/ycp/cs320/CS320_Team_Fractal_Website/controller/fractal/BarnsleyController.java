@@ -7,6 +7,7 @@ import java.util.Random;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Barnsley;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 public class BarnsleyController extends FractalController{
 	
@@ -54,25 +55,9 @@ public class BarnsleyController extends FractalController{
 	}
 	
 	@Override
-	public boolean render(){
-		//create a thread to render and calculate the set
-		//TODO make this use multiple threads
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run(){
-				BufferedImage img = renderBarnleyFern();
-				sendImage(img);
-			}
-		});
-		
-		thread.start();
-		try{
-			thread.join();
-		}catch (InterruptedException e){
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+	public BufferedImage renderImage(){
+		BufferedImage img = renderBarnleyFern();
+		return img;
 	}
 	
 	/**
@@ -88,7 +73,7 @@ public class BarnsleyController extends FractalController{
 		Graphics g = img.getGraphics();
 		
 		//fill in the background
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SIZE, SIZE);
 		
 		//seed a random number generator
@@ -131,10 +116,34 @@ public class BarnsleyController extends FractalController{
 				y2 = 0.26 * x1 + 0.24 * y1 + 0.44;
 			}
 			
-			g.fillRect(
-					(int)Math.round(SIZE / 2 + (SIZE * .95 / 4.8378) * x2),
-					(int)Math.round(SIZE - (SIZE * .95 / 9.99983) * y2 - (SIZE * .05)),
-					1, 1);
+			double x = SIZE / 2 + (SIZE * .95 / 4.8378) * x2 - 20;
+			double y = SIZE - (SIZE * .95 / 9.99983) * y2 - (SIZE * .05) + 20;
+			
+			//pick color
+			if(getUseGradient()){
+				int red = (int)(Math.max(Math.min(255.0 * (x / SIZE), 255), 0));
+				int green = (int)(Math.max(Math.min(255.0 * (y / SIZE), 255), 0));
+				int blue = (int)(Math.max(Math.min(255.0 * ((x * y) / (SIZE * SIZE)), 255), 0));
+	
+				Color gColor = getGradient().getBaseColor();
+				
+				float h = Gradient.getHue(
+						(red + gColor.getRed()) / 2,
+						(green + gColor.getGreen()) / 2,
+						(blue + gColor.getBlue()) / 2
+				);
+				
+				float s = .6f;
+				float b = .7f;
+				Color c = Color.getHSBColor(h, s, b);
+				g.setColor(c);
+			}
+			else{
+				g.setColor(Color.WHITE);
+			}
+			
+			//draw pixel
+			g.fillRect((int)Math.round(x), (int)Math.round(y), 1, 1);
 			
 			x1 = x2;
 			y1 = y2;

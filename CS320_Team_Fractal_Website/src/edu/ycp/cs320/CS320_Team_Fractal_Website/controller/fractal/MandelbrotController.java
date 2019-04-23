@@ -59,25 +59,9 @@ public class MandelbrotController extends FractalController{
 	}
 	
 	@Override
-	public boolean render(){
-		//create a thread to render and calculate the set
-		//TODO make this use multiple threads
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run(){
-				BufferedImage img = renderIterCounts();
-				sendImage(img);
-			}
-		});
-		
-		thread.start();
-		try{
-			thread.join();
-		}catch (InterruptedException e){
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+	public BufferedImage renderImage(){
+		BufferedImage img = renderIterCounts();
+		return img;
 	}
 	
 	/**
@@ -94,18 +78,25 @@ public class MandelbrotController extends FractalController{
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
 		Graphics g = img.getGraphics();
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
-	        	if (iters[i][j] <= 0) g.setColor(Color.BLACK);
+	        	if(iters[i][j] <= 0) g.setColor(Color.BLACK);
 	        	else{
-	        		double red = (Math.sin(iters[i][j] * Math.PI / 2) + 1) * 127.0;
-	        		double green = (Math.sin(iters[i][j] * Math.PI) + 1) * 127.0;
-	        		double blue = (Math.cos(iters[i][j] * Math.PI) + 1) * 127.0;
-	        		g.setColor(new Color((int)red, (int)green, (int)blue));
+	        		if(getUseGradient()){
+		        		Color color = getGradient().getBaseColor();
+		        		
+		        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
+		        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
+		        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
+		        		g.setColor(new Color((int)red, (int)green, (int)blue));
+	        		}
+	    			else{
+	    				g.setColor(Color.WHITE);
+	    			}
 	        	}
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import org.junit.Before;
@@ -60,8 +59,8 @@ public class MandelbrotControllerTest{
 	}
 
 	@Test
-	public void testRender(){
-		assertTrue(controller.render());
+	public void testRenderImage(){
+		assertFalse(controller.renderImage() == null);
 	}
 	
 	@Test
