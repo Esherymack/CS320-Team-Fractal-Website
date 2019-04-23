@@ -113,15 +113,15 @@
 								<p>Gradient</p>
 								<table class="params">
 									<tr>
-										<td class="label"> <label>Red 1:</label> </td>
+										<td class="label"> <label>Red:</label> </td>
 										<td class="label"> <input type="text" name="gradientRed" size="12" value="${gradientRed}" /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Green 1:</label> </td>
+										<td class="label"> <label>Green:</label> </td>
 										<td class="label"> <input type="text" name="gradientGreen" size="12" value="${gradientGreen}" /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Blue 1:</label> </td>
+										<td class="label"> <label>Blue:</label> </td>
 										<td class="label"> <input type="text" name="gradientBlue" size="12" value="${gradientBlue}" /> </td>
 									</tr>
 

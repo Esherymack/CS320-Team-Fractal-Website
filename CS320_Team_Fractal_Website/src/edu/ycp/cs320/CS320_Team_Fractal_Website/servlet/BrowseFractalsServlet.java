@@ -20,6 +20,10 @@ public class BrowseFractalsServlet extends HttpServlet {
 			throws ServletException, IOException{
 		
 		System.out.println("Browse Fractals Servlet: doGet");
+		ArrayList<Fractal> fractals = null;
+		BrowseFractalsController browseController = new BrowseFractalsController();
+		fractals = browseController.getAllFractals();
+		req.setAttribute("fractals", fractals);
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
