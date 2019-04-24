@@ -507,7 +507,8 @@ public class DerbyDatabase implements IDatabase
 													 "where fractal.name = ?");
 						//where fractal.name = ?
 						//where fractal.name like '%?%'
-						
+						//
+						//
 						stmt.setString(1, charSeq);
 						
 						ArrayList<Fractal> result = new ArrayList<Fractal>();
