@@ -504,7 +504,9 @@ public class DerbyDatabase implements IDatabase
 					try{
 						//retrieve all fractals and populate into the list
 						stmt = conn.prepareStatement("select fractal.* from fractal " +
-													 "where fractal.name like '%?%'");
+													 "where fractal.name = ?");
+						//where fractal.name = ?
+						//where fractal.name like '%?%'
 						
 						stmt.setString(1, charSeq);
 						
