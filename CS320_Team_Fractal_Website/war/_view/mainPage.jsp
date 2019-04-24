@@ -105,10 +105,10 @@
 							<div>
 								<p>Gradient</p>
 								<select id="gradientChoice" name="gradientChoice" value="">
-									<option value="" ${gradientChoice == "" || empty gradientChoice ? 'selected="selected"' : ''} disabled hidden>Select Gradient</option>
-									<option value="None">None</option>
-									<option value="Horizontal">Horizontal</option>
-									<option value="Rainbow">Rainbow</option>
+									<c:forEach items="${gradientList}" var="type">
+										<option value="${type}" ${gradientChoice == type ? 'selected="selected"' : ''}>${type}</option>
+									</c:forEach>
+									
 								</select>
 							</div>
 							

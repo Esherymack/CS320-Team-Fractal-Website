@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Julia;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
 
@@ -81,17 +82,18 @@ public class JuilaController extends FractalController{
 	        	//select the color based on the iter count
 	        	if(iters[i][j] == MAX_ITER) g.setColor(Color.BLACK);
 	        	else{
-	        		if(noGradient()){
-	    				g.setColor(Color.WHITE);
-	        		}
-	    			else{
+	        		if(noGradient()) g.setColor(Color.WHITE);
+	    			else if(getGradientType().equals(Gradient.RAINBOW)){
 		        		Color color = getGradient().getBaseColor();
-		        		
 		        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
 		        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
 		        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
 		        		g.setColor(new Color((int)red, (int)green, (int)blue));
 	    			}
+	    			else if(getGradientType().equals(Gradient.HORIZONTAL)){
+	    				
+	    			}
+	        		else g.setColor(Color.WHITE);
 	        	}
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);

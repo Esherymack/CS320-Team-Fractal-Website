@@ -3,6 +3,17 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 import java.awt.Color;
 
 public class Gradient{
+	;
+	public static final String NONE = "None";
+	public static final String RAINBOW = "Rainbow";
+	public static final String HORIZONTAL = "Horizontal";
+	
+	/**
+	 * All of the types of gradients that can be used
+	 */
+	public static final String[] TYPES = {
+		NONE, RAINBOW, HORIZONTAL
+	};
 	
 	/**
 	 * The color that this gradient starts at, used for normal gradient and as the base for rainbow
@@ -39,6 +50,13 @@ public class Gradient{
 		this.secondaryColor = secondaryColor;
 	}
 	
+	/**
+	 * Get the color in the rainbow based on the given parameters
+	 * @param rParam 0-1 inclusive, how much red is in the color
+	 * @param gParam 0-1 inclusive, how much green is in the color
+	 * @param bParam 0-1 inclusive, how much blue is in the color
+	 * @return
+	 */
 	public Color getRainbowGradient(double rParam, double gParam, double bParam){
 		int red = Math.max(0, Math.min(255, (int)(255.0 * rParam)));
 		int green = Math.max(0, Math.min(255, (int)(255.0 * gParam)));

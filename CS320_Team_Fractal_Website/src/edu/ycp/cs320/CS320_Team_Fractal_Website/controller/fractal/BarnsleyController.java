@@ -120,27 +120,18 @@ public class BarnsleyController extends FractalController{
 			double y = SIZE - (SIZE * .95 / 9.99983) * y2 - (SIZE * .05) + 20;
 			
 			//pick color
-			if(noGradient()){
-				g.setColor(Color.WHITE);
+			if(noGradient()) g.setColor(Color.WHITE);
+			else if(getGradientType().equals(Gradient.HORIZONTAL)){
+				g.setColor(getGradient().getHorizontalGradientColor(x, SIZE));
 			}
-			else{
-				int red = (int)(Math.max(Math.min(255.0 * (x / SIZE), 255), 0));
-				int green = (int)(Math.max(Math.min(255.0 * (y / SIZE), 255), 0));
-				int blue = (int)(Math.max(Math.min(255.0 * ((x * y) / (SIZE * SIZE)), 255), 0));
-	
-				Color gColor = getGradient().getBaseColor();
-				
-				float h = Gradient.getHue(
-						(red + gColor.getRed()) / 2,
-						(green + gColor.getGreen()) / 2,
-						(blue + gColor.getBlue()) / 2
-				);
-				
-				float s = .6f;
-				float b = .7f;
-				Color c = Color.getHSBColor(h, s, b);
-				g.setColor(c);
+			else if(getGradientType().equals(Gradient.RAINBOW)){
+				g.setColor(getGradient().getRainbowGradient(
+						x / SIZE,
+						y / SIZE,
+						(x * y) / (SIZE * SIZE)
+				));
 			}
+			else g.setColor(Color.WHITE);
 			
 			//draw pixel
 			g.fillRect((int)Math.round(x), (int)Math.round(y), 1, 1);

@@ -56,10 +56,10 @@ public abstract class FractalController{
 	}
 	/**
 	 * Find out if this fractal should render with a gradient or not
-	 * @return true if it should render with a gradient, false otherwise
+	 * @return true if it should render without a gradient, false otherwise
 	 */
 	public boolean noGradient(){
-		return !(gradientType == null || gradientType.equals("None") || gradientType.isEmpty());
+		return gradientType == null || gradientType.equals(Gradient.NONE) || gradientType.isEmpty();
 	}
 	
 	/**

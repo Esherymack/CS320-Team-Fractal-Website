@@ -223,6 +223,9 @@ public class MainPageServlet extends HttpServlet{
 			}
 		}
 		
+		//send list of gradients
+		req.setAttribute("gradientList", Gradient.TYPES);
+		
 	}
 	
 	/**
