@@ -39,6 +39,23 @@ public class Gradient{
 		this.secondaryColor = secondaryColor;
 	}
 	
+	public Color getRainbowGradient(double rParam, double gParam, double bParam){
+		int red = Math.max(0, Math.min(255, (int)(255.0 * rParam)));
+		int green = Math.max(0, Math.min(255, (int)(255.0 * gParam)));
+		int blue = Math.max(0, Math.min(255, (int)((255.0 * bParam))));
+		
+		float h = Gradient.getHue(
+				(red + baseColor.getRed()) / 2,
+				(green + baseColor.getGreen()) / 2,
+				(blue + baseColor.getBlue()) / 2
+		);
+		
+		float s = .6f;
+		float b = .7f;
+		
+		return Color.getHSBColor(h, s, b);
+	}
+	
 	/**
 	 * Get the appropriate color for a pixel at the given location, 
 	 * for a horizontal gradient. 
