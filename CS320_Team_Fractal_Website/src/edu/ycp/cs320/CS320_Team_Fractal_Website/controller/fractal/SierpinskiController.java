@@ -70,7 +70,10 @@ public class SierpinskiController extends FractalController{
 	private void drawSierpinski(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3){
 		// this is a recursive function
 		if(level <= 1){
-			if(getUseGradient()){
+			if(noGradient()){
+				g.setColor(Color.WHITE);
+			}
+			else{
 				Point2D.Double middle = midPoint(p1, p2);
 				middle = midPoint(middle, p3);
 				
@@ -92,9 +95,6 @@ public class SierpinskiController extends FractalController{
 //				g.setColor(c);
 				
 				g.setColor(getGradient().getHorizontalGradientColor(middle.x, Sierpinski.SIZE));
-			}
-			else{
-				g.setColor(Color.WHITE);
 			}
 			
 			Polygon p = new Polygon();

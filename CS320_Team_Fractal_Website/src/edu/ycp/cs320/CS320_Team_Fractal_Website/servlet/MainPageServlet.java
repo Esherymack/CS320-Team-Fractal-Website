@@ -130,7 +130,7 @@ public class MainPageServlet extends HttpServlet{
 			
 			//set the gradient
 			controller.setGradient(gradient);
-			controller.setUseGradient(gradientChoice != null && !gradientChoice.equals("None"));
+			controller.setGradientType(gradientChoice);
 			
 			//render the fractal, only if no error occurred
 			//if the request is for a submit, then just display the fractal to the site

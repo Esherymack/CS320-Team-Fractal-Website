@@ -28,14 +28,13 @@ public abstract class FractalController{
 	private Gradient gradient;
 	
 	/**
-	 * True if this controller should render a fractal with a gradient or not. 
-	 * If not using a gradient, then it should only use 2 colors, one for in the fractal, one for out
+	 * The type 
 	 */
-	private boolean useGradient;
+	private String gradientType;
 	
 	public FractalController(){
 		gradient = new Gradient();
-		useGradient = true;
+		gradientType = "None";
 		
 		//get database for logging in
 		InitDatabase.init();
@@ -49,11 +48,18 @@ public abstract class FractalController{
 		this.gradient = gradient;
 	}
 	
-	public boolean getUseGradient(){
-		return useGradient;
+	public String getGradientType(){
+		return gradientType;
 	}
-	public void setUseGradient(boolean useGradient){
-		this.useGradient = useGradient;
+	public void setGradientType(String gradientType){
+		this.gradientType = gradientType;
+	}
+	/**
+	 * Find out if this fractal should render with a gradient or not
+	 * @return true if it should render with a gradient, false otherwise
+	 */
+	public boolean noGradient(){
+		return !(gradientType == null || gradientType.equals("None") || gradientType.isEmpty());
 	}
 	
 	/**

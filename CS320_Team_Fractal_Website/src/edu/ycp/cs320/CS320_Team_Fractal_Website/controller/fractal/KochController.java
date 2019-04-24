@@ -78,7 +78,10 @@ public class KochController extends FractalController{
 		if(iterations == 1){
 			
 			//pick color
-			if(getUseGradient()){
+			if(noGradient()){
+				g.setColor(Color.WHITE);
+			}
+			else{
 				int red = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
 				int green = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
 				int blue = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
@@ -95,9 +98,6 @@ public class KochController extends FractalController{
 				float b = .7f;
 				Color c = Color.getHSBColor(h, s, b);
 				g.setColor(c);
-			}
-			else{
-				g.setColor(Color.WHITE);
 			}
 			
 			g.drawLine(
