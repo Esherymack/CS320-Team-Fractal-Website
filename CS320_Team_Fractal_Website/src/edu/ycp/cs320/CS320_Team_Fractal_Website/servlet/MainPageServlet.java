@@ -39,9 +39,6 @@ public class MainPageServlet extends HttpServlet{
 		//list of parameters that need to be sent for which values are displayed
 		sendParamAttributes(req);
 
-		//parameter for setting checkbox for using fractals
-		req.setAttribute("useGradient", true);
-		
 		//view page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req,  resp);
 		
@@ -60,8 +57,11 @@ public class MainPageServlet extends HttpServlet{
 		
 		Boolean result = null;
 		
-		//choice from the drop down menu
+		//choice from the fractal drop down menu
 		String choice = req.getParameter("choice");
+		
+		//choice from the gradient drop down menu
+		String gradientChoice = req.getParameter("gradientChoice");
 		
 		//get all parameters
 		String[] params = new String[NUM_PARAMS];
@@ -84,9 +84,6 @@ public class MainPageServlet extends HttpServlet{
 		redEnd = req.getParameter("gradientRedEnd");
 		greenEnd = req.getParameter("gradientGreenEnd");
 		blueEnd = req.getParameter("gradientBlueEnd");
-		
-		//use checkbox parameter
-		Boolean useGradient = req.getParameter("useGradient") != null;
 		
 		//name parameter
 		String name = null;
@@ -133,7 +130,7 @@ public class MainPageServlet extends HttpServlet{
 			
 			//set the gradient
 			controller.setGradient(gradient);
-			controller.setUseGradient(useGradient);
+			controller.setUseGradient(gradientChoice != null && !gradientChoice.equals("None"));
 			
 			//render the fractal, only if no error occurred
 			//if the request is for a submit, then just display the fractal to the site
@@ -191,6 +188,7 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("fractalInfo", fractalInfo);
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
+		req.setAttribute("gradientChoice", gradientChoice);
 		
 		//set color attributes
 		req.setAttribute("gradientRedBase", redBase);
@@ -199,9 +197,6 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("gradientRedEnd", redEnd);
 		req.setAttribute("gradientGreenEnd", greenEnd);
 		req.setAttribute("gradientBlueEnd", blueEnd);
-
-		//parameter for setting checkbox for using fractals
-		req.setAttribute("useGradient", useGradient);
 		
 		//set name attribute
 		req.setAttribute("saveName", name);

@@ -215,8 +215,7 @@ table.params
 	text-align: right;
 }
 
-#choice
-{
+select{
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	text-indent: 1px;
@@ -242,7 +241,8 @@ table.params
 	background: #FFF4E0 url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
 }
 
-#choice select {
+/*
+select{
    border: 0;
    color: #EEE;
    background: transparent;
@@ -253,10 +253,9 @@ table.params
    *width: 350px;
    *background: #58B14C;
    -webkit-appearance: none;
-}
+}*/
 
-#choice:hover
-{
+select:hover{
 	background-color: #C2B9AA;
 	opacity: 1;
 }
