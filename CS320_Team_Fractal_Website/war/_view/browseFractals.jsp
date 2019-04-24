@@ -49,13 +49,13 @@
 					<h1>Browse Fractals</h1>
 				</div>
 
-				<div class="topnav">
+				<div>
 					<br>
 					<c:if test="${display}">
 						<img src="img/result.png" alt="result"/>
 					</c:if>
 				</div>
-				<div class="topnav">
+				<div class="filternav">
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<ul>
 							<li>
@@ -71,10 +71,14 @@
 								<input type="text" name="name" value="${name}">
 								<input type="Submit" name="searchForFractals" value="Search For Fractals">
 							</li>
+							<li>
+								<input type="text" name="charSeq" value="${charSeq}">
+								<input type="Submit" name="searchForFractals2" value="Search For Fractals2">
+							</li>
 						</ul>
-			  	</form>
+			  		</form>
 				</div>
-
+					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<table>
 						    <c:forEach items="${fractals}" var="fractal">
 						        <tr>
@@ -83,6 +87,7 @@
 						        </tr>
 						    </c:forEach>
 						</table>
+					</form>
 			</body>
 	</div>
 
