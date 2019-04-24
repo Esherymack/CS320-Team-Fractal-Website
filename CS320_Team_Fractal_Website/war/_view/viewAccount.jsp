@@ -32,14 +32,12 @@
 					</li>
 					<li>
 						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="doGet">
-							<input type="Submit" name="submit" value="Browse all fractals">
-						<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
-							<input type="Submit" name="submit" value="Currently logged in as ${userName}">
+							<input type="Submit" name="submit" value="Browse All Fractals">
 						</form>
 					</li>
 					<li>
 						<form action="${pageContext.servletContext.contextPath}/logout" method="post">
-							<input type="Submit" name="submit" value="LogOut">
+							<input type="Submit" name="submit" value="Log Out">
 						</form>
 					</li>
 				</ul>
@@ -53,12 +51,8 @@
 			<div class="info">
 					${firstName} ${lastName} | ${email}
 			</div>
-				
-			<div class="account-header">
-				<h1>
-					Your Fractals
-				</h1>
 
+			<div class="account-header">
 			<div>
 				<h2>
 					Your Fractals
@@ -80,7 +74,7 @@
 			</div>
 		</body>
 		</div>
-		<div class="border"></div>
 	</div>
+	<div class="border"></div>
 
 </html>

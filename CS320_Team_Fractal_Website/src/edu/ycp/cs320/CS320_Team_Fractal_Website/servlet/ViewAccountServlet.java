@@ -29,8 +29,6 @@ public class ViewAccountServlet extends HttpServlet{
 		
 		String currentlyLoggedInMessage = checkCookies(req, resp);
 		
-		String currentlyLoggedInMessage = checkCookies(req, resp);
-		
 		String currentUser = getLoggedInUser(req, resp);
 		User curUser = controller.getUserByUserName(currentUser);
 		String firstName = curUser.getFirstname();

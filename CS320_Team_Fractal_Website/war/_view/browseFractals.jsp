@@ -14,14 +14,12 @@
 		<div class="center">
 			<body id="home">
 
-				<h1>Browse Fractals</h1>
-
 				<div>
 					<c:if test="${! empty errorMessage}">
 						<div class="invalid">${errorMessage}</div>
 					</c:if>
 				</div>
-				
+
 				<div class="topnav">
 					<ul>
 						<li>
@@ -41,31 +39,23 @@
 						</li>
 						<li>
 							<form action="${pageContext.servletContext.contextPath}/logout" method="post">
-								<input type="Submit" name="submit" value="LogOut">
+								<input type="Submit" name="submit" value="Log Out">
 							</form>
 						</li>
 					</ul>
 				</div>
-				
+
 				<div class="account-header">
 					<h1>Browse Fractals</h1>
 				</div>
-				
-				<div class="filternav">
-					
-				<div>
-					</form>
-					<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
-						<input type="Submit" name="submit" value="Home">
-					</form>
-				</div>
 
-				<div>
+				<div class="topnav">
 					<br>
 					<c:if test="${display}">
 						<img src="img/result.png" alt="result"/>
 					</c:if>
-
+				</div>
+				<div class="topnav">
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<ul>
 							<li>
@@ -75,17 +65,16 @@
 								<li>
 									<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
 								</li>
+								<br>
 							</c:forEach>
 							<li>
 								<input type="text" name="name" value="${name}">
 								<input type="Submit" name="searchForFractals" value="Search For Fractals">
 							</li>
-							<li>
-								<input type="text" name="charSeq" value="${charSeq}">
-								<input type="Submit" name="searchForFractals2" value="Search For Fractals2">
-							</li>
 						</ul>
-							
+			  	</form>
+				</div>
+
 						<table>
 						    <c:forEach items="${fractals}" var="fractal">
 						        <tr>
@@ -94,12 +83,8 @@
 						        </tr>
 						    </c:forEach>
 						</table>
-					</form>
-				</div>
-
 			</body>
-		</div>
-		<div class="border"></div>
 	</div>
 
+	<div class="border"></div>
 </html>

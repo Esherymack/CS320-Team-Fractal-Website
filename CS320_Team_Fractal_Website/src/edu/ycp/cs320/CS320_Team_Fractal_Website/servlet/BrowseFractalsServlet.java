@@ -28,7 +28,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 		fractals = browseController.getAllFractals();
 		req.setAttribute("fractals", fractals);
 		
-		String currentlyLoggedInMessage = checkCookies(req, resp);
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
