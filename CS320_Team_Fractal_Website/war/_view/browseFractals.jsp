@@ -10,12 +10,9 @@
 	</head>
 
 	<div class="flex-container">
-		<div class="border">
-		</div>
+		<div class="border"></div>
 		<div class="center">
 			<body id="home">
-
-				<h1>Browse Fractals</h1>
 
 				<div>
 					<c:if test="${! empty errorMessage}">
@@ -23,20 +20,61 @@
 					</c:if>
 				</div>
 
-				<div>
-					</form>
-					<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
-						<input type="Submit" name="submit" value="Home">
-					</form>
+				<div class="topnav">
+					<ul>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
+								<input type="Submit" name="submit" value="Home">
+							</form>
+						</li>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
+								<input type="Submit" name="submit" value="${currentlyLoggedInMessage}">
+							</form>
+						</li>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/mainPage" method="doGet">
+								<input type="Submit" name="submit" value="Create a fractal">
+							</form>
+						</li>
+						<li>
+							<form action="${pageContext.servletContext.contextPath}/logout" method="post">
+								<input type="Submit" name="submit" value="Log Out">
+							</form>
+						</li>
+					</ul>
 				</div>
 
-				<div>
+				<div class="account-header">
+					<h1>Browse Fractals</h1>
+				</div>
+
+				<div class="topnav">
 					<br>
 					<c:if test="${display}">
 						<img src="img/result.png" alt="result"/>
 					</c:if>
-
+				</div>
+				<div class="topnav">
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+						<ul>
+							<li>
+								<input type="Submit" name="viewAllFractals" value="View All Fractals">
+							</li>
+							<c:forEach items="${fractalTypes}" var="type">
+								<li>
+									<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
+								</li>
+								<br>
+							</c:forEach>
+							<li>
+								<input type="text" name="name" value="${name}">
+								<input type="Submit" name="searchForFractals" value="Search For Fractals">
+							</li>
+						</ul>
+			  	</form>
+				</div>
+
 						<table>
 						    <c:forEach items="${fractals}" var="fractal">
 						        <tr>
@@ -45,13 +83,8 @@
 						        </tr>
 						    </c:forEach>
 						</table>
-					</form>
-
-				</div>
-
 			</body>
-		</div>
-		<div class="border"></div>
 	</div>
 
+	<div class="border"></div>
 </html>
