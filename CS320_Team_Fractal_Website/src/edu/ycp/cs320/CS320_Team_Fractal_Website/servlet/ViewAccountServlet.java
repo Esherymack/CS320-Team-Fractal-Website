@@ -36,6 +36,7 @@ public class ViewAccountServlet extends HttpServlet{
 		String email = curUser.getEmail();
 		fractals = controller.getUserFractals(currentUser);
 		
+		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("userName", currentUser);
 		req.setAttribute("firstName",  firstName);
 		req.setAttribute("lastName",  lastName);
