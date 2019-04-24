@@ -7,12 +7,14 @@ public class Gradient{
 	public static final String NONE = "None";
 	public static final String RAINBOW = "Rainbow";
 	public static final String HORIZONTAL = "Horizontal";
+	public static final String VERTICAL = "Vertical";
+	public static final String DIAGONAL = "Diagonal";
 	
 	/**
 	 * All of the types of gradients that can be used
 	 */
 	public static final String[] TYPES = {
-		NONE, RAINBOW, HORIZONTAL
+		NONE, RAINBOW, HORIZONTAL, VERTICAL, DIAGONAL
 	};
 	
 	/**
@@ -73,22 +75,44 @@ public class Gradient{
 		
 		return Color.getHSBColor(h, s, b);
 	}
-	
+
 	/**
 	 * Get the appropriate color for a pixel at the given location, 
-	 * for a horizontal gradient. 
+	 * for a straight gradient
 	 * given the width of a square and position the pixel is in
 	 * @param x the x position in the width
-	 * @param width the width relative to the x
+	 * @param width the width relative to the x, can also be based on y or another position
 	 * @return the color of the given location
 	 */
-	public Color getHorizontalGradientColor(double x, double width){
+	public Color getStraightGradientColor(double x, double width){
 		double diff = secondaryColor.getRed() - baseColor.getRed();
 		int r = (int)((baseColor.getRed() + diff * (x / width)));
 		diff = secondaryColor.getGreen() - baseColor.getGreen();
 		int g = (int)((baseColor.getGreen() + diff * (x / width)));
 		diff = secondaryColor.getBlue() - baseColor.getBlue();
 		int b = (int)((baseColor.getBlue() + diff * (x / width)));
+		
+		r = Math.max(0, Math.min(255, r));
+		g = Math.max(0, Math.min(255, g));
+		b = Math.max(0, Math.min(255, b));
+		return new Color(r, g, b);
+	}
+	
+	/**
+	 * Get the appropriate color for a pixel at the given location, 
+	 * for a vertical gradient. 
+	 * given the width of a square and position the pixel is in
+	 * @param x the x position in the width
+	 * @param width the width relative to the x
+	 * @return the color of the given location
+	 */
+	public Color getDiagonalGradientColor(double x, double y, double width, double height){
+		double diff = secondaryColor.getRed() - baseColor.getRed();
+		int r = (int)((baseColor.getRed() + diff * ((x * y) / (width * height))));
+		diff = secondaryColor.getGreen() - baseColor.getGreen();
+		int g = (int)((baseColor.getGreen() + diff * ((x * y) / (width * height))));
+		diff = secondaryColor.getBlue() - baseColor.getBlue();
+		int b = (int)((baseColor.getBlue() + diff * ((x * y) / (width * height))));
 		
 		r = Math.max(0, Math.min(255, r));
 		g = Math.max(0, Math.min(255, g));

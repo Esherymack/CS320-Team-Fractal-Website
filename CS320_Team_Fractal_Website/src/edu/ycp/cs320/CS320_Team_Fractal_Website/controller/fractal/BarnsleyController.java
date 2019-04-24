@@ -122,7 +122,13 @@ public class BarnsleyController extends FractalController{
 			//pick color
 			if(noGradient()) g.setColor(Color.WHITE);
 			else if(getGradientType().equals(Gradient.HORIZONTAL)){
-				g.setColor(getGradient().getHorizontalGradientColor(x, SIZE));
+				g.setColor(getGradient().getStraightGradientColor(x, SIZE));
+			}
+			else if(getGradientType().equals(Gradient.VERTICAL)){
+				g.setColor(getGradient().getStraightGradientColor(y, SIZE));
+			}
+			else if(getGradientType().equals(Gradient.DIAGONAL)){
+				g.setColor(getGradient().getDiagonalGradientColor(x, y, SIZE, SIZE));
 			}
 			else if(getGradientType().equals(Gradient.RAINBOW)){
 				g.setColor(getGradient().getRainbowGradient(

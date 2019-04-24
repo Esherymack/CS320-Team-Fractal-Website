@@ -76,7 +76,13 @@ public class SierpinskiController extends FractalController{
 			
 			if(noGradient()) g.setColor(Color.WHITE);
 			else if(getGradientType().equals(Gradient.HORIZONTAL)){
-				g.setColor(getGradient().getHorizontalGradientColor(middle.x, Sierpinski.SIZE));
+				g.setColor(getGradient().getStraightGradientColor(middle.x, Sierpinski.SIZE));
+			}
+			else if(getGradientType().equals(Gradient.VERTICAL)){
+				g.setColor(getGradient().getStraightGradientColor(middle.y, Sierpinski.SIZE));
+			}
+			else if(getGradientType().equals(Gradient.DIAGONAL)){
+				g.setColor(getGradient().getDiagonalGradientColor(middle.x, middle.y, Sierpinski.SIZE, Sierpinski.SIZE));
 			}
 			else if(getGradientType().equals(Gradient.RAINBOW)){
 				g.setColor(getGradient().getRainbowGradient(
