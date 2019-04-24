@@ -6,7 +6,6 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class SierpinskiController extends FractalController{
@@ -69,29 +68,30 @@ public class SierpinskiController extends FractalController{
 	 * @param p3 the third point on the triangle
 	 */
 	private void drawSierpinski(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3){
-		
 		// this is a recursive function
 		if(level <= 1){
 			if(getUseGradient()){
 				Point2D.Double middle = midPoint(p1, p2);
 				middle = midPoint(middle, p3);
 				
-				Color gColor = getGradient().getBaseColor();
+//				Color gColor = getGradient().getBaseColor();
+//				
+//				int red = Math.max(0, Math.min(255, (int)(255.0 * (middle.x / Sierpinski.SIZE))));
+//				int green = Math.max(0, Math.min(255, (int)(255.0 * (middle.y / Sierpinski.SIZE))));
+//				int blue = Math.max(0, Math.min(255, (int)((255.0 * (middle.x * middle.y) / (Sierpinski.SIZE * Sierpinski.SIZE)))));
+//				
+//				float h = Gradient.getHue(
+//						(red + gColor.getRed()) / 2,
+//						(green + gColor.getGreen()) / 2,
+//						(blue + gColor.getBlue()) / 2
+//				);
+//				
+//				float s = .6f;
+//				float b = .7f;
+//				Color c = Color.getHSBColor(h, s, b);
+//				g.setColor(c);
 				
-				int red = Math.max(0, Math.min(255, (int)(255.0 * (middle.x / Sierpinski.SIZE))));
-				int green = Math.max(0, Math.min(255, (int)(255.0 * (middle.y / Sierpinski.SIZE))));
-				int blue = Math.max(0, Math.min(255, (int)((255.0 * (middle.x * middle.y) / (Sierpinski.SIZE * Sierpinski.SIZE)))));
-				
-				float h = Gradient.getHue(
-						(red + gColor.getRed()) / 2,
-						(green + gColor.getGreen()) / 2,
-						(blue + gColor.getBlue()) / 2
-				);
-				
-				float s = .6f;
-				float b = .7f;
-				Color c = Color.getHSBColor(h, s, b);
-				g.setColor(c);
+				g.setColor(getGradient().getHorizontalGradientColor(middle.x, Sierpinski.SIZE));
 			}
 			else{
 				g.setColor(Color.WHITE);

@@ -110,21 +110,38 @@
 									<input type="checkbox" value="useGradient" name="useGradient" ${useGradient ? 'checked' : ''}>
 									</p>
 								</tr>
-								<p>Gradient</p>
+								<p>
+									Gradient<br>
+									Base color
+								</p>
 								<table class="params">
 									<tr>
 										<td class="label"> <label>Red:</label> </td>
-										<td class="label"> <input type="text" name="gradientRed" size="12" value="${gradientRed}" /> </td>
+										<td class="label"> <input type="text" name="gradientRedBase" size="12" value="${gradientRedBase}" /> </td>
 									</tr>
 									<tr>
 										<td class="label"> <label>Green:</label> </td>
-										<td class="label"> <input type="text" name="gradientGreen" size="12" value="${gradientGreen}" /> </td>
+										<td class="label"> <input type="text" name="gradientGreenBase" size="12" value="${gradientGreenBase}" /> </td>
 									</tr>
 									<tr>
 										<td class="label"> <label>Blue:</label> </td>
-										<td class="label"> <input type="text" name="gradientBlue" size="12" value="${gradientBlue}" /> </td>
+										<td class="label"> <input type="text" name="gradientBlueBase" size="12" value="${gradientBlueBase}" /> </td>
 									</tr>
-
+								</table>
+								<table class="params">
+									<p>End color:</p>
+									<tr>
+										<td class="label"> <label>Red:</label> </td>
+										<td class="label"> <input type="text" name="gradientRedEnd" size="12" value="${gradientRedEnd}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Green:</label> </td>
+										<td class="label"> <input type="text" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Blue:</label> </td>
+										<td class="label"> <input type="text" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" /> </td>
+									</tr>
 								</table>
 							</div>
 						</div>

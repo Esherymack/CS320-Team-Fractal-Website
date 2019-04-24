@@ -1,5 +1,6 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -69,14 +70,20 @@ public class MainPageServlet extends HttpServlet{
 		}
 		
 		//color parameters
-		String red = null;
-		String green = null;
-		String blue = null;
+		String redBase = null;
+		String greenBase = null;
+		String blueBase = null;
+		String redEnd = null;
+		String greenEnd = null;
+		String blueEnd = null;
 
 		//get color parameters
-		red = req.getParameter("gradientRed");
-		green = req.getParameter("gradientGreen");
-		blue = req.getParameter("gradientBlue");
+		redBase = req.getParameter("gradientRedBase");
+		greenBase = req.getParameter("gradientGreenBase");
+		blueBase = req.getParameter("gradientBlueBase");
+		redEnd = req.getParameter("gradientRedEnd");
+		greenEnd = req.getParameter("gradientGreenEnd");
+		blueEnd = req.getParameter("gradientBlueEnd");
 		
 		//use checkbox parameter
 		Boolean useGradient = req.getParameter("useGradient") != null;
@@ -99,14 +106,25 @@ public class MainPageServlet extends HttpServlet{
 			//get the color of the gradient for the controller
 			Gradient gradient;
 			try{
-				int r = Integer.parseInt(red);
-				int g = Integer.parseInt(green);
-				int b = Integer.parseInt(blue);
-				gradient = new Gradient(r, g, b);
-
-				red = "" + gradient.getBaseColor().getRed();
-				green = "" + gradient.getBaseColor().getGreen();
-				blue = "" + gradient.getBaseColor().getBlue();
+				gradient = new Gradient();
+				
+				int r = Integer.parseInt(redBase);
+				int g = Integer.parseInt(greenBase);
+				int b = Integer.parseInt(blueBase);
+				gradient.setBaseColor(new Color(r, g, b));
+				
+				r = Integer.parseInt(redEnd);
+				g = Integer.parseInt(greenEnd);
+				b = Integer.parseInt(blueEnd);
+				gradient.setSecondaryColor(new Color(r, g, b));
+				
+				redBase = "" + gradient.getBaseColor().getRed();
+				greenBase = "" + gradient.getBaseColor().getGreen();
+				blueBase = "" + gradient.getBaseColor().getBlue();
+				
+				redEnd = "" + gradient.getSecondaryColor().getRed();
+				greenEnd = "" + gradient.getSecondaryColor().getGreen();
+				blueEnd = "" + gradient.getSecondaryColor().getBlue();
 				
 				
 			}catch(NullPointerException | NumberFormatException e){
@@ -175,9 +193,12 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("choice", choice);
 		
 		//set color attributes
-		req.setAttribute("gradientRed", red);
-		req.setAttribute("gradientGreen", green);
-		req.setAttribute("gradientBlue", blue);
+		req.setAttribute("gradientRedBase", redBase);
+		req.setAttribute("gradientGreenBase", greenBase);
+		req.setAttribute("gradientBlueBase", blueBase);
+		req.setAttribute("gradientRedEnd", redEnd);
+		req.setAttribute("gradientGreenEnd", greenEnd);
+		req.setAttribute("gradientBlueEnd", blueEnd);
 
 		//parameter for setting checkbox for using fractals
 		req.setAttribute("useGradient", useGradient);
