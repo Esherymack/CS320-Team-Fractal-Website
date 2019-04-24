@@ -19,4 +19,9 @@ public class ViewAccountController {
 	public User getUserByUserName(String username){
 		return database.getUserByUsername(username);
 	}
+	
+	public ArrayList<Fractal> getUserFractals(String username)
+	{
+		return database.getAllFractalsByUsername(username);
+	}
 }

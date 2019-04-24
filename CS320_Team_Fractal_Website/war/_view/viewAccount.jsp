@@ -15,6 +15,11 @@
 		<body>
 			<div class="topnav">
 				<ul>
+					<div>
+						<c:if test="${! empty errorMessage}">
+							<div class="invalid">${errorMessage}</div>
+						</c:if>
+					</div>
 					<li>
 						<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
 							<input type="Submit" name="submit" value="Home">
@@ -28,6 +33,8 @@
 					<li>
 						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="doGet">
 							<input type="Submit" name="submit" value="Browse all fractals">
+						<form action="${pageContext.servletContext.contextPath}/viewAccount" method="doGet">
+							<input type="Submit" name="submit" value="Currently logged in as ${userName}">
 						</form>
 					</li>
 					<li>
@@ -42,7 +49,7 @@
 					${userName}
 				</h1>
 			</div>
-			
+
 			<div class="info">
 					${firstName} ${lastName} | ${email}
 			</div>
@@ -51,6 +58,25 @@
 				<h1>
 					Your Fractals
 				</h1>
+
+			<div>
+				<h2>
+					Your Fractals
+				</h2>
+				<c:if test="${display}">
+					<br>
+					<img src="img/result.png" alt="result"/>
+				</c:if>
+				<form action="${pageContext.servletContext.contextPath}/viewAccount" method="post">
+					<table>
+							<c:forEach items="${fractals}" var="fractal">
+									<tr>
+								<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
+								<br>
+									</tr>
+							</c:forEach>
+					</table>
+				</form>
 			</div>
 		</body>
 		</div>

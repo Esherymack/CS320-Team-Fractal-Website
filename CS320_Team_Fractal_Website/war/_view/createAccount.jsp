@@ -23,11 +23,6 @@
 							<input type="Submit" name="submit" value="Login">
 						</form>
 					</li>
-					<li>
-						<form action="${pageContext.servletContext.contextPath}/logout" method="post">
-							<input type="Submit" name="submit" value="LogOut">
-						</form>
-					</li>
 				</ul>
 			</div>
 			<div class="login-center">

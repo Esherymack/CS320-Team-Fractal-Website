@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Koch;
 
 public class KochController extends FractalController{
@@ -45,41 +46,25 @@ public class KochController extends FractalController{
 	}
 	
 	@Override
-	public boolean render(){
-		//create a thread to render and calculate the set
-		//TODO make this use multiple threads
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run(){
-				BufferedImage img = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_3BYTE_BGR);
-				Graphics g = img.getGraphics();
-				
-				g.setColor(Color.WHITE);
-				g.fillRect(0, 0, SIZE, SIZE);
-				
-				//size of triangle
-				double s = .9 * SIZE * Math.sqrt(3.0) / 2.0;
-				//y offset
-				double y = -50;
-				renderKochLine(g, new Point2D.Double(s, s + y), new Point2D.Double(SIZE - s, s + y), model.getIterations());
-				renderKochLine(g, new Point2D.Double(SIZE / 2, SIZE - s + y), new Point2D.Double(s, s + y), model.getIterations());
-				renderKochLine(g, new Point2D.Double(SIZE - s, s + y), new Point2D.Double(SIZE / 2, SIZE - s + y), model.getIterations());
-				
-				sendImage(img);
-			}
-		});
+	public BufferedImage renderImage(){
+		BufferedImage img = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_3BYTE_BGR);
+		Graphics g = img.getGraphics();
 		
-		thread.start();
-		try{
-			thread.join();
-		}catch (InterruptedException e){
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, SIZE, SIZE);
+		
+		//size of triangle
+		double s = .9 * SIZE * Math.sqrt(3.0) / 2.0;
+		//y offset
+		double y = -50;
+		renderKochLine(g, new Point2D.Double(s, s + y), new Point2D.Double(SIZE - s, s + y), model.getIterations());
+		renderKochLine(g, new Point2D.Double(SIZE / 2, SIZE - s + y), new Point2D.Double(s, s + y), model.getIterations());
+		renderKochLine(g, new Point2D.Double(SIZE - s, s + y), new Point2D.Double(SIZE / 2, SIZE - s + y), model.getIterations());
+		
+		return img;
 	}
 	
-	public static void renderKochLine(Graphics g, Point2D.Double start, Point2D.Double end, int iterations){
+	public void renderKochLine(Graphics g, Point2D.Double start, Point2D.Double end, int iterations){
 		if(iterations <= 0) return;
 		
 		//get the point one third the distance from start to end, closest to start
@@ -90,31 +75,56 @@ public class KochController extends FractalController{
 		Point2D.Double point = getEquilateralPoint(low, high);
 		
 		//draw new lines
-		g.setColor(Color.BLACK);
-		g.drawLine(
-				(int)Math.round(start.x),
-				(int)Math.round(start.y),
-				(int)Math.round(low.x),
-				(int)Math.round(low.y)
-		);
-		g.drawLine(
-				(int)Math.round(end.x),
-				(int)Math.round(end.y),
-				(int)Math.round(high.x),
-				(int)Math.round(high.y)
-		);
-		g.drawLine(
-				(int)Math.round(low.x),
-				(int)Math.round(low.y),
-				(int)Math.round(point.x),
-				(int)Math.round(point.y)
-		);
-		g.drawLine(
-				(int)Math.round(high.x),
-				(int)Math.round(high.y),
-				(int)Math.round(point.x),
-				(int)Math.round(point.y)
-		);
+		if(iterations == 1){
+			
+			//pick color
+			if(getUseGradient()){
+				int red = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
+				int green = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
+				int blue = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
+	
+				Color gColor = getGradient().getBaseColor();
+				
+				float h = Gradient.getHue(
+						(red + gColor.getRed()) / 2,
+						(green + gColor.getGreen()) / 2,
+						(blue + gColor.getBlue()) / 2
+				);
+				
+				float s = .6f;
+				float b = .7f;
+				Color c = Color.getHSBColor(h, s, b);
+				g.setColor(c);
+			}
+			else{
+				g.setColor(Color.WHITE);
+			}
+			
+			g.drawLine(
+					(int)Math.round(start.x),
+					(int)Math.round(start.y),
+					(int)Math.round(low.x),
+					(int)Math.round(low.y)
+			);
+			g.drawLine(
+					(int)Math.round(end.x),
+					(int)Math.round(end.y),
+					(int)Math.round(high.x),
+					(int)Math.round(high.y)
+			);
+			g.drawLine(
+					(int)Math.round(low.x),
+					(int)Math.round(low.y),
+					(int)Math.round(point.x),
+					(int)Math.round(point.y)
+			);
+			g.drawLine(
+					(int)Math.round(high.x),
+					(int)Math.round(high.y),
+					(int)Math.round(point.x),
+					(int)Math.round(point.y)
+			);
+		}
 		
 		//call more lines
 		renderKochLine(g, point, high, iterations - 1);

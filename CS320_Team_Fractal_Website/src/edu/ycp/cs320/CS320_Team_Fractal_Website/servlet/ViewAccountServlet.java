@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -8,19 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.ViewAccountController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 
 public class ViewAccountServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	
+	public ViewAccountController controller = new ViewAccountController();
+	public 	ArrayList<Fractal> fractals = null;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException{
 		
-		System.out.println("View Account Servlet: doGet");
-
-		ViewAccountController controller = new ViewAccountController();
+		System.out.println("View Account Servlet: doGet");	
+		
+		String currentlyLoggedInMessage = checkCookies(req, resp);
 		
 		String currentlyLoggedInMessage = checkCookies(req, resp);
 		
@@ -29,14 +36,16 @@ public class ViewAccountServlet extends HttpServlet{
 		String firstName = curUser.getFirstname();
 		String lastName = curUser.getLastname();
 		String email = curUser.getEmail();
+		fractals = controller.getUserFractals(currentUser);
 		
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("userName", currentUser);
 		req.setAttribute("firstName",  firstName);
 		req.setAttribute("lastName",  lastName);
 		req.setAttribute("email",  email);
+		req.setAttribute("fractals",  fractals);
 		
-		// call JSP to generate empty form
+		// call JSP to generate form
 		req.getRequestDispatcher("/_view/viewAccount.jsp").forward(req, resp);
 	}
 	
@@ -46,12 +55,51 @@ public class ViewAccountServlet extends HttpServlet{
 		
 		System.out.println("View Account Servlet: doPost");
 		
+		Fractal renderFractal = null;
+		String errorMessage = null;
+		Boolean display = null;
 		String currentUser = getLoggedInUser(req, resp);
+		User curUser = controller.getUserByUserName(currentUser);
+		String firstName = curUser.getFirstname();
+		String lastName = curUser.getLastname();
+		String email = curUser.getEmail();
+		fractals = controller.getUserFractals(currentUser);
+		
+		for(Fractal f : fractals)
+		{
+			Object found = req.getParameter("viewFractal_" + f.getId());
+			if(found != null)
+			{
+				renderFractal = f;
+				break;
+			}
+		}
+		
+		display = req.getParameter("viewFractals") == null;
+		if(renderFractal != null)
+		{
+			FractalController fractalController = renderFractal.createApproprateController();
+			fractalController.render();
+		}
+		else if(display)
+		{
+			errorMessage = "Fractal could not be rendered.";
+		}
+		
+		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("display", display);
+		req.setAttribute("fractals", fractals);
+		req.setAttribute("firstName", firstName);
+		req.setAttribute("lastName", lastName);
+		req.setAttribute("email", email);
 		req.setAttribute("userName", currentUser);
+		
+		req.getRequestDispatcher("/_view/viewAccount.jsp").forward(req,  resp);
 	}
 	
 	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
+		CheckUserValidController isValidUser = new CheckUserValidController();
 		// User - should be logged in.
 		String userName = null;
 		// Request any cookies
@@ -66,17 +114,25 @@ public class ViewAccountServlet extends HttpServlet{
 		for(Cookie cookie : cookies)
 		{
 			if(cookie.getName().equals("user")) userName = cookie.getValue();
-		}	
-		// again, check if the user is logged in:
-		if(userName == null)
+		}
+		// If a cookie is found, **make sure it is a valid cookie**
+		// That is, check and see if a username is found in the db that matches the cookie.
+		if(isValidUser.getUserIfExists(userName))
 		{
-			resp.sendRedirect("logIn");
-			return null;
+			// otherwise
+			String currentlyLoggedInMessage = "Currently logged in as " + userName;
+			req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
+			req.setAttribute("userName", userName);
+		}
+		// Otherwise, just to clean up, delete the cookie of the deleted/nonexistent user ("log out").
+		else
+		{
+			isValidUser.LogOut(req, resp, "logIn");
 		}
 		
 		// otherwise
-		return(userName);
-	}
+		return("Currently logged in as " + userName);
+	}	
 	
 	
 	/**

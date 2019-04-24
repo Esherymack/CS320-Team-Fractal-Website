@@ -53,25 +53,9 @@ public class JuilaController extends FractalController{
 	}
 
 	@Override
-	public boolean render(){
-		//create a thread to render and calculate the set
-		//TODO make this use multiple threads
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run(){
-				BufferedImage img = renderIterCounts();
-				sendImage(img);
-			}
-		});
-		
-		thread.start();
-		try{
-			thread.join();
-		}catch (InterruptedException e){
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+	public BufferedImage renderImage(){
+		BufferedImage img = renderIterCounts();
+		return img;
 	}
 	
 	/**
@@ -95,12 +79,19 @@ public class JuilaController extends FractalController{
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
 	        	//select the color based on the iter count
-	        	if (iters[i][j] <= 0) g.setColor(Color.BLACK);
+	        	if(iters[i][j] == MAX_ITER) g.setColor(Color.BLACK);
 	        	else{
-	        		double red = (Math.sin(iters[i][j] * Math.PI / 2) + 1) * 127.0;
-	        		double green = (Math.sin(iters[i][j] * Math.PI) + 1) * 127.0;
-	        		double blue = (Math.cos(iters[i][j] * Math.PI) + 1) * 127.0;
-	        		g.setColor(new Color((int)red, (int)green, (int)blue));
+	        		if(getUseGradient()){
+		        		Color color = getGradient().getBaseColor();
+		        		
+		        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
+		        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
+		        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
+		        		g.setColor(new Color((int)red, (int)green, (int)blue));
+	        		}
+	    			else{
+	    				g.setColor(Color.WHITE);
+	    			}
 	        	}
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);
@@ -152,15 +143,14 @@ public class JuilaController extends FractalController{
 	 * @return the number of iterations	
 	 */
 	public int computeIterCount(Complex complex){
-    	//Z is initially 0+0i
     	Complex c = new Complex(complex.getRealNum(), complex.getImagNum());
     	
     	//# of iterations
     	int count = 0;
     	//while z has magnitude of less than 2 and iteration counts its below the max
     	while(c.getMagnitude() < 4.0){
-    		if (count > MAX_ITER){
-    			return 0;
+    		if (count >= MAX_ITER){
+    			return MAX_ITER;
     		}
     		//iterate complex number
         	c = c.multiply(c);

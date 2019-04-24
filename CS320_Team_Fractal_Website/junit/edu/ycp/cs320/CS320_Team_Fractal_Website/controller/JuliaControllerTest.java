@@ -60,8 +60,8 @@ public class JuliaControllerTest {
 	}
 
 	@Test
-	public void testRender(){
-		assertTrue(controller.render());
+	public void testRenderImage(){
+		assertFalse(controller.renderImage() == null);
 	}
 	
 	@Test
@@ -87,15 +87,15 @@ public class JuliaControllerTest {
 	public void testComputeIterCount(){
 		Complex c = new Complex(0, 0);
 		int cnt = controller.computeIterCount(c);
-		assertTrue(cnt == 0);
+		assertTrue(cnt == JuilaController.MAX_ITER);
 		
 		c = new Complex(0.25, 0);
 		cnt = controller.computeIterCount(c);
-		assertTrue(cnt == 0);
+		assertTrue(cnt == JuilaController.MAX_ITER);
 		
 		c = new Complex(-0.5, 0.1);
 		cnt = controller.computeIterCount(c);
-		assertTrue(cnt == 0);
+		assertTrue(cnt == JuilaController.MAX_ITER);
 
 		c = new Complex(-2, 0);
 		cnt = controller.computeIterCount(c);

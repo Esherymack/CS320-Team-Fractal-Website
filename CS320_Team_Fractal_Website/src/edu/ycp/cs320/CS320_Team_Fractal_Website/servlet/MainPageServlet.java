@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 
 public class MainPageServlet extends HttpServlet{
@@ -35,6 +37,9 @@ public class MainPageServlet extends HttpServlet{
 		
 		//list of parameters that need to be sent for which values are displayed
 		sendParamAttributes(req);
+
+		//parameter for setting checkbox for using fractals
+		req.setAttribute("useGradient", true);
 		
 		//view page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req,  resp);
@@ -42,8 +47,7 @@ public class MainPageServlet extends HttpServlet{
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-	{	
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{	
 		System.out.println("mainPage Servlet: doPost");
 
 		String currentlyLoggedInMessage = checkCookies(req, resp);
@@ -51,10 +55,11 @@ public class MainPageServlet extends HttpServlet{
 		// holds the error message text, if any
 		String errorMessage = null;
 		// holds the fractal info
-		String fractalInfo = null;
+		String fractalInfo = req.getParameter("fractalInfo");
 		
 		Boolean result = null;
 		
+		//choice from the drop down menu
 		String choice = req.getParameter("choice");
 		
 		//get all parameters
@@ -63,14 +68,54 @@ public class MainPageServlet extends HttpServlet{
 			params[i] = req.getParameter("param" + i);
 		}
 		
+		//color parameters
+		String red = null;
+		String green = null;
+		String blue = null;
+
+		//get color parameters
+		red = req.getParameter("gradientRed");
+		green = req.getParameter("gradientGreen");
+		blue = req.getParameter("gradientBlue");
+		
+		//use checkbox parameter
+		Boolean useGradient = req.getParameter("useGradient") != null;
+		
+		//name parameter
+		String name = null;
+		
 		//only generate the fractal if a value choice was found
 		if(choice != null){
 			//select the correct controller and model to use
 			Fractal fractal = Fractal.getDefaultFractal(choice);
 			FractalController controller = fractal.createApproprateController();
+
+			//set fractal info
+			fractalInfo = controller.getModel().getInfo();
 			
 			//send parameters
 			boolean sent = controller.acceptParameters(params);
+			
+			//get the color of the gradient for the controller
+			Gradient gradient;
+			try{
+				int r = Integer.parseInt(red);
+				int g = Integer.parseInt(green);
+				int b = Integer.parseInt(blue);
+				gradient = new Gradient(r, g, b);
+
+				red = "" + gradient.getBaseColor().getRed();
+				green = "" + gradient.getBaseColor().getGreen();
+				blue = "" + gradient.getBaseColor().getBlue();
+				
+				
+			}catch(NullPointerException | NumberFormatException e){
+				gradient = new Gradient();
+			}
+			
+			//set the gradient
+			controller.setGradient(gradient);
+			controller.setUseGradient(useGradient);
 			
 			//render the fractal, only if no error occurred
 			//if the request is for a submit, then just display the fractal to the site
@@ -81,7 +126,7 @@ public class MainPageServlet extends HttpServlet{
 			//if the request is for a save, only save the fractal
 			else if(req.getParameter("save") != null){
 				//get the name the user has typed in
-				String name = req.getParameter("saveButton");
+				name = req.getParameter("saveName");
 				
 				//save and render the fractal
 				if(name != null && controller != null && sent){
@@ -111,9 +156,6 @@ public class MainPageServlet extends HttpServlet{
 			else{
 				//detect if invalid parameters were given
 				if(!sent) errorMessage = "Invalid parameters given";
-				
-				//set fractal info
-				fractalInfo = controller.getModel().getInfo();
 			}
 		}
 		else errorMessage = "Please select a fractal";
@@ -132,11 +174,23 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		
+		//set color attributes
+		req.setAttribute("gradientRed", red);
+		req.setAttribute("gradientGreen", green);
+		req.setAttribute("gradientBlue", blue);
+
+		//parameter for setting checkbox for using fractals
+		req.setAttribute("useGradient", useGradient);
+		
+		//set name attribute
+		req.setAttribute("saveName", name);
+		
 		//go back to the page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
 	}
 	
 	private void sendParamAttributes(HttpServletRequest req){
+		
 		//list of parameters that need to be sent for which values are displayed
 		req.setAttribute("paramLabelList", getParamLabelList());
 		
@@ -167,6 +221,7 @@ public class MainPageServlet extends HttpServlet{
 	
 	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
+		CheckUserValidController isValidUser = new CheckUserValidController();
 		// User - should be logged in.
 		String userName = null;
 		// Request any cookies
@@ -182,11 +237,19 @@ public class MainPageServlet extends HttpServlet{
 		{
 			if(cookie.getName().equals("user")) userName = cookie.getValue();
 		}
-		// again, check if the user is logged in:
-		if(userName == null)
+		// If a cookie is found, **make sure it is a valid cookie**
+		// That is, check and see if a username is found in the db that matches the cookie.
+		if(isValidUser.getUserIfExists(userName))
 		{
-			resp.sendRedirect("logIn");
-			return null;
+			// otherwise
+			String currentlyLoggedInMessage = "Currently logged in as " + userName;
+			req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
+			req.setAttribute("userName", userName);
+		}
+		// Otherwise, just to clean up, delete the cookie of the deleted/nonexistent user ("log out").
+		else
+		{
+			isValidUser.LogOut(req, resp, "logIn");
 		}
 		
 		// otherwise
@@ -213,4 +276,5 @@ public class MainPageServlet extends HttpServlet{
 		//if no username is found, return null
 		return null;
 	}
+	
 }
