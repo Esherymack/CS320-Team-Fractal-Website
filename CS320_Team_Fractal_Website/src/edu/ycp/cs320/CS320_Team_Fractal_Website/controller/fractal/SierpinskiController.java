@@ -74,7 +74,7 @@ public class SierpinskiController extends FractalController{
 			Point2D.Double middle = midPoint(p1, p2);
 			middle = midPoint(middle, p3);
 			
-			if(noGradient()) g.setColor(Color.WHITE);
+			if(model.noGradient()) g.setColor(Color.WHITE);
 			else if(getGradientType().equals(Gradient.HORIZONTAL)){
 				g.setColor(getGradient().getStraightGradientColor(middle.x, Sierpinski.SIZE));
 			}

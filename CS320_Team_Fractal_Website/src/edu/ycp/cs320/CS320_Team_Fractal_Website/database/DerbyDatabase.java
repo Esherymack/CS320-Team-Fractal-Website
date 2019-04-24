@@ -1,5 +1,6 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.database;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +14,7 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalContro
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.MainPageServlet;
 
 // Modified from CS320 Lab06
@@ -274,13 +276,29 @@ public class DerbyDatabase implements IDatabase
 						String[] params = fractal.getParameters();
 						//insert the fractal
 						stmt = conn.prepareStatement("INSERT INTO fractal "
-								+ " (name, type, user_id, param0, param1, param2, param3, param4, param5, param6, param7, param8, param9) "
-								+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+								+ " ( "
+								+ " name, type, user_id, "
+								+ " param0, param1, param2, param3, param4, param5, param6, param7, param8, param9, "
+								+ " gradientType, colorBaseR, colorBaseG, colorBaseB, colorEndR, colorEndG, colorEndB "
+								+ " ) "
+								+ " VALUES (?, ?, ?, "
+								+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+								+ " ?, ?, ?, ?, ?, ?, ? "
+								+ " )");
 						//set attributes of statement
 						stmt.setString(1, name);
 						stmt.setString(2, fractal.getType());
 						stmt.setInt(3, userId);
 						for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
+						stmt.setString(14, fractal.getGradientType());
+						Color c = fractal.getGradient().getBaseColor();
+						stmt.setInt(15, c.getRed());
+						stmt.setInt(16, c.getGreen());
+						stmt.setInt(17, c.getBlue());
+						c = fractal.getGradient().getSecondaryColor();
+						stmt.setInt(18, c.getRed());
+						stmt.setInt(19, c.getGreen());
+						stmt.setInt(20, c.getBlue());
 						
 						//execute the statement
 						stmt.executeUpdate();
@@ -344,7 +362,6 @@ public class DerbyDatabase implements IDatabase
 								}
 								
 								//determine which fractal should be loaded in
-								
 								fractal = Fractal.getDefaultFractal(type);
 								
 								if(fractal != null){
@@ -353,6 +370,13 @@ public class DerbyDatabase implements IDatabase
 									fractal.setId(fractalId);
 									//if the parameters couldn't be added, return null
 									if(!controller.acceptParameters(params)) return null;
+									
+									//set up gradient for fractal
+									try{
+										loadFractalGradient(fractal, resultSet);
+									}catch(IllegalArgumentException e){
+										return null;
+									}
 									
 									result.add(fractal);
 								}
@@ -406,7 +430,6 @@ public class DerbyDatabase implements IDatabase
 								}
 								
 								//determine which fractal should be loaded in
-								
 								fractal = Fractal.getDefaultFractal(type);
 								
 								if(fractal != null){
@@ -415,6 +438,15 @@ public class DerbyDatabase implements IDatabase
 									fractal.setId(fractalId);
 									//if the parameters couldn't be added, return null
 									if(!controller.acceptParameters(params)) return null;
+									
+
+									//set up gradient for fractal
+									try{
+										loadFractalGradient(fractal, resultSet);
+									}catch(IllegalArgumentException e){
+										return null;
+									}
+									
 									
 									result.add(fractal);
 								}
@@ -468,7 +500,6 @@ public class DerbyDatabase implements IDatabase
 								}
 								
 								//determine which fractal should be loaded in
-								
 								fractal = Fractal.getDefaultFractal(type);
 								
 								if(fractal != null){
@@ -477,6 +508,13 @@ public class DerbyDatabase implements IDatabase
 									fractal.setId(fractalId);
 									//if the parameters couldn't be added, return null
 									if(!controller.acceptParameters(params)) return null;
+									
+									//set up gradient for fractal
+									try{
+										loadFractalGradient(fractal, resultSet);
+									}catch(IllegalArgumentException e){
+										return null;
+									}
 									
 									result.add(fractal);
 								}
@@ -542,6 +580,13 @@ public class DerbyDatabase implements IDatabase
 									fractal.setId(fractalId);
 									//if the parameters couldn't be added, return null
 									if(!controller.acceptParameters(params)) return null;
+
+									//set up gradient for fractal
+									try{
+										loadFractalGradient(fractal, resultSet);
+									}catch(IllegalArgumentException e){
+										return null;
+									}
 									
 									result.add(fractal);
 								}
@@ -599,7 +644,6 @@ public class DerbyDatabase implements IDatabase
 							}
 							
 							//determine which fractal should be loaded in
-							
 							fractal = Fractal.getDefaultFractal(type);
 							
 							if(fractal != null)
@@ -610,6 +654,13 @@ public class DerbyDatabase implements IDatabase
 								//if the parameters couldn't be added, return null
 								if(!controller.acceptParameters(params)) 
 								{
+									return null;
+								}
+								
+								//set up gradient for fractal
+								try{
+									loadFractalGradient(fractal, resultSet);
+								}catch(IllegalArgumentException e){
 									return null;
 								}
 								
@@ -667,6 +718,14 @@ public class DerbyDatabase implements IDatabase
 							result.setName(name);
 							FractalController controller = result.createApproprateController();
 							controller.acceptParameters(params);
+							
+							//set up gradient for fractal
+							try{
+								loadFractalGradient(result, resultSet);
+							}catch(IllegalArgumentException e){
+								return null;
+							}
+							
 						}
 					}
 					
@@ -721,6 +780,14 @@ public class DerbyDatabase implements IDatabase
 							result.setName(name);
 							FractalController controller = result.createApproprateController();
 							controller.acceptParameters(params);
+							
+							//set up gradient for fractal
+							try{
+								loadFractalGradient(result, resultSet);
+							}catch(IllegalArgumentException e){
+								return null;
+							}
+							
 						}
 					}
 					
@@ -807,6 +874,37 @@ public class DerbyDatabase implements IDatabase
 		user.setPassword(resultSet.getString(6));
 	}
 	
+	/**
+	 * Load in a fractal gradient based on the given result set, the result set must be from a select fractal.* call
+	 * @param resultSet
+	 * @throws SQLException, IllegalArgumentException 
+	 */
+	private void loadFractalGradient(Fractal f, ResultSet resultSet) throws SQLException, IllegalArgumentException{
+		//load in gradient
+		String gradientType = resultSet.getObject(15).toString();
+		Color baseColor = new Color(0);
+		Color endColor = new Color(0);
+		
+		//load the colors in
+		baseColor = new Color(
+				Integer.parseInt(resultSet.getObject(16).toString()),
+				Integer.parseInt(resultSet.getObject(17).toString()),
+				Integer.parseInt(resultSet.getObject(18).toString())
+		);
+		endColor = new Color(
+				Integer.parseInt(resultSet.getObject(19).toString()),
+				Integer.parseInt(resultSet.getObject(20).toString()),
+				Integer.parseInt(resultSet.getObject(21).toString())
+		);
+		
+		//create the gradient
+		Gradient gradient = new Gradient();
+		gradient.setBaseColor(baseColor);
+		gradient.setSecondaryColor(endColor);
+		f.setGradient(gradient);
+		f.setGradientType(gradientType);
+	}
+	
 	public void createTables()
 	{
 		executeTransaction(new Transaction<Boolean>()
@@ -847,7 +945,14 @@ public class DerbyDatabase implements IDatabase
 							+ " param6 varchar(40), "
 							+ " param7 varchar(40), "
 							+ " param8 varchar(40), "
-							+ " param9 varchar(40)"
+							+ " param9 varchar(40), "
+							+ " gradientType varchar(40), "
+							+ " colorBaseR integer, "
+							+ " colorBaseG integer, "
+							+ " colorBaseB integer, "
+							+ " colorEndR integer, "
+							+ " colorEndG integer, "
+							+ " colorEndB integer "
 							+ ")"
 							);
 

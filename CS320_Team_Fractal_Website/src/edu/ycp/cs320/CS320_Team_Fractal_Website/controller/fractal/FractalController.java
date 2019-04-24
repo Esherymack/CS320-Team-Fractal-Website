@@ -22,44 +22,24 @@ public abstract class FractalController{
 	 */
 	private IDatabase database;
 	
-	/**
-	 * The gradient that this controller uses to render fractals
-	 */
-	private Gradient gradient;
-	
-	/**
-	 * The type 
-	 */
-	private String gradientType;
-	
 	public FractalController(){
-		gradient = new Gradient();
-		gradientType = "None";
-		
 		//get database for logging in
 		InitDatabase.init();
 		database = DatabaseProvider.getInstance();
 	}
 	
 	public Gradient getGradient(){
-		return gradient;
+		return getModel().getGradient();
 	}
 	public void setGradient(Gradient gradient){
-		this.gradient = gradient;
+		this.getModel().setGradient(gradient);
 	}
 	
 	public String getGradientType(){
-		return gradientType;
+		return getModel().getGradientType();
 	}
 	public void setGradientType(String gradientType){
-		this.gradientType = gradientType;
-	}
-	/**
-	 * Find out if this fractal should render with a gradient or not
-	 * @return true if it should render without a gradient, false otherwise
-	 */
-	public boolean noGradient(){
-		return gradientType == null || gradientType.equals(Gradient.NONE) || gradientType.isEmpty();
+		this.getModel().setGradientType(gradientType);
 	}
 	
 	/**

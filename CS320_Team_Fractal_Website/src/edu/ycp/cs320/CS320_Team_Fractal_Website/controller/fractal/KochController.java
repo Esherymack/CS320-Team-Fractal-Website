@@ -78,7 +78,7 @@ public class KochController extends FractalController{
 		if(iterations == 1){
 			
 			//pick color
-			if(noGradient()) g.setColor(Color.WHITE);
+			if(model.noGradient()) g.setColor(Color.WHITE);
 			else if(getGradientType().equals(Gradient.HORIZONTAL)){
 				g.setColor(getGradient().getStraightGradientColor(start.x, SIZE));
 			}

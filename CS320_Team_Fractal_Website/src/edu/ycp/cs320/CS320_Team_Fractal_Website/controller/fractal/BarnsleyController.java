@@ -120,7 +120,7 @@ public class BarnsleyController extends FractalController{
 			double y = SIZE - (SIZE * .95 / 9.99983) * y2 - (SIZE * .05) + 20;
 			
 			//pick color
-			if(noGradient()) g.setColor(Color.WHITE);
+			if(model.noGradient()) g.setColor(Color.WHITE);
 			else if(getGradientType().equals(Gradient.HORIZONTAL)){
 				g.setColor(getGradient().getStraightGradientColor(x, SIZE));
 			}

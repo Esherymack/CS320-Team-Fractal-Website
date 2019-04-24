@@ -82,7 +82,7 @@ public class JuilaController extends FractalController{
 	        	//select the color based on the iter count
 	        	if(iters[i][j] == MAX_ITER) g.setColor(Color.BLACK);
 	        	else{
-	        		if(noGradient()) g.setColor(Color.WHITE);
+	        		if(model.noGradient()) g.setColor(Color.WHITE);
 	    			else if(getGradientType().equals(Gradient.RAINBOW)){
 		        		Color color = getGradient().getBaseColor();
 		        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
