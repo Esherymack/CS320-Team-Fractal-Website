@@ -53,7 +53,7 @@ public class Gradient{
 	}
 	
 	/**
-	 * Get the color in the rainbow based on the given parameters
+	 * Get the color in the rainbow based on the given parameters and the base color of this gradient
 	 * @param rParam 0-1 inclusive, how much red is in the color
 	 * @param gParam 0-1 inclusive, how much green is in the color
 	 * @param bParam 0-1 inclusive, how much blue is in the color
@@ -64,12 +64,7 @@ public class Gradient{
 		int green = Math.max(0, Math.min(255, (int)(255.0 * gParam)));
 		int blue = Math.max(0, Math.min(255, (int)((255.0 * bParam))));
 		
-		float h = Gradient.getHue(
-				(red + baseColor.getRed()) / 2,
-				(green + baseColor.getGreen()) / 2,
-				(blue + baseColor.getBlue()) / 2
-		);
-		
+		float h = getHue(baseColor) + getHue(red, green, blue);
 		float s = .6f;
 		float b = .7f;
 		

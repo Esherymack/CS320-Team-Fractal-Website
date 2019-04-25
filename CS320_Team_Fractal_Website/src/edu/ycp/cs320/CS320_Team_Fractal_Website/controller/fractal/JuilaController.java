@@ -84,11 +84,11 @@ public class JuilaController extends FractalController{
 	        	else{
 	        		if(model.noGradient()) g.setColor(Color.WHITE);
 	    			else if(getGradientType().equals(Gradient.RAINBOW)){
-		        		Color color = getGradient().getBaseColor();
-		        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
-		        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
-		        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
-		        		g.setColor(new Color((int)red, (int)green, (int)blue));
+	    				g.setColor(getGradient().getRainbowGradient(
+	    					(1 + Math.sin(Math.log(iters[i][j]) * .25 + Math.PI)) * .5,
+	    					(1 + Math.sin(Math.log(iters[i][j]) * .125 )) * .5,
+	    					(1 + Math.cos(Math.log(iters[i][j]) * .25 )) * .5
+	    				));
 	    			}
 	    			else if(getGradientType().equals(Gradient.HORIZONTAL)){
 	    				
