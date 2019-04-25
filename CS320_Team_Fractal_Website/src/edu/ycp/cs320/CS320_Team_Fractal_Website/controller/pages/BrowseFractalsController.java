@@ -42,4 +42,12 @@ public class BrowseFractalsController{
 		return database.getAllFractalsWithCharSeq(charSeq);
 	}
 	
+	/**
+	 * Get every fractal by type from the database
+	 * @return and ArrayList of all the fractals of type
+	 */
+	public ArrayList<Fractal> getAllFractalsByGradientType(String gradientType){
+		return database.getAllFractalsByGradientType(gradientType);
+	}
+	
 }
