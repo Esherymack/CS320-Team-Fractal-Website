@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.SierpinskiController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
@@ -18,45 +19,15 @@ public class FractalControllerTest{
 	
 	@Before
 	public void setUp(){
-		controller = new FractalController() {
-			@Override
-			public BufferedImage renderImage() {
-				return null;
-			}
-			@Override
-			public Fractal getModel() {
-				return new Fractal() {
-					@Override
-					public String[] getParameters() {
-						return null;
-					}
-					@Override
-					public String getInfo() {
-						return null;
-					}
-					@Override
-					public FractalController createApproprateController() {
-						return null;
-					}
-					@Override
-					public String[] getParamLabels() {
-						return null;
-					}
-				};
-			}
-			@Override
-			public boolean acceptParameters(String[] params) {
-				return false;
-			}
-		};
+		controller = new SierpinskiController(new Sierpinski());
 	}
 	
 	@Test
 	public void testSetGradientType(){
-		controller.setGradientType("None");
-		assertTrue(controller.getGradientType().equals("None"));
-		controller.setGradientType("Rainbow");
-		assertTrue(controller.getGradientType().equals("Rainbow"));
+		controller.setGradientType(Gradient.RAINBOW);
+		assertTrue(controller.getGradientType().equals(Gradient.RAINBOW));
+		controller.setGradientType(Gradient.NONE);
+		assertTrue(controller.getGradientType().equals(Gradient.NONE));
 	}
 	@Test
 	public void testSetGradient(){

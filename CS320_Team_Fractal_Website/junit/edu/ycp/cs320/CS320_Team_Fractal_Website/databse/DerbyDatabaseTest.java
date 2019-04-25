@@ -124,17 +124,6 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
-	public void testGetAllFractalsByName(){
-		String name = "Seirpinski Names Test";
-		Fractal fractal = new Sierpinski();
-		database.saveFractal(fractal, name, username);
-		
-		ArrayList<Fractal> f = database.getAllFractalsByName(name);
-		assertFalse(f == null);
-		assertFalse(f.size() <= 0);
-	}
-	
-	@Test
 	public void testGetAllFractalsWithCharSeq(){
 		String giberish = "ewig7we5478";
 		String name = "Barnsely " + giberish + " Test";

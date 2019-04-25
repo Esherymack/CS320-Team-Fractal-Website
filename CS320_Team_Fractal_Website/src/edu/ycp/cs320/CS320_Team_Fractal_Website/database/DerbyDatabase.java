@@ -470,14 +470,11 @@ public class DerbyDatabase implements IDatabase
 				public ArrayList<Fractal> execute(Connection conn) throws SQLException{
 					PreparedStatement stmt = null;
 					ResultSet resultSet = null;
-
+					System.out.println(charSeq);
 					try{
 						//retrieve all fractals and populate into the list
-						stmt = conn.prepareStatement("select fractal.* from fractal " +
-													 "where fractal.name = ?");
-						
-						stmt.setString(1, name);
-						
+						stmt = conn.prepareStatement("SELECT * FROM fractal WHERE fractal.name LIKE '%" + charSeq + "%'");
+
 						ArrayList<Fractal> result = new ArrayList<Fractal>();
 						
 						resultSet = stmt.executeQuery();
@@ -500,6 +497,7 @@ public class DerbyDatabase implements IDatabase
 								}
 								
 								//determine which fractal should be loaded in
+								
 								fractal = Fractal.getDefaultFractal(type);
 								
 								if(fractal != null){
@@ -515,14 +513,6 @@ public class DerbyDatabase implements IDatabase
 									}catch(IllegalArgumentException e){
 										return null;
 									}
-									
-									//set up gradient for fractal
-									try{
-										loadFractalGradient(fractal, resultSet);
-									}catch(IllegalArgumentException e){
-										return null;
-									}
-
 									result.add(fractal);
 								}
 							}

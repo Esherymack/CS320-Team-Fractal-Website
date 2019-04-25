@@ -32,14 +32,14 @@ public abstract class FractalController{
 		return getModel().getGradient();
 	}
 	public void setGradient(Gradient gradient){
-		this.getModel().setGradient(gradient);
+		getModel().setGradient(gradient);
 	}
 	
 	public String getGradientType(){
 		return getModel().getGradientType();
 	}
 	public void setGradientType(String gradientType){
-		this.getModel().setGradientType(gradientType);
+		getModel().setGradientType(gradientType);
 	}
 	
 	/**
