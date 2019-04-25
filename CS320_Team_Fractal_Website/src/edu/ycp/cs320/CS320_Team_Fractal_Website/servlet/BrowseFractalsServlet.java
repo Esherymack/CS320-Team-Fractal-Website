@@ -95,7 +95,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		}
 		
 		//if the fractal was found, render it and display it
-		if(renderFractal != null){
+		if(renderFractal != null)
+		{
 			FractalController fractalController = renderFractal.createApproprateController();
 			fractalController.render();
 		}

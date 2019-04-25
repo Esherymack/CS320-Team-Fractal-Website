@@ -50,8 +50,10 @@
 				</div>
 
 				<div class="filternav">
-
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+						<div class="dropdown">
+							<button class="dropbtn">Filter...</button>
+							<div class="dropdown-content">
 						<ul>
 							<li>
 								<input type="Submit" name="viewAllFractals" value="View All Fractals">
@@ -62,6 +64,7 @@
 								</li>
 								<br>
 							</c:forEach>
+						</div>
 							<li>
 								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 									<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
@@ -69,27 +72,32 @@
 								</form>
 							</li>
 						</ul>
+					</div>
 			  	</form>
 				</div>
 						<div>
 							<br>
-							<c:if test="${display}">
-							<img src="img/result.png" alt="result"/>
-						</c:if>
-
-
-						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+						<div class="lightbox-toggle">
+						<form action="#content" method="post" href="#content">
 						<table>
 					    <br>
-
+							<div class="button-container">
 					    <c:forEach items="${fractals}" var="fractal">
 				        <tr>
-								  <input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
-									<br>
+								  <input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
 				        </tr>
 					    </c:forEach>
+						</div>
 						</table>
 					</form>
+				</div>
+				<div class="lightbox-content" id="content">
+					<c:if test="${display}">
+						<a href="#_">
+					<img src="img/result.png" alt="result"/>
+				</a>
+				</c:if>
+		</div>
 				</div>
 			</body>
 	</div>
