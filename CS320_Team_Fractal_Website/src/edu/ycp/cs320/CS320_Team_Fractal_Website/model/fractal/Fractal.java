@@ -112,6 +112,12 @@ public abstract class Fractal{
 	public abstract String getInfo();
 	
 	/**
+	 * Get the example parameters to display.
+	 * @return example parameters.
+	 */
+	public abstract String getParamExamples();
+	
+	/**
 	 * Get an array of all the parameters for this fractal. 
 	 * Should be the same length as MainPageServlet.NUM_PARAMS
 	 * @return

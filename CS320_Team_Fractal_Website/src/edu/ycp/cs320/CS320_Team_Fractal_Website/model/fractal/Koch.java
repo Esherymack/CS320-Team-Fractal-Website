@@ -24,8 +24,17 @@ public class Koch extends Fractal{
 	@Override
 	public String getInfo(){
 		return	"The Koch set, often called the snowflake fractal, takes a line, splits it into 3 " +
-				"segments, and creates a trianlge on the new line. Each of those lines has the same " +
-				"process done to it fdor each iteration.";
+				"segments, and creates a triangle on the new line. Each of those lines has the same " +
+				"process done to it for each iteration.";
+	}
+	
+	@Override
+	public String getParamExamples()
+	{
+		return "<ul><li>The Koch set starts from a triangle and progressively adds more triangles.</li>"
+				+ "<ul><li>Setting the iterations to 1 will yield a six-pointed star.</li>"
+				+ "<li>For best performance, keep iteration count under 12.</li>"
+				+ "<li>Most detail is visible at around 10 iterations.</li></ul></ul>";
 	}
 
 	@Override

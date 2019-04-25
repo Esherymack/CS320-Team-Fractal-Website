@@ -25,6 +25,20 @@ public class Julia extends Fractal{
 				"then the point is in the set. The different colors represent the number of iterations it took " +
 				"to find that the complex number is not in the set.";
 	}
+	
+	@Override
+	public String getParamExamples()
+	{
+		return "<ul><li>Change X, Y values to zoom in and out on different regions</li>"
+				+ "<li>Changing the Real and Imaginary constants will distort the julia itself.</li>"
+				+ "<ul><li>Real: -0.79; Imaginary: 0.15</li>"
+				+ "<li>Real: -0.162; Imaginary: 1.04</li>"
+				+ "<li>Real: 0.3; Imaginary: -0.01</li>"
+				+ "<li>Real: -1.476; Imaginary: 0</li>"
+				+ "<li>Real: -0.12; Imaginary: -0.77</li>"
+				+ "<li>Real: 0.28; Imaginary: 0.008</li></ul>"
+				+ "<li>Try using Mandelbrot zoom coordinates to find interesting regions!</li></ul>";
+	}
 
 	@Override
 	public String[] getParameters() {

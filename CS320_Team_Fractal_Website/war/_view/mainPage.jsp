@@ -67,6 +67,11 @@
 						<c:if test="${! empty fractalInfo}">
 							<h1>Information</h1>
 							<p>${fractalInfo}</p>
+							<br>
+							<h2>Tips and Examples:</h2>
+							<div class="param-list">
+								${paramsToTry}
+							</div>
 						</c:if>
 					</div>
 				</div>
