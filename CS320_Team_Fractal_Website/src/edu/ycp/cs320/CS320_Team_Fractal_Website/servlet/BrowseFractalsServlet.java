@@ -51,15 +51,14 @@ public class BrowseFractalsServlet extends HttpServlet {
 		Boolean display = false;
 		ArrayList<Fractal> fractals = null;
 		String[] fractalTypes = Fractal.getAllFractalTypes();
-		String name = req.getParameter("name");
-		String charSeq = req.getParameter("charSeq");
+		String charSeq = req.getParameter("searchForFractals");
 		
 		//set up controller
 		BrowseFractalsController browseController = new BrowseFractalsController();
 		
 		//check to see if the request was not to view all fractals
 		//if the request was to view all fractals, no initial fractal should be displayed
-		if (req.getParameter("viewAllFractals") != null) {
+		/* if (req.getParameter("viewAllFractals") != null) {
 			fractals = browseController.getAllFractals();
 		}
 		else if (req.getParameter("viewAllMandelbrotFractals") != null) {
@@ -78,12 +77,19 @@ public class BrowseFractalsServlet extends HttpServlet {
 			fractals = browseController.getAllFractalsByType("Julia");
 		}
 		else if (req.getParameter("searchForFractals") != null) {
-			fractals = browseController.getAllFractalsByName(name);
-		}
-		else if (req.getParameter("searchForFractals2") != null) {
 			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
 		}
 		else {
+			fractals = browseController.getAllFractals();
+			display = true;
+		} */
+		if(req.getParameter("searchForFractals") != null)
+		{
+			System.out.println(charSeq);
+			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
+		}
+		else
+		{
 			fractals = browseController.getAllFractals();
 			display = true;
 		}
@@ -109,7 +115,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 		
 		//set attributes
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
-		req.setAttribute("name", name);
 		req.setAttribute("charSeq", charSeq);
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("display", display);

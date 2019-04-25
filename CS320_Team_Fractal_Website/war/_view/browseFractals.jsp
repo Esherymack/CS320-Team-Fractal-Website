@@ -49,13 +49,8 @@
 					<h1>Browse Fractals</h1>
 				</div>
 
-				<div>
-					<br>
-					<c:if test="${display}">
-						<img src="img/result.png" alt="result"/>
-					</c:if>
-				</div>
 				<div class="filternav">
+
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<ul>
 							<li>
@@ -68,26 +63,34 @@
 								<br>
 							</c:forEach>
 							<li>
-								<input type="text" name="name" value="${name}">
-								<input type="Submit" name="searchForFractals" value="Search For Fractals">
-							</li>
-							<li>
-								<input type="text" name="charSeq" value="${charSeq}">
-								<input type="Submit" name="searchForFractals2" value="Search For Fractals2">
+								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+									<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
+									<input type="Submit" name="search" value="Search">
+								</form>
 							</li>
 						</ul>
-			  		</form>
+			  	</form>
 				</div>
-					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+						<div>
+							<br>
+							<c:if test="${display}">
+							<img src="img/result.png" alt="result"/>
+						</c:if>
+
+
+						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<table>
-						    <c:forEach items="${fractals}" var="fractal">
-						        <tr>
-									<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
+					    <br>
+
+					    <c:forEach items="${fractals}" var="fractal">
+				        <tr>
+								  <input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
 									<br>
-						        </tr>
-						    </c:forEach>
+				        </tr>
+					    </c:forEach>
 						</table>
 					</form>
+				</div>
 			</body>
 	</div>
 
