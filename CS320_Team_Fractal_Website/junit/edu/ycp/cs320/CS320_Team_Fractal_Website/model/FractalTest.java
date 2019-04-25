@@ -34,6 +34,10 @@ public class FractalTest{
 			public String[] getParamLabels() {
 				return null;
 			}
+			@Override
+			public String getParamExamples() {
+				return null;
+			}
 		};
 	}
 	
@@ -54,6 +58,10 @@ public class FractalTest{
 			}
 			@Override
 			public String[] getParamLabels() {
+				return null;
+			}
+			@Override
+			public String getParamExamples() {
 				return null;
 			}
 		};
