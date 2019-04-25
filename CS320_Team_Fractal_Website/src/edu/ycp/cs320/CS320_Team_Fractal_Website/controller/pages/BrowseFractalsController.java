@@ -47,7 +47,7 @@ public class BrowseFractalsController{
 	 * @return and ArrayList of all the fractals of type
 	 */
 	public ArrayList<Fractal> getAllFractalsByGradientType(String gradientType){
-		return database.getAllFractalsByType(gradientType);
+		return database.getAllFractalsByGradientType(gradientType);
 	}
 	
 }
