@@ -50,8 +50,11 @@
 				</div>
 
 				<div class="filternav">
-
+					<div class="filtercontainer">
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+						<div class="dropdown">
+							<button class="dropbtn">Filter by Type</button>
+							<div class="dropdown-content">
 						<ul>
 							<li>
 								<input type="Submit" name="viewAllFractals" value="View All Fractals">
@@ -62,40 +65,43 @@
 								</li>
 								<br>
 							</c:forEach>
-							<c:forEach items="${gradientTypes}" var="gradType">
-								<li>
-									<input type="Submit" name="viewAll${gradType}Fractals" value="View ${gradType} Fractals">
-								</li>
-								<br>
-							</c:forEach>
-							<li>
-								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
-									<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
-									<input type="Submit" name="search" value="Search">
-								</form>
-							</li>
+						</div>
 						</ul>
+					</div>
+					<ul class="searchbar">
+					<li>
+						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+							<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
+							<input type="Submit" name="search" value="Search">
+						</form>
+					</li>
+				</ul>
 			  	</form>
 				</div>
+			</div>
 						<div>
 							<br>
-							<c:if test="${display}">
-							<img src="img/result.png" alt="result"/>
-						</c:if>
-
-
-						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+						<div class="lightbox-toggle">
+						<form action="#content" method="post" href="#content">
 						<table>
 					    <br>
-
+							<div class="button-container">
 					    <c:forEach items="${fractals}" var="fractal">
 				        <tr>
-								  <input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
-									<br>
+								  <input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
 				        </tr>
 					    </c:forEach>
+						</div>
 						</table>
 					</form>
+				</div>
+				<div class="lightbox-content" id="content">
+					<c:if test="${display}">
+						<a href="#_">
+					<img src="img/result.png" alt="result"/>
+				</a>
+				</c:if>
+		</div>
 				</div>
 			</body>
 	</div>
