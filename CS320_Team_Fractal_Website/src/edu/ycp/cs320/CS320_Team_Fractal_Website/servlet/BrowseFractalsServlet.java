@@ -81,6 +81,9 @@ public class BrowseFractalsServlet extends HttpServlet {
 		else if (req.getParameter("viewAllJuliaFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Julia");
 		}
+		else if (req.getParameter("viewAllNoneFractals") != null) {
+			fractals = browseController.getAllFractalsByGradientType("None");
+		}
 		else if (req.getParameter("viewAllRainbowFractals") != null) {
 			fractals = browseController.getAllFractalsByGradientType("Rainbow");
 		}
