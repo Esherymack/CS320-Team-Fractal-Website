@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
 public class FractalControllerTest{
@@ -56,6 +57,12 @@ public class FractalControllerTest{
 		assertTrue(controller.getGradientType().equals("None"));
 		controller.setGradientType("Rainbow");
 		assertTrue(controller.getGradientType().equals("Rainbow"));
+	}
+	@Test
+	public void testSetGradient(){
+		Gradient gradient = new Gradient();
+		controller.setGradient(gradient);
+		assertTrue(controller.getGradient().equals(gradient));
 	}
 	
 	@Test
