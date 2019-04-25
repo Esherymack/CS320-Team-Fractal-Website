@@ -109,7 +109,7 @@
 							
 							<div>
 								<p>Gradient</p>
-								<select id="gradientChoice" name="gradientChoice" value="">
+								<select id="gradientChoice" name="gradientChoice" value="None">
 									<c:forEach items="${gradientList}" var="type">
 										<option value="${type}" ${gradientChoice == type ? 'selected="selected"' : ''}>${type}</option>
 									</c:forEach>
@@ -119,34 +119,34 @@
 							
 							<!- color parameters ->
 							<div>
-								<p>Base color</p>
-								<table class="params">
+								<p id="baseColor" hidden>Base color</p>
+								<table id="params">
 									<tr>
-										<td class="label"> <label>Red:</label> </td>
-										<td class="label"> <input type="text" name="gradientRedBase" size="12" value="${gradientRedBase}" /> </td>
+										<td class="label"> <label id="gradientRedBaseLabel" hidden>Red:</label> </td>
+										<td class="label"> <input type="text" id="gradientRedBase" name="gradientRedBase" size="12" value="${gradientRedBase}" hidden /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Green:</label> </td>
-										<td class="label"> <input type="text" name="gradientGreenBase" size="12" value="${gradientGreenBase}" /> </td>
+										<td class="label"> <label id="gradientGreenBaseLabel" hidden>Green:</label> </td>
+										<td class="label"> <input type="text" id="gradientGreenBase" name="gradientGreenBase" size="12" value="${gradientGreenBase}" hidden /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Blue:</label> </td>
-										<td class="label"> <input type="text" name="gradientBlueBase" size="12" value="${gradientBlueBase}" /> </td>
+										<td class="label"> <label id="gradientBlueBaseLabel" hidden>Blue:</label> </td>
+										<td class="label"> <input type="text" id="gradientBlueBase" name="gradientBlueBase" size="12" value="${gradientBlueBase}" hidden /> </td>
 									</tr>
 								</table>
 								<table class="params">
-									<p>End color:</p>
+									<p id="endColor" hidden>End color:</p>
 									<tr>
-										<td class="label"> <label>Red:</label> </td>
-										<td class="label"> <input type="text" name="gradientRedEnd" size="12" value="${gradientRedEnd}" /> </td>
+										<td class="label"> <label id="gradientRedEndLabel" hidden>Red:</label> </td>
+										<td class="label"> <input type="text" id="gradientRedEnd" name="gradientRedEnd" size="12" value="${gradientRedEnd}" hidden /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Green:</label> </td>
-										<td class="label"> <input type="text" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" /> </td>
+										<td class="label"> <label id="gradientGreenEndLabel" hidden>Green:</label> </td>
+										<td class="label"> <input type="text" id="gradientGreenEnd" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" hidden /> </td>
 									</tr>
 									<tr>
-										<td class="label"> <label>Blue:</label> </td>
-										<td class="label"> <input type="text" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" /> </td>
+										<td class="label"> <label id="gradientBlueEndLabel" hidden>Blue:</label> </td>
+										<td class="label"> <input type="text" id="gradientBlueEnd" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" hidden /> </td>
 									</tr>
 								</table>
 							</div>
@@ -169,11 +169,13 @@
 			</div>
 		</div>
 	</body>
-
+	
 	<script>
 	window.onload = function(){
 		$('#choice').change()
+		$('#gradientChoice').change()
 	}
+	
 	$('#choice').change(function() {
 		var selection = $(this).val();
 		sessionStorage.setItem('Selection', selection);
@@ -198,6 +200,46 @@
 			else{
 				$("#paramInputparam" + i).show()
 			}
+		}
+	})
+	
+	$('#gradientChoice').change(function() {
+		var gradientSelection = $(this).val();
+		sessionStorage.setItem('GradientSelection', gradientSelection);
+		
+		$("#baseColor").show();
+		$("#gradientRedBase").show();
+		$("#gradientRedBaseLabel").show();
+		$("#gradientGreenBase").show();
+		$("#gradientGreenBaseLabel").show();
+		$("#gradientBlueBase").show();
+		$("#gradientBlueBaseLabel").show();
+		
+		$("#endColor").show();
+		$("#gradientRedEnd").show();
+		$("#gradientRedEndLabel").show();
+		$("#gradientGreenEnd").show();
+		$("#gradientGreenEndLabel").show();
+		$("#gradientBlueEnd").show();
+		$("#gradientBlueEndLabel").show();
+			
+		if(gradientSelection == "None" || gradientSelection == "Rainbow"){
+			$("#endColor").hide();
+			$("#gradientRedEnd").hide();
+			$("#gradientRedEndLabel").hide();
+			$("#gradientGreenEnd").hide();
+			$("#gradientGreenEndLabel").hide();
+			$("#gradientBlueEnd").hide();
+			$("#gradientBlueEndLabel").hide();
+		}
+		if(gradientSelection == "None"){
+			$("#baseColor").hide();
+			$("#gradientRedBase").hide();
+			$("#gradientRedBaseLabel").hide();
+			$("#gradientGreenBase").hide();
+			$("#gradientGreenBaseLabel").hide();
+			$("#gradientBlueBase").hide();
+			$("#gradientBlueBaseLabel").hide();
 		}
 	});
 
