@@ -55,6 +55,8 @@ public class MainPageServlet extends HttpServlet{
 		// holds the fractal info
 		String fractalInfo = req.getParameter("fractalInfo");
 		
+		String paramsToTry = req.getParameter("paramsToTry");
+		
 		Boolean result = null;
 		
 		//choice from the fractal drop down menu
@@ -96,6 +98,8 @@ public class MainPageServlet extends HttpServlet{
 
 			//set fractal info
 			fractalInfo = controller.getModel().getInfo();
+			//set the fractal param examples
+			paramsToTry = controller.getModel().getParamExamples();
 			
 			//send parameters
 			boolean sent = controller.acceptParameters(params);
@@ -186,6 +190,7 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("fractalInfo", fractalInfo);
+		req.setAttribute("paramsToTry", paramsToTry);
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		req.setAttribute("gradientChoice", gradientChoice);

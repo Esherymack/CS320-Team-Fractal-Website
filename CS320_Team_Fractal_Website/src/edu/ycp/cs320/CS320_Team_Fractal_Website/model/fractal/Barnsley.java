@@ -42,6 +42,24 @@ public class Barnsley extends Fractal{
 	}
 	
 	@Override
+	public String getParamExamples()
+	{
+		return "<ul><li>You can change the appearance of the fern by adjusting F1, F2, F3, and F4.</li>"
+				+ "<li>Changing F1 will modify the stem.</li>"
+				+ "<ul><li>Setting it to 0 will remove it completely</li>"
+				+ "<li>Keeping the value between -0.5 to 0.5 will yield best results.</li></ul>"
+				+ "<li>Changing F2 will modify the successively smaller leaflets.</li>"
+				+ "<ul><li>Setting it to 0 will remove them completely.</li>"
+				+ "<li>Keeping the value between 0 and 1 will yield best results.</li></ul>"
+				+ "<li>Changing F3 will modify the largest left-hand leaflet.</li>"
+				+ "<ul><li>Setting it to 0 will remove all left-hand leaves.</li>"
+				+ "<li>Keeping the value between 0 and 0.5 will yield best results.</li>"
+				+ "<li>Setting this value significantly higher than F4 will outweigh F4.</li></ul>"
+				+ "<li>Changing F4 will modify the largest right-hand leaflet.</li>"
+				+ "<ul><li>Setting it to 0 will do nothing visually different.</li></ul></ul>";
+	}
+	
+	@Override
 	public void setDefaultParameters(){
 		super.setDefaultParameters();
 		setF1(0.01);
