@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
@@ -86,17 +87,23 @@ public class MandelbrotController extends FractalController{
 	        	//select the color based on the iter count
 	        	if(iters[i][j] <= 0) g.setColor(Color.BLACK);
 	        	else{
-	        		if(getUseGradient()){
-		        		Color color = getGradient().getBaseColor();
-		        		
-		        		double red = (Math.sin(Math.log(iters[i][j]) * Math.PI / 2 + color.getRed()) + 1) * 127.0;
-		        		double green = (Math.sin(Math.log(iters[i][j]) * Math.PI + color.getGreen()) + 1) * 127.0;
-		        		double blue = (Math.cos(Math.log(iters[i][j]) * Math.PI / 2 + color.getBlue()) + 1) * 127.0;
-		        		g.setColor(new Color((int)red, (int)green, (int)blue));
-	        		}
-	    			else{
-	    				g.setColor(Color.WHITE);
+	        		if(model.noGradient()) g.setColor(Color.WHITE);
+	    			else if(getGradientType().equals(Gradient.RAINBOW)){
+	    				g.setColor(getGradient().getRainbowGradient(
+		    					(1 + Math.sin(Math.sqrt(iters[i][j]) * .25 + Math.PI)) * .5,
+		    					(1 + Math.sin(Math.sqrt(iters[i][j]) * .125 )) * .5,
+		    					(1 + Math.cos(Math.sqrt(iters[i][j]) * .25 )) * .5
+		    				));
 	    			}
+	    			else if(getGradientType().equals(Gradient.HORIZONTAL) ||
+	    					getGradientType().equals(Gradient.VERTICAL) ||
+	    					getGradientType().equals(Gradient.DIAGONAL)){
+	    				
+	    				g.setColor(getGradient().getStraightGradientColor(
+	    						1 + Math.sin(Math.sqrt(iters[i][j])), 2
+	    				));
+	    			}
+	        		else g.setColor(Color.WHITE);
 	        	}
 	        	//draw each point after determining color
 	    	    g.drawLine(i, j, i, j);

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 
@@ -110,6 +111,20 @@ public class FractalTest{
 	public void testGetType(){
 		Fractal f = new Mandelbrot();
 		assertTrue(f.getType().equals("Mandelbrot"));
+	}
+
+	@Test
+	public void testSetGradientType(){
+		model.setGradientType("None");
+		assertTrue(model.getGradientType().equals("None"));
+		model.setGradientType("Rainbow");
+		assertTrue(model.getGradientType().equals("Rainbow"));
+	}
+	@Test
+	public void testSetGradient(){
+		Gradient gradient = new Gradient();
+		model.setGradient(gradient);
+		assertTrue(model.getGradient().equals(gradient));
 	}
 	
 }

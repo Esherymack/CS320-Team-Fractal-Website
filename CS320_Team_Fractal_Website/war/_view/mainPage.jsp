@@ -43,14 +43,14 @@
 				</div>
 			</div>
 		</div>
-			<div class="left-box">
-				<div class="interface">
-					<c:if test="${! empty errorMessage}">
-						<div class="error">${errorMessage}</div>
-					</c:if>
+		<div class="left-box">
+			<div class="interface">
+				<c:if test="${! empty errorMessage}">
+					<div class="error">${errorMessage}</div>
+				</c:if>
 
-					<div class="image">
-					<p></p>
+				<div class="image">
+				<p></p>
 					<c:choose>
 						<c:when test="${not result}">
 							<img src="img/square.jpg" alt="placeholder"/>
@@ -78,77 +78,94 @@
 						<input type="hidden" id="fractalLabels${type}${i}" value="${requestScope[iValue]}" />
 					</c:forEach>
 				</c:forEach>
-
+	
 				<div class="col1">
 					<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
-
+	
 								<option value="" ${choice == "" || empty choice ? 'selected="selected"' : ''} disabled hidden>Select Fractal</option>
-
+	
 								<c:forEach items="${fractalTypeList}" var="type">
 									<option value="${type}" ${choice == type ? 'selected="selected"' : ''}>${type}</option>
-
 								</c:forEach>
-
+	
 							</select>
-						</div>
-						<input type="hidden" name="selectedChoice">
-						<div class="form-labels">
-							<table class="params">
-								<c:forEach items="${paramLabelList}" var="i">
-									<tr>
-										<td class="label" id="paramInput${i}" hidden=true>
-											<label id="paramLab${i}"> ${i} </label>
-											<c:set var="iValue" value="${i}" />
-											<input name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
-										</td>
-									</tr>
-
-								</c:forEach>
-							</table>
-
+							<input type="hidden" name="selectedChoice">
+							<div class="form-labels">
+								<table class="params">
+									<c:forEach items="${paramLabelList}" var="i">
+										<tr>
+											<td class="label" id="paramInput${i}" hidden=true>
+												<label id="paramLab${i}"> ${i} </label>
+												<c:set var="iValue" value="${i}" />
+												<input name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
+											</td>
+										</tr>
+			
+									</c:forEach>
+								</table>
+							</div>
+							
+							<div>
+								<p>Gradient</p>
+								<select id="gradientChoice" name="gradientChoice" value="">
+									<c:forEach items="${gradientList}" var="type">
+										<option value="${type}" ${gradientChoice == type ? 'selected="selected"' : ''}>${type}</option>
+									</c:forEach>
+									
+								</select>
+							</div>
+							
 							<!- color parameters ->
 							<div>
-								<tr>
-									<p>Use gradient:
-									<input type="checkbox" value="useGradient" name="useGradient" ${useGradient ? 'checked' : ''}>
-									</p>
-								</tr>
-								<p>Gradient</p>
+								<p>Base color</p>
 								<table class="params">
 									<tr>
 										<td class="label"> <label>Red:</label> </td>
-										<td class="label"> <input type="text" name="gradientRed" size="12" value="${gradientRed}" /> </td>
+										<td class="label"> <input type="text" name="gradientRedBase" size="12" value="${gradientRedBase}" /> </td>
 									</tr>
 									<tr>
 										<td class="label"> <label>Green:</label> </td>
-										<td class="label"> <input type="text" name="gradientGreen" size="12" value="${gradientGreen}" /> </td>
+										<td class="label"> <input type="text" name="gradientGreenBase" size="12" value="${gradientGreenBase}" /> </td>
 									</tr>
 									<tr>
 										<td class="label"> <label>Blue:</label> </td>
-										<td class="label"> <input type="text" name="gradientBlue" size="12" value="${gradientBlue}" /> </td>
+										<td class="label"> <input type="text" name="gradientBlueBase" size="12" value="${gradientBlueBase}" /> </td>
 									</tr>
-
+								</table>
+								<table class="params">
+									<p>End color:</p>
+									<tr>
+										<td class="label"> <label>Red:</label> </td>
+										<td class="label"> <input type="text" name="gradientRedEnd" size="12" value="${gradientRedEnd}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Green:</label> </td>
+										<td class="label"> <input type="text" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" /> </td>
+									</tr>
+									<tr>
+										<td class="label"> <label>Blue:</label> </td>
+										<td class="label"> <input type="text" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" /> </td>
+									</tr>
 								</table>
 							</div>
-						</div>
-						<input type="Submit" name="submit" value="Send" class="sender">
-						<input type="Submit" name="save" value="Save" class="sender">
-						<td id="saveName"><input type="text" name="saveName" size="12" value="${saveName}" placeholder="Name" /></td>
-						<br>
-						<div class="label">
-							<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
-						</div>
+							<input type="Submit" name="submit" value="Send" class="sender">
+							<input type="Submit" name="save" value="Save" class="sender">
+							<td id="saveName"><input type="text" name="saveName" size="12" value="${saveName}" placeholder="Name" /></td>
+							<br>
+							<div class="label">
+								<input id="setDefaultValues" name="setDefaultValues" type="submit" value="Default Values" hidden>
+							</div>
 							<c:if test="${! empty result}">
 								<div class="label">
 									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download Image">
 									<a id="downloadImage" href="img/result.png" download hidden></a>
 								</div>
 							</c:if>
-						</div>
+						</form>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</body>

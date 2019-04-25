@@ -22,38 +22,24 @@ public abstract class FractalController{
 	 */
 	private IDatabase database;
 	
-	/**
-	 * The gradient that this controller uses to render fractals
-	 */
-	private Gradient gradient;
-	
-	/**
-	 * True if this controller should render a fractal with a gradient or not. 
-	 * If not using a gradient, then it should only use 2 colors, one for in the fractal, one for out
-	 */
-	private boolean useGradient;
-	
 	public FractalController(){
-		gradient = new Gradient();
-		useGradient = true;
-		
 		//get database for logging in
 		InitDatabase.init();
 		database = DatabaseProvider.getInstance();
 	}
 	
 	public Gradient getGradient(){
-		return gradient;
+		return getModel().getGradient();
 	}
 	public void setGradient(Gradient gradient){
-		this.gradient = gradient;
+		getModel().setGradient(gradient);
 	}
 	
-	public boolean getUseGradient(){
-		return useGradient;
+	public String getGradientType(){
+		return getModel().getGradientType();
 	}
-	public void setUseGradient(boolean useGradient){
-		this.useGradient = useGradient;
+	public void setGradientType(String gradientType){
+		getModel().setGradientType(gradientType);
 	}
 	
 	/**

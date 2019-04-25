@@ -11,7 +11,9 @@ import org.junit.Test;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Barnsley;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Koch;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 
@@ -28,12 +30,6 @@ public class DerbyDatabaseTest {
 	@Before
 	public void setUp(){
 		database = new DerbyDatabase();
-	}
-	
-	@Test
-	public void testAddUser(){
-		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password));
-		assertTrue(added);
 	}
 	
 	@Test
@@ -82,6 +78,12 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
+	public void testAddUser(){
+		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password));
+		assertTrue(added);
+	}
+	
+	@Test
 	public void testSaveFractal(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password));
 		
@@ -111,13 +113,26 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
-	public void testGetFractalByName(){
-		String name = "Sierpinski Name Test";
-		database.saveFractal(new Sierpinski(), name, username);
+	public void testGetAllFractalsByType(){
+		String name = "Koch Type Test";
+		Fractal fractal = new Koch();
+		database.saveFractal(fractal, name, username);
 		
-		Fractal f = database.getFractalByName("Sierpinski Name Test");
+		ArrayList<Fractal> f = database.getAllFractalsByType(fractal.getType());
 		assertFalse(f == null);
-		assertTrue(f.getName().equals(name));
+		assertFalse(f.size() <= 0);
+	}
+	
+	@Test
+	public void testGetAllFractalsWithCharSeq(){
+		String giberish = "ewig7we5478";
+		String name = "Barnsely " + giberish + " Test";
+		Fractal fractal = new Barnsley();
+		database.saveFractal(fractal, name, username);
+		
+		ArrayList<Fractal> f = database.getAllFractalsWithCharSeq(giberish);
+		assertFalse(f == null);
+		assertFalse(f.size() <= 0);
 	}
 	
 	@Test
@@ -133,6 +148,16 @@ public class DerbyDatabaseTest {
 
 		assertFalse(fId == null);
 		assertTrue(fId.getId() == fName.getId());
+	}
+	
+	@Test
+	public void testGetFractalByName(){
+		String name = "Sierpinski Name Test";
+		database.saveFractal(new Sierpinski(), name, username);
+		
+		Fractal f = database.getFractalByName("Sierpinski Name Test");
+		assertFalse(f == null);
+		assertTrue(f.getName().equals(name));
 	}
 	
 }

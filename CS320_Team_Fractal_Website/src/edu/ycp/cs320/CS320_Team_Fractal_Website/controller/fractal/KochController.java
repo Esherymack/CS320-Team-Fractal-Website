@@ -78,27 +78,24 @@ public class KochController extends FractalController{
 		if(iterations == 1){
 			
 			//pick color
-			if(getUseGradient()){
-				int red = (int)(Math.max(Math.min(255.0 * (start.x / SIZE), 255), 0));
-				int green = (int)(Math.max(Math.min(255.0 * (start.y / SIZE), 255), 0));
-				int blue = (int)(Math.max(Math.min(255.0 * ((end.x * end.y) / (SIZE * SIZE)), 255), 0));
-	
-				Color gColor = getGradient().getBaseColor();
-				
-				float h = Gradient.getHue(
-						(red + gColor.getRed()) / 2,
-						(green + gColor.getGreen()) / 2,
-						(blue + gColor.getBlue()) / 2
-				);
-				
-				float s = .6f;
-				float b = .7f;
-				Color c = Color.getHSBColor(h, s, b);
-				g.setColor(c);
+			if(model.noGradient()) g.setColor(Color.WHITE);
+			else if(getGradientType().equals(Gradient.HORIZONTAL)){
+				g.setColor(getGradient().getStraightGradientColor(start.x, SIZE));
 			}
-			else{
-				g.setColor(Color.WHITE);
+			else if(getGradientType().equals(Gradient.VERTICAL)){
+				g.setColor(getGradient().getStraightGradientColor(start.y, SIZE));
 			}
+			else if(getGradientType().equals(Gradient.DIAGONAL)){
+				g.setColor(getGradient().getDiagonalGradientColor(start.x, start.y, SIZE, SIZE));
+			}
+			else if(getGradientType().equals(Gradient.RAINBOW)){
+				g.setColor(getGradient().getRainbowGradient(
+						start.x / SIZE,
+						start.y / SIZE,
+						(end.x * end.y) / (SIZE * SIZE)
+				));
+			}
+			else g.setColor(Color.WHITE);
 			
 			g.drawLine(
 					(int)Math.round(start.x),

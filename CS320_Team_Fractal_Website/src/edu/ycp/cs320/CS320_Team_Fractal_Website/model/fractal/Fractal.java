@@ -22,6 +22,16 @@ public abstract class Fractal{
 	 * The id of the fractal, only used for identification when loaded from a database
 	 */
 	private int id;
+
+	/**
+	 * The gradient that this fractal uses when drawn
+	 */
+	private Gradient gradient;
+
+	/**
+	 * The gradient type that this fractal uses when drawn
+	 */
+	private String gradientType;
 	
 	public Fractal(){
 		this(new Location());
@@ -31,6 +41,9 @@ public abstract class Fractal{
 		this.location = loc;
 		name = "default";
 		id = 0;
+
+		gradient = new Gradient();
+		gradientType = "None";
 	}
 	
 	public String getName(){
@@ -67,9 +80,29 @@ public abstract class Fractal{
 	public Location getLocation(){
 		return location;
 	}
-	
 	public void setLocation(Location l){
 		this.location = l;
+	}
+	
+	public Gradient getGradient(){
+		return gradient;
+	}
+	public void setGradient(Gradient gradient){
+		this.gradient = gradient;
+	}
+	
+	public String getGradientType(){
+		return gradientType;
+	}
+	public void setGradientType(String gradientType){
+		this.gradientType = gradientType;
+	}
+	/**
+	 * Find out if this fractal should render with a gradient or not
+	 * @return true if it should render without a gradient, false otherwise
+	 */
+	public boolean noGradient(){
+		return gradientType == null || gradientType.equals(Gradient.NONE) || gradientType.isEmpty();
 	}
 	
 	/**
