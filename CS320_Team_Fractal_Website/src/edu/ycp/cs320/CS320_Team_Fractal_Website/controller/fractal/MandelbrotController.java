@@ -95,6 +95,14 @@ public class MandelbrotController extends FractalController{
 		    					(1 + Math.cos(Math.log(iters[i][j]) * .25 )) * .5
 		    				));
 	    			}
+	    			else if(getGradientType().equals(Gradient.HORIZONTAL) ||
+	    					getGradientType().equals(Gradient.VERTICAL) ||
+	    					getGradientType().equals(Gradient.DIAGONAL)){
+	    				
+	    				g.setColor(getGradient().getStraightGradientColor(
+	    						1 + Math.sin(Math.log(iters[i][j])), 2
+	    				));
+	    			}
 	        		else g.setColor(Color.WHITE);
 	        	}
 	        	//draw each point after determining color
