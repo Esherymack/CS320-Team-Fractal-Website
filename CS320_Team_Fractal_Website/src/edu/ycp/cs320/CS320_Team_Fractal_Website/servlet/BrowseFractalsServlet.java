@@ -58,7 +58,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		
 		//check to see if the request was not to view all fractals
 		//if the request was to view all fractals, no initial fractal should be displayed
-		/* if (req.getParameter("viewAllFractals") != null) {
+		if (req.getParameter("viewAllFractals") != null) {
 			fractals = browseController.getAllFractals();
 		}
 		else if (req.getParameter("viewAllMandelbrotFractals") != null) {
@@ -80,16 +80,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
 		}
 		else {
-			fractals = browseController.getAllFractals();
-			display = true;
-		} */
-		if(req.getParameter("searchForFractals") != null)
-		{
-			System.out.println(charSeq);
-			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
-		}
-		else
-		{
 			fractals = browseController.getAllFractals();
 			display = true;
 		}
