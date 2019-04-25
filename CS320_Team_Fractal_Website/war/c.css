@@ -60,6 +60,26 @@
 	max-width: 100%;
 }
 
+.searchbar
+{
+	float: right;
+	display: inline-block;
+	align-self: center;
+}
+
+.searchbar input
+{
+	margin-top: -15px;
+}
+
+.filtercontainer
+{
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+	flex-basis: 50%;
+}
+
 .dropbtn
 {
 	display: inline-block;
@@ -69,6 +89,7 @@
 	text-decoration: none;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
+	color: #3D403A;
 	background-color: #FFF4E0;
 	-o-transition: .2s ease-in-out;
 	-ms-transition: .2s ease-in-out;
@@ -204,22 +225,21 @@ h2{
 
 input {
     margin-left: auto;
-	margin-right: auto;
-	font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	color: #3D403A;
-	font-size: 20px;
-	background-color: #FFF4E0;
-	-o-transition: .2s ease-in-out;
-	-ms-transition: .2s ease-in-out;
-	-moz-transition: .2s ease-in-out;
-	-webkit-transition: .2s ease-in-out;
-	transition: .2s ease-in-out;
-	cursor: pointer;
-	border-radius: 3px;
-	padding: 10px;
-	margin-top: 10px;
-	border: 1px solid #C2B9AA;
+		margin-right: auto;
+		font-family: 'Open Sans', sans-serif;
+		text-align: center;
+		color: #3D403A;
+		font-size: 20px;
+		background-color: #FFF4E0;
+		-o-transition: .2s ease-in-out;
+		-ms-transition: .2s ease-in-out;
+		-moz-transition: .2s ease-in-out;
+		-webkit-transition: .2s ease-in-out;
+		transition: .2s ease-in-out;
+		cursor: pointer;
+		border-radius: 3px;
+		padding: 10px;
+		border: 1px solid #C2B9AA;
 }
 
 input:hover {

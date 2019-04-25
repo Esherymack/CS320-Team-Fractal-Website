@@ -50,9 +50,10 @@
 				</div>
 
 				<div class="filternav">
+					<div class="filtercontainer">
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						<div class="dropdown">
-							<button class="dropbtn">Filter...</button>
+							<button class="dropbtn">Filter by Type</button>
 							<div class="dropdown-content">
 						<ul>
 							<li>
@@ -65,16 +66,19 @@
 								<br>
 							</c:forEach>
 						</div>
-							<li>
-								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
-									<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
-									<input type="Submit" name="search" value="Search">
-								</form>
-							</li>
 						</ul>
 					</div>
+					<ul class="searchbar">
+					<li>
+						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+							<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
+							<input type="Submit" name="search" value="Search">
+						</form>
+					</li>
+				</ul>
 			  	</form>
 				</div>
+			</div>
 						<div>
 							<br>
 						<div class="lightbox-toggle">

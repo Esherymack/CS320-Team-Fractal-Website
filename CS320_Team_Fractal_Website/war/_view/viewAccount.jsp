@@ -57,20 +57,27 @@
 				<h2>
 					Your Fractals
 				</h2>
-				<c:if test="${display}">
+				<div class="lightbox-toggle">
+				<form action="#content" method="post" href="#content">
+				<table>
 					<br>
-					<img src="img/result.png" alt="result"/>
-				</c:if>
-				<form action="${pageContext.servletContext.contextPath}/viewAccount" method="post">
-					<table>
-							<c:forEach items="${fractals}" var="fractal">
-									<tr>
-								<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})">
-								<br>
-									</tr>
-							</c:forEach>
-					</table>
-				</form>
+					<div class="button-container">
+					<c:forEach items="${fractals}" var="fractal">
+						<tr>
+							<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
+						</tr>
+					</c:forEach>
+				</div>
+				</table>
+			</form>
+		</div>
+		<div class="lightbox-content" id="content">
+			<c:if test="${display}">
+				<a href="#_">
+			<img src="img/result.png" alt="result"/>
+		</a>
+		</c:if>
+</div>
 			</div>
 		</body>
 		</div>
