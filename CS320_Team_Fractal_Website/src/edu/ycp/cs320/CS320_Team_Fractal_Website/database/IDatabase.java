@@ -62,6 +62,12 @@ public interface IDatabase{
 	 * @return an ArrayList of every fractal containing char sequence in name, an empty list if none are found, null if an error occured
 	 */
 	public ArrayList<Fractal> getAllFractalsWithCharSeq(String charSeq);
+	
+	/**
+	 * Get every fractal in the database with gradient type
+	 * @return an ArrayList of every fractal with gradient type, an empty list if none are found, null if an error occured
+	 */
+	public ArrayList<Fractal> getAllFractalsByGradientType(String gradientType);
 
   /**
 	 * Get fractals by username

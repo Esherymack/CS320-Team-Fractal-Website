@@ -13,6 +13,7 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalContro
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.BrowseFractalsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 public class BrowseFractalsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -29,9 +30,11 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("fractals", fractals);
 		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
+		String[] gradientTypes = Gradient.TYPES;
 		
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("fractalTypes", fractalTypes);
+		req.setAttribute("gradientTypes", gradientTypes);
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
@@ -51,6 +54,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		Boolean display = false;
 		ArrayList<Fractal> fractals = null;
 		String[] fractalTypes = Fractal.getAllFractalTypes();
+		String[] gradientTypes = Gradient.TYPES;
+		
 		String charSeq = req.getParameter("searchForFractals");
 		
 		//set up controller
@@ -75,6 +80,18 @@ public class BrowseFractalsServlet extends HttpServlet {
 		}
 		else if (req.getParameter("viewAllJuliaFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Julia");
+		}
+		else if (req.getParameter("viewAllRainbowFractals") != null) {
+			fractals = browseController.getAllFractalsByGradientType("Rainbow");
+		}
+		else if (req.getParameter("viewAllHorizontalFractals") != null) {
+			fractals = browseController.getAllFractalsByGradientType("Horizontal");
+		}
+		else if (req.getParameter("viewAllVerticalFractals") != null) {
+			fractals = browseController.getAllFractalsByGradientType("Vertical");
+		}
+		else if (req.getParameter("viewAllDiagonalFractals") != null) {
+			fractals = browseController.getAllFractalsByGradientType("Diagonal");
 		}
 		else if (req.getParameter("searchForFractals") != null) {
 			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
@@ -110,6 +127,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("display", display);
 		req.setAttribute("fractals", fractals);
 		req.setAttribute("fractalTypes", fractalTypes);
+		req.setAttribute("gradientTypes", gradientTypes);
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);

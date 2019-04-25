@@ -62,6 +62,12 @@
 								</li>
 								<br>
 							</c:forEach>
+							<c:forEach items="${gradientTypes}" var="gradType">
+								<li>
+									<input type="Submit" name="viewAll${gradType}Fractals" value="View ${gradType} Fractals">
+								</li>
+								<br>
+							</c:forEach>
 							<li>
 								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 									<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
