@@ -473,8 +473,11 @@ public class DerbyDatabase implements IDatabase
 					System.out.println(charSeq);
 					try{
 						//retrieve all fractals and populate into the list
-						stmt = conn.prepareStatement("SELECT * FROM fractal WHERE fractal.name LIKE '%" + charSeq + "%'");
+						stmt = conn.prepareStatement("select fractal.* from fractal " +
+													 "where fractal.name like ?");
 
+						stmt.setString(1, "%" + charSeq + "%");
+						
 						ArrayList<Fractal> result = new ArrayList<Fractal>();
 						
 						resultSet = stmt.executeQuery();
