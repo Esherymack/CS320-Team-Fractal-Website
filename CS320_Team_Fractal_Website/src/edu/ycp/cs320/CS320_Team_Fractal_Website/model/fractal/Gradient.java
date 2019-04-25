@@ -66,7 +66,7 @@ public class Gradient{
 		
 		float h = getHue(baseColor) + getHue(red, green, blue);
 		float s = .6f;
-		float b = .7f;
+		float b = .8f;
 		
 		return Color.getHSBColor(h, s, b);
 	}
