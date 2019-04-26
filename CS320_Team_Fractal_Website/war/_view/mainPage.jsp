@@ -44,6 +44,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="left-box">
 			<div class="interface">
 				<c:if test="${! empty errorMessage}">
@@ -57,9 +58,11 @@
 							<img src="img/square.jpg" alt="placeholder" class="fractalImage" />
 						</c:when>
 						<c:otherwise>
-							<div id=fractalImage>
-								<img src="img/result.png" alt="result" id="fractalImageSource" class="fractalImage" />
+							<div id=fractalImage class="fractalImageParent">
+								<img src="img/result.png" alt="result" class="fractalImage" id="fractalImageSource"/>
+								<div id="fractalDisplayZoomSelector"></div>
 							</div>
+							
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -288,9 +291,17 @@
 	    var mouseY = e.pageY - this.offsetTop;
 		
 		document.getElementById("mouseDown").setAttribute("value", 0);
-		3
 		updateDragZoom(mouseX, mouseY);
-	}); 
+	});
+	
+	$("#fractalImage").ondrag(function(e){
+		//get mouse position
+	    var mouseX = e.pageX - this.offsetLeft;
+	    var mouseY = e.pageY - this.offsetTop;
+		
+		document.getElementById("mouseDown").setAttribute("value", 1);
+		updateDragZoom(mouseX, mouseY);
+	});
 	
 	function updateDragZoom(mouseX, mouseY){
 		//only run this function if a supported fractal is selected
@@ -298,7 +309,7 @@
 		var option = list.options[list.selectedIndex].value;
 		if(!(option == "Mandelbrot" || option == "Julia")) return;
 		
-		//get positions of drag values
+		//get positions of initial drag values
 		var x1 = document.getElementById("oldDragZoomX1").getAttribute("value");
 		var y1 = document.getElementById("oldDragZoomY1").getAttribute("value");
 		var x2 = document.getElementById("oldDragZoomX2").getAttribute("value");
@@ -330,12 +341,33 @@
 		if(mouseDown == 1){
 			x1 = mouseX;
 			y1 = mouseY;
+			
+			//set square display of first point
+			document.getElementById("fractalDisplayZoomSelector").
+				setAttribute("style",
+					"left: " + x1 + "px;" +
+					"top: " + y1 + "px;" +
+					"width:0px;" +
+					"height:0px;"
+			);
 		}
 		//otherwise send the parameters and reset all the values to -1
 		else{
+		
 			//set mouse positions
 			x2 = mouseX;
 			y2 = mouseY;
+			
+			//set square display of second point
+			var maxWidth = Math.max(Math.abs(x1 - x2), Math.max(y1 - y2));
+			
+			document.getElementById("fractalDisplayZoomSelector").
+				setAttribute("style",
+					"left:" + (Math.min(x1, x2)) + "px;" +
+					"top:" + (Math.min(y1, y2)) + "px;" +
+					"width: " + maxWidth + "px;" +
+					"height: " + maxWidth + "px;"
+			);
 			
 			//get current position values
 			var oX1 = document.getElementById("oldDragZoomX1").getAttribute("value");
@@ -356,26 +388,18 @@
 			var realWidth = Math.abs(oX1 - oX2);
 			var realHeight = Math.abs(oY1 - oY2);
 			
-			x1 = Math.min(oX1, oX2) + realWidth * percX;
-			y1 = Math.min(oY1, oY2) + realHeight * percY;
+			var newX1 = Math.min(oX1, oX2) + realWidth * percX;
+			var newY1 = Math.min(oY1, oY2) + realHeight * percY;
 			
 			var w = Math.max(realWidth * percWidth, realHeight * percHeight);
-			x2 = x1 + w;
-			y2 = y1 + w;
-			
-			//TODO fix the bug where the values get smaller every time you do a click and drag
-			//its because the values are based on the current param values
+			var newX2 = newX1 + w;
+			var newY2 = newY1 + w;
 			
 			//set the new values
-			document.getElementById("param0").setAttribute("value", x1);
-			document.getElementById("param1").setAttribute("value", y1);
-			document.getElementById("param2").setAttribute("value", x2);
-			document.getElementById("param3").setAttribute("value", y2);
-			
-			x1 = -1;
-			y1 = -1;
-			x2 = -1;
-			y2 = -1;
+			document.getElementById("param0").setAttribute("value", newX1);
+			document.getElementById("param1").setAttribute("value", newY1);
+			document.getElementById("param2").setAttribute("value", newX2);
+			document.getElementById("param3").setAttribute("value", newY2);
 		}
 		
 		//update values in the document

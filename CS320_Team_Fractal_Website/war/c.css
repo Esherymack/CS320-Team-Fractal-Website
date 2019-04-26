@@ -450,6 +450,10 @@ div.img-grid img
 	border-radius: 3px;
 }
 
+.fractalImageParent{
+    position:relative;
+}
+
 .fractalImage{
     -khtml-user-select: none;
     -o-user-select: none;
@@ -458,6 +462,20 @@ div.img-grid img
     user-select: none;
 	pointer-events: none;
 	cursor: default;
+	
+    position:relative;
+}
+
+#fractalDisplayZoomSelector{
+	left:0px;
+	top:0px;
+	opacity: 0.7;
+	background: rgba(0, 0, 0, 0);
+	width: 100px;
+	height: 100px;
+	border: 2px solid #666666;
+	
+	position:absolute;
 }
 
 /*

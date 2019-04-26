@@ -8,8 +8,6 @@ public abstract class User
 	private String email;
 	private String password;
 	
-	private Gallery fractalGallery;
-	
 	public User()
 	{
 		this("", "", "", "", "");
@@ -72,15 +70,5 @@ public abstract class User
 	public String getPassword()
 	{
 		return password;
-	}
-	
-	public Gallery getFractalGallery()
-	{
-		return fractalGallery;
-	}
-	
-	public void setFractalGallery(Gallery fractalGallery)
-	{
-		this.fractalGallery = fractalGallery;
 	}
 }
