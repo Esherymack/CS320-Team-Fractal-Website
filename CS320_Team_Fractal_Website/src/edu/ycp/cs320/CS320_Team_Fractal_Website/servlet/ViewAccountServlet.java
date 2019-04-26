@@ -56,7 +56,7 @@ public class ViewAccountServlet extends HttpServlet{
 		Fractal renderFractal = null;
 		Fractal deleteFractal = null;
 		String errorMessage = null;
-		Boolean display = null;
+		Boolean display = false;
 		String currentUser = getLoggedInUser(req, resp);
 		User curUser = controller.getUserByUserName(currentUser);
 		String firstName = curUser.getFirstname();
@@ -64,6 +64,8 @@ public class ViewAccountServlet extends HttpServlet{
 		String email = curUser.getEmail();
 		fractals = controller.getUserFractals(currentUser);
 		
+		//get fractal the user selected to render or delete from the list of fractals
+		//if one of the fractals is requested then it should be rendered or deleted
 		for(Fractal f : fractals)
 		{
 			Object found = req.getParameter("viewFractal_" + f.getId());
@@ -71,6 +73,7 @@ public class ViewAccountServlet extends HttpServlet{
 			if(found != null)
 			{
 				renderFractal = f;
+				display = true;
 				break;
 			}
 			else if(found2 != null)
@@ -81,16 +84,20 @@ public class ViewAccountServlet extends HttpServlet{
 			}
 		}
 		
+		//if the fractal needs to be deleted, remove it and update the list of fractals
 		if(deleteFractal != null)
 		{
 			FractalController fractalController = deleteFractal.createApproprateController();
 			fractalController.deleteImage(getLoggedInUser(req, resp));
+			fractals = controller.getUserFractals(currentUser);
 		}
+		//if the fractal was found, render it and display it
 		else if(renderFractal != null)
 		{
 			FractalController fractalController = renderFractal.createApproprateController();
 			display = fractalController.render();
 		}
+		//if the fractal was supposed to be displayed but wasn't, provide error message
 		else if(display)
 		{
 			errorMessage = "Fractal could not be rendered.";
