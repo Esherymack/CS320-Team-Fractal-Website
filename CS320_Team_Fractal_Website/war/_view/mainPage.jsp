@@ -333,8 +333,9 @@
 				x1 = Math.min(oX1, oX2) + realWidth * percX;
 				y1 = Math.min(oY1, oY2) + realHeight * percY;
 				
-				x2 = x1 + realWidth * percWidth;
-				y2 = y1 + realHeight * percHeight;
+				var w = Math.max(realWidth * percWidth, realHeight * percHeight);
+				x2 = x1 + w;
+				y2 = y1 + w;
 				
 				//set the new values
 				document.getElementById("param0").setAttribute("value", x1);
