@@ -6,6 +6,7 @@
 	<head>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+		
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<meta charset="utf-8">
 		<title>Fractal Main</title>
@@ -56,11 +57,14 @@
 							<img src="img/square.jpg" alt="placeholder"/>
 						</c:when>
 						<c:otherwise>
-							<img src="img/result.png" alt="result" />
+							<div id=fractalImage>
+								<img src="img/result.png" alt="result" class="fractalImage" />
+							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
+			
 			<div class="right-box">
 				<div class="col2">
 					<div class="info">
@@ -247,7 +251,14 @@
 			$("#gradientBlueBaseLabel").hide();
 		}
 	});
-
+	
+	$("#fractalImage").click(function(e){
+	    var x = e.pageX - this.offsetLeft;
+	    var y = e.pageY - this.offsetTop;
+	    
+	    window.alert(x + " " + y);
+	}); 
+	
 	</script>
 
 </html>
