@@ -62,7 +62,7 @@
 
 .searchbar
 {
-	float: right;
+	float: left;
 	display: inline-block;
 	align-self: center;
 }

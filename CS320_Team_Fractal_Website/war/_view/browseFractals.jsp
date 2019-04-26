@@ -49,34 +49,47 @@
 					<h1>Browse Fractals</h1>
 				</div>
 
-				<div class="filternav">
-					<div class="filtercontainer">
+			<div class="filternav">
+				<div class="filtercontainer">
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+						
+								<input type="Submit" name="viewAllFractals" value="View All Fractals">
+							
 						<div class="dropdown">
 							<button class="dropbtn">Filter by Type</button>
 							<div class="dropdown-content">
-						<ul>
-							<li>
-								<input type="Submit" name="viewAllFractals" value="View All Fractals">
-							</li>
-							<c:forEach items="${fractalTypes}" var="type">
-								<li>
-									<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
-								</li>
-								<br>
-							</c:forEach>
+								<ul>
+									<c:forEach items="${fractalTypes}" var="type">
+										<li>
+											<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
+										</li>
+										<br>
+									</c:forEach>
+								</ul>	
+							</div>
 						</div>
+						<div class="dropdown">
+							<button class="dropbtn">Filter by GradientType</button>
+							<div class="dropdown-content">
+								<ul>
+									<c:forEach items="${gradientTypes}" var="type">
+										<li>
+											<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
+										</li>
+										<br>
+									</c:forEach>
+								</ul>	
+							</div>
+						</div>
+						<ul class="searchbar">
+							<li>
+								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+									<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
+									<input type="Submit" name="search" value="Search">
+								</form>
+							</li>
 						</ul>
-					</div>
-					<ul class="searchbar">
-					<li>
-						<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
-							<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
-							<input type="Submit" name="search" value="Search">
-						</form>
-					</li>
-				</ul>
-			  	</form>
+			  		</form>
 				</div>
 			</div>
 						<div>

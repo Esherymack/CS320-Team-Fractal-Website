@@ -55,14 +55,16 @@ public class BrowseFractalsServlet extends HttpServlet {
 		ArrayList<Fractal> fractals = null;
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
-		
+		//character sequence used to look for fractals with name with sequence
 		String charSeq = req.getParameter("searchForFractals");
 		
 		//set up controller
 		BrowseFractalsController browseController = new BrowseFractalsController();
 		
-		//check to see if the request was not to view all fractals
-		//if the request was to view all fractals, no initial fractal should be displayed
+		//if the request was to view all fractals get all fractals and add them to array list
+		//if the request was to view one of the types of fractal add the fractals of that type to array list
+		//if the request was to view one of the gradient types for the fractals, add the fractals with the gradient type to the array list
+		//if there was no request then all of the fractals are added to the array list
 		if (req.getParameter("viewAllFractals") != null) {
 			fractals = browseController.getAllFractals();
 		}
@@ -104,8 +106,9 @@ public class BrowseFractalsServlet extends HttpServlet {
 			display = true;
 		}
 		
-		//TODO move this stuff to the derby database?
-		//get fractal the user selected
+		
+		//get fractal the user selected to render from the list of fractals
+		//if one of the fractals is requested then it should be rendered
 		for(Fractal f : fractals){
 			Object found = req.getParameter("viewFractal_" + f.getId());
 			if(found != null){
