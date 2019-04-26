@@ -65,20 +65,21 @@
 					<c:forEach items="${fractals}" var="fractal">
 						<tr>
 							<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
+							<input type="Submit" name="deleteFractal_${fractal.id}" value="Delete Fractal ${fractal.id}" href="#content">
 						</tr>
 					</c:forEach>
 				</div>
 				</table>
 			</form>
 		</div>
-		<div class="lightbox-content" id="content">
 			<c:if test="${display}">
-				<a href="#_">
-			<img src="img/result.png" alt="result"/>
-		</a>
-		</c:if>
-</div>
+			<div class="lightbox-content" id="content">
+					<a href="#_">
+				<img src="img/result.png" alt="result"/>
+					</a>
 			</div>
+			</c:if>
+		</div>
 		</body>
 		</div>
 	</div>

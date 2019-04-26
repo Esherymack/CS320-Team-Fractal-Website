@@ -39,11 +39,20 @@ public interface IDatabase{
 	 * Saves the given fractal to the database under the name of the given username. If no user of that name exists, 
 	 * the fractal is not added.
 	 * @param fractal the fractal to add
-	 * @param name thge name of the fractal to add
+	 * @param name the name of the fractal to add
 	 * @param username the username of the one who created the fractal
 	 * @return true if the fractal was saved successfully, false otherwise
 	 */
 	public boolean saveFractal(Fractal fractal, String name, String username);
+	
+	/**
+	 * Deletes the given fractal from the database under the name of the given username. If no user of that name exists, 
+	 * the fractal is not deleted.
+	 * @param fractal the fractal to add
+	 * @param username the username of the one who created the fractal
+	 * @return true if the fractal was deleted successfully, false otherwise
+	 */
+	public boolean deleteFractal(Fractal fractal, String username);
 	
 	/**
 	 * Get every fractal in the database
