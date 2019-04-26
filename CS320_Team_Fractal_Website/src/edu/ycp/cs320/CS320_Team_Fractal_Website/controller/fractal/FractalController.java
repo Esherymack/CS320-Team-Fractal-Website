@@ -104,6 +104,10 @@ public abstract class FractalController{
 		return database.saveFractal(getModel(), name, username);
 	}
 	
+	public boolean deleteImage(String username){
+		return database.deleteFractal(getModel(), username);
+	}
+	
 	/**
 	 * Takes an array of Strings and converts them to appropriate values to enter for the fractal. 
 	 * The values from the array are stored in the model of this FractalController

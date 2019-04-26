@@ -65,6 +65,7 @@
 					<c:forEach items="${fractals}" var="fractal">
 						<tr>
 							<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
+							<input type="Submit" name="deleteFractal_${fractal.id}" value="Delete Fractal ${fractal.id}" href="#content">
 						</tr>
 					</c:forEach>
 				</div>

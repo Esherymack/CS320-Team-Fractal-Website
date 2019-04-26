@@ -54,6 +54,7 @@ public class ViewAccountServlet extends HttpServlet{
 		System.out.println("View Account Servlet: doPost");
 		
 		Fractal renderFractal = null;
+		Fractal deleteFractal = null;
 		String errorMessage = null;
 		Boolean display = null;
 		String currentUser = getLoggedInUser(req, resp);
@@ -66,9 +67,15 @@ public class ViewAccountServlet extends HttpServlet{
 		for(Fractal f : fractals)
 		{
 			Object found = req.getParameter("viewFractal_" + f.getId());
+			Object found2 = req.getParameter("deleteFractal_" + f.getId());
 			if(found != null)
 			{
 				renderFractal = f;
+				break;
+			}
+			else if(found2 != null)
+			{
+				deleteFractal = f;
 				break;
 			}
 		}
@@ -82,6 +89,12 @@ public class ViewAccountServlet extends HttpServlet{
 		else if(display)
 		{
 			errorMessage = "Fractal could not be rendered.";
+		}
+		
+		if(deleteFractal != null)
+		{
+			FractalController fractalController = deleteFractal.createApproprateController();
+			fractalController.deleteImage(getLoggedInUser(req, resp));
 		}
 		
 		req.setAttribute("errorMessage", errorMessage);
