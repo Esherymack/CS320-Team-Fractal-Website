@@ -93,10 +93,10 @@
 				<input type="hidden" id="dragZoomY1" value=-1 />
 				<input type="hidden" id="dragZoomX2" value=-1 />
 				<input type="hidden" id="dragZoomY2" value=-1 />
-				<input type="hidden" id="oldDragZoomX1" value="" />
-				<input type="hidden" id="oldDragZoomY1" value="" />
-				<input type="hidden" id="oldDragZoomX2" value="" />
-				<input type="hidden" id="oldDragZoomY2" value="" />
+				<input type="hidden" id="oldDragZoomX1" value="${param0}" />
+				<input type="hidden" id="oldDragZoomY1" value="${param1}" />
+				<input type="hidden" id="oldDragZoomX2" value="${param2}" />
+				<input type="hidden" id="oldDragZoomY2" value="${param3}" />
 				<input type="hidden" id="mouseDown" value=0 />
 				
 				<div class="col1">
@@ -288,12 +288,14 @@
 	    var mouseY = e.pageY - this.offsetTop;
 		
 		document.getElementById("mouseDown").setAttribute("value", 0);
-		
+		3
 		updateDragZoom(mouseX, mouseY);
 	}); 
 	
 	function updateDragZoom(mouseX, mouseY){
 		//only run this function if a supported fractal is selected
+		var list = document.getElementById("choice");
+		var option = list.options[list.selectedIndex].value;
 		if(!(option == "Mandelbrot" || option == "Julia")) return;
 		
 		//get positions of drag values
@@ -303,8 +305,8 @@
 		var y2 = document.getElementById("oldDragZoomY2").getAttribute("value");
 		var mouseDown = document.getElementById("mouseDown").getAttribute("value");
 		
-		//if the x1,y2,x2,y2 values are -1, then save the current params in the 
-		if(x1 == "" || y1 == "" || x2 == "" || y2 == ""){
+		//if the x1,y2,x2,y2 values are empty, then save the current params in the oldDragZoom attributes
+		if(!x1 || !y1 || !x2 || !y2){
 			document.getElementById("oldDragZoomX1").setAttribute("value",
 				document.getElementById("param0").getAttribute("value")
 			);
@@ -319,6 +321,11 @@
 			);
 		}
 		
+		var x1 = document.getElementById("dragZoomX1").getAttribute("value");
+		var y1 = document.getElementById("dragZoomY1").getAttribute("value");
+		var x2 = document.getElementById("dragZoomX2").getAttribute("value");
+		var y2 = document.getElementById("dragZoomY2").getAttribute("value");
+		
 		//if the first position has not been set yet, that is the first point
 		if(mouseDown == 1){
 			x1 = mouseX;
@@ -326,8 +333,6 @@
 		}
 		//otherwise send the parameters and reset all the values to -1
 		else{
-			var list = document.getElementById("choice");
-			var option = list.options[list.selectedIndex].value;
 			//set mouse positions
 			x2 = mouseX;
 			y2 = mouseY;
@@ -336,7 +341,7 @@
 			var oX1 = document.getElementById("oldDragZoomX1").getAttribute("value");
 			var oY1 = document.getElementById("oldDragZoomY1").getAttribute("value");
 			var oX2 = document.getElementById("oldDragZoomX2").getAttribute("value");
-			var oY2 = document.getElementById("oldDragZoomX1").getAttribute("value");
+			var oY2 = document.getElementById("oldDragZoomY2").getAttribute("value");
 			
 			//get height of image
 			var width = document.getElementById("fractalImageSource").width;
