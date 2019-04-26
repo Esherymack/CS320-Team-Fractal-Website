@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
@@ -86,36 +87,47 @@ public class DerbyDatabase implements IDatabase
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				
-				try
+				HashValidatePasswordsController pwd = new HashValidatePasswordsController();
+			
+				String hashedPassword = pwd.generateStrongPasswordHash(password);
+				
+				boolean matched = pwd.validatePassword(password, hashedPassword);
+				
+				if(matched)
 				{
-					//create statement to get user
-					stmt = conn.prepareStatement(
-							"SELECT users.* FROM users " +
-							"WHERE users.username = ? AND users.password = ?");
-					stmt.setString(1, username);
-					stmt.setString(2, password);
-					
-					User result = new StandardUser();
-					
-					resultSet = stmt.executeQuery();
-					Boolean found = false;
-					while(resultSet.next())
+					try
 					{
-						found = true;
-						loadUser(result, resultSet);
+						//create statement to get user
+						stmt = conn.prepareStatement(
+								"SELECT users.* FROM users " +
+								"WHERE users.username = ?");
+						stmt.setString(1, username);
+						
+						User result = new StandardUser();
+						
+						resultSet = stmt.executeQuery();
+						Boolean found = false;
+						while(resultSet.next())
+						{
+							found = true;
+							loadUser(result, resultSet);
+						}
+						
+						if(!found)
+						{	
+							return null;
+						}
+						return result;
 					}
-					
-					if(!found)
-					{	
-						System.out.println("User not found.");
-						return null;
+					finally
+					{
+						DBUtil.closeQuietly(resultSet);
+						DBUtil.closeQuietly(stmt);
 					}
-					return result;
 				}
-				finally
+				else
 				{
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
+					return null;
 				}
 			}
 		});
@@ -991,6 +1003,7 @@ public class DerbyDatabase implements IDatabase
 				PreparedStatement stmt = null;
 				try
 				{
+					// Password varchar must be significantly long in order to contain the pasword hash.
 					stmt = conn.prepareStatement("create table users ("
 							+ " user_id integer primary key "
 							+ " generated always as identity (start with 1, increment by 1), "
@@ -998,7 +1011,7 @@ public class DerbyDatabase implements IDatabase
 							+ " firstname varchar(40), "
 							+ " lastname varchar(40), "
 							+ " email varchar(40), "
-							+ " password varchar(40)"
+							+ " password varchar(2000)"
 							+ ")"
 							);
 					int result = stmt.executeUpdate();

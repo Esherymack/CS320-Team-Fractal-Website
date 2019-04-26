@@ -48,19 +48,9 @@ public class LogInController{
 		else if (model.getUsername().length() < 6) {
 			responce = "Password must contain at least 6 characters.";
 		}
-		//if password length is more than 25 characters it is invalid
-		else if (model.getPassword().length() > 25) {
-			responce = "That is not even logical. Enter a different password.";
-		}
 		//if username is the same as the password it is invalid
 		else if (model.getUsername().equals(model.getPassword())) {
 			responce = "Your username should not be the same as your password.";
-		}
-		//if username contains special characters it is invalid
-		else if (model.getUsername().contains(",") || model.getUsername().contains(";") || model.getUsername().contains(":")||
-				 model.getUsername().contains("@") || model.getUsername().contains("$") || model.getUsername().contains("&") ||
-				 model.getUsername().contains("%") || model.getUsername().contains("#")) {
-			responce = "Your username can not include special characters, it must include only letters and numbers.";
 		}
 		//if username is username it is invalid
 		else if (model.getUsername().equals("username")) {

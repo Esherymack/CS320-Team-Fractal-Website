@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
@@ -16,6 +17,9 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+
+	private HashValidatePasswordsController pwd = new HashValidatePasswordsController();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -45,6 +49,9 @@ public class CreateAccountServlet extends HttpServlet {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
+		
+		// Hash the password
+		String generatedSecurePasswordHash = pwd.generateStrongPasswordHash(password);
 
 		//set up controller
 		LogInController controller = new LogInController();
@@ -53,7 +60,7 @@ public class CreateAccountServlet extends HttpServlet {
 		model.setFirstname(firstname);
 		model.setLastname(lastname);
 		model.setUsername(username);
-		model.setPassword(password);
+		model.setPassword(generatedSecurePasswordHash);
 		model.setEmail(email);
 		
 		//create the account
