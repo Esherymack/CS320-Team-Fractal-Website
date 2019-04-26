@@ -54,7 +54,7 @@
 				<p></p>
 					<c:choose>
 						<c:when test="${not result}">
-							<img src="img/square.jpg" alt="placeholder"/>
+							<img src="img/square.jpg" alt="placeholder" class="fractalImage" />
 						</c:when>
 						<c:otherwise>
 							<div id=fractalImage>
