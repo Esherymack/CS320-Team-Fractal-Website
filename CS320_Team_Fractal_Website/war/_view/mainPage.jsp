@@ -58,7 +58,7 @@
 						</c:when>
 						<c:otherwise>
 							<div id=fractalImage>
-								<img src="img/result.png" alt="result" class="fractalImage" />
+								<img src="img/result.png" alt="result" id="fractalImageSource" class="fractalImage" />
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -87,7 +87,14 @@
 						<input type="hidden" id="fractalLabels${type}${i}" value="${requestScope[iValue]}" />
 					</c:forEach>
 				</c:forEach>
-	
+				
+				<!- create attributes for selecting location for clicking and dragging ->
+				<input type="hidden" id="dragZoomX1" value=-1 />
+				<input type="hidden" id="dragZoomY1" value=-1 />
+				<input type="hidden" id="dragZoomX2" value=-1 />
+				<input type="hidden" id="dragZoomY2" value=-1 />
+				<input type="hidden" id="mouseDown" value=0 />
+				
 				<div class="col1">
 					<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
@@ -108,7 +115,7 @@
 											<td class="label" id="paramInput${i}" hidden=true>
 												<label id="paramLab${i}"> ${i} </label>
 												<c:set var="iValue" value="${i}" />
-												<input name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
+												<input id="${i}" name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
 											</td>
 										</tr>
 			
@@ -252,12 +259,104 @@
 		}
 	});
 	
-	$("#fractalImage").click(function(e){
-	    var x = e.pageX - this.offsetLeft;
-	    var y = e.pageY - this.offsetTop;
-	    
-	    window.alert(x + " " + y);
+	$("#fractalImage").mousedown(function(e){
+		if(window.getSelection){
+			window.getSelection().removeAllRanges();
+		}
+		else if(document.selection){
+			document.selection.empty();
+		}
+	});
+	
+	$("#fractalImage").mousedown(function(e){
+		//get mouse position
+	    var mouseX = e.pageX - this.offsetLeft;
+	    var mouseY = e.pageY - this.offsetTop;
+		
+		document.getElementById("mouseDown").setAttribute("value", 1);
+		
+		updateDragZoom(mouseX, mouseY);
+	});
+	
+	$("#fractalImage").mouseup(function(e){
+		//get mouse position
+	    var mouseX = e.pageX - this.offsetLeft;
+	    var mouseY = e.pageY - this.offsetTop;
+		
+		document.getElementById("mouseDown").setAttribute("value", 0);
+		
+		updateDragZoom(mouseX, mouseY);
 	}); 
+	
+	function updateDragZoom(mouseX, mouseY){
+		
+		//get positions of drag values
+		var x1 = document.getElementById("dragZoomX1").getAttribute("value");
+		var y1 = document.getElementById("dragZoomY1").getAttribute("value");
+		var x2 = document.getElementById("dragZoomX2").getAttribute("value");
+		var y2 = document.getElementById("dragZoomY2").getAttribute("value");
+		var mouseDown = document.getElementById("mouseDown").getAttribute("value");
+		
+		//if the first position has not been set yet, that is the first point
+		if(mouseDown == 1){
+			x1 = mouseX;
+			y1 = mouseY;
+		}
+		//otherwise send the parameters and reset all the values to -1
+		else{
+			var list = document.getElementById("choice");
+			var option = list.options[list.selectedIndex].value;
+			if(option == "Mandelbrot" || option == "Julia"){
+				//set mouse positions
+				x2 = mouseX;
+				y2 = mouseY;
+				
+				//get current position values
+				var oX1 = document.getElementById("param0").getAttribute("value");
+				var oY1 = document.getElementById("param1").getAttribute("value");
+				var oX2 = document.getElementById("param2").getAttribute("value");
+				var oY2 = document.getElementById("param3").getAttribute("value");
+				
+				//get height of image
+				var width = document.getElementById("fractalImageSource").width;
+				var height = document.getElementById("fractalImageSource").height;
+				
+				//calculate new positions
+				var percWidth = Math.abs(x1 - x2) / width;
+				var percHeight = Math.abs(y1 - y2) / height;
+				var percX = Math.min(x1, x2) / width;
+				var percY = Math.min(y1, y2) / height;
+				
+				var realWidth = Math.abs(oX1 - oX2);
+				var realHeight = Math.abs(oY1 - oY2);
+				
+				x1 = Math.min(oX1, oX2) + realWidth * percX;
+				y1 = Math.min(oY1, oY2) + realHeight * percY;
+				
+				x2 = x1 + realWidth * percWidth;
+				y2 = y1 + realHeight * percHeight;
+				
+				//set the new values
+				document.getElementById("param0").setAttribute("value", x1);
+				document.getElementById("param1").setAttribute("value", y1);
+				document.getElementById("param2").setAttribute("value", x2);
+				document.getElementById("param3").setAttribute("value", y2);
+			}
+			
+			x1 = -1;
+			y1 = -1;
+			x2 = -1;
+			y2 = -1;
+		}
+		
+		//update values in the document
+		document.getElementById("dragZoomX1").setAttribute("value", x1);
+		document.getElementById("dragZoomY1").setAttribute("value", y1);
+		document.getElementById("dragZoomX2").setAttribute("value", x2);
+		document.getElementById("dragZoomY2").setAttribute("value", y2);
+		document.getElementById("mouseDown").setAttribute("value", mouseDown);
+		
+	}
 	
 	</script>
 
