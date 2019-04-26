@@ -328,6 +328,84 @@ public class DerbyDatabase implements IDatabase
 			}
 		});
 	}
+	
+	@Override
+	public boolean deleteFractal(Fractal fractal, String username){
+		//make sure data isn't null
+		if(fractal == null || username == null) return false;
+		
+		return executeTransaction(new Transaction<Boolean>(){
+			@Override
+			public Boolean execute(Connection conn) throws SQLException{
+				//objects for executing the statement
+				PreparedStatement stmt = null;
+				
+				ResultSet resultSet = null;
+
+				Boolean deleted = false;
+
+				int userId = -1;
+				
+				try{
+					//get the user id of the user
+					//statement to get the id
+					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
+							+ " WHERE users.username = ?");
+					//add in the username
+					stmt.setString(1, username);
+					
+					//Execute query
+					resultSet = stmt.executeQuery();
+
+					//get the id only if one is found
+					if(resultSet.next()){
+						try{
+							userId = Integer.parseInt(resultSet.getString(1));
+						}catch(NumberFormatException e){}
+					}
+					
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+					
+					//only add the fractal if the user Id was found
+					if(userId != -1){
+						
+						//get id of fractal to remove
+						int fractalId = fractal.getId();
+						//insert the fractal
+						stmt = conn.prepareStatement("Delete from fractal "
+													+ " where fractal.id = ?");
+						//set attributes of statement
+						stmt.setInt(1, fractalId);
+						
+						//execute the statement
+						stmt.executeUpdate();
+						
+						//close statements
+						DBUtil.closeQuietly(stmt);
+						DBUtil.closeQuietly(resultSet);
+						
+						//now check if the fractal was removed
+						stmt = conn.prepareStatement("SELECT fractal.* FROM fractal "
+								+ " where fractal.id = ? AND fractal.user_id = ?");
+						stmt.setInt(1, fractalId);
+						stmt.setInt(2, userId);
+
+						resultSet = stmt.executeQuery();
+						deleted = !resultSet.next();
+					}
+					else return false;
+				}
+				//closing objects
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				//return if the statement was found
+				return deleted;
+			}
+		});
+	}
 
 	@Override
 	public ArrayList<Fractal> getAllFractals(){
