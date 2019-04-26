@@ -55,7 +55,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		ArrayList<Fractal> fractals = null;
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
-		
+		//character sequence used to look for fractals with name with sequence
 		String charSeq = req.getParameter("searchForFractals");
 		
 		//set up controller
