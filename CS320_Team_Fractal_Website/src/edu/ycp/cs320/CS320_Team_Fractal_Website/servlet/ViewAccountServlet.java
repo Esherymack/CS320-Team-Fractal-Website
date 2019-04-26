@@ -76,11 +76,11 @@ public class ViewAccountServlet extends HttpServlet{
 			else if(found2 != null)
 			{
 				deleteFractal = f;
+				display = false;
 				break;
 			}
 		}
 		
-		display = req.getParameter("viewFractals") == null;
 		if(deleteFractal != null)
 		{
 			FractalController fractalController = deleteFractal.createApproprateController();
@@ -89,7 +89,7 @@ public class ViewAccountServlet extends HttpServlet{
 		else if(renderFractal != null)
 		{
 			FractalController fractalController = renderFractal.createApproprateController();
-			fractalController.render();
+			display = fractalController.render();
 		}
 		else if(display)
 		{

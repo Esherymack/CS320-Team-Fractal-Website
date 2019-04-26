@@ -72,14 +72,14 @@
 				</table>
 			</form>
 		</div>
-		<div class="lightbox-content" id="content">
 			<c:if test="${display}">
-				<a href="#_">
-			<img src="img/result.png" alt="result"/>
-		</a>
-		</c:if>
-</div>
+			<div class="lightbox-content" id="content">
+					<a href="#_">
+				<img src="img/result.png" alt="result"/>
+					</a>
 			</div>
+			</c:if>
+		</div>
 		</body>
 		</div>
 	</div>
