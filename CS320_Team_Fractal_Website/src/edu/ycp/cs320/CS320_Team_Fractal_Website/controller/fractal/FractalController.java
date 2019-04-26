@@ -104,6 +104,11 @@ public abstract class FractalController{
 		return database.saveFractal(getModel(), name, username);
 	}
 	
+	/** 
+	 * Deletes the fractal of the model of account that is logged in
+	 * @param username the username of the account that this fractal belongs to
+	 * @return true if fractal was deleted successfully, false otherwise
+	 */
 	public boolean deleteImage(String username){
 		return database.deleteFractal(getModel(), username);
 	}

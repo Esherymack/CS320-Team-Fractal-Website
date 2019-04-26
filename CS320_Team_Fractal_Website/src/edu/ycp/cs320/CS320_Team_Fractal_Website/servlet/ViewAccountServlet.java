@@ -81,7 +81,12 @@ public class ViewAccountServlet extends HttpServlet{
 		}
 		
 		display = req.getParameter("viewFractals") == null;
-		if(renderFractal != null)
+		if(deleteFractal != null)
+		{
+			FractalController fractalController = deleteFractal.createApproprateController();
+			fractalController.deleteImage(getLoggedInUser(req, resp));
+		}
+		else if(renderFractal != null)
 		{
 			FractalController fractalController = renderFractal.createApproprateController();
 			fractalController.render();
@@ -89,12 +94,6 @@ public class ViewAccountServlet extends HttpServlet{
 		else if(display)
 		{
 			errorMessage = "Fractal could not be rendered.";
-		}
-		
-		if(deleteFractal != null)
-		{
-			FractalController fractalController = deleteFractal.createApproprateController();
-			fractalController.deleteImage(getLoggedInUser(req, resp));
 		}
 		
 		req.setAttribute("errorMessage", errorMessage);
