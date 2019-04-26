@@ -374,7 +374,7 @@ public class DerbyDatabase implements IDatabase
 						int fractalId = fractal.getId();
 						//insert the fractal
 						stmt = conn.prepareStatement("Delete from fractal "
-													+ " where fractal.id = ?");
+													+ " where fractal.fractal_id = ?");
 						//set attributes of statement
 						stmt.setInt(1, fractalId);
 						
@@ -387,7 +387,7 @@ public class DerbyDatabase implements IDatabase
 						
 						//now check if the fractal was removed
 						stmt = conn.prepareStatement("SELECT fractal.* FROM fractal "
-								+ " where fractal.id = ? AND fractal.user_id = ?");
+								+ " where fractal.fractal_id = ? AND fractal.user_id = ?");
 						stmt.setInt(1, fractalId);
 						stmt.setInt(2, userId);
 
