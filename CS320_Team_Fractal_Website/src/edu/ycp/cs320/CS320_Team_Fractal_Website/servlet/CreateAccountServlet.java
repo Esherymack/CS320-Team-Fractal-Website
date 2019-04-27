@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
@@ -25,8 +26,34 @@ public class CreateAccountServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException{
 		
+		CheckUserValidController isValidUser = new CheckUserValidController();
+		
 		System.out.println("Create Account Servlet: doGet");
 		
+		// There should not be a user logged in if someone is seeing this page
+		String userName = null;
+		// Request any cookies
+		Cookie[] cookies = req.getCookies();
+		// otherwise:
+		if(cookies != null)
+		{
+			for(Cookie cookie : cookies)
+			{
+				if(cookie.getName().equals("user"))
+				{
+					userName = cookie.getValue();
+				}
+			}
+		}
+				
+		// If a cookie is found, **make sure it is a valid cookie**
+		// That is, check and see if a username is found in the db that matches the cookie.
+		// If the cookie is valid and the user exists, the user is logged in. Redirect them.
+		if(isValidUser.getUserIfExists(userName))
+		{
+			resp.sendRedirect("mainPage");
+		}
+
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/createAccount.jsp").forward(req, resp);
 	}
@@ -81,7 +108,7 @@ public class CreateAccountServlet extends HttpServlet {
 				// Add the cookie
 				resp.addCookie(loginCookie);
 				// Redirect to the main page
-				resp.sendRedirect("mainPage");
+				resp.sendRedirect("verifyAccount");
 			}
 			else{
 				accountCreatedMessage = "The account failed to generate.";
