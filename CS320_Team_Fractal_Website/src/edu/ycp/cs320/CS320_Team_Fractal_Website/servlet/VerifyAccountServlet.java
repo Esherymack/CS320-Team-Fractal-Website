@@ -88,6 +88,10 @@ public class VerifyAccountServlet extends HttpServlet
 		// That is, check and see if a username is found in the db that matches the cookie.
 		if(isValidUser.getUserIfExists(userName))
 		{
+			if(isValidUser.getUser(userName).getIsVerified())
+			{
+				resp.sendRedirect("mainPage");
+			}
 			String currentlyLoggedInMessage = "Currently logged in as " + userName;
 			req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 			req.setAttribute("userName", userName);
