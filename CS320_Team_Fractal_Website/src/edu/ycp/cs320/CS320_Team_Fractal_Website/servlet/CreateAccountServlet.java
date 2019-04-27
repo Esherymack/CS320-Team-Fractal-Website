@@ -104,7 +104,7 @@ public class CreateAccountServlet extends HttpServlet {
 		model.setUsername(username);
 		model.setPassword(generatedSecurePasswordHash);
 		model.setEmail(email);
-		model.setIsVerified("false");
+		model.setIsVerified(false);
 		model.setVerificationCode(VerificationCodeGenerator.getAlphaNumericString());
 		
 		System.out.println("Verification code generated: " + model.getVerificationCode());

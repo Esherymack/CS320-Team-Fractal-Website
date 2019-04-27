@@ -31,7 +31,7 @@ public class CheckUserValidController
 		return false;
 	}
 	
-	public String getUserIsVerified(String username)
+	public Boolean getUserIsVerified(String username)
 	{
 		User user = database.getUserByUsername(username);
 		return user.getIsVerified();

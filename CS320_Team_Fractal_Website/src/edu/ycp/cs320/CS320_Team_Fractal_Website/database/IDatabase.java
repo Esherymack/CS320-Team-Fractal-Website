@@ -101,6 +101,6 @@ public interface IDatabase{
 
 	public String getVerificationCodeByUsername(String username);
 	
-	public boolean changeStateOfVerification(String ver, User user);
+	public boolean changeStateOfVerification(boolean ver, User user);
 	
 }
