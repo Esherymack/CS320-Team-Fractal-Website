@@ -66,7 +66,7 @@ public class LogInController{
 		}
 		
 		//add the user to the database
-		boolean added = database.addUser(new StandardUser(model.getUsername(), model.getFirstname(), model.getLastname(), model.getEmail(), model.getPassword(), model.getVerificationCode(), model.getIsVerified()));
+		boolean added = database.addUser(new StandardUser(model.getUsername(), model.getFirstname(), model.getLastname(), model.getEmail(), model.getPassword(), model.getVerificationCode()));
 		
 		if(!added) responce = "Failed to add user";
 		

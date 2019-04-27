@@ -253,13 +253,8 @@ public class DerbyDatabase implements IDatabase
 						stmt.setString(4, user.getPassword());
 						stmt.setString(5, user.getEmail());
 						stmt.setString(6, user.getVerificationCode());
-<<<<<<< HEAD
 						stmt.setBoolean(7, user.getIsVerified());
-						
-=======
-						stmt.setString(7, user.getIsVerified());
 
->>>>>>> f2015af5827ba9d9cdaaef3a290ee0a1c4424555
 						//now ensure that the user was added correctly
 						int result = stmt.executeUpdate();
 

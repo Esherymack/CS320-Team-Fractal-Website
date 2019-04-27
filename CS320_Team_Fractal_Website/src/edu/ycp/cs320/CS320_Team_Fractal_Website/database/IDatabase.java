@@ -100,13 +100,7 @@ public interface IDatabase{
 	public Fractal getFractalByName(String name);
 
 	public String getVerificationCodeByUsername(String username);
-<<<<<<< HEAD
-	
+
 	public boolean changeStateOfVerification(boolean ver, User user);
-	
-=======
 
-	public boolean changeStateOfVerification(String ver, User user);
-
->>>>>>> f2015af5827ba9d9cdaaef3a290ee0a1c4424555
 }
