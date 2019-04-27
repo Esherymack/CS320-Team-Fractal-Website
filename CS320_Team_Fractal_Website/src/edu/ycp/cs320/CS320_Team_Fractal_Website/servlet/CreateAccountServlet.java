@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -8,8 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SmtpAuthenticator;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
@@ -107,6 +113,50 @@ public class CreateAccountServlet extends HttpServlet {
 				loginCookie.setMaxAge(60*60*24);
 				// Add the cookie
 				resp.addCookie(loginCookie);
+				
+				/*
+				 * Next, send the verification email before redirecting.
+				 */
+				String result;
+				String to = user.getEmail();
+				String from = "320fractalsite@gmail.com";
+				String fromUserEmailPassword = "2tvkp9FhHv";
+				String host = "smtp.gmail.com";
+				
+				Properties properties = System.getProperties();
+				
+				properties.put("mail.smtp.auth", "true");
+				properties.put("mail.smtp.starttls.enable", "true");
+				properties.put("mail.smtp.host", "smtp.gmail.com");
+				properties.put("mail.smtp.port", "587");
+				properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+				// properties.setProperty("mail.smtp.host", host);
+				
+				SmtpAuthenticator authentication = new SmtpAuthenticator();
+				Session mailSession = Session.getDefaultInstance(properties, authentication);
+				
+				try
+				{
+					MimeMessage message = new MimeMessage(mailSession);
+					message.setFrom(new InternetAddress(from));
+					message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+					message.setSubject("Please verify your account.");
+					message.setText("Please verify your account using the following code: <placeholder>");
+					
+					// Transport.send(message);
+					Transport transport = mailSession.getTransport("smtp");
+					transport.connect(host, from, fromUserEmailPassword);
+					transport.send(message);
+					transport.close();
+					
+					result = "Message sent successfully.";
+				}
+				catch(MessagingException mex)
+				{
+					mex.printStackTrace();
+					result = "Error: unable to send message.";
+				}
+				
 				// Redirect to the main page
 				resp.sendRedirect("verifyAccount");
 			}
