@@ -7,6 +7,7 @@ public abstract class User
 	private String lastname;
 	private String email;
 	private String password;
+	private boolean IsVerified;
 	
 	private Gallery fractalGallery;
 	
@@ -22,6 +23,7 @@ public abstract class User
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
+		this.IsVerified = false;
 	}
 	
 	public void setUsername(String username)
@@ -54,6 +56,11 @@ public abstract class User
 		return lastname;
 	}
 	
+	public boolean getIsVerified()
+	{
+		return IsVerified;
+	}
+	
 	public void setEmail(String email)
 	{
 		this.email = email;
@@ -67,6 +74,11 @@ public abstract class User
 	public void setPassword(String password)
 	{
 		this.password = password;
+	}
+	
+	public void setIsVerified(boolean verification)
+	{
+		this.IsVerified = verification;
 	}
 	
 	public String getPassword()
