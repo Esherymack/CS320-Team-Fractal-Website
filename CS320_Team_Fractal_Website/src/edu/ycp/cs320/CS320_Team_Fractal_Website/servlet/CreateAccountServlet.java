@@ -181,6 +181,7 @@ public class CreateAccountServlet extends HttpServlet {
 				}
 
 				// Redirect to the main page
+				System.out.println(user.getIsVerified());
 				resp.sendRedirect("verifyAccount");
 			}
 			else{

@@ -465,7 +465,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean changeStateOfVerification(User username)
+	public boolean changeStateOfVerification(User username, boolean state)
 	{
 		return executeTransaction(new Transaction<Boolean>()
 		{
@@ -477,8 +477,9 @@ public class DerbyDatabase implements IDatabase
 
 				try
 				{
-						stmt = conn.prepareStatement("UPDATE users SET isVerified = TRUE WHERE users.username = ?");
-						stmt.setString(1, username.getUsername());
+						stmt = conn.prepareStatement("UPDATE users SET isVerified = ? WHERE users.username = ?");
+						stmt.setBoolean(1, state);
+						stmt.setString(2, username.getUsername());
 
 						int result = stmt.executeUpdate();
 						if(result > 0)
@@ -1038,7 +1039,7 @@ public class DerbyDatabase implements IDatabase
 		user.setLastname(resultSet.getString(4));
 		user.setEmail(resultSet.getString(5));
 		user.setPassword(resultSet.getString(6));
-		user.setIsVerified(resultSet.getBoolean(7));
+		user.setIsVerified(resultSet.getBoolean(8));
 	}
 
 	/**
