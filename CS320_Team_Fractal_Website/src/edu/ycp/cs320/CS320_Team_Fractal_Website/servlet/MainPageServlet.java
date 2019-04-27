@@ -269,7 +269,7 @@ public class MainPageServlet extends HttpServlet{
 		// That is, check and see if a username is found in the db that matches the cookie.
 		if(isValidUser.getUserIfExists(userName))
 		{
-			if(isValidUser.getUserIsVerified(userName).equals("true"))
+			if(isValidUser.getUserIsVerified(userName))
 			{
 				String currentlyLoggedInMessage = "Currently logged in as " + userName;
 				req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
@@ -278,7 +278,7 @@ public class MainPageServlet extends HttpServlet{
 			else
 			{
 				System.out.println("Not verified.");
-				// resp.sendRedirect("verifyAccount");
+				resp.sendRedirect("verifyAccount");
 			}
 		}
 		// Otherwise, just to clean up, delete the cookie of the deleted/nonexistent user ("log out").

@@ -35,7 +35,7 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testGetUserByUsernameAndPassword(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code));
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
 		
 		User u = database.getUserByUsernameAndPassword(username, password);
 		
@@ -49,7 +49,7 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testGetUsers(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code));
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
 		
 		ArrayList<User> users = database.getUsers();
 		
@@ -66,7 +66,7 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testGetUserByUserName(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code));
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
 		
 		User u = database.getUserByUsername(username);
 		
@@ -80,13 +80,13 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testAddUser(){
-		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password, code));
+		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
 		assertTrue(added);
 	}
 	
 	@Test
 	public void testSaveFractal(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code));
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
 		
 		//test adding real user
 		boolean added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", username);

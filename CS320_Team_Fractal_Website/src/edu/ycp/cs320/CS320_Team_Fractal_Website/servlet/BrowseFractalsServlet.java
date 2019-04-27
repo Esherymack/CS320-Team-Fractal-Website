@@ -163,7 +163,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		// That is, check and see if a username is found in the db that matches the cookie.
 		if(isValidUser.getUserIfExists(userName))
 		{
-			if(isValidUser.getUserIsVerified(userName).equals("true"))
+			if(isValidUser.getUserIsVerified(userName))
 			{
 				String currentlyLoggedInMessage = "Currently logged in as " + userName;
 				req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);

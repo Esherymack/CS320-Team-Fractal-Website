@@ -215,7 +215,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean addUser(User user)
+	public boolean addUser(User user, boolean ver)
 	{
 		return executeTransaction(new Transaction<Boolean>()
 		{
@@ -253,7 +253,7 @@ public class DerbyDatabase implements IDatabase
 						stmt.setString(4, user.getPassword());
 						stmt.setString(5, user.getEmail());
 						stmt.setString(6, user.getVerificationCode());
-						stmt.setBoolean(7, user.getIsVerified());
+						stmt.setBoolean(7, ver);
 
 						//now ensure that the user was added correctly
 						int result = stmt.executeUpdate();
@@ -465,7 +465,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean changeStateOfVerification(boolean ver, User username)
+	public boolean changeStateOfVerification(User username)
 	{
 		return executeTransaction(new Transaction<Boolean>()
 		{
@@ -477,13 +477,13 @@ public class DerbyDatabase implements IDatabase
 
 				try
 				{
-						stmt = conn.prepareStatement("UPDATE users SET isVerified=? WHERE users.username = ?");
-						stmt.setBoolean(1, ver);
-						stmt.setString(2, username.getUsername());
+						stmt = conn.prepareStatement("UPDATE users SET isVerified = TRUE WHERE users.username = ?");
+						stmt.setString(1, username.getUsername());
 
 						int result = stmt.executeUpdate();
 						if(result > 0)
 						{
+							username.setIsVerified(true);
 							return true;
 						}
 					return false;
@@ -1038,6 +1038,7 @@ public class DerbyDatabase implements IDatabase
 		user.setLastname(resultSet.getString(4));
 		user.setEmail(resultSet.getString(5));
 		user.setPassword(resultSet.getString(6));
+		user.setIsVerified(resultSet.getBoolean(7));
 	}
 
 	/**

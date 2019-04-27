@@ -33,7 +33,7 @@ public interface IDatabase{
 	 * @param user the user to add to the account
 	 * @return true if the account was added successfully, false otherwise
 	 */
-	public boolean addUser(User user);
+	public boolean addUser(User user, boolean ver);
 
 	/**
 	 * Saves the given fractal to the database under the name of the given username. If no user of that name exists,
@@ -101,6 +101,6 @@ public interface IDatabase{
 
 	public String getVerificationCodeByUsername(String username);
 
-	public boolean changeStateOfVerification(boolean ver, User user);
+	public boolean changeStateOfVerification(User user);
 
 }

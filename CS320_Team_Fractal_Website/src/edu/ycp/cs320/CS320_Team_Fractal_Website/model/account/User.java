@@ -7,7 +7,7 @@ public abstract class User
 	private String lastname;
 	private String email;
 	private String password;
-	private Boolean IsVerified;
+	private boolean IsVerified;
 	private String VerificationCode;
 	
 	public User()
@@ -56,7 +56,7 @@ public abstract class User
 		return lastname;
 	}
 	
-	public Boolean getIsVerified()
+	public boolean getIsVerified()
 	{
 		return IsVerified;
 	}
