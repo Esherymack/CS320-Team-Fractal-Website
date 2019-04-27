@@ -346,8 +346,16 @@
 		x2 = mouseX;
 		y2 = mouseY;
 		
+		//get height of image
+		var width = document.getElementById("fractalImageSource").width;
+		var height = document.getElementById("fractalImageSource").height;
+		
 		//set square display of second point
+		var minX = Math.min(x1, x2);
+		var minY = Math.min(y1, y2);
 		var maxWidth = Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));
+		if(maxWidth + minX > width) maxWidth = width - minX;
+		if(maxWidth + minY > height) maxWidth = height - minY;
 		
 		document.getElementById("fractalDisplayZoomSelector").
 			setAttribute("style",
@@ -356,10 +364,6 @@
 				"width: " + maxWidth + "px;" +
 				"height: " + maxWidth + "px;"
 		);
-		
-		//get height of image
-		var width = document.getElementById("fractalImageSource").width;
-		var height = document.getElementById("fractalImageSource").height;
 		
 		//calculate new positions
 		var percWidth = Math.abs(x1 - x2) / width;
@@ -374,8 +378,11 @@
 		var newY1 = Math.min(oldDragZoomY1, oldDragZoomY2) + realHeight * percY;
 		
 		var w = Math.max(realWidth * percWidth, realHeight * percHeight);
+		
 		var newX2 = newX1 + w;
 		var newY2 = newY1 + w;
+		if(newX2 > oldDragZoomX2) newX2 = oldDragZoomX2;
+		if(newY2 > oldDragZoomY2) newY2 = oldDragZoomY2;
 		
 		//set the new values
 		document.getElementById("param0").setAttribute("value", newX1);
