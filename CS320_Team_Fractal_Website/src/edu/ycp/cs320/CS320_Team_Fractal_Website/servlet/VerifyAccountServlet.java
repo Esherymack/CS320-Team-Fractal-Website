@@ -8,12 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.VerifyAccountController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 import javax.servlet.http.Cookie;
 
 public class VerifyAccountServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
+	CheckUserValidController isValidUser = new CheckUserValidController();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
@@ -21,7 +24,9 @@ public class VerifyAccountServlet extends HttpServlet
 		System.out.println("VerifyAccount Servlet: doGet");
 		
 		// A user needs to be logged in if they're seeing this page.
-		String currentlyLoggedInMessage = checkCookies(req, resp);
+		String userName = checkCookies(req, resp);
+	
+		req.setAttribute("userEmail", isValidUser.getUser(userName).getEmail());
 		
 		req.getRequestDispatcher("/_view/verifyAccount.jsp").forward(req, resp);
 	}
@@ -31,12 +36,39 @@ public class VerifyAccountServlet extends HttpServlet
 	{
 		System.out.println("VerifyAccount Servlet: doPost");
 		
+		String errorMessage = null;
+		VerifyAccountController controller = new VerifyAccountController();
+		String userName = checkCookies(req, resp);
+		controller.setModel(isValidUser.getUser(userName));
+		
+		String verificationCode = req.getParameter("verification");
+		
+		if(verificationCode.isEmpty()) 
+		{
+			errorMessage = "Please enter an authentication code.";
+		}
+		else
+		{
+			boolean Verify = controller.verifyAccountVerification(verificationCode);
+			if(Verify)
+			{
+				System.out.println("Verification successful");
+				System.out.println(isValidUser.getUser(userName).getIsVerified());
+				resp.sendRedirect("mainPage");
+			}
+			else
+			{
+				System.out.println("Verification failed. Code?: " + isValidUser.getUser(userName).getVerificationCode());
+				errorMessage = "Account did not verify.";
+			}
+		}
+		
+		req.setAttribute("errorMessage", errorMessage);
 		req.getRequestDispatcher("/_view/verifyAccount.jsp").forward(req, resp);
 	}
 	
 	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		CheckUserValidController isValidUser = new CheckUserValidController();
 		// User - should be logged in.
 		String userName = null;
 		// Request any cookies
@@ -67,6 +99,6 @@ public class VerifyAccountServlet extends HttpServlet
 		}
 		
 		// otherwise
-		return("Currently logged in as " + userName);
+		return(userName);
 	}
 }

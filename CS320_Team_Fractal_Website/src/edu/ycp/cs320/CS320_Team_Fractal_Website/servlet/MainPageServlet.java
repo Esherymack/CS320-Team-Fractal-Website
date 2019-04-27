@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
@@ -268,7 +269,7 @@ public class MainPageServlet extends HttpServlet{
 		// That is, check and see if a username is found in the db that matches the cookie.
 		if(isValidUser.getUserIfExists(userName))
 		{
-			if(isValidUser.getUserIsVerified(userName))
+			if(isValidUser.getUserIsVerified(userName).equals("true"))
 			{
 				String currentlyLoggedInMessage = "Currently logged in as " + userName;
 				req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
@@ -276,6 +277,7 @@ public class MainPageServlet extends HttpServlet{
 			}
 			else
 			{
+				System.out.println("Not verified.");
 				resp.sendRedirect("verifyAccount");
 			}
 		}

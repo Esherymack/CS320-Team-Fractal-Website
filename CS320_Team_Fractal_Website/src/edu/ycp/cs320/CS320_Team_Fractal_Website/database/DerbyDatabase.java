@@ -172,6 +172,49 @@ public class DerbyDatabase implements IDatabase
 	}
 	
 	@Override
+	public String getVerificationCodeByUsername(String username)
+	{
+		return executeTransaction(new Transaction<String>()
+		{
+			@Override
+			public String execute(Connection conn) throws SQLException
+			{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try
+				{					
+					stmt = conn.prepareStatement("SELECT users.verify FROM users WHERE users.username = ?");
+					stmt.setString(1, username);
+			
+					resultSet = stmt.executeQuery();
+					
+					String result = null;
+					
+					if(resultSet.next())
+					{
+						result = resultSet.getString(1);
+					}
+					
+					if(result == null)
+					{
+						System.out.println("Result was null.");
+						return null;
+					}
+					
+					return result;
+		
+				}
+				finally
+				{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
 	public boolean addUser(User user) 
 	{
 		return executeTransaction(new Transaction<Boolean>()
@@ -203,12 +246,14 @@ public class DerbyDatabase implements IDatabase
 						DBUtil.closeQuietly(resultSet);
 						
 						// now add the user if the username does not already exist
-						stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)");
+						stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email, verify, isVerified) VALUES (?, ?, ?, ?, ?, ?, ?)");
 						stmt.setString(1, user.getFirstname());
 						stmt.setString(2, user.getLastname());
 						stmt.setString(3, user.getUsername());
 						stmt.setString(4, user.getPassword());
 						stmt.setString(5, user.getEmail());
+						stmt.setString(6, user.getVerificationCode());
+						stmt.setString(7, user.getIsVerified());
 						
 						//now ensure that the user was added correctly
 						int result = stmt.executeUpdate();
@@ -419,6 +464,67 @@ public class DerbyDatabase implements IDatabase
 		});
 	}
 
+	@Override
+	public boolean changeStateOfVerification(String ver, String username)
+	{
+		return executeTransaction(new Transaction<Boolean>()
+		{
+			@Override
+			public Boolean execute(Connection conn) throws SQLException
+			{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				int userId = -1;
+				
+				try
+				{
+					//get the user id of the user
+					//statement to get the id
+					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
+							+ " WHERE users.username = ?");
+					//add in the username
+					stmt.setString(1, username);
+					
+					//Execute query
+					resultSet = stmt.executeQuery();
+
+					//get the id only if one is found
+					if(resultSet.next())
+					{
+						try
+						{
+							userId = Integer.parseInt(resultSet.getString(1));
+						}
+						catch(NumberFormatException e){}
+					}
+
+					//close statements
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+					
+					if(userId != -1)
+					{
+						stmt = conn.prepareStatement("UPDATE users SET isVerified=? WHERE users.user_id = ?");
+						stmt.setString(1, ver);
+						stmt.setInt(2, userId);
+						
+						int result = stmt.executeUpdate();
+						if(result > 0)
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+				finally
+				{
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+			}
+		});
+	}
+	
 	@Override
 	public ArrayList<Fractal> getAllFractals(){
 		return executeTransaction(new Transaction<ArrayList<Fractal>>(){
@@ -1003,7 +1109,7 @@ public class DerbyDatabase implements IDatabase
 				PreparedStatement stmt = null;
 				try
 				{
-					// Password varchar must be significantly long in order to contain the pasword hash.
+					// Password varchar must be significantly long in order to contain the password hash.
 					stmt = conn.prepareStatement("create table users ("
 							+ " user_id integer primary key "
 							+ " generated always as identity (start with 1, increment by 1), "
@@ -1011,7 +1117,9 @@ public class DerbyDatabase implements IDatabase
 							+ " firstname varchar(40), "
 							+ " lastname varchar(40), "
 							+ " email varchar(40), "
-							+ " password varchar(2000)"
+							+ " password varchar(2000), "
+							+ " verify varchar(20), "
+							+ " isVerified varchar(10)"
 							+ ")"
 							);
 					int result = stmt.executeUpdate();

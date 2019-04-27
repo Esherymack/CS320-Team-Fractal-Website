@@ -7,21 +7,23 @@ public abstract class User
 	private String lastname;
 	private String email;
 	private String password;
-	private boolean IsVerified;
+	private String IsVerified;
+	private String VerificationCode;
 	
 	public User()
 	{
-		this("", "", "", "", "");
+		this("", "", "", "", "", "", "");
 	}
 	
-	public User(String username, String firstname, String lastname, String email, String password)
+	public User(String username, String firstname, String lastname, String email, String password, String code, String ver)
 	{
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
-		this.IsVerified = false;
+		this.VerificationCode = code;
+		this.IsVerified = ver;
 	}
 	
 	public void setUsername(String username)
@@ -54,7 +56,7 @@ public abstract class User
 		return lastname;
 	}
 	
-	public boolean getIsVerified()
+	public String getIsVerified()
 	{
 		return IsVerified;
 	}
@@ -74,9 +76,19 @@ public abstract class User
 		this.password = password;
 	}
 	
-	public void setIsVerified(boolean verification)
+	public void setIsVerified(String verification)
 	{
 		this.IsVerified = verification;
+	}
+	
+	public void setVerificationCode(String code)
+	{
+		this.VerificationCode = code;
+	}
+	
+	public String getVerificationCode()
+	{
+		return this.VerificationCode;
 	}
 	
 	public String getPassword()
