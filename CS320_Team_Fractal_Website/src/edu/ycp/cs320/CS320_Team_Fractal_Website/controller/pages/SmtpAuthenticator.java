@@ -14,7 +14,7 @@ public class SmtpAuthenticator extends Authenticator
 	public PasswordAuthentication getPasswordAuthentication()
 	{
 		String username = "320fractalsite@gmail.com";
-		String password = "***REMOVED***";
+		String password = "";
 		
 		if((username != null) && (username.length() > 0) && (password != null) && (password.length() > 0))
 		{
