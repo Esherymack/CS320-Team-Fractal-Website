@@ -467,12 +467,12 @@ div.img-grid img
 }
 
 #fractalDisplayZoomSelector{
-	left:0px;
-	top:0px;
+	left:-100px;
+	top:-100px;
 	opacity: 0.7;
 	background: rgba(0, 0, 0, 0);
-	width: 100px;
-	height: 100px;
+	width: 0px;
+	height: 0px;
 	border: 2px solid #666666;
 	
 	position:absolute;
