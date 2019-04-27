@@ -98,5 +98,9 @@ public interface IDatabase{
 	 * @return the fractal with the given name, null if no fractal was found
 	 */
 	public Fractal getFractalByName(String name);
+
+	public String getVerificationCodeByUsername(String username);
+	
+	public boolean changeStateOfVerification(String ver, String username);
 	
 }

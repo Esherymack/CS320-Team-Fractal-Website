@@ -16,6 +16,7 @@ import javax.activation.*;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SmtpAuthenticator;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.VerificationCodeGenerator;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
@@ -95,6 +96,10 @@ public class CreateAccountServlet extends HttpServlet {
 		model.setUsername(username);
 		model.setPassword(generatedSecurePasswordHash);
 		model.setEmail(email);
+		model.setIsVerified("false");
+		model.setVerificationCode(VerificationCodeGenerator.getAlphaNumericString());
+		
+		System.out.println("Verification code generated: " + model.getVerificationCode());
 		
 		//create the account
 		invalidMessage = controller.createNewAccount();
@@ -141,7 +146,7 @@ public class CreateAccountServlet extends HttpServlet {
 					message.setFrom(new InternetAddress(from));
 					message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 					message.setSubject("Please verify your account.");
-					message.setText("Please verify your account using the following code: <placeholder>");
+					message.setText("Please verify your account using the following code: " + model.getVerificationCode());
 					
 					// Transport.send(message);
 					Transport transport = mailSession.getTransport("smtp");

@@ -31,10 +31,15 @@ public class CheckUserValidController
 		return false;
 	}
 	
-	public Boolean getUserIsVerified(String username)
+	public String getUserIsVerified(String username)
 	{
 		User user = database.getUserByUsername(username);
 		return user.getIsVerified();
+	}
+	
+	public User getUser(String username)
+	{
+		return database.getUserByUsername(username);
 	}
 	
 	public void LogOut(HttpServletRequest req, HttpServletResponse resp, String redirPage) throws ServletException, IOException

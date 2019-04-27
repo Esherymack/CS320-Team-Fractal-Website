@@ -25,6 +25,11 @@
             <input type="Submit" name="submit" value="Submit Code">
             <div class="loggedIn">${verifiedUserMessage}</div>
           </form>
+          <div>
+            <c:if test="${! empty errorMessage}">
+              <div class="invalid">${errorMessage}</div>
+            </c:if>
+          </div>
         </div>
         <div class="login-center">
           <div class="lower-nav">
