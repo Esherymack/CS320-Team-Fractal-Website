@@ -17,7 +17,7 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
 
 public class MainPageServlet extends HttpServlet{
-	
+
 	/**
 	 * The number of parameters used by the website
 	 */
@@ -29,52 +29,52 @@ public class MainPageServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException
 	{
-		
+
 		System.out.println("Main Page Servlet: doGet");
-		
+
 		// check if user is logged in
 		String currentlyLoggedInMessage = checkCookies(req, resp);
 		// if user is logged in, check if their account is verified
 
-		
+
 		//message for logging in
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
-		
+
 		//list of parameters that need to be sent for which values are displayed
 		sendParamAttributes(req);
 
 		//view page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req,  resp);
-		
+
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{	
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		System.out.println("mainPage Servlet: doPost");
 
 		String currentlyLoggedInMessage = checkCookies(req, resp);
-		
+
 		// holds the error message text, if any
 		String errorMessage = null;
 		// holds the fractal info
 		String fractalInfo = req.getParameter("fractalInfo");
-		
+
 		String paramsToTry = req.getParameter("paramsToTry");
-		
+
 		Boolean result = null;
-		
+
 		//choice from the fractal drop down menu
 		String choice = req.getParameter("choice");
-		
+
 		//choice from the gradient drop down menu
 		String gradientChoice = req.getParameter("gradientChoice");
-		
+
 		//get all parameters
 		String[] params = new String[NUM_PARAMS];
 		for(int i = 0; i < NUM_PARAMS; i++){
 			params[i] = req.getParameter("param" + i);
 		}
-		
+
 		//color parameters
 		String redBase = null;
 		String greenBase = null;
@@ -90,10 +90,10 @@ public class MainPageServlet extends HttpServlet{
 		redEnd = req.getParameter("gradientRedEnd");
 		greenEnd = req.getParameter("gradientGreenEnd");
 		blueEnd = req.getParameter("gradientBlueEnd");
-		
+
 		//name parameter
 		String name = null;
-		
+
 		//only generate the fractal if a value choice was found
 		if(choice != null){
 			//select the correct controller and model to use
@@ -104,42 +104,42 @@ public class MainPageServlet extends HttpServlet{
 			fractalInfo = controller.getModel().getInfo();
 			//set the fractal param examples
 			paramsToTry = controller.getModel().getParamExamples();
-			
+
 			//send parameters
 			boolean sent = controller.acceptParameters(params);
-			
+
 			//get the color of the gradient for the controller
 			Gradient gradient;
 			try{
 				gradient = new Gradient();
-				
+
 				int r = Integer.parseInt(redBase);
 				int g = Integer.parseInt(greenBase);
 				int b = Integer.parseInt(blueBase);
 				gradient.setBaseColor(new Color(r, g, b));
-				
+
 				r = Integer.parseInt(redEnd);
 				g = Integer.parseInt(greenEnd);
 				b = Integer.parseInt(blueEnd);
 				gradient.setSecondaryColor(new Color(r, g, b));
-				
+
 				redBase = "" + gradient.getBaseColor().getRed();
 				greenBase = "" + gradient.getBaseColor().getGreen();
 				blueBase = "" + gradient.getBaseColor().getBlue();
-				
+
 				redEnd = "" + gradient.getSecondaryColor().getRed();
 				greenEnd = "" + gradient.getSecondaryColor().getGreen();
 				blueEnd = "" + gradient.getSecondaryColor().getBlue();
-				
-				
+
+
 			}catch(NullPointerException | NumberFormatException e){
 				gradient = new Gradient();
 			}
-			
+
 			//set the gradient
 			controller.setGradient(gradient);
 			controller.setGradientType(gradientChoice);
-			
+
 			//render the fractal, only if no error occurred
 			//if the request is for a submit, then just display the fractal to the site
 			if(req.getParameter("submit") != null){
@@ -150,7 +150,7 @@ public class MainPageServlet extends HttpServlet{
 			else if(req.getParameter("save") != null){
 				//get the name the user has typed in
 				name = req.getParameter("saveName");
-				
+
 				//save and render the fractal
 				if(name != null && controller != null && sent){
 					//if no name was given, tell the user to give a name
@@ -169,7 +169,7 @@ public class MainPageServlet extends HttpServlet{
 				}
 				else errorMessage = "Please provide a name and parameters";
 			}
-			
+
 			//if the default values button is pressed, set all the parameters to the correct fractal type
 			if(req.getParameter("setDefaultValues") != null){
 				fractal.setDefaultParameters();
@@ -182,14 +182,14 @@ public class MainPageServlet extends HttpServlet{
 			}
 		}
 		else errorMessage = "Please select a fractal";
-		
+
 		//send parameters back
 		for(int i = 0; i < NUM_PARAMS; i++){
 			req.setAttribute("param" + i, params[i]);
 		}
 		//list of parameters that need to be sent for which values are displayed
 		sendParamAttributes(req);
-		
+
 		//set attributes of page
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("errorMessage", errorMessage);
@@ -198,7 +198,7 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		req.setAttribute("gradientChoice", gradientChoice);
-		
+
 		//set color attributes
 		req.setAttribute("gradientRedBase", redBase);
 		req.setAttribute("gradientGreenBase", greenBase);
@@ -206,23 +206,23 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("gradientRedEnd", redEnd);
 		req.setAttribute("gradientGreenEnd", greenEnd);
 		req.setAttribute("gradientBlueEnd", blueEnd);
-		
+
 		//set name attribute
 		req.setAttribute("saveName", name);
-		
+
 		//go back to the page
 		req.getRequestDispatcher("/_view/mainPage.jsp").forward(req, resp);
 	}
-	
+
 	private void sendParamAttributes(HttpServletRequest req){
-		
+
 		//list of parameters that need to be sent for which values are displayed
 		req.setAttribute("paramLabelList", getParamLabelList());
-		
+
 		//list of fractal names that need to be sent for which fractals are used as options
 		String[] types = Fractal.getAllFractalTypes();
 		req.setAttribute("fractalTypeList", types);
-		
+
 		//add attributes for all fractal type labels
 		for(int j = 0; j < types.length; j++){
 			Fractal f = Fractal.getDefaultFractal(types[j]);
@@ -231,12 +231,12 @@ public class MainPageServlet extends HttpServlet{
 				req.setAttribute("fractalLabels" + types[j] + "param" + i, labels[i]);
 			}
 		}
-		
+
 		//send list of gradients
 		req.setAttribute("gradientList", Gradient.TYPES);
-		
+
 	}
-	
+
 	/**
 	 * Get a list of all the names of the parameters that are used for input values and their associated labels
 	 * @return
@@ -246,7 +246,7 @@ public class MainPageServlet extends HttpServlet{
 		for(int i = 0; i < paramList.length; i++) paramList[i] = "param" + i;
 		return paramList;
 	}
-	
+
 	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		CheckUserValidController isValidUser = new CheckUserValidController();
@@ -286,11 +286,11 @@ public class MainPageServlet extends HttpServlet{
 		{
 			isValidUser.LogOut(req, resp, "logIn");
 		}
-		
+
 		// otherwise
 		return("Currently logged in as " + userName);
 	}
-	
+
 	/**
 	 * Get the username of the user who is currently logged in
 	 * @param req the request for the page
@@ -311,5 +311,5 @@ public class MainPageServlet extends HttpServlet{
 		//if no username is found, return null
 		return null;
 	}
-	
+
 }

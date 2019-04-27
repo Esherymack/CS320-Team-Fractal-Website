@@ -18,32 +18,32 @@ public class SmtpAuthenticator extends Authenticator
 	{
 		super();
 	}
-	
+
 	@Override
 	public PasswordAuthentication getPasswordAuthentication()
 	{
 		String username = null;
 		String password = null;
-		
-		
+
+
 		Path pathToFile = Paths.get("login.txt");
 		System.out.println(pathToFile.toAbsolutePath().toString());
 		Stream<String> stream = null;
-		try 
+		try
 		{
 			stream = Files.lines(pathToFile);
-		} 
-		catch (IOException e) 
+		}
+		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		List<String> listLogin = stream.collect(Collectors.toList());
 		ArrayList<String> arrayListLogin = new ArrayList<String>(listLogin);
 		username = arrayListLogin.get(0);
 		password = arrayListLogin.get(1);
-		
+
 		if((username != null) && (username.length() > 0) && (password != null) && (password.length() > 0))
 		{
 			return new PasswordAuthentication(username, password);
