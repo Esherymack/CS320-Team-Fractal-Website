@@ -1,7 +1,15 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -124,8 +132,18 @@ public class CreateAccountServlet extends HttpServlet {
 				 */
 				String result;
 				String to = user.getEmail();
-				String from = "320fractalsite@gmail.com";
-				String fromUserEmailPassword = "***REMOVED***";
+				String from = null;
+				String fromUserEmailPassword = null;
+				String filename = "login.txt";
+				Path pathToFile = Paths.get("login.txt");
+				System.out.println(pathToFile.toAbsolutePath().toString());
+				Stream<String> stream = Files.lines(pathToFile);
+				
+				List<String> listLogin = stream.collect(Collectors.toList());
+				ArrayList<String> arrayListLogin = new ArrayList<String>(listLogin);
+				from = arrayListLogin.get(0);
+				fromUserEmailPassword = arrayListLogin.get(1);
+				
 				String host = "smtp.gmail.com";
 				
 				Properties properties = System.getProperties();

@@ -38,7 +38,7 @@ public class VerifyAccountController
 		{
 			User user = database.getUserByUsername(model.getUsername());
 			System.out.println(model.getIsVerified());
-			boolean change = database.changeStateOfVerification("true", model.getUsername());
+			boolean change = database.changeStateOfVerification("true", user);
 			model.setIsVerified("true");
 			return true;
 		}

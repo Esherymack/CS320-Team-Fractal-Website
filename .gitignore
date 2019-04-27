@@ -35,3 +35,6 @@ CS320_Lab06_mtibbett/*
 
 # Ignore result images 
 */war/img/result.png
+
+# Ignore gmail login information
+login.txt

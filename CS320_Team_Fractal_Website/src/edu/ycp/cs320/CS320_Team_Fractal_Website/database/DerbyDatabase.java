@@ -465,7 +465,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean changeStateOfVerification(String ver, String username)
+	public boolean changeStateOfVerification(String ver, User username)
 	{
 		return executeTransaction(new Transaction<Boolean>()
 		{
@@ -474,46 +474,18 @@ public class DerbyDatabase implements IDatabase
 			{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				int userId = -1;
 				
 				try
 				{
-					//get the user id of the user
-					//statement to get the id
-					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
-							+ " WHERE users.username = ?");
-					//add in the username
-					stmt.setString(1, username);
-					
-					//Execute query
-					resultSet = stmt.executeQuery();
-
-					//get the id only if one is found
-					if(resultSet.next())
-					{
-						try
-						{
-							userId = Integer.parseInt(resultSet.getString(1));
-						}
-						catch(NumberFormatException e){}
-					}
-
-					//close statements
-					DBUtil.closeQuietly(stmt);
-					DBUtil.closeQuietly(resultSet);
-					
-					if(userId != -1)
-					{
-						stmt = conn.prepareStatement("UPDATE users SET isVerified=? WHERE users.user_id = ?");
+						stmt = conn.prepareStatement("UPDATE users SET isVerified=? WHERE users.username = ?");
 						stmt.setString(1, ver);
-						stmt.setInt(2, userId);
+						stmt.setString(2, username.getUsername());
 						
 						int result = stmt.executeUpdate();
 						if(result > 0)
 						{
 							return true;
 						}
-					}
 					return false;
 				}
 				finally

@@ -278,7 +278,7 @@ public class MainPageServlet extends HttpServlet{
 			else
 			{
 				System.out.println("Not verified.");
-				resp.sendRedirect("verifyAccount");
+				// resp.sendRedirect("verifyAccount");
 			}
 		}
 		// Otherwise, just to clean up, delete the cookie of the deleted/nonexistent user ("log out").
