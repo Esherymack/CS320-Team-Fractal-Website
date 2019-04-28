@@ -134,6 +134,51 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
+	public User getUserByUsernameAndEmail(String username, String email)
+	{
+		return executeTransaction(new Transaction<User>()
+		{
+			@Override
+			public User execute(Connection conn) throws SQLException
+			{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try
+				{
+					//create statement to get user
+					stmt = conn.prepareStatement(
+							"SELECT users.* FROM users " +
+							"WHERE users.username = ? AND users.email = ?");
+					stmt.setString(1, username);
+					stmt.setString(2, email);
+					
+					User result = new StandardUser();
+
+					resultSet = stmt.executeQuery();
+					Boolean found = false;
+					while(resultSet.next())
+					{
+						found = true;
+						loadUser(result, resultSet);
+					}
+
+					if(!found)
+					{
+						return null;
+					}
+					return result;
+				}
+				finally
+				{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
 	public User getUserByUsername(String username) {
 		return executeTransaction(new Transaction<User>(){
 			@Override
@@ -487,6 +532,40 @@ public class DerbyDatabase implements IDatabase
 							username.setIsVerified(true);
 							return true;
 						}
+					return false;
+				}
+				finally
+				{
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public boolean changePassword(User user, String password)
+	{
+		return executeTransaction(new Transaction<Boolean>()
+		{
+			@Override
+			public Boolean execute(Connection conn) throws SQLException
+			{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try
+				{
+					stmt = conn.prepareStatement("UPDATE users SET password = ? WHERE users.username = ?");
+					stmt.setString(1, password);
+					stmt.setString(2, user.getUsername());
+					
+					int result = stmt.executeUpdate();
+					if(result > 0)
+					{
+						user.setPassword(password);
+						return true;
+					}
 					return false;
 				}
 				finally

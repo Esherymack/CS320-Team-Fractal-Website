@@ -13,10 +13,6 @@
 		<div class="border">
 		</div>
 		<div class="center"><body>
-				<c:if test="${! empty errorMessage}">
-					<div class="error">${errorMessage}</div>
-				</c:if>
-
 				<div class="login-center">
             <form action="${pageContext.servletContext.contextPath}/forgotPassword" method="post">
               <table>
@@ -31,6 +27,9 @@
               </table>
               <input type="Submit" name="submit" value="Submit">
               <div class="loggedIn">${emailSentMessage}</div>
+              <c:if test="${! empty errorMessage}">
+                <div class="error">${errorMessage}</div>
+              </c:if>
             </form>
         </div>
 

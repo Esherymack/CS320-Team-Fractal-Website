@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.ForgotPasswordController;
 
 public class ForgotPasswordServlet extends HttpServlet
 {
@@ -50,7 +51,39 @@ public class ForgotPasswordServlet extends HttpServlet
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
+		
+		CheckUserValidController isValidUser = new CheckUserValidController();
+		
 		System.out.println("ForgotPassword Servlet: doPost");
+		
+		String errorMessage = null;
+		String emailSentMessage = null;
+		
+		String username = req.getParameter("username");
+		String email = req.getParameter("email");
+		
+		if(username.isEmpty() || email.isEmpty())
+		{
+			errorMessage = "Please specify a username and email address.";
+		}
+		
+		else
+		{
+			ForgotPasswordController controller = new ForgotPasswordController();
+			controller.setModel(isValidUser.getUser(username));
+			
+			if(controller.getModel() != null && controller.sendForgotPasswordEmail(email))
+			{
+				emailSentMessage = "Password reset email has been sent. Please log in with your new password.";		
+			}
+			else
+			{
+				errorMessage = "No such account exists.";
+			}
+		}
+		
+		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("emailSentMessage", emailSentMessage);
 		req.getRequestDispatcher("/_view/forgotPassword.jsp").forward(req, resp);
 	}
 }

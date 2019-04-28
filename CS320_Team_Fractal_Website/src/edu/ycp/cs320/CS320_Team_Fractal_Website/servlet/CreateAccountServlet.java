@@ -23,6 +23,7 @@ import javax.activation.*;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SendEmail;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SmtpAuthenticator;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.VerificationCodeGenerator;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
@@ -116,6 +117,7 @@ public class CreateAccountServlet extends HttpServlet {
 			//get the user from the database, this will return null if no user was found and give an error to the web page
 			IDatabase db = DatabaseProvider.getInstance();
 			User user = db.getUserByUsernameAndPassword(username, password);
+			SendEmail emailSender = new SendEmail();
 
 			if(user != null){
 				//notify user that their account has been created
@@ -130,57 +132,12 @@ public class CreateAccountServlet extends HttpServlet {
 				/*
 				 * Next, send the verification email before redirecting.
 				 */
-				String result;
-				String to = user.getEmail();
-				String from = null;
-				String fromUserEmailPassword = null;
-				Path pathToFile = Paths.get("login.txt");
-				System.out.println(pathToFile.toAbsolutePath().toString());
-				Stream<String> stream = Files.lines(pathToFile);
 
-				List<String> listLogin = stream.collect(Collectors.toList());
-				ArrayList<String> arrayListLogin = new ArrayList<String>(listLogin);
-				from = arrayListLogin.get(0);
-				fromUserEmailPassword = arrayListLogin.get(1);
-
-				String host = "smtp.gmail.com";
-
-				Properties properties = System.getProperties();
-
-				properties.put("mail.smtp.auth", "true");
-				properties.put("mail.smtp.starttls.enable", "true");
-				properties.put("mail.smtp.host", "smtp.gmail.com");
-				properties.put("mail.smtp.port", "587");
-				properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-				// properties.setProperty("mail.smtp.host", host);
-
-				SmtpAuthenticator authentication = new SmtpAuthenticator();
-				Session mailSession = Session.getDefaultInstance(properties, authentication);
-
-				try
-				{
-					MimeMessage message = new MimeMessage(mailSession);
-					message.setFrom(new InternetAddress(from));
-					message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-					message.setSubject("(Do Not Reply) Please verify your account.");
-					message.setText("Please verify your account using the following code: " + model.getVerificationCode());
-
-					// Transport.send(message);
-					Transport transport = mailSession.getTransport("smtp");
-					transport.connect(host, from, fromUserEmailPassword);
-					transport.send(message);
-					transport.close();
-
-					result = "Message sent successfully.";
-				}
-				catch(MessagingException mex)
-				{
-					mex.printStackTrace();
-					result = "Error: unable to send message.";
-				}
+				String sub = "Please verify your account.";
+				String mess = "Please verify your account using the following code: " + model.getVerificationCode();
+				emailSender.sendEmail(user, sub, mess);
 
 				// Redirect to the main page
-				System.out.println(user.getIsVerified());
 				resp.sendRedirect("verifyAccount");
 			}
 			else{

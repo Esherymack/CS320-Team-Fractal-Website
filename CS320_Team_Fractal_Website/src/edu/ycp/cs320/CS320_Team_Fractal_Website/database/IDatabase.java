@@ -20,6 +20,14 @@ public interface IDatabase{
 	 * @return the account with the given username and password, null if no account is found
 	 */
 	public User getUserByUsernameAndPassword(String username, String password);
+	
+	/**
+	 * Check if an account of the given user and email exists.
+	 * @param username
+	 * @param email
+	 * @return the account with the given username and email, null if no account is found
+	 */
+	public User getUserByUsernameAndEmail(String username, String email);
 
 	/**
 	 * Get the account of the given username
@@ -99,8 +107,27 @@ public interface IDatabase{
 	 */
 	public Fractal getFractalByName(String name);
 
+	/**
+	 * Get the verification code of an account
+	 * @param username
+	 * @return the verification code of an account
+	 */
 	public String getVerificationCodeByUsername(String username);
 
+	/**
+	 * Change the state of the user's verified status
+	 * @param user
+	 * @param state
+	 * @return true if status changes; false.
+	 */
 	public boolean changeStateOfVerification(User user, boolean state);
+	
+	/**
+	 * Change a user's password
+	 * @param user
+	 * @param password
+	 * @return true if password changes; false
+	 */
+	public boolean changePassword(User user, String password);
 
 }
