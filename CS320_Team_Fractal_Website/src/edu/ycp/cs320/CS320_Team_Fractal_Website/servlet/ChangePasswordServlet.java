@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.ChangePasswordController;
 
 public class ChangePasswordServlet extends HttpServlet
 {
@@ -18,22 +19,58 @@ public class ChangePasswordServlet extends HttpServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		CheckUserValidController isValidUser = new CheckUserValidController();
-		System.out.println("ForgotPassword Servlet: doGet");
+		System.out.println("ChangePassword Servlet: doGet");
 		
 		// check if user is logged in
-		String currentlyLoggedInMessage = checkCookies(req, resp);
+		checkCookies(req, resp);
 
-		//message for logging in
-		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
-		
-		req.getRequestDispatcher("/_view/forgotPassword.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/changePassword.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		System.out.println("ForgotPassword Servlet: doPost");
-		req.getRequestDispatcher("/_view/forgotPassword.jsp").forward(req, resp);
+		System.out.println("ChangePassword Servlet: doPost");
+		
+		CheckUserValidController isValidUser = new CheckUserValidController();
+		
+		String errorMessage = null;
+		String passwordResetMessage = null;
+		
+		String oldPass = req.getParameter("currentPassword");
+		String newPass = req.getParameter("newPassword");
+		
+		if(oldPass.isEmpty() || newPass.isEmpty())
+		{
+			errorMessage = "Please specify both old and new passwords.";
+		}
+		
+		if(oldPass.equals(newPass))
+		{
+			errorMessage = "Your new password cannot be the same as your old!";
+		}
+		
+		else
+		{
+			ChangePasswordController controller = new ChangePasswordController();
+			String userName = checkCookies(req, resp);
+			controller.setModel(isValidUser.getUser(userName));
+			
+			if(controller.getModel() != null && controller.sendPasswordChangeEmail(oldPass, newPass))
+			{
+				passwordResetMessage = "Password reset email has been sent.";
+			}
+			else
+			{
+				errorMessage = "Password reset failed.";
+			}
+			
+		}
+		
+		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("passwordResetMessage", passwordResetMessage);
+		
+		req.getRequestDispatcher("/_view/changePassword.jsp").forward(req, resp);
 	}
 	
 	protected String checkCookies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
@@ -77,7 +114,7 @@ public class ChangePasswordServlet extends HttpServlet
 		}
 
 		// otherwise
-		return("Currently logged in as " + userName);
+		return userName;
 	}
 }
 

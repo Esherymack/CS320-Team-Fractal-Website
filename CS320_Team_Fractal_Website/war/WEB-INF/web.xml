@@ -48,7 +48,7 @@
   
   <servlet>
   	<servlet-name>ChangePasswordServlet</servlet-name>
-  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ForgotPasswordServlet</servlet-class>
+  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ChangePasswordServlet</servlet-class>
   </servlet>
   
   <servlet>
