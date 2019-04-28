@@ -2,7 +2,6 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user;
 
 import java.io.IOException;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SendEmail;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.VerificationCodeGenerator;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
@@ -36,15 +35,13 @@ public class ForgotPasswordController
 	
 	public boolean sendForgotPasswordEmail(final String email) throws IOException
 	{
-		HashValidatePasswordsController pwd = new HashValidatePasswordsController();
 		SendEmail emailSender = new SendEmail();
 	
 		String tempPass = VerificationCodeGenerator.getAlphaNumericString();
 		
 		if(verifyUser(this.model.getUsername(), email))
 		{		
-			String generatedSecurePasswordHash = pwd.generateStrongPasswordHash(tempPass);
-			if(database.changePassword(this.model, generatedSecurePasswordHash))
+			if(database.changePassword(this.model, tempPass))
 			{
 				String sub = "Password reset alert.";
 				String mess = "Your password has been reset. Please change it to something new at your earliest convenience. Your new temporary password is: " + tempPass;

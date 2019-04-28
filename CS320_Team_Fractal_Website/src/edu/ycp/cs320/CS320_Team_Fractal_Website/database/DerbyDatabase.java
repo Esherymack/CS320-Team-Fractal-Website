@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
@@ -87,47 +86,34 @@ public class DerbyDatabase implements IDatabase
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 
-				HashValidatePasswordsController pwd = new HashValidatePasswordsController();
-
-				String hashedPassword = pwd.generateStrongPasswordHash(password);
-
-				boolean matched = pwd.validatePassword(password, hashedPassword);
-
-				if(matched)
+				try
 				{
-					try
+					//create statement to get user
+					stmt = conn.prepareStatement(
+							"SELECT users.* FROM users " +
+							"WHERE users.username = ? AND users.password = ?");
+					stmt.setString(1, username);
+					stmt.setString(2, password);
+					
+					User result = new StandardUser();
+					resultSet = stmt.executeQuery();
+					Boolean found = false;
+					while(resultSet.next())
 					{
-						//create statement to get user
-						stmt = conn.prepareStatement(
-								"SELECT users.* FROM users " +
-								"WHERE users.username = ?");
-						stmt.setString(1, username);
-
-						User result = new StandardUser();
-
-						resultSet = stmt.executeQuery();
-						Boolean found = false;
-						while(resultSet.next())
-						{
-							found = true;
-							loadUser(result, resultSet);
-						}
-
-						if(!found)
-						{
-							return null;
-						}
-						return result;
+						found = true;
+						loadUser(result, resultSet);
 					}
-					finally
+
+					if(!found)
 					{
-						DBUtil.closeQuietly(resultSet);
-						DBUtil.closeQuietly(stmt);
+						return null;
 					}
+					return result;
 				}
-				else
+				finally
 				{
-					return null;
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
 				}
 			}
 		});

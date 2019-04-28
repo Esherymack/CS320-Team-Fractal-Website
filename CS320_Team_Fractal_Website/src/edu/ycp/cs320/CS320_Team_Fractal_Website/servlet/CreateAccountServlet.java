@@ -1,30 +1,14 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
-
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.HashValidatePasswordsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SendEmail;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SmtpAuthenticator;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.VerificationCodeGenerator;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
@@ -34,9 +18,6 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-
-	private HashValidatePasswordsController pwd = new HashValidatePasswordsController();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -94,7 +75,7 @@ public class CreateAccountServlet extends HttpServlet {
 		String email = req.getParameter("email");
 
 		// Hash the password
-		String generatedSecurePasswordHash = pwd.generateStrongPasswordHash(password);
+		// String generatedSecurePasswordHash = pwd.generateStrongPasswordHash(password);
 
 		//set up controller
 		LogInController controller = new LogInController();
@@ -103,7 +84,7 @@ public class CreateAccountServlet extends HttpServlet {
 		model.setFirstname(firstname);
 		model.setLastname(lastname);
 		model.setUsername(username);
-		model.setPassword(generatedSecurePasswordHash);
+		model.setPassword(password);
 		model.setEmail(email);
 		model.setIsVerified(false);
 		model.setVerificationCode(VerificationCodeGenerator.getAlphaNumericString());
