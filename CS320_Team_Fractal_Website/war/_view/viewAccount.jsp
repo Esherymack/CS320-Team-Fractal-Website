@@ -52,6 +52,12 @@
 					${firstName} ${lastName} | ${email}
 			</div>
 
+			<div class="lower-nav">
+				<form action="${pageContext.servletContext.contextPath}/changePassword" method="doGet">
+					<input type="Submit" name="submit" value="Change Password">
+				</form>
+			</div>
+
 			<div class="account-header">
 			<div>
 				<h2>

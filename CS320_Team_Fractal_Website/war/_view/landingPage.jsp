@@ -40,6 +40,11 @@
 									<input type="Submit" name="submit" value="Browse all fractals">
 								</form>
 							</li>
+							<li>
+								<form action="${pageContext.servletContext.contextPath}/logout" method="post">
+									<input type="Submit" name="submit" value="Log Out">
+								</form>
+							</li>
 						</c:if>
 					</ul>
 				</nav>

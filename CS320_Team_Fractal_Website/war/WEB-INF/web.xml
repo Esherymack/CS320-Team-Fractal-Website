@@ -37,6 +37,21 @@
   </servlet>
   
   <servlet>
+  	<servlet-name>VerifyAccountServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.VerifyAccountServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+  	<servlet-name>ForgotPasswordServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ForgotPasswordServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+  	<servlet-name>ChangePasswordServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ChangePasswordServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.IndexServlet</servlet-class>
   </servlet>
@@ -87,7 +102,22 @@
     <servlet-name>ViewAccountServlet</servlet-name>
     <url-pattern>/viewAccount</url-pattern>
   </servlet-mapping>
-  
+
+	<servlet-mapping>
+		<servlet-name>VerifyAccountServlet</servlet-name>
+		<url-pattern>/verifyAccount</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ForgotPasswordServlet</servlet-name>
+		<url-pattern>/forgotPassword</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ChangePasswordServlet</servlet-name>
+		<url-pattern>/changePassword</url-pattern>
+	</servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>BrowseFractalsServlet</servlet-name>
     <url-pattern>/browseFractals</url-pattern>
