@@ -60,6 +60,7 @@
 						<c:otherwise>
 							<div id=fractalImage class="fractalImageParent">
 								<img src="img/result.png" alt="result" class="fractalImage" id="fractalImageSource"/>
+								<div id="fractalDisplayZoomSelectorShadow"></div>
 								<div id="fractalDisplayZoomSelector"></div>
 							</div>
 
@@ -297,11 +298,11 @@
 	});
 
 	$("#fractalImage").mousemove(function(e){
-		//get mouse position
-	    var mouseX = e.pageX - this.offsetLeft;
-	    var mouseY = e.pageY - this.offsetTop;
-
+		//only update the position if the mouse is down
 		if(mouseDown == 1){
+			//get mouse position
+		    var mouseX = e.pageX - this.offsetLeft;
+		    var mouseY = e.pageY - this.offsetTop;
 			updateMousePositions(mouseX, mouseY);
 		}
 	});
@@ -334,6 +335,13 @@
 					"width:0px;" +
 					"height:0px;"
 			);
+			document.getElementById("fractalDisplayZoomSelectorShadow").
+				setAttribute("style",
+					"left: " + (x1 + 1) + "px;" +
+					"top: " + (y1 + 1) + "px;" +
+					"width:0px;" +
+					"height:0px;"
+			);
 		}
 		//otherwise send the parameters and reset all the values to -1
 		else{
@@ -343,27 +351,41 @@
 	}
 
 	function updateMousePositions(mouseX, mouseY){
-		//set mouse positions
-		x2 = mouseX;
-		y2 = mouseY;
 
 		//get height of image
 		var width = document.getElementById("fractalImageSource").width;
 		var height = document.getElementById("fractalImageSource").height;
 
-		//set square display of second point
-		var minX = Math.min(x1, x2);
-		var minY = Math.min(y1, y2);
-		var maxWidth = Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));
-		if(maxWidth + minX > width) maxWidth = width - minX;
-		if(maxWidth + minY > height) maxWidth = height - minY;
+		//set mouse positions and keep them in the screen
+		x2 = Math.max(0, Math.min(width, mouseX));
+		y2 = Math.max(0, Math.min(height, mouseY));
 
+		var xDist = x2 - x1;
+		var yDist = y2 - y1;
+
+		var drawX = x1;
+		var drawY = y1;
+		var drawW = xDist;
+		if(Math.abs(xDist) > Math.abs(yDist)) drawW = yDist;
+		drawW = Math.abs(drawW);
+		if(xDist < 0) drawX = drawX - drawW;
+		if(yDist < 0) drawY = drawY - drawW;
+
+		//set square display of the box
 		document.getElementById("fractalDisplayZoomSelector").
 			setAttribute("style",
-				"left:" + (Math.min(x1, x2)) + "px;" +
-				"top:" + (Math.min(y1, y2)) + "px;" +
-				"width: " + maxWidth + "px;" +
-				"height: " + maxWidth + "px;"
+				"left:" + drawX + "px;" +
+				"top:" + drawY + "px;" +
+				"width: " + drawW + "px;" +
+				"height: " + drawW + "px;"
+		);
+		//set square display of the box shadow
+		document.getElementById("fractalDisplayZoomSelectorShadow").
+			setAttribute("style",
+				"left:" + (drawX + 1) + "px;" +
+				"top:" + (drawY + 1) + "px;" +
+				"width: " + drawW + "px;" +
+				"height: " + drawW + "px;"
 		);
 
 		//calculate new positions
@@ -374,11 +396,11 @@
 
 		var realWidth = Math.abs(oldDragZoomX1 - oldDragZoomX2);
 		var realHeight = Math.abs(oldDragZoomY1 - oldDragZoomY2);
-		
+
 		var newX1 = Math.min(oldDragZoomX1, oldDragZoomX2) + realWidth * percX;
 		var newY1 = Math.min(oldDragZoomY1, oldDragZoomY2) + realHeight * percY;
 
-		var w = Math.max(realWidth * percWidth, realHeight * percHeight);
+		var w = Math.min(realWidth * percWidth, realHeight * percHeight);
 
 		var newX2 = newX1 + w;
 		var newY2 = newY1 + w;
