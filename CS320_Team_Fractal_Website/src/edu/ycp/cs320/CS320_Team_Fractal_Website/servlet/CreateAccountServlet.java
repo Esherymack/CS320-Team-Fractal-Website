@@ -134,7 +134,6 @@ public class CreateAccountServlet extends HttpServlet {
 				String to = user.getEmail();
 				String from = null;
 				String fromUserEmailPassword = null;
-				String filename = "login.txt";
 				Path pathToFile = Paths.get("login.txt");
 				System.out.println(pathToFile.toAbsolutePath().toString());
 				Stream<String> stream = Files.lines(pathToFile);
@@ -163,7 +162,7 @@ public class CreateAccountServlet extends HttpServlet {
 					MimeMessage message = new MimeMessage(mailSession);
 					message.setFrom(new InternetAddress(from));
 					message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-					message.setSubject("Please verify your account.");
+					message.setSubject("(Do Not Reply) Please verify your account.");
 					message.setText("Please verify your account using the following code: " + model.getVerificationCode());
 
 					// Transport.send(message);

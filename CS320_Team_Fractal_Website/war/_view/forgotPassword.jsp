@@ -18,7 +18,30 @@
 				</c:if>
 
 				<div class="login-center">
+            <form action="${pageContext.servletContext.contextPath}/forgotPassword" method="post">
+              <table>
+                <tr>
+                  <td class="label">Username:</td>
+                  <td><input type="text" name="username" size="12" value="${username}" /></td>
+                </tr>
+                <tr>
+                  <td class="label">Email:</td>
+                  <td><input type="text" name="email" size="12" value="${email}" /></td>
+                </tr>
+              </table>
+              <input type="Submit" name="submit" value="Submit">
+              <div class="loggedIn">${emailSentMessage}</div>
+            </form>
         </div>
+
+        <div class="login-center">
+				<div class="lower-nav">
+					<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
+						<input type="Submit" name="submit" value="Home">
+					</form>
+				</div>
+				</div>
+
       </body>
     </div>
     <div class="border"></div>

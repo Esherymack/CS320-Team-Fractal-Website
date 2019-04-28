@@ -34,8 +34,6 @@ public class MainPageServlet extends HttpServlet{
 
 		// check if user is logged in
 		String currentlyLoggedInMessage = checkCookies(req, resp);
-		// if user is logged in, check if their account is verified
-
 
 		//message for logging in
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);

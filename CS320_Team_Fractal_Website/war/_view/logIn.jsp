@@ -39,6 +39,9 @@
 					<form action="${pageContext.servletContext.contextPath}/landingPage" method="doGet">
 						<input type="Submit" name="submit" value="Home">
 					</form>
+					<form action="${pageContext.servletContext.contextPath}/forgotPassword" method = "doGet">
+						<input type="Submit" name="submit" value="Forgot Password">
+					</form>
 					<form action="${pageContext.servletContext.contextPath}/createAccount" method="doGet">
 						<input type="Submit" name="submit" value="Create Account">
 					</form>
