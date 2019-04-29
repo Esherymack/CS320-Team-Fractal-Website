@@ -37,5 +37,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="javax.mail.jar"/>
 	<classpathentry kind="lib" path="/jaf-1.1.1/activation.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jaf-1.1.1"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

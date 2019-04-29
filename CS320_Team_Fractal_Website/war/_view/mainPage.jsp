@@ -133,36 +133,63 @@
 
 							<!-- color parameters -->
 							<div>
-								<p id="baseColor" hidden>Base color</p>
+								<p id="baseColor" hidden>Base color:</p>
+								<div id="baseColorPreview" class="colorPreview" hidden></div>
 								<table id="params">
 									<tr>
 										<td class="label"> <label id="gradientRedBaseLabel" hidden>Red:</label> </td>
-										<td class="label"> <input type="text" id="gradientRedBase" name="gradientRedBase" size="12" value="${gradientRedBase}" hidden /> </td>
+										<td class="label">
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientRedBase" class="colorSlider" name="gradientRedBase" size="12" value="${gradientRedBase}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientGreenBaseLabel" hidden>Green:</label> </td>
-										<td class="label"> <input type="text" id="gradientGreenBase" name="gradientGreenBase" size="12" value="${gradientGreenBase}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientGreenBase" class="colorSlider" name="gradientGreenBase" size="12" value="${gradientGreenBase}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientBlueBaseLabel" hidden>Blue:</label> </td>
-										<td class="label"> <input type="text" id="gradientBlueBase" name="gradientBlueBase" size="12" value="${gradientBlueBase}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientBlueBase" class="colorSlider" name="gradientBlueBase" size="12" value="${gradientBlueBase}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 								</table>
 								<table class="params">
 									<p id="endColor" hidden>End color:</p>
+									<div id="endColorPreview" class="colorPreview" hidden></div>
 									<tr>
 										<td class="label"> <label id="gradientRedEndLabel" hidden>Red:</label> </td>
-										<td class="label"> <input type="text" id="gradientRedEnd" name="gradientRedEnd" size="12" value="${gradientRedEnd}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientRedEnd" class="colorSlider" name="gradientRedEnd" size="12" value="${gradientRedEnd}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientGreenEndLabel" hidden>Green:</label> </td>
-										<td class="label"> <input type="text" id="gradientGreenEnd" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientGreenEnd" class="colorSlider" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientBlueEndLabel" hidden>Blue:</label> </td>
-										<td class="label"> <input type="text" id="gradientBlueEnd" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientBlueEnd" class="colorSlider" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 								</table>
+								
 							</div>
 							<input type="Submit" name="submit" value="Send" class="sender">
 							<input type="Submit" name="save" value="Save" class="sender">
@@ -199,8 +226,9 @@
 	var oldDragZoomY2 = document.getElementById("param3").getAttribute("value");
 
 	window.onload = function(){
-		$('#choice').change()
-		$('#gradientChoice').change()
+		$('#choice').change();
+		$('#gradientChoice').change();
+		updateColorPreviews();
 	}
 
 	$('#choice').change(function() {
@@ -235,6 +263,7 @@
 		sessionStorage.setItem('GradientSelection', gradientSelection);
 
 		$("#baseColor").show();
+		$("#baseColorPreview").show();
 		$("#gradientRedBase").show();
 		$("#gradientRedBaseLabel").show();
 		$("#gradientGreenBase").show();
@@ -243,6 +272,7 @@
 		$("#gradientBlueBaseLabel").show();
 
 		$("#endColor").show();
+		$("#endColorPreview").show();
 		$("#gradientRedEnd").show();
 		$("#gradientRedEndLabel").show();
 		$("#gradientGreenEnd").show();
@@ -252,6 +282,7 @@
 
 		if(gradientSelection == "None" || gradientSelection == "Rainbow"){
 			$("#endColor").hide();
+			$("#endColorPreview").hide();
 			$("#gradientRedEnd").hide();
 			$("#gradientRedEndLabel").hide();
 			$("#gradientGreenEnd").hide();
@@ -261,6 +292,7 @@
 		}
 		if(gradientSelection == "None"){
 			$("#baseColor").hide();
+			$("#baseColorPreview").hide();
 			$("#gradientRedBase").hide();
 			$("#gradientRedBaseLabel").hide();
 			$("#gradientGreenBase").hide();
@@ -269,6 +301,24 @@
 			$("#gradientBlueBaseLabel").hide();
 		}
 	});
+	
+	function updateColorPreviews(){
+		document.getElementById("baseColorPreview").style.background = "#" + 
+			decToHexColor(document.getElementById("gradientRedBase").value) +
+			decToHexColor(document.getElementById("gradientGreenBase").value) +
+			decToHexColor(document.getElementById("gradientBlueBase").value);
+
+		document.getElementById("endColorPreview").style.background = "#" + 
+			decToHexColor(document.getElementById("gradientRedEnd").value) +
+			decToHexColor(document.getElementById("gradientGreenEnd").value) +
+			decToHexColor(document.getElementById("gradientBlueEnd").value);
+	}
+	
+	function decToHexColor(d){
+		var hex = Number(Math.floor(d)).toString(16).toUpperCase();
+		while(hex.length < 2) hex = "0" + hex;
+		return hex;
+	}
 
 	$("#fractalImage").mousedown(function(e){
 		if(window.getSelection){
