@@ -83,13 +83,12 @@
 							and apply gradients to the fractals. You can save fractals to an account, download images, 
 							and view all the fractals that any other use has made.
 							<br>
-							<br>
 						</p>
 					</div>
 				</div>
 			</body>
-		</div><div class="border">
 		</div>
+		<div class="border"></div>
 	</div>
 
 </html>

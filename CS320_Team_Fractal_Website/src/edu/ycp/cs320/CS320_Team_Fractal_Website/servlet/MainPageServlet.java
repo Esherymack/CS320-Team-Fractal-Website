@@ -58,7 +58,9 @@ public class MainPageServlet extends HttpServlet{
 		String fractalInfo = req.getParameter("fractalInfo");
 
 		String paramsToTry = req.getParameter("paramsToTry");
-
+		
+		String savedMessage = null;
+		
 		Boolean result = null;
 
 		//choice from the fractal drop down menu
@@ -191,6 +193,7 @@ public class MainPageServlet extends HttpServlet{
 		//set attributes of page
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("saveedMessage", savedMessage);
 		req.setAttribute("fractalInfo", fractalInfo);
 		req.setAttribute("paramsToTry", paramsToTry);
 		req.setAttribute("result", result);
