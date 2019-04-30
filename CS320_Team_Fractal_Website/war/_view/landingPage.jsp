@@ -9,13 +9,10 @@
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
 	<div class="flex-container">
-		<div class="border">
-		</div>
+		<div class="border"></div>
 		<div class="center">
 			<body id="home">
-				<h1>Fractal Generation Website</h1>
-				<h2>Created by: Dakota Hilbert, Madison Tibbett, Zachary Ronayne</h2>
-				<nav class="topnav">
+				<div class="topnav">
 					<ul>
 						<c:if test="${userName == null}">
 							<li>
@@ -47,10 +44,51 @@
 							</li>
 						</c:if>
 					</ul>
-				</nav>
+				</div>
+				<div class="account-header">
+					<h1>Fractal Generation Website</h1>
+					<h2>Created by: Dakota Hilbert, Madison Tibbett, Zachary Ronayne</h2>
+				</div>
+				<div class="info">
+					<h2>Example Fractals:</h2>
+					<div class="exampleImageContainer">
+						<img src="img/example_mandelbrot1.png" alt="mandelbrot1" class="exampleImage">
+						<img src="img/example_mandelbrot2.png" alt="mandelbrot2" class="exampleImage">
+						<img src="img/example_julia1.png" alt="julia1" class="exampleImage">
+						<img src="img/example_julia2.png" alt="julia2" class="exampleImage">
+						
+						<p class="exampleImageText">A zoomed out Mandelbrot</p>
+						<p class="exampleImageText">A zoomed in Mandelbrot section</p>
+						<p class="exampleImageText">A Julia Set</p>
+						<p class="exampleImageText">Another Julia Set, zoomed in</p>
+					</div>
+					<div class="exampleImageContainer">
+						<img src="img/example_barnsley1.png" alt="barnsley1" class="exampleImage">
+						<img src="img/example_barnsley2.png" alt="barnsley2" class="exampleImage">
+						<img src="img/example_koch.png" alt="koch" class="exampleImage">
+						<img src="img/example_sierpinski.png" alt="sierpinski" class="exampleImage">
+						
+						<p class="exampleImageText">A Barnsley Fern</p>
+						<p class="exampleImageText">A modified Barnsley Fern</p>
+						<p class="exampleImageText">A Koch set</p>
+						<p class="exampleImageText">A Sierpinksi Triangle</p>
+					</div>
+					<div>
+						<h2>About</h2>
+						<p>
+							We are a group of students from York College of Pennsylvania, and we created this
+							project as a part of our software engineering class.
+							<br>
+							This site allows you to generate a variety of fractals, change the parameters of each fractal, 
+							and apply gradients to the fractals. You can save fractals to an account, download images, 
+							and view all the fractals that any other use has made.
+							<br>
+							<br>
+						</p>
+					</div>
+				</div>
 			</body>
-		</div>
-		<div class="border">
+		</div><div class="border">
 		</div>
 	</div>
 
