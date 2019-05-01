@@ -35,7 +35,6 @@ public class SmtpAuthenticator extends Authenticator
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -50,5 +49,4 @@ public class SmtpAuthenticator extends Authenticator
 		}
 		return null;
 	}
-
 }

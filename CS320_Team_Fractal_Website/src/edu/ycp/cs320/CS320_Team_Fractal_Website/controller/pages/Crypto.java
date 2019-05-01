@@ -1,15 +1,17 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages;
 
-import src.main.java.com.lambdaworks.crypto.SCryptUtil;
+import com.lambdaworks.crypto.SCryptUtil;
 
 public class Crypto 
 {
 	public String encrypt(String password)
 	{
-		return SCryptUtil.scrypt(password, 16, 16, 16);
+		String encryptedPassword = SCryptUtil.scrypt(password, 16, 16, 16);
+		System.out.println("Hashed password: " + encryptedPassword);
+		return encryptedPassword;
 	}
 	
-	public boolean doesMatch(String originalPassword, String pass)
+	public boolean match(String originalPassword, String pass)
 	{
 		return SCryptUtil.check(originalPassword, pass);
 	}

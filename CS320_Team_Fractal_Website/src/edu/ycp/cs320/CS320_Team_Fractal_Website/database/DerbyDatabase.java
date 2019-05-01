@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.Crypto;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
@@ -83,32 +84,52 @@ public class DerbyDatabase implements IDatabase
 			@Override
 			public User execute(Connection conn) throws SQLException
 			{
+				Crypto crypto = new Crypto();
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 
 				try
 				{
-					//create statement to get user
-					stmt = conn.prepareStatement(
-							"SELECT users.* FROM users " +
-							"WHERE users.username = ? AND users.password = ?");
+					// First get the password
+					stmt = conn.prepareStatement("SELECT users.password FROM users WHERE users.username = ?");
 					stmt.setString(1, username);
-					stmt.setString(2, password);
 					
-					User result = new StandardUser();
 					resultSet = stmt.executeQuery();
-					Boolean found = false;
+					Boolean match = false;
 					while(resultSet.next())
 					{
-						found = true;
-						loadUser(result, resultSet);
+						match = crypto.match(password, resultSet.getString(1));
 					}
+					if(match)
+					{
+						DBUtil.closeQuietly(stmt);
+						DBUtil.closeQuietly(resultSet);
+						//create statement to get user
+						stmt = conn.prepareStatement(
+								"SELECT users.* FROM users " +
+								"WHERE users.username = ?");
+						stmt.setString(1, username);
+						// stmt.setString(2, password);
+						
+						User result = new StandardUser();
+						resultSet = stmt.executeQuery();
+						Boolean found = false;
+						while(resultSet.next())
+						{
+							found = true;
+							loadUser(result, resultSet);
+						}
 
-					if(!found)
+						if(!found)
+						{
+							return null;
+						}
+						return result;
+					}
+					else
 					{
 						return null;
 					}
-					return result;
 				}
 				finally
 				{
@@ -267,45 +288,65 @@ public class DerbyDatabase implements IDatabase
 							"SELECT users.* FROM users " +
 							"WHERE users.username = ?");
 					stmt.setString(1, user.getUsername());
-
+					
 					resultSet = stmt.executeQuery();
-
-					//if the user with the requested username does not already exist, continue
+					
 					found = resultSet.next();
-					if(!found){
+					if(!found)
+					{
 						DBUtil.closeQuietly(stmt);
 						DBUtil.closeQuietly(resultSet);
+						
+						// also check if a user is already using the supplied email
+						stmt = conn.prepareStatement("SELECT users.* FROM users WHERE users.email = ?");
+						stmt.setString(1, user.getEmail());
 
-						// now add the user if the username does not already exist
-						stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email, verify, isVerified) VALUES (?, ?, ?, ?, ?, ?, ?)");
-						stmt.setString(1, user.getFirstname());
-						stmt.setString(2, user.getLastname());
-						stmt.setString(3, user.getUsername());
-						stmt.setString(4, user.getPassword());
-						stmt.setString(5, user.getEmail());
-						stmt.setString(6, user.getVerificationCode());
-						stmt.setBoolean(7, ver);
+						resultSet = stmt.executeQuery();
 
-						//now ensure that the user was added correctly
-						int result = stmt.executeUpdate();
+						//if the user with the requested username does not already exist, continue
+						found = resultSet.next();
+						if(!found){
+							
+							Crypto crypto = new Crypto();
+							
+							DBUtil.closeQuietly(stmt);
+							DBUtil.closeQuietly(resultSet);
 
-						if(result == 1)
-						{
-							getUserInfo = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
-							getUserInfo.setString(1, user.getUsername());
-							getUserInfo.setString(2, user.getPassword());
+							// Hash the password
+							String hashedPassword = crypto.encrypt(user.getPassword());
+							
+							// now add the user if the username does not already exist
+							stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email, verify, isVerified) VALUES (?, ?, ?, ?, ?, ?, ?)");
+							stmt.setString(1, user.getFirstname());
+							stmt.setString(2, user.getLastname());
+							stmt.setString(3, user.getUsername());
+							stmt.setString(4, hashedPassword);
+							stmt.setString(5, user.getEmail());
+							stmt.setString(6, user.getVerificationCode());
+							stmt.setBoolean(7, ver);
 
-							resultSet = getUserInfo.executeQuery();
-						}
-						User userAdded = new StandardUser();
+							//now ensure that the user was added correctly
+							int result = stmt.executeUpdate();
 
-						while(resultSet.next() && !found)
-						{
-							//if the user was found, quit out of the loop and set found to true
-							found = true;
-							loadUser(userAdded, resultSet);
+							if(result == 1)
+							{
+								getUserInfo = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
+								getUserInfo.setString(1, user.getUsername());
+								getUserInfo.setString(2, hashedPassword);
+
+								resultSet = getUserInfo.executeQuery();
+							}
+							User userAdded = new StandardUser();
+
+							while(resultSet.next() && !found)
+							{
+								//if the user was found, quit out of the loop and set found to true
+								found = true;
+								loadUser(userAdded, resultSet);
+							}
 						}
 					}
+					
 				}
 				finally
 				{
