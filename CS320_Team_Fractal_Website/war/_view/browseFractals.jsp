@@ -97,8 +97,8 @@
 					<div class="browseGridText"><b>Type:</b></div>
 					<div class="browseGridText"><b>Created by:</b></div>
 					<div class="browseGridText"><b>ID:</b></div>
-					<div class="browseGridText"><b>View:</b></div>
-					<div class="browseGridText"><b>Save:</b></div>
+					<div class="browseGridText"><b></b></div>
+					<div class="browseGridText"><b></b></div>
 					
 					<c:forEach items="${fractals}" var="fractal">
 						<div class="browseGridText">${fractal.name}</div>
@@ -106,9 +106,12 @@
 						<div class="browseGridText">Created by:</div>
 						<div class="browseGridText">${fractal.id}</div>
 						<div class="browseGridText">
-							 <input type="Submit" name="Render" value="Render" href="#content">
+							 <input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
 						</div>
-						<div class="browseGridText">Save:</div>
+						<div class="browseGridText">
+							<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+							<a id="downloadImage" href="img/result.png" download hidden></a>
+						</div>
 					</c:forEach>
 				</div>
 			</form>
