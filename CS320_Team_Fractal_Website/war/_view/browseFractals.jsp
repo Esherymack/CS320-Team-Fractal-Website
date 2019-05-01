@@ -91,33 +91,73 @@
 			  		</form>
 				</div>
 			</div>
-			<form action="#content" method="post" href="#content">
-				<div class="browseGridContainer">
-					<div class="browseGridText"><b>Name:</b></div>
-					<div class="browseGridText"><b>Type:</b></div>
-					<div class="browseGridText"><b>Created by:</b></div>
-					<div class="browseGridText"><b>ID:</b></div>
-					<div class="browseGridText"><b></b></div>
-					<div class="browseGridText"><b></b></div>
+			
+			<div>
+				<table class="browseGridContainer">
+					<tr>
+						<th class="browseGridText">Name:</th>
+						<th class="browseGridText">Type:</th>
+						<th class="browseGridText">Created by:</th>
+						<th class="browseGridText">ID:</th>
+						<th class="browseGridText"></th>
+						<th class="browseGridText"></th>
+					</tr>
 					
 					<c:forEach items="${fractals}" var="fractal">
-						<div class="browseGridText">${fractal.name}</div>
-						<div class="browseGridText">${fractal.type}</div>
-						
-						<c:set var="fValue" value="fractalUsername${fractal.id}" />
-						<div class="browseGridText">${requestScope[fValue]}</div>
-						
-						<div class="browseGridText">${fractal.id}</div>
-						<div class="browseGridText">
-							 <input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
-						</div>
-						<div class="browseGridText">
-							<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
-							<a id="downloadImage" href="img/result.png" download hidden></a>
-						</div>
+						<tr>
+							<td class="browseGridText">${fractal.name}</td>
+							<td class="browseGridText">${fractal.type}</td>
+							
+							<c:set var="fValue" value="fractalUsername${fractal.id}" />
+							<td class="browseGridText">${requestScope[fValue]}</td>
+							
+							<td class="browseGridText">${fractal.id}</td>
+							<td class="browseGridText">
+								<form action="#content" method="post" href="#content">
+								 	<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+								</form>
+							</td>
+							<td class="browseGridText">
+								<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+								<a id="downloadImage" href="img/result.png" download hidden></a>
+							</td>
+						</tr>
 					</c:forEach>
-				</div>
-			</form>
+				</table>
+			</div>
+			
+<!--
+			
+			<div class="browseGridContainer">
+				<div class="browseGridText"><b>Name:</b></div>
+				<div class="browseGridText"><b>Type:</b></div>
+				<div class="browseGridText"><b>Created by:</b></div>
+				<div class="browseGridText"><b>ID:</b></div>
+				<div class="browseGridText"><b></b></div>
+				<div class="browseGridText"><b></b></div>
+				
+				<c:forEach items="${fractals}" var="fractal">
+					<div class="browseGridText">${fractal.name}</div>
+					<div class="browseGridText">${fractal.type}</div>
+					
+					<c:set var="fValue" value="fractalUsername${fractal.id}" />
+					<div class="browseGridText">${requestScope[fValue]}</div>
+					
+					<div class="browseGridText">${fractal.id}</div>
+					<div class="browseGridText">
+						<form action="#content" method="post" href="#content">
+						 	<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+						</form>
+					</div>
+					<div class="browseGridText">
+						<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+						<a id="downloadImage" href="img/result.png" download hidden></a>
+					</div>
+				</c:forEach>
+			</div>
+			
+-->
+
 			<div class="lightbox-content" id="content">
 				<c:if test="${display}">
 					<a href="#_">

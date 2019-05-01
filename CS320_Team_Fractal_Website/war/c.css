@@ -549,15 +549,13 @@ div.colorPreview{
 
 /*css for browse fractals grid*/
 .browseGridContainer{
+	width: 100%;
 	border: 1px solid #C2B9AA;
-	display: grid;
-	padding: 5px;
-	grid-template-columns: auto auto auto auto auto auto;
 }
 
 .browseGridText{
 	border: 1px solid #C2B9AA;
-	padding: 5px;
+	padding: 10px;
 	text-align: left;
 	font-size: 18px;
 	font-family: 'Open Sans', sans-serif;
