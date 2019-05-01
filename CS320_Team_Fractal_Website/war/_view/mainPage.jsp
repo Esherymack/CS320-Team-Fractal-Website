@@ -50,6 +50,9 @@
 				<c:if test="${! empty errorMessage}">
 					<div class="error">${errorMessage}</div>
 				</c:if>
+				<c:if test="${! empty savedMessage}">
+					<div class="loggedIn">${savedMessage}</div>
+				</c:if>
 
 				<div class="image">
 				<p></p>

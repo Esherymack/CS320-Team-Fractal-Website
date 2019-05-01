@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
@@ -58,7 +57,9 @@ public class MainPageServlet extends HttpServlet{
 		String fractalInfo = req.getParameter("fractalInfo");
 
 		String paramsToTry = req.getParameter("paramsToTry");
-
+		
+		String savedMessage = null;
+		
 		Boolean result = null;
 
 		//choice from the fractal drop down menu
@@ -157,6 +158,7 @@ public class MainPageServlet extends HttpServlet{
 						//try to save the fractal, if it saves, then render it
 						if(controller.saveImage(name, getLoggedInUser(req, resp))){
 							result = controller.render();
+							if(result) savedMessage = "Fractal \"" + name + "\" saved successfully!";
 						}
 						//otherwise send error message
 						else{
@@ -191,6 +193,7 @@ public class MainPageServlet extends HttpServlet{
 		//set attributes of page
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("savedMessage", savedMessage);
 		req.setAttribute("fractalInfo", fractalInfo);
 		req.setAttribute("paramsToTry", paramsToTry);
 		req.setAttribute("result", result);
