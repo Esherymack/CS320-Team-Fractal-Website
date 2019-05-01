@@ -109,7 +109,6 @@ public class DerbyDatabase implements IDatabase
 								"SELECT users.* FROM users " +
 								"WHERE users.username = ?");
 						stmt.setString(1, username);
-						// stmt.setString(2, password);
 						
 						User result = new StandardUser();
 						resultSet = stmt.executeQuery();
@@ -578,19 +577,22 @@ public class DerbyDatabase implements IDatabase
 			@Override
 			public Boolean execute(Connection conn) throws SQLException
 			{
+				Crypto crypt = new Crypto();
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				
 				try
 				{
+					// Hash the new password
+					String hashedPass = crypt.encrypt(password);
 					stmt = conn.prepareStatement("UPDATE users SET password = ? WHERE users.username = ?");
-					stmt.setString(1, password);
+					stmt.setString(1, hashedPass);
 					stmt.setString(2, user.getUsername());
 					
 					int result = stmt.executeUpdate();
 					if(result > 0)
 					{
-						user.setPassword(password);
+						user.setPassword(hashedPass);
 						return true;
 					}
 					return false;
