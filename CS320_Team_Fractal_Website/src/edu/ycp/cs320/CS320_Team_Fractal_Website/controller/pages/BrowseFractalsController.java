@@ -41,13 +41,22 @@ public class BrowseFractalsController{
 		System.out.println(charSeq);
 		return database.getAllFractalsWithCharSeq(charSeq);
 	}
-	
+
 	/**
 	 * Get every fractal by type from the database
 	 * @return and ArrayList of all the fractals of type
 	 */
 	public ArrayList<Fractal> getAllFractalsByGradientType(String gradientType){
 		return database.getAllFractalsByGradientType(gradientType);
+	}
+	
+	/**
+	 * Get the username of the user who created the specific fractal
+	 * @param id the id of the fractal
+	 * @return the username who created the fractal, "Unknown" if user couldn't be found
+	 */
+	public String getUsernameByFractalId(int id){
+		return database.getUsernameByFractalId(id);
 	}
 	
 }

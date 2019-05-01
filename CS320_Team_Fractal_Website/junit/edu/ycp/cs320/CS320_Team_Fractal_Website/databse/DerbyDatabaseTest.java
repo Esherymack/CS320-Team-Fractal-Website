@@ -161,4 +161,14 @@ public class DerbyDatabaseTest {
 		assertTrue(f.getName().equals(name));
 	}
 	
+	@Test
+	public void testGetUsernameByFractalId(){
+		String name = "Id to username test";
+		database.saveFractal(new Sierpinski(), name, username);
+		
+		String newName = database.getUsernameByFractalId(database.getFractalByName(name).getId());
+		
+		assertTrue(newName.equals(username));
+	}
+	
 }

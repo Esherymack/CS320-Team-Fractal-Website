@@ -28,6 +28,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		BrowseFractalsController browseController = new BrowseFractalsController();
 		fractals = browseController.getAllFractals();
 		req.setAttribute("fractals", fractals);
+
+		if(fractals != null) addFractalNames(req, browseController, fractals);
 		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
@@ -105,7 +107,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 			fractals = browseController.getAllFractals();
 			display = true;
 		}
-		
+
+		if(fractals != null) addFractalNames(req, browseController, fractals);
 		
 		//get fractal the user selected to render from the list of fractals
 		//if one of the fractals is requested then it should be rendered
@@ -183,4 +186,20 @@ public class BrowseFractalsServlet extends HttpServlet {
 		// otherwise
 		return("Currently logged in as " + userName);
 	}
+	
+	/**
+	 * Add an attribute for each of the fractals in the given list that is:
+	 * fractalUsername + the id of the fractal, so
+	 * "fractalUsername" + id
+	 * @param controller
+	 * @param fractals
+	 */
+	private static void addFractalNames(HttpServletRequest req, BrowseFractalsController controller, ArrayList<Fractal> fractals){
+		for(Fractal f : fractals){
+			String name = controller.getUsernameByFractalId(f.getId());
+			req.setAttribute("fractalUsername" + f.getId(), name);
+		}
+		
+	}
+	
 }

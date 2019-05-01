@@ -103,7 +103,10 @@
 					<c:forEach items="${fractals}" var="fractal">
 						<div class="browseGridText">${fractal.name}</div>
 						<div class="browseGridText">${fractal.type}</div>
-						<div class="browseGridText">Created by:</div>
+						
+						<c:set var="fValue" value="fractalUsername${fractal.id}" />
+						<div class="browseGridText">${requestScope[fValue]}</div>
+						
 						<div class="browseGridText">${fractal.id}</div>
 						<div class="browseGridText">
 							 <input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">

@@ -1076,7 +1076,42 @@ public class DerbyDatabase implements IDatabase
 			}
 		});
 	}
+	@Override
+	public String getUsernameByFractalId(int id) {
+		return executeTransaction(new Transaction<String>(){
+			@Override
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
 
+				try{
+					//create statement to get fractal
+					stmt = conn.prepareStatement(
+							" SELECT users.username FROM users, fractal " +
+							" WHERE fractal.user_id = users.user_id " +
+							" AND fractal.fractal_id = ?");
+					stmt.setInt(1, id);
+
+					String result = null;
+					//execute the query
+					resultSet = stmt.executeQuery();
+
+					//load the fractal if one is found
+					if(resultSet.next()){
+						//get info from fractal
+						result = resultSet.getObject(1).toString();
+					}
+					//return fractal, null if one was not found
+					return result;
+				}
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
 	{
 		try
