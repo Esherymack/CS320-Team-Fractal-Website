@@ -8,7 +8,6 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
 	</head>
-
 	<div class="flex-container">
 		<div class="border"></div>
 		<div class="center">
@@ -92,32 +91,34 @@
 			  		</form>
 				</div>
 			</div>
-						<div>
-							<br>
-						<div class="lightbox-toggle">
-						<form action="#content" method="post" href="#content">
-						<table>
-					    <br>
-							<div class="button-container">
-					    <c:forEach items="${fractals}" var="fractal">
-				        <tr>
-								  <input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
-				        </tr>
-					    </c:forEach>
+			<form action="#content" method="post" href="#content">
+				<div class="browseGridContainer">
+					<div class="browseGridText"><b>Name:</b></div>
+					<div class="browseGridText"><b>Type:</b></div>
+					<div class="browseGridText"><b>Created by:</b></div>
+					<div class="browseGridText"><b>ID:</b></div>
+					<div class="browseGridText"><b>View:</b></div>
+					<div class="browseGridText"><b>Save:</b></div>
+					
+					<c:forEach items="${fractals}" var="fractal">
+						<div class="browseGridText">${fractal.name}</div>
+						<div class="browseGridText">${fractal.type}</div>
+						<div class="browseGridText">Created by:</div>
+						<div class="browseGridText">${fractal.id}</div>
+						<div class="browseGridText">
+							 <input type="Submit" name="Render" value="Render" href="#content">
 						</div>
-						</table>
-					</form>
+						<div class="browseGridText">Save:</div>
+					</c:forEach>
 				</div>
-				<div class="lightbox-content" id="content">
-					<c:if test="${display}">
-						<a href="#_">
-					<img src="img/result.png" alt="result"/>
-				</a>
+			</form>
+			<div class="lightbox-content" id="content">
+				<c:if test="${display}">
+					<a href="#_">
+						<img src="img/result.png" alt="result"/>
+					</a>
 				</c:if>
-		</div>
-				</div>
-			</body>
-	</div>
-
-	<div class="border"></div>
+			</div>
+		</body>
+	</div><div class="border"></div>
 </html>
