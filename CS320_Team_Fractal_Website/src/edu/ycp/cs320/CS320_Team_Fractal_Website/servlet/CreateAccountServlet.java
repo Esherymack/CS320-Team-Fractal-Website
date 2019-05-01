@@ -74,9 +74,6 @@ public class CreateAccountServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
 
-		// Hash the password
-		// String generatedSecurePasswordHash = pwd.generateStrongPasswordHash(password);
-
 		//set up controller
 		LogInController controller = new LogInController();
 		User model = new StandardUser();
@@ -113,7 +110,6 @@ public class CreateAccountServlet extends HttpServlet {
 				/*
 				 * Next, send the verification email before redirecting.
 				 */
-
 				String sub = "Please verify your account.";
 				String mess = "Please verify your account using the following code: " + model.getVerificationCode();
 				emailSender.sendEmail(user, sub, mess);

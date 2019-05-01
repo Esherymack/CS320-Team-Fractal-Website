@@ -23,7 +23,6 @@ public class SendEmail
 {
 	public void sendEmail(User user, String subject, String messageText) throws IOException
 	{
-		String result;
 		String to = user.getEmail();
 		String from = null;
 		String fromUserEmailPassword = null;
@@ -45,7 +44,6 @@ public class SendEmail
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.port", "587");
 		properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		// properties.setProperty("mail.smtp.host", host);
 
 		SmtpAuthenticator authentication = new SmtpAuthenticator();
 		Session mailSession = Session.getDefaultInstance(properties, authentication);
@@ -61,15 +59,14 @@ public class SendEmail
 			// Transport.send(message);
 			Transport transport = mailSession.getTransport("smtp");
 			transport.connect(host, from, fromUserEmailPassword);
-			transport.send(message);
+			Transport.send(message);
 			transport.close();
+			stream.close();
 
-			result = "Message sent successfully.";
 		}
 		catch(MessagingException mex)
 		{
 			mex.printStackTrace();
-			result = "Error: unable to send message.";
 		}
 	}
 }
