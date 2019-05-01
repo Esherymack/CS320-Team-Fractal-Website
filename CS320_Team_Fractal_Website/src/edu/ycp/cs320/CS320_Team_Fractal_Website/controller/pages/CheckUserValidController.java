@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class CheckUserValidController 
 {
@@ -28,6 +29,18 @@ public class CheckUserValidController
 			return true;
 		}
 		return false;
+	}
+	
+	public Boolean getUserIsVerified(String username)
+	{
+		User user = database.getUserByUsername(username);
+		System.out.println(user.getIsVerified());
+		return user.getIsVerified();
+	}
+	
+	public User getUser(String username)
+	{
+		return database.getUserByUsername(username);
 	}
 	
 	public void LogOut(HttpServletRequest req, HttpServletResponse resp, String redirPage) throws ServletException, IOException

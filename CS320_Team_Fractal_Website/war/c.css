@@ -3,7 +3,6 @@
 	display: flex;
 	flex-direction: row;
 	width: auto;
-	height: 970px;
 }
 
 .button-container
@@ -136,7 +135,7 @@
 	flex-basis: 25%;
 	background-image: url('img/mandelbrot.jpg');
 	background-size: auto;
-	background-repeat: no-repeat;
+	background-repeat: repeat-y;
 	opacity: 0.8;
 }
 .center
@@ -261,7 +260,6 @@ p
 	margin: 0;
 	overflow: hidden;
 	padding: 0px 22px;
-
 }
 
 .topnav li
@@ -343,7 +341,7 @@ p
 	background-image: url('img/mandelbrot.jpg');
 	height: 120px;
 	background-position: center;
-	background-repeat: no-repeat;
+	background-repeat: repeat-y;
 	background-size: cover;
 	position: relative;
 	opacity: 0.8;
@@ -450,6 +448,8 @@ div.img-grid img
 	border-radius: 3px;
 }
 
+/* fractal image css */
+
 .fractalImageParent{
     position:relative;
 }
@@ -465,6 +465,26 @@ div.img-grid img
 	
     position:relative;
 }
+
+.exampleImageContainer{
+	border: 2px solid #C2B9AA;
+	border-width: 3px 0px 0px 0px;
+	text-align: center;
+	padding: 20px 0px 0px 0px;
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+}
+
+.exampleImage{
+	width: 200px;
+	height: 200px;
+	padding: 10px 10px 10px 10px;
+}
+
+.exampleImageText{
+	width: 200px;
+}
+
 
 #fractalDisplayZoomSelector{
 	left:-100px;
@@ -487,6 +507,44 @@ div.img-grid img
 	border: 2px solid #666666;
 	
 	position:absolute;
+}
+
+div.colorSliderContainer{
+	width: 200px;
+}
+
+input.colorSlider{
+ 	-webkit-appearance: none;
+	appearance: none;
+ 	height: 15px;
+ 	border-radius: 1px;
+ 	width: 100%;
+ 	background: #C2B9AA;
+ 	outline: none;
+ 	opacity: 0.7;
+ 	transition: opacity .2s;
+	-webkit-transition: .2s;
+}
+
+input.colorSlider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #000000;
+	cursor: pointer;
+}
+
+div.colorPreview{
+	background: #000000;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #000000;
+	
+	left:150px;
+	bottom:50px;
+	position:relative;
 }
 
 /*

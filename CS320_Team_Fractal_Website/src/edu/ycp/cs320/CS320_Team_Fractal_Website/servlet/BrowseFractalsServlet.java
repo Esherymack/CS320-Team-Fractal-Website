@@ -163,10 +163,16 @@ public class BrowseFractalsServlet extends HttpServlet {
 		// That is, check and see if a username is found in the db that matches the cookie.
 		if(isValidUser.getUserIfExists(userName))
 		{
-			// otherwise
-			String currentlyLoggedInMessage = "Currently logged in as " + userName;
-			req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
-			req.setAttribute("userName", userName);
+			if(isValidUser.getUserIsVerified(userName))
+			{
+				String currentlyLoggedInMessage = "Currently logged in as " + userName;
+				req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
+				req.setAttribute("userName", userName);
+			}
+			else
+			{
+				resp.sendRedirect("verifyAccount");
+			}
 		}
 		// Otherwise, just to clean up, delete the cookie of the deleted/nonexistent user ("log out").
 		else

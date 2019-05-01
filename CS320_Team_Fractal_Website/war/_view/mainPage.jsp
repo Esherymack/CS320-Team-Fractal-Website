@@ -6,7 +6,7 @@
 	<head>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-		
+
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<meta charset="utf-8">
 		<title>Fractal Main</title>
@@ -44,11 +44,14 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="left-box">
 			<div class="interface">
 				<c:if test="${! empty errorMessage}">
 					<div class="error">${errorMessage}</div>
+				</c:if>
+				<c:if test="${! empty savedMessage}">
+					<div class="loggedIn">${savedMessage}</div>
 				</c:if>
 
 				<div class="image">
@@ -63,12 +66,12 @@
 								<div id="fractalDisplayZoomSelectorShadow"></div>
 								<div id="fractalDisplayZoomSelector"></div>
 							</div>
-							
+
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
-			
+
 			<div class="right-box">
 				<div class="col2">
 					<div class="info">
@@ -77,6 +80,7 @@
 							<p>${fractalInfo}</p>
 							<br>
 							<h2>Tips and Examples:</h2>
+							<p>Click and drag on the image to manually select parameters.</p>
 							<div class="param-list">
 								${paramsToTry}
 							</div>
@@ -91,18 +95,18 @@
 						<input type="hidden" id="fractalLabels${type}${i}" value="${requestScope[iValue]}" />
 					</c:forEach>
 				</c:forEach>
-				
+
 				<div class="col1">
 					<div class="parameters">
 						<form action="${pageContext.servletContext.contextPath}/mainPage" method="post">
 							<select id="choice" name="choice" value="">
-	
+
 								<option value="" ${choice == "" || empty choice ? 'selected="selected"' : ''} disabled hidden>Select Fractal</option>
-	
+
 								<c:forEach items="${fractalTypeList}" var="type">
 									<option value="${type}" ${choice == type ? 'selected="selected"' : ''}>${type}</option>
 								</c:forEach>
-	
+
 							</select>
 							<input type="hidden" name="selectedChoice">
 							<div class="form-labels">
@@ -115,53 +119,80 @@
 												<input id="${i}" name="${i}" type="text" size="12" value="${requestScope[iValue]}" />
 											</td>
 										</tr>
-			
+
 									</c:forEach>
 								</table>
 							</div>
-							
+
 							<div>
 								<p>Gradient</p>
 								<select id="gradientChoice" name="gradientChoice" value="None">
 									<c:forEach items="${gradientList}" var="type">
 										<option value="${type}" ${gradientChoice == type ? 'selected="selected"' : ''}>${type}</option>
 									</c:forEach>
-									
+
 								</select>
 							</div>
-							
+
 							<!-- color parameters -->
 							<div>
-								<p id="baseColor" hidden>Base color</p>
+								<p id="baseColor" hidden>Base color:</p>
+								<div id="baseColorPreview" class="colorPreview" hidden></div>
 								<table id="params">
 									<tr>
 										<td class="label"> <label id="gradientRedBaseLabel" hidden>Red:</label> </td>
-										<td class="label"> <input type="text" id="gradientRedBase" name="gradientRedBase" size="12" value="${gradientRedBase}" hidden /> </td>
+										<td class="label">
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientRedBase" class="colorSlider" name="gradientRedBase" size="12" value="${gradientRedBase}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientGreenBaseLabel" hidden>Green:</label> </td>
-										<td class="label"> <input type="text" id="gradientGreenBase" name="gradientGreenBase" size="12" value="${gradientGreenBase}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientGreenBase" class="colorSlider" name="gradientGreenBase" size="12" value="${gradientGreenBase}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientBlueBaseLabel" hidden>Blue:</label> </td>
-										<td class="label"> <input type="text" id="gradientBlueBase" name="gradientBlueBase" size="12" value="${gradientBlueBase}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientBlueBase" class="colorSlider" name="gradientBlueBase" size="12" value="${gradientBlueBase}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 								</table>
 								<table class="params">
 									<p id="endColor" hidden>End color:</p>
+									<div id="endColorPreview" class="colorPreview" hidden></div>
 									<tr>
 										<td class="label"> <label id="gradientRedEndLabel" hidden>Red:</label> </td>
-										<td class="label"> <input type="text" id="gradientRedEnd" name="gradientRedEnd" size="12" value="${gradientRedEnd}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientRedEnd" class="colorSlider" name="gradientRedEnd" size="12" value="${gradientRedEnd}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientGreenEndLabel" hidden>Green:</label> </td>
-										<td class="label"> <input type="text" id="gradientGreenEnd" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientGreenEnd" class="colorSlider" name="gradientGreenEnd" size="12" value="${gradientGreenEnd}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<td class="label"> <label id="gradientBlueEndLabel" hidden>Blue:</label> </td>
-										<td class="label"> <input type="text" id="gradientBlueEnd" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" hidden /> </td>
+										<td class="label"> 
+											<div class="colorSliderContainer">
+												<input type="range" min=0 max=255 id="gradientBlueEnd" class="colorSlider" name="gradientBlueEnd" size="12" value="${gradientBlueEnd}" oninput="updateColorPreviews()" hidden />
+											</div>
+										</td>
 									</tr>
 								</table>
+								
 							</div>
 							<input type="Submit" name="submit" value="Send" class="sender">
 							<input type="Submit" name="save" value="Save" class="sender">
@@ -182,26 +213,27 @@
 			</div>
 		</div>
 	</body>
-	
+
 	<script>
-	
+
 	var mouseDown = 0;
-	
+
 	var x1 = 0;
 	var y1 = 0;
 	var x2 = 0;
 	var y2 = 0;
-	
+
 	var oldDragZoomX1 = document.getElementById("param0").getAttribute("value");
 	var oldDragZoomY1 = document.getElementById("param1").getAttribute("value");
 	var oldDragZoomX2 = document.getElementById("param2").getAttribute("value");
 	var oldDragZoomY2 = document.getElementById("param3").getAttribute("value");
-	
+
 	window.onload = function(){
-		$('#choice').change()
-		$('#gradientChoice').change()
+		$('#choice').change();
+		$('#gradientChoice').change();
+		updateColorPreviews();
 	}
-	
+
 	$('#choice').change(function() {
 		var selection = $(this).val();
 		sessionStorage.setItem('Selection', selection);
@@ -228,29 +260,32 @@
 			}
 		}
 	})
-	
+
 	$('#gradientChoice').change(function() {
 		var gradientSelection = $(this).val();
 		sessionStorage.setItem('GradientSelection', gradientSelection);
-		
+
 		$("#baseColor").show();
+		$("#baseColorPreview").show();
 		$("#gradientRedBase").show();
 		$("#gradientRedBaseLabel").show();
 		$("#gradientGreenBase").show();
 		$("#gradientGreenBaseLabel").show();
 		$("#gradientBlueBase").show();
 		$("#gradientBlueBaseLabel").show();
-		
+
 		$("#endColor").show();
+		$("#endColorPreview").show();
 		$("#gradientRedEnd").show();
 		$("#gradientRedEndLabel").show();
 		$("#gradientGreenEnd").show();
 		$("#gradientGreenEndLabel").show();
 		$("#gradientBlueEnd").show();
 		$("#gradientBlueEndLabel").show();
-			
+
 		if(gradientSelection == "None" || gradientSelection == "Rainbow"){
 			$("#endColor").hide();
+			$("#endColorPreview").hide();
 			$("#gradientRedEnd").hide();
 			$("#gradientRedEndLabel").hide();
 			$("#gradientGreenEnd").hide();
@@ -260,6 +295,7 @@
 		}
 		if(gradientSelection == "None"){
 			$("#baseColor").hide();
+			$("#baseColorPreview").hide();
 			$("#gradientRedBase").hide();
 			$("#gradientRedBaseLabel").hide();
 			$("#gradientGreenBase").hide();
@@ -269,6 +305,24 @@
 		}
 	});
 	
+	function updateColorPreviews(){
+		document.getElementById("baseColorPreview").style.background = "#" + 
+			decToHexColor(document.getElementById("gradientRedBase").value) +
+			decToHexColor(document.getElementById("gradientGreenBase").value) +
+			decToHexColor(document.getElementById("gradientBlueBase").value);
+
+		document.getElementById("endColorPreview").style.background = "#" + 
+			decToHexColor(document.getElementById("gradientRedEnd").value) +
+			decToHexColor(document.getElementById("gradientGreenEnd").value) +
+			decToHexColor(document.getElementById("gradientBlueEnd").value);
+	}
+	
+	function decToHexColor(d){
+		var hex = Number(Math.floor(d)).toString(16).toUpperCase();
+		while(hex.length < 2) hex = "0" + hex;
+		return hex;
+	}
+
 	$("#fractalImage").mousedown(function(e){
 		if(window.getSelection){
 			window.getSelection().removeAllRanges();
@@ -277,25 +331,25 @@
 			document.selection.empty();
 		}
 	});
-	
+
 	$("#fractalImage").mousedown(function(e){
 		//get mouse position
 	    var mouseX = e.pageX - this.offsetLeft;
 	    var mouseY = e.pageY - this.offsetTop;
 		mouseDown = 1;
-		
+
 		updateDragZoom(mouseX, mouseY);
 	});
-	
+
 	$("#fractalImage").mouseup(function(e){
 		//get mouse position
 	    var mouseX = e.pageX - this.offsetLeft;
 	    var mouseY = e.pageY - this.offsetTop;
 		mouseDown = 0;
-		
+
 		updateDragZoom(mouseX, mouseY);
 	});
-	
+
 	$("#fractalImage").mousemove(function(e){
 		//only update the position if the mouse is down
 		if(mouseDown == 1){
@@ -305,14 +359,14 @@
 			updateMousePositions(mouseX, mouseY);
 		}
 	});
-	
+
 	function updateDragZoom(mouseX, mouseY){
-	
+
 		//only run this function if a supported fractal is selected
 		var list = document.getElementById("choice");
 		var option = list.options[list.selectedIndex].value;
 		if(!(option == "Mandelbrot" || option == "Julia")) return;
-		
+
 		//if the x1,y2,x2,y2 values are empty, then save the current params in the oldDragZoom attributes
 		if(!oldDragZoomX1 || !oldDragZoomY1 || !oldDragZoomX2 || !oldDragZoomX2){
 			oldDragZoomX1 = document.getElementById("param0").getAttribute("value");
@@ -320,12 +374,12 @@
 			oldDragZoomX2 = document.getElementById("param2").getAttribute("value");
 			oldDragZoomY2 = document.getElementById("param3").getAttribute("value");
 		}
-		
+
 		//if the mouse is pressed down, the first point is the mouse position
 		if(mouseDown == 1){
 			x1 = mouseX;
 			y1 = mouseY;
-			
+
 			//set square display of first point
 			document.getElementById("fractalDisplayZoomSelector").
 				setAttribute("style",
@@ -346,22 +400,22 @@
 		else{
 			updateMousePositions(mouseX, mouseY);
 		}
-		
+
 	}
-	
+
 	function updateMousePositions(mouseX, mouseY){
 
 		//get height of image
 		var width = document.getElementById("fractalImageSource").width;
 		var height = document.getElementById("fractalImageSource").height;
-		
+
 		//set mouse positions and keep them in the screen
 		x2 = Math.max(0, Math.min(width, mouseX));
 		y2 = Math.max(0, Math.min(height, mouseY));
-		
+
 		var xDist = x2 - x1;
 		var yDist = y2 - y1;
-		
+
 		var drawX = x1;
 		var drawY = y1;
 		var drawW = xDist;
@@ -369,7 +423,7 @@
 		drawW = Math.abs(drawW);
 		if(xDist < 0) drawX = drawX - drawW;
 		if(yDist < 0) drawY = drawY - drawW;
-		
+
 		//set square display of the box
 		document.getElementById("fractalDisplayZoomSelector").
 			setAttribute("style",
@@ -386,33 +440,33 @@
 				"width: " + drawW + "px;" +
 				"height: " + drawW + "px;"
 		);
-		
+
 		//calculate new positions
 		var percWidth = Math.abs(x1 - x2) / width;
 		var percHeight = Math.abs(y1 - y2) / height;
 		var percX = Math.min(x1, x2) / width;
 		var percY = Math.min(y1, y2) / height;
-		
+
 		var realWidth = Math.abs(oldDragZoomX1 - oldDragZoomX2);
 		var realHeight = Math.abs(oldDragZoomY1 - oldDragZoomY2);
-		
+
 		var newX1 = Math.min(oldDragZoomX1, oldDragZoomX2) + realWidth * percX;
 		var newY1 = Math.min(oldDragZoomY1, oldDragZoomY2) + realHeight * percY;
-		
+
 		var w = Math.min(realWidth * percWidth, realHeight * percHeight);
-		
+
 		var newX2 = newX1 + w;
 		var newY2 = newY1 + w;
 		if(newX2 > oldDragZoomX2) newX2 = oldDragZoomX2;
 		if(newY2 > oldDragZoomY2) newY2 = oldDragZoomY2;
-		
+
 		//set the new values
 		document.getElementById("param0").setAttribute("value", newX1);
 		document.getElementById("param1").setAttribute("value", newY1);
 		document.getElementById("param2").setAttribute("value", newX2);
 		document.getElementById("param3").setAttribute("value", newY2);
 	}
-	
+
 	</script>
 
 </html>
