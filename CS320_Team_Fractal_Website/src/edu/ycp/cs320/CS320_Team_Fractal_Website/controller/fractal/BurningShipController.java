@@ -157,7 +157,7 @@ public class BurningShipController extends FractalController{
 	public int computeIterCount(Complex complex){
     	//Z is initially 0+0i
     	Complex z = new Complex(0,0);
-    	Complex c = complex.getAbsoluteValue();
+    	Complex c = new Complex(complex.getRealNum(), complex.getImagNum());
     	
     	//# of iterations
     	int count = 0;
@@ -170,7 +170,7 @@ public class BurningShipController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-        	z = z.multiply(z).add(c);
+        	z = z.multiply(z.getAbsoluteValue()).add(c);
         	//increment count
     		count++;
     	}
