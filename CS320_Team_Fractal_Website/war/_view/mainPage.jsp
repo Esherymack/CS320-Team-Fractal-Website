@@ -365,7 +365,7 @@
 		//only run this function if a supported fractal is selected
 		var list = document.getElementById("choice");
 		var option = list.options[list.selectedIndex].value;
-		if(!(option == "Mandelbrot" || option == "Julia")) return;
+		if(!(option == "Mandelbrot" || option == "Julia" || option == "BurningShip")) return;
 
 		//if the x1,y2,x2,y2 values are empty, then save the current params in the oldDragZoom attributes
 		if(!oldDragZoomX1 || !oldDragZoomY1 || !oldDragZoomX2 || !oldDragZoomX2){
