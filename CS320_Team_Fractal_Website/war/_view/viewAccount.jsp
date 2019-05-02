@@ -97,7 +97,7 @@
 									</td>
 								</tr>
 							</c:forEach>
-						<table>
+						</table>
 					</div>
 					
 					<c:if test="${display}">
