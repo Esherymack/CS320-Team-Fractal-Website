@@ -2,6 +2,7 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -62,6 +63,21 @@ public class BrowseFractalsServlet extends HttpServlet {
 			fractals = null;
 			e.printStackTrace();
 		}
+		
+		//get the number of fractals per page
+		String fractalsPerPageString = req.getParameter("fractalsPerPageChoice");
+		System.out.println(fractalsPerPageString);
+		Integer fractalsPerPage = null;
+		try{
+			fractalsPerPage = Integer.parseInt(fractalsPerPageString);
+		}catch(NumberFormatException | NullPointerException e){
+			fractalsPerPage = null;
+		}
+		
+		Enumeration<String> paramaterNames = req.getParameterNames();
+		while(paramaterNames.hasMoreElements() ) {
+		    System.out.println("param: " + paramaterNames.nextElement());
+		} 
 		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
@@ -145,6 +161,10 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.getSession().setAttribute("fractals", fractals);
 		req.setAttribute("fractalTypes", fractalTypes);
 		req.setAttribute("gradientTypes", gradientTypes);
+		
+		//set fractals per page attribute
+		if(fractalsPerPage == null) req.setAttribute("fractalsPerPage", fractalsPerPage);
+		else req.setAttribute("fractalsPerPage", fractalsPerPage.toString());
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);

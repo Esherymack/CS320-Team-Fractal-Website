@@ -56,7 +56,9 @@ public class BrowseFractalsController{
 	 * @return the username who created the fractal, "Unknown" if user couldn't be found
 	 */
 	public String getUsernameByFractalId(int id){
-		return database.getUsernameByFractalId(id);
+		String name = database.getUsernameByFractalId(id);
+		if(name == null) return "Unknown";
+		return name;
 	}
 	
 }

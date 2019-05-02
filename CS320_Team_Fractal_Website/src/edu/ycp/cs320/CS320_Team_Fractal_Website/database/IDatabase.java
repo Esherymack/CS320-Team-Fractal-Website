@@ -133,7 +133,7 @@ public interface IDatabase{
 	/**
 	 * Get the username of the user who created the specific fractal
 	 * @param id the id of the fractal
-	 * @return the username who created the fractal, "Unknown" if user couldn't be found
+	 * @return the username who created the fractal, null if user couldn't be found
 	 */
 	public String getUsernameByFractalId(int id);
 }
