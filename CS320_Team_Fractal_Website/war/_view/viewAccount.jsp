@@ -95,6 +95,7 @@
 										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
 										<a id="downloadImage" href="img/result.png" download hidden></a>
 									</td>
+								</tr>
 							</c:forEach>
 						<table>
 					</div>
