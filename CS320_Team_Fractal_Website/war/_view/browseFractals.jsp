@@ -7,6 +7,9 @@
 		<title>Browse Fractals</title>
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
+		
+		<script src="sorttable.js"></script>
+		
 	</head>
 	<div class="flex-container">
 		<div class="border"></div>
@@ -52,7 +55,7 @@
 				<div class="filtercontainer">
 					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 						
-								<input type="Submit" name="viewAllFractals" value="View All Fractals">
+						<input type="Submit" name="viewAllFractals" value="View All Fractals">
 							
 						<div class="dropdown">
 							<button class="dropbtn">Filter by Type</button>
@@ -93,7 +96,7 @@
 			</div>
 			
 			<div>
-				<table class="browseGridContainer">
+				<table class="sortable" id="fractalTable">
 					<tr>
 						<th class="browseGridText">Name:</th>
 						<th class="browseGridText">Type:</th>
@@ -125,39 +128,6 @@
 					</c:forEach>
 				</table>
 			</div>
-			
-<!--
-			
-			<div class="browseGridContainer">
-				<div class="browseGridText"><b>Name:</b></div>
-				<div class="browseGridText"><b>Type:</b></div>
-				<div class="browseGridText"><b>Created by:</b></div>
-				<div class="browseGridText"><b>ID:</b></div>
-				<div class="browseGridText"><b></b></div>
-				<div class="browseGridText"><b></b></div>
-				
-				<c:forEach items="${fractals}" var="fractal">
-					<div class="browseGridText">${fractal.name}</div>
-					<div class="browseGridText">${fractal.type}</div>
-					
-					<c:set var="fValue" value="fractalUsername${fractal.id}" />
-					<div class="browseGridText">${requestScope[fValue]}</div>
-					
-					<div class="browseGridText">${fractal.id}</div>
-					<div class="browseGridText">
-						<form action="#content" method="post" href="#content">
-						 	<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
-						</form>
-					</div>
-					<div class="browseGridText">
-						<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
-						<a id="downloadImage" href="img/result.png" download hidden></a>
-					</div>
-				</c:forEach>
-			</div>
-			
--->
-
 			<div class="lightbox-content" id="content">
 				<c:if test="${display}">
 					<a href="#_">
@@ -167,4 +137,13 @@
 			</div>
 		</body>
 	</div><div class="border"></div>
+	
+	<script>
+	
+	$(function(){
+		$('#fractalTable').tablesorter();
+	});
+	
+	</script>
+	
 </html>

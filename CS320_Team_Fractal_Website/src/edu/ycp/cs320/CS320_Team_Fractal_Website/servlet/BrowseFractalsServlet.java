@@ -55,6 +55,14 @@ public class BrowseFractalsServlet extends HttpServlet {
 		String errorMessage = null;
 		Boolean display = false;
 		ArrayList<Fractal> fractals = null;
+		//attempt to get the fractals currently loaded in the page
+		try{
+			fractals = (ArrayList<Fractal>) req.getSession().getAttribute("fractals");
+		}catch(ClassCastException e){
+			fractals = null;
+			e.printStackTrace();
+		}
+		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
 		//character sequence used to look for fractals with name with sequence
@@ -103,30 +111,29 @@ public class BrowseFractalsServlet extends HttpServlet {
 		else if (req.getParameter("searchForFractals") != null) {
 			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
 		}
-		else {
-			fractals = browseController.getAllFractals();
+		else{
+			if(fractals == null) fractals = browseController.getAllFractals();
 			display = true;
 		}
 
-		if(fractals != null) addFractalNames(req, browseController, fractals);
-		
-		//get fractal the user selected to render from the list of fractals
-		//if one of the fractals is requested then it should be rendered
-		for(Fractal f : fractals){
-			Object found = req.getParameter("viewFractal_" + f.getId());
-			if(found != null){
-				renderFractal = f;
-				break;
+		if(fractals != null){
+			addFractalNames(req, browseController, fractals);
+			//get fractal the user selected to render from the list of fractals
+			//if one of the fractals is requested then it should be rendered
+			for(Fractal f : fractals){
+				Object found = req.getParameter("viewFractal_" + f.getId());
+				if(found != null){
+					renderFractal = f;
+					break;
+				}
 			}
 		}
 		
 		//if the fractal was found, render it and display it
-		if(renderFractal != null)
-		{
+		if(renderFractal != null){
 			FractalController fractalController = renderFractal.createApproprateController();
 			fractalController.render();
 		}
-		
 		//if the fractal was not found and one should be displayed, then send an error message
 		else if(display) errorMessage = "Fractal couldn't be rendered";
 		
@@ -135,7 +142,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("charSeq", charSeq);
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("display", display);
-		req.setAttribute("fractals", fractals);
+		req.getSession().setAttribute("fractals", fractals);
 		req.setAttribute("fractalTypes", fractalTypes);
 		req.setAttribute("gradientTypes", gradientTypes);
 		
