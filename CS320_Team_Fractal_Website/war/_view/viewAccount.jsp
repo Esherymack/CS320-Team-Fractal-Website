@@ -41,6 +41,7 @@
 						</li>
 					</ul>
 				</div>
+				
 				<div class="account-header">
 					<h1>
 						${userName}
