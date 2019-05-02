@@ -159,6 +159,7 @@ public abstract class Fractal{
 		else if(type.equals("Koch")) return new Koch();
 		else if(type.equals("Barnsley")) return new Barnsley();
 		else if(type.equals("Julia")) return new Julia();
+		else if(type.equals("BurningShip")) return new BurningShip();
 		return null;
 	}
 	
@@ -172,7 +173,8 @@ public abstract class Fractal{
 			"Sierpinski",
 			"Koch",
 			"Barnsley",
-			"Julia"
+			"Julia",
+			"BurningShip"
 		};
 	}
 	
