@@ -68,8 +68,9 @@
 								<div class="button-container">
 									<c:forEach items="${fractals}" var="fractal">
 										<tr>
-											<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
-											<input type="Submit" name="deleteFractal_${fractal.id}" value="Delete Fractal ${fractal.id}" href="#content">
+											${fractal.name} | Type: ${fractal.type} | Gradient Type: ${fractal.gradientType} | Id: ${fractal.id} 
+											<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+											<input type="Submit" name="deleteFractal_${fractal.id}" value="Delete" href="#content">
 										</tr>
 									</c:forEach>
 								</div>
