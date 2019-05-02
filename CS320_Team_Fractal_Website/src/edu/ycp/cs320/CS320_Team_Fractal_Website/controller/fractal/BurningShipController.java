@@ -170,7 +170,7 @@ public class BurningShipController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-        	z = z.multiply(z.getAbsoluteValue()).add(c);
+        	z = z.getAbsoluteValue().multiply(z.getAbsoluteValue()).add(c);
         	//increment count
     		count++;
     	}
