@@ -1,20 +1,20 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.BurningShipController;
 
-public class Mandelbrot extends Fractal{
+public class BurningShip extends Fractal{
 	
 	/**
 	 * The number of times a complex number is multiplied during each Mandelbrot calculation
 	 */
 	private int multiplyTimes;
 
-	public Mandelbrot(int multiplyTimes){
+	public BurningShip(int multiplyTimes){
 		super();
 		this.multiplyTimes = multiplyTimes;
 	}
-	public Mandelbrot(){
+	public BurningShip(){
 		this(0);
 	}
 
@@ -31,20 +31,20 @@ public class Mandelbrot extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "The Mandelbrot set is the set of complex numbers for which the function does not diverge "
-				+ "when iterated from, i.e., for which the sequence, etc., remains bounded in absolute value. Its "
-				+ "definition and name are due to Adrien Douady, in tribute to the mathematician Benoit Mandelbrot.";
+		return "The Burning Ship fractal was first described and created by Michael Michelitsch and Otto E. Rössler in 1992. "
+				+ "The Fractal is very similar to the Mandelbrot set, where the difference is that the absolute values of the real and "
+				+ "imaginary values are calculated in the equation.";
 	}
 	
 	@Override
 	public String getParamExamples()
 	{
 		return "<ul><li>Change X, Y values to zoom in and out on different regions.</li>"
-				+ "<li>Change multiplier to change the overall shape of the mandelbrot.</li>"
+				+ "<li>Change multiplier to change the overall shape of the burning ship fractal.</li>"
 				+ "<li>Example coordinates:</li>"
-				+ "<ul><li>X1: -1.3595507; Y1: 0.0652734; X2: -1.35213867; Y2: 0.07268554; M=1</li>"
-				+ "<li>X1: 0.298271942; Y1: 0.0184661865; X2: 0.305683593; Y2: 0.025877838; M=1</li>"
-				+ "<li>X1: -1.3180998166; Y1: 0.0667306582; X2: -1.3096934159; Y2: 0.07513705889; M=1</li>";
+				+ "<ul><li>X1: -0.86; Y1: -1.05; X2: -0.64; Y2: -0.83; M=1</li>"
+				+ "<li>X1: -1.865737; Y1: -0.009650; X2: -1.853388; Y2: 0.002699; M=1</li>"
+				+ "<li>X1: -1.59884728; Y1: -0.04390816; X2: -1.55268807; Y2: 0.00225103; M=1</li>";
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class Mandelbrot extends Fractal{
 	
 	@Override
 	public FractalController createApproprateController(){
-		MandelbrotController controller = new MandelbrotController();
+		BurningShipController controller = new BurningShipController();
 		controller.setModel(this);
 		return controller;
 	}

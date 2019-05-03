@@ -41,6 +41,7 @@
 						</li>
 					</ul>
 				</div>
+				
 				<div class="account-header">
 					<h1>
 						${userName}
@@ -58,32 +59,56 @@
 				</div>
 	
 				<div class="account-header">
-					<h2>
+					<h1>
 						Your Fractals
-					</h2>
-					<div class="lightbox-toggle">
-						<form action="#content" method="post" href="#content">
-							<table>
-								<br>
-								<div class="button-container">
-									<c:forEach items="${fractals}" var="fractal">
-										<tr>
-											<input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
-											<input type="Submit" name="deleteFractal_${fractal.id}" value="Delete Fractal ${fractal.id}" href="#content">
-										</tr>
-									</c:forEach>
-								</div>
-							</table>
-						</form>
-					</div>
-					<c:if test="${display}">
-						<div class="lightbox-content" id="content">
-							<a href="#_">
-								<img src="img/result.png" alt="result"/>
-							</a>
-						</div>
-					</c:if>
+					</h1>
 				</div>
+				
+				<div class="lightbox-toggle">
+				
+					<table class="browseGridContainer">
+						<tr>
+							<th class="browseGridText">Name:</th>
+							<th class="browseGridText">Type:</th>
+							<th class="browseGridText">Gradient Type:</th>
+							<th class="browseGridText">ID:</th>
+							<th class="browseGridText"></th>
+							<th class="browseGridText"></th>
+							<th class="browseGridText"></th>
+						</tr>
+					
+						<c:forEach items="${fractals}" var="fractal">
+							<tr>
+								<td class="browseGridText">${fractal.name}</td>
+								<td class="browseGridText">${fractal.type}</td>
+								<td class="browseGridText">${fractal.gradientType}</td>
+								<td class="browseGridText">${fractal.id}</td>
+								<td class="browseGridText">
+									<form action="#content" method="post" href="#content">
+										<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+									</form>
+								</td>
+								<td class="browseGridText">
+									<form action="#content" method="post" href="#content">
+										<input type="Submit" name="deleteFractal_${fractal.id}" value="Delete" href="#content">
+									</form>
+								</td>
+								<td class="browseGridText">
+									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+									<a id="downloadImage" href="img/result.png" download hidden></a>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+				
+				<c:if test="${display}">
+					<div class="lightbox-content" id="content">
+						<a href="#_">
+							<img src="img/result.png" alt="result"/>
+						</a>
+					</div>
+				</c:if>
 			</body>
 		</div>
 		<div class="border"></div>

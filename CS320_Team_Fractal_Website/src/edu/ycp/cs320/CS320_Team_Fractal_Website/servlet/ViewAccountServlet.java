@@ -43,6 +43,7 @@ public class ViewAccountServlet extends HttpServlet{
 		req.setAttribute("email",  email);
 		req.setAttribute("fractals",  fractals);
 		
+		//
 		// call JSP to generate form
 		req.getRequestDispatcher("/_view/viewAccount.jsp").forward(req, resp);
 	}
