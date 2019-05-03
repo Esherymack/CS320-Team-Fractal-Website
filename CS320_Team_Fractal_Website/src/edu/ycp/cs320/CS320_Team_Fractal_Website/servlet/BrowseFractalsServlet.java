@@ -30,6 +30,10 @@ public class BrowseFractalsServlet extends HttpServlet {
 		fractals = browseController.getAllFractals();
 		req.setAttribute("fractals", fractals);
 
+		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, 10, 0);
+		req.setAttribute("pageFractals", pageFractals);
+		
+		
 		if(fractals != null) addFractalNames(req, browseController, fractals);
 		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
@@ -141,6 +145,10 @@ public class BrowseFractalsServlet extends HttpServlet {
 			}
 		}
 		
+		//figure out the list of fractals that should be sent as the sub list of fractals to display
+		if(fractalsPerPage == null) fractalsPerPage = 10;
+		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, fractalsPerPage, 0);
+		
 		//if the fractal was found, render it and display it
 		if(renderFractal != null){
 			FractalController fractalController = renderFractal.createApproprateController();
@@ -155,6 +163,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("display", display);
 		req.getSession().setAttribute("fractals", fractals);
+		req.getSession().setAttribute("pageFractals", pageFractals);
 		req.setAttribute("fractalTypes", fractalTypes);
 		req.setAttribute("gradientTypes", gradientTypes);
 		

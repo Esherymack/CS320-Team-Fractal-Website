@@ -61,4 +61,21 @@ public class BrowseFractalsController{
 		return name;
 	}
 	
+	/**
+	 * Get all the fractals of the given fractal list that would be on the specified page
+	 * @param fractals the fractal list to look through
+	 * @param numPerPage the number of fractals on each page
+	 * @param page the page this list is of
+	 * @return the list of fractals, can be less than numPerPage if fractals.size() % page != 0, returns an empty list if fractals is null
+	 */
+	public ArrayList<Fractal> getFractalPageList(ArrayList<Fractal> fractals, int numPerPage, int page){
+		ArrayList<Fractal> pageFractals = new ArrayList<Fractal>();
+		
+		if(fractals == null) return pageFractals;
+		
+		for(int i = 0; i < numPerPage && i + numPerPage * page < fractals.size(); i++){
+			pageFractals.add(fractals.get(numPerPage * page + i));
+		}
+		return pageFractals;
+	}
 }

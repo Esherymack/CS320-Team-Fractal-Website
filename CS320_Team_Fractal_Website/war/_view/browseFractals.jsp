@@ -96,7 +96,7 @@
 						<div class="filternav">
 							<ul class="searchbar">
 								<li>
-									<select id="fractalsPerPage" name="fractalsPerPage" value="${fractalsPerPage}">
+									<select id="fractalsPerPage" name="fractalsPerPage" value="10">
 										<option value="10" ${fractalsPerPage == "10" ? 'selected="selected"' : ''}>10 per page</option>
 										<option value="20" ${fractalsPerPage == "20" ? 'selected="selected"' : ''}>20 per page</option>
 										<option value="50" ${fractalsPerPage == "50" ? 'selected="selected"' : ''}>50 per page</option>
@@ -120,7 +120,7 @@
 								<th class="browseGridText"></th>
 							</tr>
 							
-							<c:forEach items="${fractals}" var="fractal">
+							<c:forEach items="${pageFractals}" var="fractal">
 								<tr>
 									<td class="browseGridText">${fractal.name}</td>
 									<td class="browseGridText">${fractal.type}</td>
