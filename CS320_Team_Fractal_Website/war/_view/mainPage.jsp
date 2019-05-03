@@ -404,6 +404,9 @@
 	}
 
 	function updateMousePositions(mouseX, mouseY){
+		var list = document.getElementById("choice");
+		var option = list.options[list.selectedIndex].value;
+		if(!(option == "Mandelbrot" || option == "Julia")) return;
 
 		//get height of image
 		var width = document.getElementById("fractalImageSource").width;
