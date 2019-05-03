@@ -82,7 +82,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//get page number for fractals
 		String pageNumberString = req.getParameter("pageNumber");
 		//if the first parameter couldn't be found, try for the second
-		if(pageNumberString == null) fractalsPerPageString = req.getParameter("pageNumberSecond");
+		if(pageNumberString == null) pageNumberString = req.getParameter("pageNumberSecond");
 		Integer pageNumber = null;
 		try{
 			pageNumber = Integer.parseInt(pageNumberString);
@@ -104,42 +104,57 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//if there was no request then all of the fractals are added to the array list
 		if (req.getParameter("viewAllFractals") != null) {
 			fractals = browseController.getAllFractals();
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllMandelbrotFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Mandelbrot");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllSierpinskiFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Sierpinski");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllKochFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Koch");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllBarnsleyFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Barnsley");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllJuliaFractals") != null) {
 			fractals = browseController.getAllFractalsByType("Julia");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllNoneFractals") != null) {
 			fractals = browseController.getAllFractalsByGradientType("None");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllRainbowFractals") != null) {
 			fractals = browseController.getAllFractalsByGradientType("Rainbow");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllHorizontalFractals") != null) {
 			fractals = browseController.getAllFractalsByGradientType("Horizontal");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllVerticalFractals") != null) {
 			fractals = browseController.getAllFractalsByGradientType("Vertical");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("viewAllDiagonalFractals") != null) {
 			fractals = browseController.getAllFractalsByGradientType("Diagonal");
+			pageNumber = 0;
 		}
 		else if (req.getParameter("searchForFractals") != null) {
 			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
+			pageNumber = 0;
 		}
 		else{
-			if(fractals == null) fractals = browseController.getAllFractals();
+			if(fractals == null){
+				fractals = browseController.getAllFractals();
+				pageNumber = 0;
+			}
 			display = true;
 		}
 
@@ -156,11 +171,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 			}
 		}
 		
-		//figure out the list of fractals that should be sent as the sub list of fractals to display
-		if(fractalsPerPage == null) fractalsPerPage = 10;
-		if(pageNumber == null) pageNumber = 0;
-		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, fractalsPerPage, pageNumber);
-		
 		//if the fractal was found, render it and display it
 		if(renderFractal != null){
 			FractalController fractalController = renderFractal.createApproprateController();
@@ -168,6 +178,11 @@ public class BrowseFractalsServlet extends HttpServlet {
 		}
 		//if the fractal was not found and one should be displayed, then send an error message
 		else if(display) errorMessage = "Fractal couldn't be rendered";
+		
+		//figure out the list of fractals that should be sent as the sub list of fractals to display
+		if(fractalsPerPage == null) fractalsPerPage = 10;
+		if(pageNumber == null) pageNumber = 0;
+		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, fractalsPerPage, pageNumber);
 		
 		//set attributes
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
