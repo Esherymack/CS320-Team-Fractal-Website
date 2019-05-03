@@ -79,6 +79,17 @@ public class BrowseFractalsServlet extends HttpServlet {
 			fractalsPerPage = null;
 		}
 		
+		//get page number for fractals
+		String pageNumberString = req.getParameter("pageNumber");
+		//if the first parameter couldn't be found, try for the second
+		if(pageNumberString == null) fractalsPerPageString = req.getParameter("pageNumberSecond");
+		Integer pageNumber = null;
+		try{
+			pageNumber = Integer.parseInt(pageNumberString);
+		}catch(NumberFormatException | NullPointerException e){
+			pageNumber = null;
+		}
+		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
 		//character sequence used to look for fractals with name with sequence
@@ -147,7 +158,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		
 		//figure out the list of fractals that should be sent as the sub list of fractals to display
 		if(fractalsPerPage == null) fractalsPerPage = 10;
-		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, fractalsPerPage, 0);
+		if(pageNumber == null) pageNumber = 0;
+		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, fractalsPerPage, pageNumber);
 		
 		//if the fractal was found, render it and display it
 		if(renderFractal != null){
@@ -169,6 +181,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		
 		//set fractals per page attribute
 		req.getSession().setAttribute("fractalsPerPage", fractalsPerPage.toString());
+		req.getSession().setAttribute("pageNumber", pageNumber.toString());
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);

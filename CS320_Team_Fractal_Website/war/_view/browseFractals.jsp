@@ -92,9 +92,9 @@
 					</div>
 					<!-- Page number slector and page turner -->
 					
-					<input type="hidden" name="pageNumber" value="${pageNumber}">
+					<input type="text" name="pageNumber" value="${pageNumber}">
 					
-					<c:if test="${! empty fractals}">
+					<c:if test="${! empty pageFractals}">
 						<div class="filternav">
 							<ul class="searchbar">
 								<li>
@@ -110,7 +110,7 @@
 					</c:if>
 				</form>
 				<div>
-					<c:if test="${! empty fractals}">
+					<c:if test="${! empty pageFractals}">
 						<table class="sortable" id="fractalTable">
 							<tr>
 								<th class="browseGridText">Name:</th>
@@ -147,7 +147,7 @@
 							</c:forEach>
 						</table>
 					</c:if>
-					<c:if test="${empty fractals}">
+					<c:if test="${empty pageFractals}">
 						<p class="error">No fractals met your criteria</p>
 					</c:if>
 				</div>
