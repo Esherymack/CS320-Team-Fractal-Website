@@ -28,6 +28,11 @@ public class Complex
 		return new Complex(Math.abs(real), Math.abs(imag));
 	}
 	
+	public Complex getComplexConjugate()
+	{
+		return new Complex(real, -imag);
+	}
+	
 	public double getMagnitude()
 	{
 		return Math.sqrt((real*real)+(imag*imag));

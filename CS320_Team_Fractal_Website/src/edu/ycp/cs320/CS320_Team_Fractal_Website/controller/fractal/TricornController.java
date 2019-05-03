@@ -7,30 +7,30 @@ import java.awt.image.BufferedImage;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.BurningShip;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Tricorn;
 
-public class BurningShipController extends FractalController{
+public class TricornController extends FractalController{
 	
 	/**
 	 * The maximum number of iterations that a calculation will take
 	 */
 	public static final int MAX_ITER = 4000;
 	
-	private BurningShip model;
+	private Tricorn model;
 	
-	public BurningShipController(BurningShip model){
+	public TricornController(Tricorn model){
 		super();
 		this.model = model;
 	}
-	public BurningShipController(){
+	public TricornController(){
 		this(null);
 	}
 
 	@Override
-	public BurningShip getModel(){
+	public Tricorn getModel(){
 		return model;
 	}
-	public void setModel(BurningShip model){
+	public void setModel(Tricorn model){
 		this.model = model;
 	}
 
@@ -170,7 +170,7 @@ public class BurningShipController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-    		z = z.getAbsoluteValue();
+    		z = z.getComplexConjugate();
         	z = z.multiply(z).add(c);
         	//increment count
     		count++;
