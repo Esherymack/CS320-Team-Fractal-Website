@@ -2,7 +2,6 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -32,7 +31,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 
 		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, 10, 0);
 		req.setAttribute("pageFractals", pageFractals);
-		
+
+		req.setAttribute("pageNumber", 0);
 		
 		if(fractals != null) addFractalNames(req, browseController, fractals);
 		
@@ -168,8 +168,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("gradientTypes", gradientTypes);
 		
 		//set fractals per page attribute
-		if(fractalsPerPage == null) req.getSession().setAttribute("fractalsPerPage", fractalsPerPage);
-		else req.getSession().setAttribute("fractalsPerPage", fractalsPerPage.toString());
+		req.getSession().setAttribute("fractalsPerPage", fractalsPerPage.toString());
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);

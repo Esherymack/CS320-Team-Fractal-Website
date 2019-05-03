@@ -92,6 +92,8 @@
 					</div>
 					<!-- Page number slector and page turner -->
 					
+					<input type="hidden" name="pageNumber" value="${pageNumber}">
+					
 					<c:if test="${! empty fractals}">
 						<div class="filternav">
 							<ul class="searchbar">
@@ -132,6 +134,7 @@
 									<td class="browseGridText">${fractal.id}</td>
 									<form action="#content" method="post" href="#content">
 										<input type="hidden" id="fractalsPerPageSecond" name="fractalsPerPageSecond" value="${fractalsPerPage}">
+										<input type="hidden" name="pageNumberSecond" value="${pageNumber}">
 										<td class="browseGridText">
 											<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
 										</td>
