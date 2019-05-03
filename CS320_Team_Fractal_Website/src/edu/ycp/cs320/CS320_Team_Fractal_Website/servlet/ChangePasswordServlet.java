@@ -18,7 +18,6 @@ public class ChangePasswordServlet extends HttpServlet
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		CheckUserValidController isValidUser = new CheckUserValidController();
 		System.out.println("ChangePassword Servlet: doGet");
 		
 		// check if user is logged in
