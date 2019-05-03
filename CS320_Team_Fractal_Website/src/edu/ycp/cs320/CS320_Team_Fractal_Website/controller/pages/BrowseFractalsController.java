@@ -2,6 +2,8 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
@@ -77,5 +79,32 @@ public class BrowseFractalsController{
 			pageFractals.add(fractals.get(numPerPage * page + i));
 		}
 		return pageFractals;
+	}
+
+	public int getFractalsPerPage(HttpServletRequest req){
+		//get the number of fractals per page
+		String fractalsPerPageString = req.getParameter("fractalsPerPage");
+		//if the first parameter couldn't be found, try for the second
+		if(fractalsPerPageString == null) fractalsPerPageString = req.getParameter("fractalsPerPageSecond");
+		Integer fractalsPerPage = null;
+		try{
+			fractalsPerPage = Integer.parseInt(fractalsPerPageString);
+		}catch(NumberFormatException | NullPointerException e){
+			fractalsPerPage = 10;
+		}
+		return fractalsPerPage;
+	}
+	
+	public int getPageNumber(HttpServletRequest req){
+		String pageNumberString = req.getParameter("pageNumber");
+		//if the first parameter couldn't be found, try for the second
+		if(pageNumberString == null) pageNumberString = req.getParameter("pageNumberSecond");
+		Integer pageNumber = null;
+		try{
+			pageNumber = Integer.parseInt(pageNumberString);
+		}catch(NumberFormatException | NullPointerException e){
+			pageNumber = 0;
+		}
+		return pageNumber;
 	}
 }

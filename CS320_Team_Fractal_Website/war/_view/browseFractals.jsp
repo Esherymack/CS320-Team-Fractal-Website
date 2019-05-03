@@ -73,7 +73,7 @@
 									<ul>
 										<c:forEach items="${gradientTypes}" var="type">
 											<li>
-												<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
+												<input type="Submit" name="viewAllGradient${type}Fractals" value="View ${type} Fractals">
 											</li>
 											<br>
 										</c:forEach>
@@ -92,18 +92,40 @@
 					</div>
 					<!-- Page number slector and page turner -->
 					
-					<input type="text" name="pageNumber" value="${pageNumber}">
-					
 					<c:if test="${! empty pageFractals}">
 						<div class="filternav">
 							<ul class="searchbar">
 								<li>
 									<select id="fractalsPerPage" name="fractalsPerPage" value="10">
-										<option value="10" ${fractalsPerPage == "10" ? 'selected="selected"' : ''}>10 per page</option>
+										<option value="5" ${fractalsPerPage == "5" ? 'selected="selected"' : ''}>5 per page</option>
+										<option value="10" ${fractalsPerPage == "10" || empty fractalsPerPage ? 'selected="selected"' : ''}>10 per page</option>
 										<option value="20" ${fractalsPerPage == "20" ? 'selected="selected"' : ''}>20 per page</option>
 										<option value="50" ${fractalsPerPage == "50" ? 'selected="selected"' : ''}>50 per page</option>
 										<option value="100" ${fractalsPerPage == "100" ? 'selected="selected"' : ''}>100 per page</option>
 									</select>
+								</li>
+							</ul>
+							<ul class="searchbar">
+								<li>
+									<input type="submit" name="pageStart" value="<<" ${pageNumber > 0 ? '' : 'disabled="disabled"'}>
+									
+									<c:if test="${pageNumber > 1}">
+										<input type="submit" name="page-2" value="${pageNumber - 2}">
+									</c:if>
+									<c:if test="${pageNumber > 0}">
+										<input type="submit" name="page-1" value="${pageNumber - 1}">
+									</c:if>
+									
+									<input class="browsePageBold" type="submit" disabled value="${pageNumber}">
+										
+									<c:if test="${pageNumber < maxPageNumber}">
+										<input type="submit" name="page+1" value="${pageNumber + 1}">
+									</c:if>
+									<c:if test="${pageNumber < maxPageNumber - 1}">
+										<input type="submit" name="page+2" value="${pageNumber + 2}">
+									</c:if>
+									
+									<input type="submit" name="pageEnd" value=">>" ${pageNumber < maxPageNumber ? '' : 'disabled="disabled"'}>
 								</li>
 							</ul>
 						</div>

@@ -34,7 +34,6 @@ public class CheckUserValidController
 	public Boolean getUserIsVerified(String username)
 	{
 		User user = database.getUserByUsername(username);
-		System.out.println(user.getIsVerified());
 		return user.getIsVerified();
 	}
 	
