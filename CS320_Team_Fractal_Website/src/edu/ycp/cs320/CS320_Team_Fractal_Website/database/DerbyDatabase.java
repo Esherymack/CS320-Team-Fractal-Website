@@ -747,7 +747,6 @@ public class DerbyDatabase implements IDatabase
 				public ArrayList<Fractal> execute(Connection conn) throws SQLException{
 					PreparedStatement stmt = null;
 					ResultSet resultSet = null;
-					System.out.println(charSeq);
 					try{
 						//retrieve all fractals and populate into the list
 						stmt = conn.prepareStatement("select fractal.* from fractal " +

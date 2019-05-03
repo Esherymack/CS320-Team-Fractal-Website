@@ -547,8 +547,9 @@ div.colorPreview{
 	position:relative;
 }
 
+
 /*css for browse fractals grid*/
-#fractalTable{
+.browseGridContainer{
 	width: 100%;
 	border: 1px solid #C2B9AA;
 }

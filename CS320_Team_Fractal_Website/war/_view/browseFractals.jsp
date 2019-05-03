@@ -52,11 +52,10 @@
 			
 				<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
 					<div class="filternav">
-						<div class="filtercontainer">
+						<div>
 							<input type="Submit" name="viewAllFractals" value="View All Fractals">
-								
 							<div class="dropdown">
-								<button class="dropbtn">Filter by Type</button>
+								<div class="dropbtn">Filter by Type</div>
 								<div class="dropdown-content">
 									<ul>
 										<c:forEach items="${fractalTypes}" var="type">
@@ -69,7 +68,7 @@
 								</div>
 							</div>
 							<div class="dropdown">
-								<button class="dropbtn">Filter by GradientType</button>
+								<div class="dropbtn">Filter by GradientType</div>
 								<div class="dropdown-content">
 									<ul>
 										<c:forEach items="${gradientTypes}" var="type">
@@ -81,64 +80,75 @@
 									</ul>	
 								</div>
 							</div>
-							<ul class="searchbar">
-								<li>
-									<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+							<div class="dropdown">
+								<ul class="searchbar">
+									<li>
 										<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
 										<input type="Submit" name="search" value="Search">
-									</form>
-								</li>
-							</ul>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<!-- Page number slector and page turner -->
-					<div class="searchbar">
-						<li>
-							<input type="hidden" id="fractalsPerPageChoice" name="fractalsPerPageChoice" value="test">
-							<select id="fractalsPerPage" name="fractalsPerPage">
-								<option value="10">10 per page</option>
-								<option value="20">20 per page</option>
-								<option value="50">50 per page</option>
-								<option value="100">100 per page</option>
-							</select>
-						</li>
-					</ul>
+					
+					<c:if test="${! empty fractals}">
+						<div class="filternav">
+							<ul class="searchbar">
+								<li>
+									<select id="fractalsPerPage" name="fractalsPerPage" value="${fractalsPerPage}">
+										<option value="10" ${fractalsPerPage == "10" ? 'selected="selected"' : ''}>10 per page</option>
+										<option value="20" ${fractalsPerPage == "20" ? 'selected="selected"' : ''}>20 per page</option>
+										<option value="50" ${fractalsPerPage == "50" ? 'selected="selected"' : ''}>50 per page</option>
+										<option value="100" ${fractalsPerPage == "100" ? 'selected="selected"' : ''}>100 per page</option>
+									</select>
+								</li>
+							</ul>
+						</div>
+					</c:if>
 				</form>
 				<div>
-					<table class="sortable" id="fractalTable">
-						<tr>
-							<th class="browseGridText">Name:</th>
-							<th class="browseGridText">Type:</th>
-							<th class="browseGridText">Gradient Type:</th>
-							<th class="browseGridText">Created by:</th>
-							<th class="browseGridText">ID:</th>
-							<th class="browseGridText"></th>
-							<th class="browseGridText"></th>
-						</tr>
-						
-						<c:forEach items="${fractals}" var="fractal">
+					<c:if test="${! empty fractals}">
+						<table class="sortable" id="fractalTable">
 							<tr>
-								<td class="browseGridText">${fractal.name}</td>
-								<td class="browseGridText">${fractal.type}</td>
-								<td class="browseGridText">${fractal.gradientType}</td>
-								
-								<c:set var="fValue" value="fractalUsername${fractal.id}" />
-								<td class="browseGridText">${requestScope[fValue]}</td>
-								
-								<td class="browseGridText">${fractal.id}</td>
-								<td class="browseGridText">
-									<form action="#content" method="post" href="#content">
-									 	<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
-									</form>
-								</td>
-								<td class="browseGridText">
-									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
-									<a id="downloadImage" href="img/result.png" download hidden></a>
-								</td>
+								<th class="browseGridText">Name:</th>
+								<th class="browseGridText">Type:</th>
+								<th class="browseGridText">Gradient Type:</th>
+								<th class="browseGridText">Created by:</th>
+								<th class="browseGridText">ID:</th>
+								<th class="browseGridText"></th>
+								<th class="browseGridText"></th>
 							</tr>
-						</c:forEach>
-					</table>
+							
+							<c:forEach items="${fractals}" var="fractal">
+								<tr>
+									<td class="browseGridText">${fractal.name}</td>
+									<td class="browseGridText">${fractal.type}</td>
+									<td class="browseGridText">${fractal.gradientType}</td>
+									
+									<c:set var="fValue" value="fractalUsername${fractal.id}" />
+									<td class="browseGridText">${requestScope[fValue]}</td>
+									
+									<td class="browseGridText">${fractal.id}</td>
+									<form action="#content" method="post" href="#content">
+										<input type="hidden" id="fractalsPerPageSecond" name="fractalsPerPageSecond" value="${fractalsPerPage}">
+										<td class="browseGridText">
+											<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+										</td>
+									</form>
+									<td class="browseGridText">
+										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+										<a id="downloadImage" href="img/result.png" download hidden></a>
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</c:if>
+					<c:if test="${empty fractals}">
+						<p class="error">No fractals met your criteria</p>
+					</c:if>
 				</div>
+				
 				<div class="lightbox-content" id="content">
 					<c:if test="${display}">
 						<a href="#_">
@@ -152,15 +162,6 @@
 	</div>
 	
 	<script>
-	
-	window.onload = function(){
-		$('#fractalsPerPage').change();
-	}
-	
-	$('#fractalsPerPage').change(function(){
-		window.alert("yes");
-		document.getElementById("fractalsPerPageChoice").setAttribute("value", $(this).val());
-	});
 	
 	$(function(){
 		$('#fractalTable').tablesorter();

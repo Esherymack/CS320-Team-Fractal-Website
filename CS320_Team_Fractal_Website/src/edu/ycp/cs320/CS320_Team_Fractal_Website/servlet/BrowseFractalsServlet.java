@@ -59,25 +59,21 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//attempt to get the fractals currently loaded in the page
 		try{
 			fractals = (ArrayList<Fractal>) req.getSession().getAttribute("fractals");
-		}catch(ClassCastException e){
+		}catch(ClassCastException | NullPointerException e){
 			fractals = null;
 			e.printStackTrace();
 		}
 		
 		//get the number of fractals per page
-		String fractalsPerPageString = req.getParameter("fractalsPerPageChoice");
-		System.out.println(fractalsPerPageString);
+		String fractalsPerPageString = req.getParameter("fractalsPerPage");
+		//if the first parameter couldn't be found, try for the second
+		if(fractalsPerPageString == null) fractalsPerPageString = req.getParameter("fractalsPerPageSecond");
 		Integer fractalsPerPage = null;
 		try{
 			fractalsPerPage = Integer.parseInt(fractalsPerPageString);
 		}catch(NumberFormatException | NullPointerException e){
 			fractalsPerPage = null;
 		}
-		
-		Enumeration<String> paramaterNames = req.getParameterNames();
-		while(paramaterNames.hasMoreElements() ) {
-		    System.out.println("param: " + paramaterNames.nextElement());
-		} 
 		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
@@ -163,8 +159,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("gradientTypes", gradientTypes);
 		
 		//set fractals per page attribute
-		if(fractalsPerPage == null) req.setAttribute("fractalsPerPage", fractalsPerPage);
-		else req.setAttribute("fractalsPerPage", fractalsPerPage.toString());
+		if(fractalsPerPage == null) req.getSession().setAttribute("fractalsPerPage", fractalsPerPage);
+		else req.getSession().setAttribute("fractalsPerPage", fractalsPerPage.toString());
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
