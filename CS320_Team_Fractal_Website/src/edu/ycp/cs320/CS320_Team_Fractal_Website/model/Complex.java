@@ -23,6 +23,16 @@ public class Complex
 		return new Complex(real * other.real - imag * other.imag, real * other.imag + imag * other.real);
 	}
 	
+	public Complex getAbsoluteValue()
+	{
+		return new Complex(Math.abs(real), Math.abs(imag));
+	}
+	
+	public Complex getComplexConjugate()
+	{
+		return new Complex(real, -imag);
+	}
+	
 	public double getMagnitude()
 	{
 		return Math.sqrt((real*real)+(imag*imag));
