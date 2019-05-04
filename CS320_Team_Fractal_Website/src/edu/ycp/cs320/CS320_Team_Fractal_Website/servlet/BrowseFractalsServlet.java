@@ -167,7 +167,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 		/*
 		 * TODO:
 		 * Fix the page scrolling up after rendering a fractal
-		 * Fix bug with page displaying no results on clicking last page?
 		 * Add test cases
 		 * Add admin delete powers
 		 */

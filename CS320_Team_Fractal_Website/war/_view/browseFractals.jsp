@@ -4,6 +4,9 @@
 
 <html>
 	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+		
 		<title>Browse Fractals</title>
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
@@ -110,7 +113,7 @@
 							</ul>
 							<ul class="searchbar">
 								<li>
-									<input type="submit" name="pageStart" value="<<" ${pageNumber > 0 ? '' : 'disabled="disabled"'}>
+									<input type="submit" name="pageStart" value="<<"}>
 									
 									<c:if test="${pageNumber > 1}">
 										<input type="submit" name="page-2" value="${pageNumber - 1}">
@@ -128,7 +131,7 @@
 										<input type="submit" name="page+2" value="${pageNumber + 3}">
 									</c:if>
 									
-									<input type="submit" name="pageEnd" value=">>" ${pageNumber < maxPageNumber ? '' : 'disabled="disabled"'}>
+									<input type="submit" name="pageEnd" value=">>">
 								</li>
 							</ul>
 						</div>
@@ -147,29 +150,29 @@
 								<th class="browseGridText"></th>
 							</tr>
 							
-							<c:forEach items="${pageFractals}" var="fractal">
-								<tr>
-									<td class="browseGridText">${fractal.name}</td>
-									<td class="browseGridText">${fractal.type}</td>
-									<td class="browseGridText">${fractal.gradientType}</td>
-									
-									<c:set var="fValue" value="fractalUsername${fractal.id}" />
-									<td class="browseGridText">${requestScope[fValue]}</td>
-									
-									<td class="browseGridText">${fractal.id}</td>
-									<form action="#content" method="post" href="#content">
-										<input type="hidden" id="fractalsPerPageSecond" name="fractalsPerPageSecond" value="${fractalsPerPage}">
-										<input type="hidden" name="pageNumberSecond" value="${pageNumber}">
+							<form action="#content" method="post" href="#content">
+								<input type="hidden" id="fractalsPerPageSecond" name="fractalsPerPageSecond" value="${fractalsPerPage}">
+								<input type="hidden" name="pageNumberSecond" value="${pageNumber}">
+								<c:forEach items="${pageFractals}" var="fractal">
+									<tr>
+										<td class="browseGridText">${fractal.name}</td>
+										<td class="browseGridText">${fractal.type}</td>
+										<td class="browseGridText">${fractal.gradientType}</td>
+										
+										<c:set var="fValue" value="fractalUsername${fractal.id}" />
+										<td class="browseGridText">${requestScope[fValue]}</td>
+										
+										<td class="browseGridText">${fractal.id}</td>
+											<td class="browseGridText">
+												<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+											</td>
 										<td class="browseGridText">
-											<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+											<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+											<a id="downloadImage" href="img/result.png" download hidden></a>
 										</td>
-									</form>
-									<td class="browseGridText">
-										<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
-										<a id="downloadImage" href="img/result.png" download hidden></a>
-									</td>
-								</tr>
-							</c:forEach>
+									</tr>
+								</c:forEach>
+							</form>
 						</table>
 					</c:if>
 					<c:if test="${empty pageFractals}">
@@ -191,17 +194,24 @@
 	
 	<script>
 	
+	$(window).scroll(function(){
+		sessionStorage.scrollTop = $(this).scrollTop();
+	});
+
+	$(document).ready(function(){
+		$(window).scrollTop(sessionStorage.scrollTop);
+	});
+	
 	window.onload = function(){
 		$('#fractalsPerPage').change();
+		window.scrollTop = 1000;
 	}
-	
-	$('#fractalsPerPage').change(function() {
-		window.alert("yes");
-		var list = document.getElementById("fractalsPerPage");
-		var val = list.options[list.selectedIndex].value;
+
+	$('#fractalsPerPage').change(function(){
+		var val = $(this).val();
 		
-		document.getElementById("fractalsPerPage").value = val;
-		document.getElementById("fractalsPerPageSecond").value = val;
+		document.getElementById("fractalsPerPage").setAttribute("value", val);
+		document.getElementById("fractalsPerPageSecond").setAttribute("value", val);
 	});
 	
 	$(function(){
