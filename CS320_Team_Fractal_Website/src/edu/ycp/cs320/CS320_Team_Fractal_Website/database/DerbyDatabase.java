@@ -407,6 +407,7 @@ public class DerbyDatabase implements IDatabase
 								+ " ( "
 								+ " name, type, user_id, "
 								+ " param0, param1, param2, param3, param4, param5, param6, param7, param8, param9, "
+								+ " param10, param11, param12, param13, param14, param15, param16, param17, param18, param19, "
 								+ " gradientType, colorBaseR, colorBaseG, colorBaseB, colorEndR, colorEndG, colorEndB "
 								+ " ) "
 								+ " VALUES (?, ?, ?, "
@@ -417,16 +418,16 @@ public class DerbyDatabase implements IDatabase
 						stmt.setString(1, name);
 						stmt.setString(2, fractal.getType());
 						stmt.setInt(3, userId);
-						for(int i = 0; i < 10; i++) stmt.setString(4 + i, params[i]);
-						stmt.setString(14, fractal.getGradientType());
+						for(int i = 0; i < 20; i++) stmt.setString(4 + i, params[i]);
+						stmt.setString(24, fractal.getGradientType());
 						Color c = fractal.getGradient().getBaseColor();
-						stmt.setInt(15, c.getRed());
-						stmt.setInt(16, c.getGreen());
-						stmt.setInt(17, c.getBlue());
+						stmt.setInt(25, c.getRed());
+						stmt.setInt(26, c.getGreen());
+						stmt.setInt(27, c.getBlue());
 						c = fractal.getGradient().getSecondaryColor();
-						stmt.setInt(18, c.getRed());
-						stmt.setInt(19, c.getGreen());
-						stmt.setInt(20, c.getBlue());
+						stmt.setInt(28, c.getRed());
+						stmt.setInt(29, c.getGreen());
+						stmt.setInt(30, c.getBlue());
 
 						//execute the statement
 						stmt.executeUpdate();
@@ -1157,20 +1158,20 @@ public class DerbyDatabase implements IDatabase
 	 */
 	private void loadFractalGradient(Fractal f, ResultSet resultSet) throws SQLException, IllegalArgumentException{
 		//load in gradient
-		String gradientType = resultSet.getObject(15).toString();
+		String gradientType = resultSet.getObject(25).toString();
 		Color baseColor = new Color(0);
 		Color endColor = new Color(0);
 
 		//load the colors in
 		baseColor = new Color(
-				Integer.parseInt(resultSet.getObject(16).toString()),
-				Integer.parseInt(resultSet.getObject(17).toString()),
-				Integer.parseInt(resultSet.getObject(18).toString())
+				Integer.parseInt(resultSet.getObject(26).toString()),
+				Integer.parseInt(resultSet.getObject(27).toString()),
+				Integer.parseInt(resultSet.getObject(28).toString())
 		);
 		endColor = new Color(
-				Integer.parseInt(resultSet.getObject(19).toString()),
-				Integer.parseInt(resultSet.getObject(20).toString()),
-				Integer.parseInt(resultSet.getObject(21).toString())
+				Integer.parseInt(resultSet.getObject(29).toString()),
+				Integer.parseInt(resultSet.getObject(30).toString()),
+				Integer.parseInt(resultSet.getObject(31).toString())
 		);
 
 		//create the gradient
@@ -1225,6 +1226,16 @@ public class DerbyDatabase implements IDatabase
 							+ " param7 varchar(40), "
 							+ " param8 varchar(40), "
 							+ " param9 varchar(40), "
+							+ " param10 varchar(40), "
+							+ " param11 varchar(40), "
+							+ " param12 varchar(40), "
+							+ " param13 varchar(40), "
+							+ " param14 varchar(40), "
+							+ " param15 varchar(40), "
+							+ " param16 varchar(40), "
+							+ " param17 varchar(40), "
+							+ " param18 varchar(40), "
+							+ " param19 varchar(40), "
 							+ " gradientType varchar(40), "
 							+ " colorBaseR integer, "
 							+ " colorBaseG integer, "
