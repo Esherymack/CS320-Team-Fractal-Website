@@ -12,6 +12,7 @@ import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.Crypto;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Admin;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
@@ -61,8 +62,7 @@ public class DerbyDatabase implements IDatabase
 						resultSet = stmt.executeQuery();
 
 						while(resultSet.next()){
-							User user = new StandardUser();
-							loadUser(user, resultSet);
+							User user = loadUser(resultSet);
 							result.add(user);
 						}
 						return result;
@@ -110,13 +110,13 @@ public class DerbyDatabase implements IDatabase
 								"WHERE users.username = ?");
 						stmt.setString(1, username);
 						
-						User result = new StandardUser();
+						User result = null;
 						resultSet = stmt.executeQuery();
 						Boolean found = false;
 						while(resultSet.next())
 						{
 							found = true;
-							loadUser(result, resultSet);
+							result = loadUser(resultSet);
 						}
 
 						if(!found)
@@ -166,7 +166,7 @@ public class DerbyDatabase implements IDatabase
 					while(resultSet.next())
 					{
 						found = true;
-						loadUser(result, resultSet);
+						result = loadUser(resultSet);
 					}
 
 					if(!found)
@@ -205,7 +205,7 @@ public class DerbyDatabase implements IDatabase
 					Boolean found = false;
 					while(resultSet.next()){
 						found = true;
-						loadUser(result, resultSet);
+						result = loadUser(resultSet);
 					}
 
 					if(!found){
@@ -335,13 +335,10 @@ public class DerbyDatabase implements IDatabase
 
 								resultSet = getUserInfo.executeQuery();
 							}
-							User userAdded = new StandardUser();
-
 							while(resultSet.next() && !found)
 							{
 								//if the user was found, quit out of the loop and set found to true
 								found = true;
-								loadUser(userAdded, resultSet);
 							}
 						}
 					}
@@ -1174,14 +1171,19 @@ public class DerbyDatabase implements IDatabase
 		return conn;
 	}
 
-	private void loadUser(User user, ResultSet resultSet) throws SQLException
-	{
+	private User loadUser(ResultSet resultSet) throws SQLException{
+		User user;
+		if(resultSet.getString(9).equals("Admin")) user = new Admin();
+		else user = new StandardUser();
+		
 		user.setUsername(resultSet.getString(2));
 		user.setFirstname(resultSet.getString(3));
 		user.setLastname(resultSet.getString(4));
 		user.setEmail(resultSet.getString(5));
 		user.setPassword(resultSet.getString(6));
 		user.setIsVerified(resultSet.getBoolean(8));
+		
+		return user;
 	}
 
 	/**
@@ -1236,6 +1238,7 @@ public class DerbyDatabase implements IDatabase
 							+ " password varchar(2000), "
 							+ " verify varchar(20), "
 							+ " isVerified boolean"
+							+ " type varchar(40) "
 							+ ")"
 							);
 					int result = stmt.executeUpdate();
