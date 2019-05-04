@@ -161,6 +161,7 @@ public abstract class Fractal{
 		else if(type.equals("Julia")) return new Julia();
 		else if(type.equals("BurningShip")) return new BurningShip();
 		else if(type.equals("Tricorn")) return new Tricorn();
+		else if(type.equals("Hexaflake")) return new Hexaflake();
 		return null;
 	}
 	
@@ -176,7 +177,8 @@ public abstract class Fractal{
 			"Barnsley",
 			"Julia",
 			"BurningShip",
-			"Tricorn"
+			"Tricorn",
+			"Hexaflake"
 		};
 	}
 	

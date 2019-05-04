@@ -20,7 +20,7 @@ public class MainPageServlet extends HttpServlet{
 	/**
 	 * The number of parameters used by the website
 	 */
-	public static final int NUM_PARAMS = 10;
+	public static final int NUM_PARAMS = 13;
 
 	private static final long serialVersionUID = 1L;
 
