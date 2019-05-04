@@ -40,8 +40,10 @@ public class Hexaflake extends Fractal{
 		super.setDefaultParameters();
 		
 		level = 2;
-		int x_dist = (int) (SIZE / 2 * Math.sin(60));
-		int y_dist = (int) (SIZE / 2 * Math.cos(60));
+		int x_dist = (int) (SIZE / 2 * Math.sin(Math.PI / 3));
+		int y_dist = (int) (SIZE / 2 * Math.cos(Math.PI / 3));
+		System.out.println(x_dist);
+		System.out.println(y_dist);
 		
 		//top middle point
 		this.p1 = new Point2D.Double(SIZE / 2, 0);

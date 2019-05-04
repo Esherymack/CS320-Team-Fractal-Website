@@ -114,7 +114,7 @@ public class HexaflakeController extends FractalController{
 			//Point2D.Double p7 = midPoint(p1, p2);
 			//Point2D.Double p8 = midPoint(p2, p3);
 			//Point2D.Double p9 = midPoint(p1, p3);
-			//drawHexaflake(level - 1, g, p1, p2, p3, p4, p5, p6);
+			drawHexaflake(level - 1, g, p1, p2, p3, p4, p5, p6);
 			//drawHexaflake(level - 1, g, p4, p2, p5);
 			//drawHexaflake(level - 1, g, p6, p5, p3);
 		}
