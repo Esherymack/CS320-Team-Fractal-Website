@@ -90,7 +90,9 @@
 							</div>
 						</div>
 					</div>
-					<!-- Page number slector and page turner -->
+					<!-- Page number selector and page turner -->
+					
+					<input type="hidden" name=pageNumber value="${pageNumber}">
 					
 					<c:if test="${! empty pageFractals}">
 						<div class="filternav">
@@ -110,19 +112,19 @@
 									<input type="submit" name="pageStart" value="<<" ${pageNumber > 0 ? '' : 'disabled="disabled"'}>
 									
 									<c:if test="${pageNumber > 1}">
-										<input type="submit" name="page-2" value="${pageNumber - 2}">
+										<input type="submit" name="page-2" value="${pageNumber - 1}">
 									</c:if>
 									<c:if test="${pageNumber > 0}">
-										<input type="submit" name="page-1" value="${pageNumber - 1}">
+										<input type="submit" name="page-1" value="${pageNumber}">
 									</c:if>
 									
-									<input class="browsePageBold" type="submit" disabled value="${pageNumber}">
+									<input class="browsePageBold" type="submit" disabled value="${pageNumber + 1}">
 										
 									<c:if test="${pageNumber < maxPageNumber}">
-										<input type="submit" name="page+1" value="${pageNumber + 1}">
+										<input type="submit" name="page+1" value="${pageNumber + 2}">
 									</c:if>
 									<c:if test="${pageNumber < maxPageNumber - 1}">
-										<input type="submit" name="page+2" value="${pageNumber + 2}">
+										<input type="submit" name="page+2" value="${pageNumber + 3}">
 									</c:if>
 									
 									<input type="submit" name="pageEnd" value=">>" ${pageNumber < maxPageNumber ? '' : 'disabled="disabled"'}>

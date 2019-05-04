@@ -76,7 +76,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		}
 		
 		//get the number of fractals per page
-		Integer fractalsPerPage = browseController.getFractalsPerPage(req);
+		int fractalsPerPage = browseController.getFractalsPerPage(req);
 
 		//get page number for fractals
 		int pageNumber = browseController.getPageNumber(req);
@@ -104,76 +104,86 @@ public class BrowseFractalsServlet extends HttpServlet {
 			pageNumberChange = -1;
 			pageChanged = true;
 		}
-		//go to the previous page
+		//go to the next page
 		else if(req.getParameter("page+1") != null){
 			pageNumberChange = 1;
 			pageChanged = true;
 		}
-		//go to the page 2 pages back
+		//go to the page 2 pages ahead
 		else if(req.getParameter("page+2") != null){
 			pageNumberChange = 2;
 			pageChanged = true;
 		}
 		//go to the start
 		else if(req.getParameter("pageEnd") != null){
-			//this sets the page number far too high, but it will get fixed later
+			//this sets the page number far too high, but it will get fixed later on in the method
 			if(fractals != null) pageNumber = fractals.size();
+			else pageNumber = 0;
 			pageChanged = true;
 		}
-		
-		//first see if the request was to view all fractals
-		if(req.getParameter("viewAllFractals") != null) {
-			fractals = browseController.getAllFractals();
-			pageNumber = 0;
-		}
-		//if a page wasn't changed, continue
-		else if(!pageChanged){
-			//if it wasn't, then see if the request was for a type of fractal
-			boolean foundType = false;
-			for(String s : Fractal.getAllFractalTypes()){
-				 if (req.getParameter("viewAll" + s + "Fractals") != null) {
-					fractals = browseController.getAllFractalsByType(s);
-					pageNumber = 0;
-					foundType = true;
-				 }
+
+		//if a page wasn't changed, continue looking for a request
+		if(!pageChanged){
+			//first see if the request was to view all fractals
+			if(req.getParameter("viewAllFractals") != null) {
+				fractals = browseController.getAllFractals();
+				pageNumber = 0;
 			}
-			if(!foundType){
-				//again, if it wasn't for a type of fractal, now see if it was for a type of gradient
-				foundType = false;
-				for(String s : Gradient.TYPES){
-					 if (req.getParameter("viewAllGradient" + s + "Fractals") != null) {
-						fractals = browseController.getAllFractalsByGradientType(s);
+			else{
+				//if it wasn't, then see if the request was for a type of fractal
+				boolean foundType = false;
+				for(String s : Fractal.getAllFractalTypes()){
+					 if (req.getParameter("viewAll" + s + "Fractals") != null) {
+						fractals = browseController.getAllFractalsByType(s);
 						pageNumber = 0;
 						foundType = true;
 					 }
 				}
 				if(!foundType){
-					//if it still wasn't found, see if it was for a search
-					if (req.getParameter("searchForFractals") != null) {
-						fractals = browseController.getAllFractalsWithCharSeq(charSeq);
-						pageNumber = 0;
+					//again, if it wasn't for a type of fractal, now see if it was for a type of gradient
+					foundType = false;
+					for(String s : Gradient.TYPES){
+						 if (req.getParameter("viewAllGradient" + s + "Fractals") != null) {
+							fractals = browseController.getAllFractalsByGradientType(s);
+							pageNumber = 0;
+							foundType = true;
+						 }
 					}
-					//otherwise the fractal should be rendered
-					else{
-						//set display to true so the fractal is rendered
-						display = true;
-					}
-					//if the fractal list is still empty, get the full list of fractals
-					if(fractals == null){
-						fractals = browseController.getAllFractals();
-						pageNumber = 0;
+					if(!foundType){
+						//if it still wasn't found, see if it was for a search
+						if (req.getParameter("searchForFractals") != null) {
+							fractals = browseController.getAllFractalsWithCharSeq(charSeq);
+							pageNumber = 0;
+						}
+						//otherwise the fractal should be rendered
+						else{
+							//set display to true so the fractal is rendered
+							display = true;
+						}
+						//if the fractal list is still empty, get the full list of fractals
+						if(fractals == null){
+							fractals = browseController.getAllFractals();
+							pageNumber = 0;
+						}
 					}
 				}
 			}
 		}
 		
-		//determine the new page number based on the pagenumber change
-		pageNumber += pageNumberChange;
+		/*
+		 * TODO:
+		 * Fix the page scrolling up after rendering a fractal
+		 * Keep the list sorted after rendering a fractal and sort in that order? Maybe involves a refresh?
+		 */
 		
 		int maxPageNumber;
 		if(fractals != null){
 			//figure out the max page number
 			maxPageNumber = fractals.size() / fractalsPerPage;
+			
+			//determine the new page number based on the pagen umber change
+			pageNumber += pageNumberChange;
+
 			//ensure that the page number is valid
 			pageNumber = Math.max(0, Math.min(maxPageNumber, pageNumber));
 		}
@@ -219,7 +229,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("gradientTypes", gradientTypes);
 		
 		//set fractals per page attribute
-		req.getSession().setAttribute("fractalsPerPage", fractalsPerPage.toString());
+		req.getSession().setAttribute("fractalsPerPage", fractalsPerPage);
 		req.getSession().setAttribute("pageNumber", pageNumber);
 		req.getSession().setAttribute("maxPageNumber", maxPageNumber);
 		
