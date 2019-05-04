@@ -74,6 +74,16 @@ public class Sierpinski extends Fractal{
 			"" + getP3().y,
 			"",
 			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
 			""
 		};
 	}
@@ -95,6 +105,16 @@ public class Sierpinski extends Fractal{
 				"P2y: ",
 				"P3x: ",
 				"P3y: ",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
 				"",
 				"",
 				""

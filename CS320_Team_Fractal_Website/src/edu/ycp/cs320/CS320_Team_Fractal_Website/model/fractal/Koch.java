@@ -49,6 +49,16 @@ public class Koch extends Fractal{
 				"",
 				"",
 				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
 				""
 		};
 	}
@@ -57,6 +67,16 @@ public class Koch extends Fractal{
 	public String[] getParamLabels(){
 		return new String[]{
 				"Iterations: ",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
 				"",
 				"",
 				"",

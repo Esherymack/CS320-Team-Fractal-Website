@@ -88,6 +88,12 @@ public class Hexaflake extends Fractal{
 			"" + getP5().y,
 			"" + getP6().x,
 			"" + getP6().y,
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
 			""
 		};
 	}
@@ -115,6 +121,12 @@ public class Hexaflake extends Fractal{
 				"P5y: ",
 				"P6x: ",
 				"P6y: ",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
 				""
 		};
 	}
