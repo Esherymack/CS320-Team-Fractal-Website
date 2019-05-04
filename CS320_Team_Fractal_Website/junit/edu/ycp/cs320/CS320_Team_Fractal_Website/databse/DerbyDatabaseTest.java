@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.Crypto;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
@@ -37,19 +38,22 @@ public class DerbyDatabaseTest {
 	public void testGetUserByUsernameAndPassword(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
 		
+		Crypto cr = new Crypto();
 		User u = database.getUserByUsernameAndPassword(username, password);
 		
 		assertFalse(u == null);
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(u.getPassword().equals(password));
+		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
 	}
 	
 	@Test
 	public void testGetUsers(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
+		
+		Crypto cr = new Crypto();
 		
 		ArrayList<User> users = database.getUsers();
 		
@@ -60,7 +64,7 @@ public class DerbyDatabaseTest {
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(u.getPassword().equals(password));
+		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
 	}
 	
@@ -68,13 +72,14 @@ public class DerbyDatabaseTest {
 	public void testGetUserByUserName(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
 		
+		Crypto cr = new Crypto();
 		User u = database.getUserByUsername(username);
 		
 		assertFalse(u == null);
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(u.getPassword().equals(password));
+		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
 	}
 	

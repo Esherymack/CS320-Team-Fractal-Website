@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.Crypto;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
@@ -42,6 +43,7 @@ public class LogInControllerTest{
 		model.setEmail(email);
 		controller.createNewAccount();
 		
+		Crypto cr = new Crypto();
 		IDatabase db = DatabaseProvider.getInstance();
 		User user = db.getUserByUsernameAndPassword(username, password);
 		
@@ -49,7 +51,7 @@ public class LogInControllerTest{
 		assertTrue(user.getUsername().equals(username));
 		assertTrue(user.getFirstname().equals(firstname));
 		assertTrue(user.getLastname().equals(lastname));
-		assertTrue(user.getPassword().equals(password));
+		assertTrue(cr.match(password, user.getPassword()));
 		assertTrue(user.getEmail().equals(email));
 	}
 	

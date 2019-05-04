@@ -18,7 +18,6 @@ public class InitialData
 		ReadCSV readUsers = new ReadCSV("users.csv");
 		try
 		{
-			Integer userId = 1;
 			while(true)
 			{
 				List<String> tuple = readUsers.next();
