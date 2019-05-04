@@ -80,7 +80,12 @@ public class BrowseFractalsController{
 		}
 		return pageFractals;
 	}
-
+	
+	/**
+	 * Get the number of fractals per page from the given request
+	 * @param req the request
+	 * @return the number of fractals
+	 */
 	public int getFractalsPerPage(HttpServletRequest req){
 		//get the number of fractals per page
 		String fractalsPerPageString = req.getParameter("fractalsPerPage");
@@ -95,6 +100,11 @@ public class BrowseFractalsController{
 		return fractalsPerPage;
 	}
 	
+	/**
+	 * Get the page number from the current request
+	 * @param req the request
+	 * @return the page number
+	 */
 	public int getPageNumber(HttpServletRequest req){
 		String pageNumberString = req.getParameter("pageNumber");
 		//if the first parameter couldn't be found, try for the second
@@ -107,4 +117,24 @@ public class BrowseFractalsController{
 		}
 		return pageNumber;
 	}
+	
+	/**
+	 * Get all the fractals from session
+	 * @param req the request with the session
+	 * @return the list of fractals, null if it couldn't be found
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<Fractal> getFractalsFromSession(HttpServletRequest req){
+		ArrayList<Fractal> fractals = null;
+		//attempt to get the fractals currently loaded in the page
+		try{
+			fractals = (ArrayList<Fractal>) req.getSession().getAttribute("fractals");
+		}catch(ClassCastException | NullPointerException e){
+			fractals = null;
+			e.printStackTrace();
+		}
+		
+		return fractals;
+	}
+	
 }

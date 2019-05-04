@@ -14,6 +14,7 @@
 	<div class="flex-container">
 		<div class="border"></div>
 		<div class="center">
+		
 			<body id="home">
 				<div>
 					<c:if test="${! empty errorMessage}">
@@ -189,6 +190,19 @@
 	</div>
 	
 	<script>
+	
+	window.onload = function(){
+		$('#fractalsPerPage').change();
+	}
+	
+	$('#fractalsPerPage').change(function() {
+		window.alert("yes");
+		var list = document.getElementById("fractalsPerPage");
+		var val = list.options[list.selectedIndex].value;
+		
+		document.getElementById("fractalsPerPage").value = val;
+		document.getElementById("fractalsPerPageSecond").value = val;
+	});
 	
 	$(function(){
 		$('#fractalTable').tablesorter();

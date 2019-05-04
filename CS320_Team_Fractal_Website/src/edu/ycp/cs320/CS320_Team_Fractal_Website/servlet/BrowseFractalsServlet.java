@@ -27,10 +27,10 @@ public class BrowseFractalsServlet extends HttpServlet {
 		ArrayList<Fractal> fractals = null;
 		BrowseFractalsController browseController = new BrowseFractalsController();
 		fractals = browseController.getAllFractals();
-		req.setAttribute("fractals", fractals);
+		req.getSession().setAttribute("fractals", fractals);
 
 		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, 10, 0);
-		req.setAttribute("pageFractals", pageFractals);
+		req.getSession().setAttribute("pageFractals", pageFractals);
 		
 		if(fractals != null) addFractalNames(req, browseController, fractals);
 		
@@ -66,14 +66,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		Fractal renderFractal = null;
 		String errorMessage = null;
 		Boolean display = false;
-		ArrayList<Fractal> fractals = null;
 		//attempt to get the fractals currently loaded in the page
-		try{
-			fractals = (ArrayList<Fractal>) req.getSession().getAttribute("fractals");
-		}catch(ClassCastException | NullPointerException e){
-			fractals = null;
-			e.printStackTrace();
-		}
+		ArrayList<Fractal> fractals = browseController.getFractalsFromSession(req);
 		
 		//get the number of fractals per page
 		int fractalsPerPage = browseController.getFractalsPerPage(req);
@@ -173,7 +167,9 @@ public class BrowseFractalsServlet extends HttpServlet {
 		/*
 		 * TODO:
 		 * Fix the page scrolling up after rendering a fractal
-		 * Keep the list sorted after rendering a fractal and sort in that order? Maybe involves a refresh?
+		 * Fix bug with page displaying no results on clicking last page?
+		 * Add test cases
+		 * Add admin delete powers
 		 */
 		
 		int maxPageNumber;
