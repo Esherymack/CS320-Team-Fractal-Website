@@ -39,9 +39,11 @@ public interface IDatabase{
 	/**
 	 * Add a new user account to the database
 	 * @param user the user to add to the account
+	 * @param ver true if the user was verified, false otherwise
+	 * @param type the type of this user as should be stored in the dtatabase, the subclass of user does not effect this
 	 * @return true if the account was added successfully, false otherwise
 	 */
-	public boolean addUser(User user, boolean ver);
+	public boolean addUser(User user, boolean ver, String type);
 
 	/**
 	 * Saves the given fractal to the database under the name of the given username. If no user of that name exists,

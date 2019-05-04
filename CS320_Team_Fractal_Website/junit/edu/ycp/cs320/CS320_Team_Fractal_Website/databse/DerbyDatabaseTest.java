@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.Crypto;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
@@ -34,59 +35,69 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
-	public void testGetUserByUsernameAndPassword(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
-		
-		User u = database.getUserByUsernameAndPassword(username, password);
-		
-		assertFalse(u == null);
-		assertTrue(u.getUsername().equals(username));
-		assertTrue(u.getFirstname().equals(firstname));
-		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(u.getPassword().equals(password));
-		assertTrue(u.getEmail().equals(email));
-	}
-	
-	@Test
-	public void testGetUsers(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
-		
-		ArrayList<User> users = database.getUsers();
-		
-		assertTrue(users.size() > 0);
-		
-		User u = database.getUserByUsername(username);
-		assertFalse(u == null);
-		assertTrue(u.getUsername().equals(username));
-		assertTrue(u.getFirstname().equals(firstname));
-		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(u.getPassword().equals(password));
-		assertTrue(u.getEmail().equals(email));
-	}
-	
-	@Test
-	public void testGetUserByUserName(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
-		
-		User u = database.getUserByUsername(username);
-		
-		assertFalse(u == null);
-		assertTrue(u.getUsername().equals(username));
-		assertTrue(u.getFirstname().equals(firstname));
-		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(u.getPassword().equals(password));
-		assertTrue(u.getEmail().equals(email));
-	}
-	
-	@Test
 	public void testAddUser(){
-		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
+		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 		assertTrue(added);
 	}
 	
 	@Test
+	public void testGetUserByUsernameAndPassword(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
+		
+		User u = database.getUserByUsernameAndPassword(username, password);
+
+		Crypto crypto = new Crypto();
+		
+		assertFalse(u == null);
+		assertTrue(u.getUsername().equals(username));
+		assertTrue(u.getFirstname().equals(firstname));
+		assertTrue(u.getLastname().equals(lastname));
+		assertTrue(crypto.match(password, u.getPassword()));
+		assertTrue(u.getEmail().equals(email));
+		assertTrue(u.getVerificationCode().equals(code));
+	}
+	
+	@Test
+	public void testGetUsers(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
+		
+		ArrayList<User> users = database.getUsers();
+		
+		assertTrue(users.size() > 0);
+
+		Crypto crypto = new Crypto();
+		
+		User u = database.getUserByUsername(username);
+		
+		assertFalse(u == null);
+		assertTrue(u.getUsername().equals(username));
+		assertTrue(u.getFirstname().equals(firstname));
+		assertTrue(u.getLastname().equals(lastname));
+		assertTrue(crypto.match(password, u.getPassword()));
+		assertTrue(u.getEmail().equals(email));
+		assertTrue(u.getVerificationCode().equals(code));
+	}
+	
+	@Test
+	public void testGetUserByUserName(){
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
+		
+		User u = database.getUserByUsername(username);
+
+		Crypto crypto = new Crypto();
+		
+		assertFalse(u == null);
+		assertTrue(u.getUsername().equals(username));
+		assertTrue(u.getFirstname().equals(firstname));
+		assertTrue(u.getLastname().equals(lastname));
+		assertTrue(crypto.match(password, u.getPassword()));
+		assertTrue(u.getEmail().equals(email));
+		assertTrue(u.getVerificationCode().equals(code));
+	}
+	
+	@Test
 	public void testSaveFractal(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 		
 		//test adding real user
 		boolean added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", username);

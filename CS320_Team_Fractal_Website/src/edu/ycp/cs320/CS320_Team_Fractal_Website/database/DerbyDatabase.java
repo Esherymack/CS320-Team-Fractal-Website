@@ -56,7 +56,7 @@ public class DerbyDatabase implements IDatabase
 					try
 					{
 						// retrieve all accounts and populate into the list
-						stmt = conn.prepareStatement("select * from users");
+						stmt = conn.prepareStatement("select users.* from users");
 						ArrayList<User> result = new ArrayList<User>();
 
 						resultSet = stmt.executeQuery();
@@ -266,7 +266,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean addUser(User user, boolean ver)
+	public boolean addUser(User user, boolean ver, String type)
 	{
 		return executeTransaction(new Transaction<Boolean>()
 		{
@@ -315,7 +315,7 @@ public class DerbyDatabase implements IDatabase
 							String hashedPassword = crypto.encrypt(user.getPassword());
 							
 							// now add the user if the username does not already exist
-							stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email, verify, isVerified) VALUES (?, ?, ?, ?, ?, ?, ?)");
+							stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email, verify, isVerified, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 							stmt.setString(1, user.getFirstname());
 							stmt.setString(2, user.getLastname());
 							stmt.setString(3, user.getUsername());
@@ -323,20 +323,22 @@ public class DerbyDatabase implements IDatabase
 							stmt.setString(5, user.getEmail());
 							stmt.setString(6, user.getVerificationCode());
 							stmt.setBoolean(7, ver);
+							stmt.setString(8, type);
 
 							//now ensure that the user was added correctly
 							int result = stmt.executeUpdate();
-
-							if(result == 1)
-							{
+							
+							if(result == 1){
 								getUserInfo = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
 								getUserInfo.setString(1, user.getUsername());
 								getUserInfo.setString(2, hashedPassword);
 
 								resultSet = getUserInfo.executeQuery();
 							}
-							while(resultSet.next() && !found)
-							{
+							else{
+								found = false;
+							}
+							while(resultSet.next() && !found){
 								//if the user was found, quit out of the loop and set found to true
 								found = true;
 							}
@@ -1173,7 +1175,8 @@ public class DerbyDatabase implements IDatabase
 
 	private User loadUser(ResultSet resultSet) throws SQLException{
 		User user;
-		if(resultSet.getString(9).equals("Admin")) user = new Admin();
+		String type = resultSet.getString(9);
+		if(type != null && type.equals(Admin.TYPE)) user = new Admin();
 		else user = new StandardUser();
 		
 		user.setUsername(resultSet.getString(2));
@@ -1181,6 +1184,7 @@ public class DerbyDatabase implements IDatabase
 		user.setLastname(resultSet.getString(4));
 		user.setEmail(resultSet.getString(5));
 		user.setPassword(resultSet.getString(6));
+		user.setVerificationCode(resultSet.getString(7));
 		user.setIsVerified(resultSet.getBoolean(8));
 		
 		return user;
@@ -1237,7 +1241,7 @@ public class DerbyDatabase implements IDatabase
 							+ " email varchar(40), "
 							+ " password varchar(2000), "
 							+ " verify varchar(20), "
-							+ " isVerified boolean"
+							+ " isVerified boolean, "
 							+ " type varchar(40) "
 							+ ")"
 							);
