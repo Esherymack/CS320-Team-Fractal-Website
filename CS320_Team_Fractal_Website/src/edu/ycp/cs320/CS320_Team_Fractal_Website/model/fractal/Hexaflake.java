@@ -42,8 +42,6 @@ public class Hexaflake extends Fractal{
 		level = 2;
 		int x_dist = (int) (SIZE / 2 * Math.sin(Math.PI / 3));
 		int y_dist = (int) (SIZE / 2 * Math.cos(Math.PI / 3));
-		System.out.println(x_dist);
-		System.out.println(y_dist);
 		
 		//top middle point
 		this.p1 = new Point2D.Double(SIZE / 2, 0);
@@ -177,12 +175,12 @@ public class Hexaflake extends Fractal{
 		this.p3 = p;
 	}
 	public void setP4(Point2D.Double p){
-		this.p1 = p;
+		this.p4 = p;
 	}
 	public void setP5(Point2D.Double p){
-		this.p2 = p;
+		this.p5 = p;
 	}
 	public void setP6(Point2D.Double p){
-		this.p3 = p;
+		this.p6 = p;
 	}
 }
