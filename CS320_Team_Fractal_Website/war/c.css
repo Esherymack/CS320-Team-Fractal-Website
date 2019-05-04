@@ -563,6 +563,16 @@ div.colorPreview{
 	color: #3D403A;
 }
 
+.browseGridWarning{
+	border: 1px solid #C2B9AA;
+	padding: 10px;
+	text-align: left;
+	text-align: center;
+	font-size: 20px;
+	font-family: 'Open Sans', sans-serif;
+	color: Crimson;
+}
+
 .browsePageBold{
 	font-weight: 700;
 	background: #B1A899;

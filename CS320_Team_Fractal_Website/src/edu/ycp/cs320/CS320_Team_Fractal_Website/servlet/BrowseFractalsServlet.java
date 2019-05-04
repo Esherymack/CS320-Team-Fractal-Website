@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.BrowseFractalsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.ViewAccountController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
@@ -48,6 +50,11 @@ public class BrowseFractalsServlet extends HttpServlet {
 		int max = fractals.size() / fractalsPerPage;
 		req.getSession().setAttribute("maxPageNumber", max);
 		
+		//set the logged in user type
+		ViewAccountController viewAccountController = new ViewAccountController();
+		User user = viewAccountController.getUserByUserName(getLoggedInUser(req, resp));
+		req.setAttribute("userType", user.getType());
+		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
 	}
@@ -64,6 +71,7 @@ public class BrowseFractalsServlet extends HttpServlet {
 		
 		//variables for attributes
 		Fractal renderFractal = null;
+		Fractal deleteFractal = null;
 		String errorMessage = null;
 		Boolean display = false;
 		//attempt to get the fractals currently loaded in the page
@@ -193,19 +201,36 @@ public class BrowseFractalsServlet extends HttpServlet {
 			//get fractal the user selected to render from the list of fractals
 			//if one of the fractals is requested then it should be rendered
 			for(Fractal f : fractals){
+				//look for fractal to view
 				Object found = req.getParameter("viewFractal_" + f.getId());
 				if(found != null){
 					renderFractal = f;
 					break;
 				}
+				//look for fractal to delete
+				found = req.getParameter("deleteFractal_" + f.getId());
+				if(found != null){
+					deleteFractal = f;
+					break;
+				}
 			}
 		}
-		
+
+		//if the fractal was found, try to delete it
+		if(deleteFractal != null){
+			ViewAccountController viewController = new ViewAccountController();
+			User user = viewController.getUserByUserName(getLoggedInUser(req, resp));
+			if(!viewController.deleteFractal(deleteFractal.getId(), user)){
+				errorMessage = "You do not have proper permissions to delete this fractal";
+			}
+			display = false;
+		}
 		//if the fractal was found, render it and display it
-		if(renderFractal != null){
+		else if(renderFractal != null){
 			FractalController fractalController = renderFractal.createApproprateController();
 			fractalController.render();
 		}
+		
 		//if the fractal was not found and one should be displayed, then send an error message
 		else if(display) errorMessage = "Fractal couldn't be rendered";
 		
@@ -226,6 +251,11 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.getSession().setAttribute("fractalsPerPage", fractalsPerPage);
 		req.getSession().setAttribute("pageNumber", pageNumber);
 		req.getSession().setAttribute("maxPageNumber", maxPageNumber);
+
+		//set the logged in user type
+		ViewAccountController viewAccountController = new ViewAccountController();
+		User user = viewAccountController.getUserByUserName(getLoggedInUser(req, resp));
+		req.setAttribute("userType", user.getType());
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
@@ -287,7 +317,27 @@ public class BrowseFractalsServlet extends HttpServlet {
 			String name = controller.getUsernameByFractalId(f.getId());
 			req.setAttribute("fractalUsername" + f.getId(), name);
 		}
-		
+	}
+
+	/**
+	 * Get the username of the user who is currently logged in
+	 * @param req the request for the page
+	 * @param resp the responce of the page
+	 * @return the username of the user, null if no username was found
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private String getLoggedInUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		//get cookies
+		Cookie[] cookies = req.getCookies();
+		//if no cookies were found then return null
+		if(cookies == null) return null;
+		//look for the username, if it is found, return it
+		for(Cookie cookie : cookies){
+			if(cookie.getName().equals("user")) return cookie.getValue();
+		}
+		//if no username is found, return null
+		return null;
 	}
 	
 }

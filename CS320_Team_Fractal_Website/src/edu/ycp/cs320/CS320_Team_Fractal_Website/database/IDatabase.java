@@ -58,11 +58,10 @@ public interface IDatabase{
 	/**
 	 * Deletes the given fractal from the database under the name of the given username. If no user of that name exists,
 	 * the fractal is not deleted.
-	 * @param fractal the fractal to add
-	 * @param username the username of the one who created the fractal
+	 * @param fractal the id of the fractal to delete
 	 * @return true if the fractal was deleted successfully, false otherwise
 	 */
-	public boolean deleteFractal(Fractal fractal, String username);
+	public boolean deleteFractal(int id);
 
 	/**
 	 * Get every fractal in the database

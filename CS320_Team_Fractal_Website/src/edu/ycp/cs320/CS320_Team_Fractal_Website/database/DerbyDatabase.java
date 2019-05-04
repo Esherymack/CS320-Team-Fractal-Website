@@ -457,9 +457,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean deleteFractal(Fractal fractal, String username){
-		//make sure data isn't null
-		if(fractal == null || username == null) return false;
+	public boolean deleteFractal(int id){
 
 		return executeTransaction(new Transaction<Boolean>(){
 			@Override
@@ -474,54 +472,30 @@ public class DerbyDatabase implements IDatabase
 				int userId = -1;
 
 				try{
-					//get the user id of the user
-					//statement to get the id
-					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
-							+ " WHERE users.username = ?");
-					//add in the username
-					stmt.setString(1, username);
+					Fractal fractal = getFractalById(id);
+					//get id of fractal to remove
+					int fractalId = fractal.getId();
+					//insert the fractal
+					stmt = conn.prepareStatement("Delete from fractal "
+												+ " where fractal.fractal_id = ?");
+					//set attributes of statement
+					stmt.setInt(1, fractalId);
 
-					//Execute query
-					resultSet = stmt.executeQuery();
+					//execute the statement
+					stmt.executeUpdate();
 
-					//get the id only if one is found
-					if(resultSet.next()){
-						try{
-							userId = Integer.parseInt(resultSet.getString(1));
-						}catch(NumberFormatException e){}
-					}
-
+					//close statements
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
 
-					//only add the fractal if the user Id was found
-					if(userId != -1){
+					//now check if the fractal was removed
+					stmt = conn.prepareStatement("SELECT fractal.* FROM fractal "
+							+ " where fractal.fractal_id = ? AND fractal.user_id = ?");
+					stmt.setInt(1, fractalId);
+					stmt.setInt(2, userId);
 
-						//get id of fractal to remove
-						int fractalId = fractal.getId();
-						//insert the fractal
-						stmt = conn.prepareStatement("Delete from fractal "
-													+ " where fractal.fractal_id = ?");
-						//set attributes of statement
-						stmt.setInt(1, fractalId);
-
-						//execute the statement
-						stmt.executeUpdate();
-
-						//close statements
-						DBUtil.closeQuietly(stmt);
-						DBUtil.closeQuietly(resultSet);
-
-						//now check if the fractal was removed
-						stmt = conn.prepareStatement("SELECT fractal.* FROM fractal "
-								+ " where fractal.fractal_id = ? AND fractal.user_id = ?");
-						stmt.setInt(1, fractalId);
-						stmt.setInt(2, userId);
-
-						resultSet = stmt.executeQuery();
-						deleted = !resultSet.next();
-					}
-					else return false;
+					resultSet = stmt.executeQuery();
+					deleted = !resultSet.next();
 				}
 				//closing objects
 				finally{

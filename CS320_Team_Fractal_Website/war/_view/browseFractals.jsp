@@ -148,6 +148,9 @@
 								<th class="browseGridText">ID:</th>
 								<th class="browseGridText"></th>
 								<th class="browseGridText"></th>
+								<c:if test="${userType == 'Admin'}">
+									<th class="browseGridText"></th>
+								</c:if>
 							</tr>
 							
 							<form action="#content" method="post" href="#content">
@@ -170,6 +173,12 @@
 											<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
 											<a id="downloadImage" href="img/result.png" download hidden></a>
 										</td>
+										
+										<c:if test="${userType == 'Admin'}">
+											<td class="browseGridWarning">
+												<input class="browseGridWarning" type="Submit" name="deleteFractal_${fractal.id}" value="Delete">
+											</td>
+										</c:if>
 									</tr>
 								</c:forEach>
 							</form>
@@ -180,13 +189,13 @@
 					</c:if>
 				</div>
 				
-				<div class="lightbox-content" id="content">
-					<c:if test="${display}">
-						<a href="#_">
-							<img src="img/result.png" alt="result"/>
-						</a>
-					</c:if>
-				</div>
+				<c:if test="${display}">
+					<div class="lightbox-content" id="content">
+							<a href="#_">
+								<img src="img/result.png" alt="result"/>
+							</a>
+					</div>
+				</c:if>
 			</body>
 		</div>
 		<div class="border"></div>

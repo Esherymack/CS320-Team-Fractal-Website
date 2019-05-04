@@ -88,9 +88,9 @@
 										<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
 									</form>
 								</td>
-								<td class="browseGridText">
+								<td class="browseGridWarning">
 									<form action="#content" method="post" href="#content">
-										<input type="Submit" name="deleteFractal_${fractal.id}" value="Delete" href="#content">
+										<input class="browseGridWarning" type="Submit" name="deleteFractal_${fractal.id}" value="Delete" href="#content">
 									</form>
 								</td>
 								<td class="browseGridText">

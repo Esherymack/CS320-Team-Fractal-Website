@@ -88,8 +88,9 @@ public class ViewAccountServlet extends HttpServlet{
 		//if the fractal needs to be deleted, remove it and update the list of fractals
 		if(deleteFractal != null)
 		{
-			FractalController fractalController = deleteFractal.createApproprateController();
-			fractalController.deleteImage(getLoggedInUser(req, resp));
+			ViewAccountController controller = new ViewAccountController();
+			User user = controller.getUserByUserName(getLoggedInUser(req, resp));
+			controller.deleteFractal(deleteFractal.getId(), user);
 			fractals = controller.getUserFractals(currentUser);
 		}
 		//if the fractal was found, render it and display it
