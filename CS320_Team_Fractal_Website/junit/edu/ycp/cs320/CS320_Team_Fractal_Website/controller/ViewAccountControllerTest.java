@@ -20,10 +20,10 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Sierpinski;
 public class ViewAccountControllerTest{
 
 	private static final String username = "user11";
-	private static final String password = "A";
+	private static final String password = "A123456";
 	private static final String firstname = "B";
-	private static final String lastname = "C@c.c";
-	private static final String email = "123";
+	private static final String lastname = "c";
+	private static final String email = "C@c.c";
 	private static final String code = "abcdef";
 	
 	private ViewAccountController controller;
@@ -35,10 +35,12 @@ public class ViewAccountControllerTest{
 	
 	@Test
 	public void testGetUserByUserName(){
-		User user = new StandardUser(username, firstname, lastname, email, password, code);
+		User user = new StandardUser(username, firstname, lastname, email + Math.random(), password, code);
 		LogInController logController = new LogInController();
 		logController.setModel(user);
-		logController.createNewAccount();
+		
+		String message = logController.createNewAccount();
+		assertTrue(message == null);
 		
 		User loadUser = controller.getUserByUserName(username);
 		
@@ -47,13 +49,15 @@ public class ViewAccountControllerTest{
 
 	@Test
 	public void testGetUserByUserNamePassword(){
-		User user = new StandardUser(username, firstname, lastname, email, password, code);
+		User user = new StandardUser(username, firstname, lastname, email + Math.random(), password, code);
 		LogInController logController = new LogInController();
 		logController.setModel(user);
-		logController.createNewAccount();
+		
+		String message = logController.createNewAccount();
+		assertTrue(message == null);
 		
 		User loadUser = controller.getUserByUserNamePassword(username, password);
-
+		
 		assertFalse(loadUser == null);
 	}
 

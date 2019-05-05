@@ -71,6 +71,11 @@ public class BurningShipTest{
 		assertFalse(params[4] == null);
 		assertFalse(params[4].isEmpty());
 	}
+
+	@Test
+	public void testUsesLocation(){
+		assertTrue(model.usesLocation());
+	}
 	
 	@Test
 	public void testCreateAppropriateController(){

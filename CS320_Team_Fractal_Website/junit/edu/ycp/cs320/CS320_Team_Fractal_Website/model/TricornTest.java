@@ -80,6 +80,11 @@ public class TricornTest{
 		assertTrue(control.getModel().equals(model));
 		assertTrue(control instanceof TricornController);
 	}
+
+	@Test
+	public void testUsesLocation(){
+		assertTrue(model.usesLocation());
+	}
 	
 	@Test
 	public void testSetMultiplyTimes(){

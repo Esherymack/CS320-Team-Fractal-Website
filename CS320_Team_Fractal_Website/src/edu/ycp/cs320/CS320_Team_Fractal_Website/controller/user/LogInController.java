@@ -74,9 +74,8 @@ public class LogInController{
 						model.getEmail(), model.getPassword(), model.getVerificationCode()),
 					model.getIsVerified(), model.getType());
 			
+			if(!added) responce = "Failed to add user";
 		}
-		
-		if(!added) responce = "Failed to add user";
 		
 		return responce;
 	}

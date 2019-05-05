@@ -86,6 +86,11 @@ public class MandelbrotTest{
 		model.setMultiplyTimes(2);
 		assertTrue(model.getMultiplyTimes() == 2);
 	}
+
+	@Test
+	public void testUsesLocation(){
+		assertTrue(model.usesLocation());
+	}
 	
 	@Test
 	public void testGetParamLabels(){

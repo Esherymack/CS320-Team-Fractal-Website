@@ -77,6 +77,11 @@ public class BarnsleyTest {
 		assertTrue(control.getModel().equals(model));
 		assertTrue(control instanceof BarnsleyController);
 	}
+
+	@Test
+	public void testUsesLocation(){
+		assertFalse(model.usesLocation());
+	}
 	
 	@Test
 	public void testSetF(){
