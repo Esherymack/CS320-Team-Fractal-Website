@@ -16,8 +16,9 @@ public class StandardUser extends User{
 	
 	@Override
 	public boolean deleteFractal(int fractalId, IDatabase db){
+		if(db == null) return false;
 		String username = db.getUsernameByFractalId(fractalId);
-		if(!username.equals(getUsername())) return false;
+		if(username == null || !username.equals(getUsername())) return false;
 		
 		db.deleteFractal(fractalId);
 		

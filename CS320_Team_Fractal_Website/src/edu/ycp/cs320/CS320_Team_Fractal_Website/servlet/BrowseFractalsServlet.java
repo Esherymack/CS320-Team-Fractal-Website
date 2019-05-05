@@ -172,11 +172,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 			}
 		}
 		
-		/*
-		 * TODO:
-		 * Add test cases
-		 */
-		
 		int maxPageNumber;
 		if(fractals != null){
 			//figure out the max page number

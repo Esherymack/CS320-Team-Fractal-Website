@@ -75,4 +75,50 @@ public class LogInControllerTest{
 		
 		assertTrue(controller.getModel().equals(user));
 	}
+	
+	@Test
+	public void testCreateNewAccount(){
+		
+		controller.setModel(model);
+		
+		model.setUsername(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setPassword(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setEmail(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setFirstname(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setLastname(null);
+		assertFalse(controller.createNewAccount() == null);
+		
+		model.setUsername("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setPassword("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setEmail("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setFirstname("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setLastname("");
+		assertFalse(controller.createNewAccount() == null);
+		
+		model.setUsername(username);
+		model.setFirstname(firstname);
+		model.setLastname(lastname);
+		model.setPassword(password);
+		model.setEmail(email);
+		
+		assertTrue(controller.createNewAccount() == null);
+	}
+	
+	@Test
+	public void testVerifyCredidentials(){
+		model.setUsername(username);
+		model.setPassword(password);
+		controller.createNewAccount();
+		
+		assertTrue(controller.verifyCredidentials());
+	}
+	
 }

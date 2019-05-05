@@ -87,31 +87,26 @@ public class DerbyDatabase implements IDatabase
 				Crypto crypto = new Crypto();
 				
 				try{
-					// First get the password
-					stmt = conn.prepareStatement("SELECT users.password FROM users WHERE users.username = ?");
+					//create statement to get user
+					stmt = conn.prepareStatement(
+							"SELECT users.* FROM users " +
+							"WHERE users.username = ? AND users.password = ?");
 					stmt.setString(1, username);
+					stmt.setString(2, crypto.encrypt(password));
 					
-					resultSet = stmt.executeQuery();
+					User result = new StandardUser();
 
-					Boolean match = false;
-					User result = null;
-					
+					resultSet = stmt.executeQuery();
+					Boolean found = false;
 					while(resultSet.next())
 					{
-						match = crypto.match(password, resultSet.getString(1));
+						found = true;
+						result = loadUser(resultSet);
 					}
-					if(match)
+
+					if(!found)
 					{
-						DBUtil.closeQuietly(stmt);
-						DBUtil.closeQuietly(resultSet);
-						//create statement to get user
-						stmt = conn.prepareStatement(
-								"SELECT users.* FROM users " +
-								"WHERE users.username = ?");
-						stmt.setString(1, username);
-						
-						resultSet = stmt.executeQuery();
-						while(resultSet.next()) result = loadUser(resultSet);
+						return null;
 					}
 					return result;
 				}
@@ -458,6 +453,7 @@ public class DerbyDatabase implements IDatabase
 				try{
 					Fractal fractal = getFractalById(id);
 					//get id of fractal to remove
+					if(fractal == null) return false;
 					int fractalId = fractal.getId();
 					//insert the fractal
 					stmt = conn.prepareStatement("Delete from fractal "

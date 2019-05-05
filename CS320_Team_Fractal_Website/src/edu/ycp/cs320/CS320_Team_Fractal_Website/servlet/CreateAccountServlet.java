@@ -103,8 +103,6 @@ public class CreateAccountServlet extends HttpServlet {
 			invalidMessage = controller.createNewAccount();
 		}
 		
-		
-		
 		//if there was no error
 		if(invalidMessage == null){
 			

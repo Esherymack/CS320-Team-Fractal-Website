@@ -16,6 +16,8 @@ public class Admin extends User{
 	
 	@Override
 	public boolean deleteFractal(int fractalId, IDatabase db){
+		if(db == null) return false;
+		
 		db.deleteFractal(fractalId);
 		
 		return true;

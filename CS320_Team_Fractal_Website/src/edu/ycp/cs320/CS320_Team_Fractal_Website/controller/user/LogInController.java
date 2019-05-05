@@ -65,13 +65,16 @@ public class LogInController{
 			responce = "The email is invalid. Ensure that it includes an @ and a .";
 		}
 		
-		//add the user to the database
-		boolean added = database.addUser(
-				new StandardUser(
-					model.getUsername(), model.getFirstname(), model.getLastname(),
-					model.getEmail(), model.getPassword(), model.getVerificationCode()),
-				model.getIsVerified(), model.getType());
-		
+		boolean added = false;
+		if(responce == null){
+			//add the user to the database
+			added = database.addUser(
+					new StandardUser(
+						model.getUsername(), model.getFirstname(), model.getLastname(),
+						model.getEmail(), model.getPassword(), model.getVerificationCode()),
+					model.getIsVerified(), model.getType());
+			
+		}
 		
 		if(!added) responce = "Failed to add user";
 		
@@ -91,10 +94,5 @@ public class LogInController{
 		
 		return user != null;
 	}
-	
-	/*
-	 * TODO
-	 * Figure out whats going on with calls to Initdatabase.init()
-	 */
 	
 }
