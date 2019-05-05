@@ -10,15 +10,15 @@ public class Hexaflake extends Fractal{
 	public static final int SIZE = 800;
 	
 	/**
-	 * The number of levels this triangle will be rendered
+	 * The number of levels this fractal will be rendered
 	 */
 	private int level;
 	/**
-	 * The height of this triangle
+	 * The height of this fractal
 	 */
 	private double height;
 	/**
-	 * A point on the triangle
+	 * A point of the hexagon
 	 */
 	private Point2D.Double p1, p2, p3, p4, p5, p6;
 	
@@ -59,17 +59,16 @@ public class Hexaflake extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "The Sierpinski triangle, also called the Sierpinski gasket or the Sierpinski sieve, is a "
-				+ "fractal and attractive fixed set with the overall shape of an equilateral triangle, subdivided "
-				+ "recursively into smaller equilateral triangles. ";
+		return "The Hexaflake fractal, often refered to as a snowflake, is a set of hexagons drawn in one another. "
+				+ "Each hexagon gets 7 evenly spaced hexagons in one another, creating a snowflake like shape.";
 	}
 	
 	@Override
 	public String getParamExamples()
 	{
-		return "<ul><li>Change the level of the render to get more detailed sierpinski triangles.</li>"
-				+ "<ul><li>Keep level under 10 to preserve detail and efficiency.</li></ul>"
-				+ "<li>Changing the X, Y values of the points (P1, P2, and P3) will distort the triangle.</li>";
+		return "<ul><li>Change the level of the render to get more detailed hexaflakes.</li>"
+				+ "<ul><li>Keep level under 9 to preserve efficiency.</li></ul>"
+				+ "<li>Changing the X, Y values of the points (P1 - P6) will distort the fractal.</li>";
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -74,30 +75,35 @@ public class HexaflakeController extends FractalController{
 	 * Recursively draw the triangle at the given parameters
 	 * @param level the remaining levels to draw the fractal
 	 * @param g the graphics object used to draw the fractal
-	 * @param p1 the first point on the triangle
-	 * @param p2 the second point on the triangle
-	 * @param p3 the third point on the triangle
+	 * @param p1 the first point on the fractal
+	 * @param p2 the second point on the fractal
+	 * @param p3 the third point on the fractal
+	 * @param p4 the fourth point on the fractal
+	 * @param p5 the fifth point on the fractal
+	 * @param p6 the sixth point on the fractal
 	 */
 	private void drawHexaflake(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3, Point2D.Double p4, Point2D.Double p5, Point2D.Double p6){
-		// this is a recursive function
+		Point2D.Double center = midPoint(p1, p4);
+		
 		if(level <= 1){
-			Point2D.Double middle = midPoint(p1, p4);
+			//if any points are null, quit out of drawing this flake
+			if(p1 == null || p2 == null || p3 == null || p4 == null || p5 == null || p6 == null) return;
 			
 			if(model.noGradient()) g.setColor(Color.WHITE);
 			else if(getGradientType().equals(Gradient.HORIZONTAL)){
-				g.setColor(getGradient().getStraightGradientColor(middle.x, Hexaflake.SIZE));
+				g.setColor(getGradient().getStraightGradientColor(center.x, Hexaflake.SIZE));
 			}
 			else if(getGradientType().equals(Gradient.VERTICAL)){
-				g.setColor(getGradient().getStraightGradientColor(middle.y, Hexaflake.SIZE));
+				g.setColor(getGradient().getStraightGradientColor(center.y, Hexaflake.SIZE));
 			}
 			else if(getGradientType().equals(Gradient.DIAGONAL)){
-				g.setColor(getGradient().getDiagonalGradientColor(middle.x, middle.y, Hexaflake.SIZE, Hexaflake.SIZE));
+				g.setColor(getGradient().getDiagonalGradientColor(center.x, center.y, Hexaflake.SIZE, Hexaflake.SIZE));
 			}
 			else if(getGradientType().equals(Gradient.RAINBOW)){
 				g.setColor(getGradient().getRainbowGradient(
-						middle.x / Hexaflake.SIZE,
-						middle.y / Hexaflake.SIZE,
-						(middle.x * middle.y) / (Hexaflake.SIZE * Hexaflake.SIZE)));
+						center.x / Hexaflake.SIZE,
+						center.y / Hexaflake.SIZE,
+						(center.x * center.y) / (Hexaflake.SIZE * Hexaflake.SIZE)));
 			}
 			else g.setColor(Color.WHITE);
 			
@@ -112,56 +118,87 @@ public class HexaflakeController extends FractalController{
 		}
 		else{
 			
-			//middle hexagon
-			Point2D.Double p7 = new Point2D.Double(0, 0);
-			Point2D.Double p8 = new Point2D.Double(0, 0);
-			Point2D.Double p9 = new Point2D.Double(0, 0);
-			Point2D.Double p10 = new Point2D.Double(0, 0);
-			Point2D.Double p11 = new Point2D.Double(0, 0);
-			Point2D.Double p12 = new Point2D.Double(0, 0);
-			drawHexaflake(level - 1, g, p7, p8, p9, p10, p11, p12);
 			//top hexagon
-			Point2D.Double p13 = new Point2D.Double(0, 0);
-			Point2D.Double p14 = new Point2D.Double(0, 0);
-			Point2D.Double p15 = new Point2D.Double(0, 0);
-			Point2D.Double p16 = new Point2D.Double(0, 0);
-			Point2D.Double p17 = new Point2D.Double(0, 0);
-			drawHexaflake(level - 1, g, p1, p13, p14, p15, p16, p17);
+			Point2D.Double p7 = new Point2D.Double(p1.x, p1.y);
+			Point2D.Double p8 = getThirdPoint(p1, p2);
+			Point2D.Double p10 = getThirdPoint(center, p1);
+			Point2D.Double p12 = getThirdPoint(p1, p6);
+			
+			Point2D.Double p9 = getIntersection(
+					new Line2D.Double(midPoint(p1, p2), center),
+					new Line2D.Double(p12, midPoint(p7, p10))
+			);
+			Point2D.Double p11 = getIntersection(
+					new Line2D.Double(midPoint(p1, p6), center),
+					new Line2D.Double(p8, midPoint(p7, p10))
+			);
+			
+			drawHexaflake(level - 1, g, p7, p8, p9, p10, p11, p12);
+
 			//upper right hexagon
-			Point2D.Double p18 = new Point2D.Double(0, 0);
-			Point2D.Double p19 = new Point2D.Double(0, 0);
-			Point2D.Double p20 = new Point2D.Double(0, 0);
-			Point2D.Double p21 = new Point2D.Double(0, 0);
-			Point2D.Double p22 = new Point2D.Double(0, 0);
-			drawHexaflake(level - 1, g, p18, p2, p19, p20, p21, p22);
+			Point2D.Double p13 = getThirdPoint(p2, p1);
+			Point2D.Double p14 = new Point2D.Double(p2.x, p2.y);
+			Point2D.Double p15 = getThirdPoint(p2, p3);
+			Point2D.Double p17 = getThirdPoint(center, p2);
+			Point2D.Double p18 = new Point2D.Double(p9.x, p9.y);
+			
+			Point2D.Double p16 = getIntersection(
+					new Line2D.Double(midPoint(p2, p3), center),
+					new Line2D.Double(p13, midPoint(p2, p17))
+			);
+			drawHexaflake(level - 1, g, p13, p14, p15, p16, p17, p18);
+			
 			//lower right hexagon
-			Point2D.Double p23 = new Point2D.Double(0, 0);
-			Point2D.Double p24 = new Point2D.Double(0, 0);
-			Point2D.Double p25 = new Point2D.Double(0, 0);
-			Point2D.Double p26 = new Point2D.Double(0, 0);
-			Point2D.Double p27 = new Point2D.Double(0, 0);
-			drawHexaflake(level - 1, g, p23, p24, p3, p25, p26, p27);
+			Point2D.Double p19 = new Point2D.Double(p16.x, p16.y);
+			Point2D.Double p20 = getThirdPoint(p3, p2);
+			Point2D.Double p21 = new Point2D.Double(p3.x, p3.y);
+			Point2D.Double p22 = getThirdPoint(p3, p4);
+			Point2D.Double p24 = getThirdPoint(center, p3);
+			
+			Point2D.Double p23 = getIntersection(
+					new Line2D.Double(midPoint(p3, p4), center),
+					new Line2D.Double(p20, midPoint(p24, p3))
+			);
+			drawHexaflake(level - 1, g, p19, p20, p21, p22, p23, p24);
+			
 			//bottom hexagon
-			Point2D.Double p28 = new Point2D.Double(0, 0);
-			Point2D.Double p29 = new Point2D.Double(0, 0);
-			Point2D.Double p30 = new Point2D.Double(0, 0);
-			Point2D.Double p31 = new Point2D.Double(0, 0);
-			Point2D.Double p32 = new Point2D.Double(0, 0);
-			drawHexaflake(level - 1, g, p28, p29, p30, p4, p31, p32);
+			Point2D.Double p25 = getThirdPoint(center, p4);
+			Point2D.Double p26 = new Point2D.Double(p23.x, p23.y);
+			Point2D.Double p27 = getThirdPoint(p4, p3);
+			Point2D.Double p28 = new Point2D.Double(p4.x, p4.y);
+			Point2D.Double p29 = getThirdPoint(p4, p5);
+			
+			Point2D.Double p30 = getIntersection(
+					new Line2D.Double(midPoint(p4, p5), center),
+					new Line2D.Double(p27, midPoint(p25, p4))
+			);
+			drawHexaflake(level - 1, g, p25, p26, p27, p28, p29, p30);
+			
 			//lower left hexagon
-			Point2D.Double p33 = new Point2D.Double(0, 0);
-			Point2D.Double p34 = new Point2D.Double(0, 0);
-			Point2D.Double p35 = new Point2D.Double(0, 0);
-			Point2D.Double p36 = new Point2D.Double(0, 0);
-			Point2D.Double p37 = new Point2D.Double(0, 0);
-			drawHexaflake(level - 1, g, p33, p34, p35, p36, p5, p37);
+			Point2D.Double p32 = getThirdPoint(center, p5);
+			Point2D.Double p33 = new Point2D.Double(p30.x, p30.y);
+			Point2D.Double p34 = getThirdPoint(p5, p4);
+			Point2D.Double p35 = new Point2D.Double(p5.x, p5.y);
+			Point2D.Double p36 = getThirdPoint(p5, p6);
+			
+			Point2D.Double p31 = getIntersection(
+					new Line2D.Double(midPoint(p5, p6), center),
+					new Line2D.Double(p34, midPoint(p32, p5))
+			);
+			drawHexaflake(level - 1, g, p31, p32, p33, p34, p35, p36);
+			
 			//upper left hexagon
-			Point2D.Double p38 = new Point2D.Double(0, 0);
-			Point2D.Double p39 = new Point2D.Double(0, 0);
-			Point2D.Double p40 = new Point2D.Double(0, 0);
-			Point2D.Double p41 = new Point2D.Double(0, 0);
-			Point2D.Double p42 = new Point2D.Double(0, 0);
-			drawHexaflake(level - 1, g, p38, p39, p40, p41, p42, p6);
+			Point2D.Double p37 = getThirdPoint(p6, p1);
+			Point2D.Double p38 = new Point2D.Double(p11.x, p11.y);
+			Point2D.Double p39 = getThirdPoint(center, p6);
+			Point2D.Double p40 = new Point2D.Double(p31.x, p31.y);
+			Point2D.Double p41 = getThirdPoint(p6, p5);
+			Point2D.Double p42 = new Point2D.Double(p6.x, p6.y);
+			drawHexaflake(level - 1, g, p37, p38, p39, p40, p41, p42);
+			
+			//middle hexagon
+			drawHexaflake(level - 1, g, p10, p17, p24, p25, p32, p39);
+			
 		}
 	}
 	
@@ -175,7 +212,64 @@ public class HexaflakeController extends FractalController{
 		return new Point2D.Double((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 	}
 	
-	public double dist(Point2D.Double p1, Point2D.Double p2) {
-		return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+	/**
+	 * Gets a point that is one third the distance from start to end
+	 * @param start the start point
+	 * @param end the end point
+	 * @return the point one third away
+	 */
+	public static Point2D.Double getThirdPoint(Point2D.Double start, Point2D.Double end){
+		return new Point2D.Double(
+				start.x + (end.x - start.x) / 3,
+				start.y + (end.y - start.y) / 3);
+	}
+	
+	/**
+	 * Get the intersection point of the two lines
+	 * @param line1 the first line
+	 * @param line2 the second line
+	 * @return the intersection point, null if the lines do not intersect
+	 */
+	public static Point2D.Double getIntersection(Line2D.Double line1, Line2D.Double line2){
+		//find slopes
+		double slope1 = slope(line1);
+		double slope2 = slope(line2);
+
+		//find intercepts
+		double b1 = line1.y1 - line1.x1 * slope1;
+		double b2 = line2.y1 - line2.x1 * slope2;
+		
+		//catch lines that are the same
+		if(slope1 == slope2) return null;
+		
+		//variables for intersection
+		double intX;
+		double intY;
+		
+		//if a slope is vertical then it needs a different calculation
+		if(Double.isInfinite(slope1)){
+			intX = line1.x1;
+			intY = line2.x1 * slope2 + b2;
+		}
+		else if(Double.isInfinite(slope2)){
+			intX = line2.x1;
+			intY = line1.x1 * slope1 + b1;
+		}
+		//find intersections normally
+		else{
+			intX = (b2 - b1) / (slope1 - slope2);
+			intY = intX * slope1 + b1;
+		}
+		
+		return new Point2D.Double(intX, intY);
+	}
+	
+	/**
+	 * Get the slope of the given line
+	 * @param line the line to find the slope of
+	 * @return the slope, Infinity if the slope is vertical
+	 */
+	public static double slope(Line2D.Double line){
+		return (line.y2 - line.y1) / (line.x2 - line.x1);
 	}
 }

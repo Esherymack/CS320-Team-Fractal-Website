@@ -138,6 +138,11 @@ public class SierpinskiTest {
 		assertEquals(p3.getX(), 4.2, DELTA);
 		assertEquals(p3.getY(), 1337, DELTA);
 	}
+
+	@Test
+	public void testUsesLocation(){
+		assertFalse(model.usesLocation());
+	}
 	
 	@Test
 	public void testGetParamLabels(){

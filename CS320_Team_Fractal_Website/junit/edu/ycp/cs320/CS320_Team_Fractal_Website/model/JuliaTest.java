@@ -97,6 +97,11 @@ public class JuliaTest{
 	}
 
 	@Test
+	public void testUsesLocation(){
+		assertTrue(model.usesLocation());
+	}
+
+	@Test
 	public void testGetParamLabels(){
 		String[] labels = model.getParamLabels();
 		for(int i = 0; i < 5; i++){

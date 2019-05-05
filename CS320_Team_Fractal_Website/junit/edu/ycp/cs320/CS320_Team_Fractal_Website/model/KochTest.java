@@ -62,6 +62,11 @@ public class KochTest{
 		model.setIterations(2);
 		assertTrue(model.getIterations() == 2);
 	}
+
+	@Test
+	public void testUsesLocation(){
+		assertFalse(model.usesLocation());
+	}
 	
 	@Test
 	public void testGetParamLabels(){
