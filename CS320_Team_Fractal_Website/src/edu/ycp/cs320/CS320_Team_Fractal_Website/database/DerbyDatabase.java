@@ -77,40 +77,36 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public User getUserByUsernameAndPassword(String username, String password){
-		return executeTransaction(new Transaction<User>(){
+	public User getUserByUsernameAndPassword(String username, String password)
+	{
+		return executeTransaction(new Transaction<User>()
+		{
 			@Override
-			public User execute(Connection conn) throws SQLException{
+			public User execute(Connection conn) throws SQLException
+			{
+				Crypto crypto = new Crypto();
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 
-				Crypto crypto = new Crypto();
-				
-				try{
-					//create statement to get user
-					stmt = conn.prepareStatement(
-							"SELECT users.* FROM users " +
-							"WHERE users.username = ? AND users.password = ?");
+				try
+				{
+					// First get the password
+					stmt = conn.prepareStatement("SELECT users.password FROM users WHERE users.username = ?");
 					stmt.setString(1, username);
-					stmt.setString(2, crypto.encrypt(password));
 					
-					User result = new StandardUser();
-
 					resultSet = stmt.executeQuery();
-					Boolean found = false;
-					while(resultSet.next())
-					{
-						found = true;
-						result = loadUser(resultSet);
+					Boolean match = false;
+					
+					while(resultSet.next()){
+						match = crypto.match(password, resultSet.getString(1));
 					}
-
-					if(!found)
-					{
-						return null;
-					}
-					return result;
+					
+					//if the password was found with the associated username, get the user based on the username
+					if(match) return getUserByUsername(username);
+					else return null;
 				}
-				finally{
+				finally
+				{
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}

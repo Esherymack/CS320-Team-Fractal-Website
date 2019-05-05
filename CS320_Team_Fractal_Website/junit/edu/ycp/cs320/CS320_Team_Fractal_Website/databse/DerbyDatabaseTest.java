@@ -43,10 +43,10 @@ public class DerbyDatabaseTest {
 	@Test
 	public void testGetUserByUsernameAndPassword(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
-		
-		User u = database.getUserByUsernameAndPassword(username, password);
 
 		Crypto crypto = new Crypto();
+		
+		User u = database.getUserByUsernameAndPassword(username, crypto.encrypt(password));
 		
 		assertFalse(u == null);
 		assertTrue(u.getUsername().equals(username));
