@@ -111,12 +111,57 @@ public class HexaflakeController extends FractalController{
 			g.fillPolygon(p);
 		}
 		else{
-			//Point2D.Double p7 = midPoint(p1, p2);
-			//Point2D.Double p8 = midPoint(p2, p3);
-			//Point2D.Double p9 = midPoint(p1, p3);
-			drawHexaflake(level - 1, g, p1, p2, p3, p4, p5, p6);
-			//drawHexaflake(level - 1, g, p4, p2, p5);
-			//drawHexaflake(level - 1, g, p6, p5, p3);
+			
+			//middle hexagon
+			Point2D.Double p7 = new Point2D.Double(0, 0);
+			Point2D.Double p8 = new Point2D.Double(0, 0);
+			Point2D.Double p9 = new Point2D.Double(0, 0);
+			Point2D.Double p10 = new Point2D.Double(0, 0);
+			Point2D.Double p11 = new Point2D.Double(0, 0);
+			Point2D.Double p12 = new Point2D.Double(0, 0);
+			drawHexaflake(level - 1, g, p7, p8, p9, p10, p11, p12);
+			//top hexagon
+			Point2D.Double p13 = new Point2D.Double(0, 0);
+			Point2D.Double p14 = new Point2D.Double(0, 0);
+			Point2D.Double p15 = new Point2D.Double(0, 0);
+			Point2D.Double p16 = new Point2D.Double(0, 0);
+			Point2D.Double p17 = new Point2D.Double(0, 0);
+			drawHexaflake(level - 1, g, p1, p13, p14, p15, p16, p17);
+			//upper right hexagon
+			Point2D.Double p18 = new Point2D.Double(0, 0);
+			Point2D.Double p19 = new Point2D.Double(0, 0);
+			Point2D.Double p20 = new Point2D.Double(0, 0);
+			Point2D.Double p21 = new Point2D.Double(0, 0);
+			Point2D.Double p22 = new Point2D.Double(0, 0);
+			drawHexaflake(level - 1, g, p18, p2, p19, p20, p21, p22);
+			//lower right hexagon
+			Point2D.Double p23 = new Point2D.Double(0, 0);
+			Point2D.Double p24 = new Point2D.Double(0, 0);
+			Point2D.Double p25 = new Point2D.Double(0, 0);
+			Point2D.Double p26 = new Point2D.Double(0, 0);
+			Point2D.Double p27 = new Point2D.Double(0, 0);
+			drawHexaflake(level - 1, g, p23, p24, p3, p25, p26, p27);
+			//bottom hexagon
+			Point2D.Double p28 = new Point2D.Double(0, 0);
+			Point2D.Double p29 = new Point2D.Double(0, 0);
+			Point2D.Double p30 = new Point2D.Double(0, 0);
+			Point2D.Double p31 = new Point2D.Double(0, 0);
+			Point2D.Double p32 = new Point2D.Double(0, 0);
+			drawHexaflake(level - 1, g, p28, p29, p30, p4, p31, p32);
+			//lower left hexagon
+			Point2D.Double p33 = new Point2D.Double(0, 0);
+			Point2D.Double p34 = new Point2D.Double(0, 0);
+			Point2D.Double p35 = new Point2D.Double(0, 0);
+			Point2D.Double p36 = new Point2D.Double(0, 0);
+			Point2D.Double p37 = new Point2D.Double(0, 0);
+			drawHexaflake(level - 1, g, p33, p34, p35, p36, p5, p37);
+			//upper left hexagon
+			Point2D.Double p38 = new Point2D.Double(0, 0);
+			Point2D.Double p39 = new Point2D.Double(0, 0);
+			Point2D.Double p40 = new Point2D.Double(0, 0);
+			Point2D.Double p41 = new Point2D.Double(0, 0);
+			Point2D.Double p42 = new Point2D.Double(0, 0);
+			drawHexaflake(level - 1, g, p38, p39, p40, p41, p42, p6);
 		}
 	}
 	
@@ -128,5 +173,9 @@ public class HexaflakeController extends FractalController{
 	 */
 	public static Point2D.Double midPoint(Point2D.Double p1, Point2D.Double p2){
 		return new Point2D.Double((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+	}
+	
+	public double distPoints(Point2D.Double p1, Point2D.Double p2) {
+		return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 	}
 }
