@@ -217,6 +217,17 @@ public class BrowseFractalsServlet extends HttpServlet {
 			if(!viewController.deleteFractal(deleteFractal.getId(), user)){
 				errorMessage = "You do not have proper permissions to delete this fractal";
 			}
+			else{
+				if(fractals != null){
+					//remove fractal from the main fractals list
+					for(Fractal f : fractals){
+						if(f.getId() == deleteFractal.getId()){
+							fractals.remove(f);
+							break;
+						}
+					}
+				}
+			}
 			display = false;
 		}
 		//if the fractal was found, render it and display it
