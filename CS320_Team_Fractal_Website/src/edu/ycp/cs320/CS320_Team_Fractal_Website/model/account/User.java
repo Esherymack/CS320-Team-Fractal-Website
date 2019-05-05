@@ -1,5 +1,7 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.account;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+
 public abstract class User 
 {
 	private String username;
@@ -94,5 +96,28 @@ public abstract class User
 	public String getPassword()
 	{
 		return password;
+	}
+
+	
+	/**
+	 * Delete a fractal in the database
+	 * @param fractalId the id of the fractal
+	 * @return true if the fractal was deleted, false otherwise. Also always returns false if this user doesn't have permission to delete the specified fractal
+	 */
+	public abstract boolean deleteFractal(int fractalId, IDatabase db);
+	
+	/**
+	 * Get the type of this user, defines the permissions of this user
+	 * @return the type
+	 */
+	public abstract String getType();
+	
+	/**
+	 * Attempts to create an admin account
+	 * @param password the password needed to make an admin account
+	 * @return an admin account if the correct password was given, a StandardUser otherwise
+	 */
+	public static boolean isAdminPasswod(String password){
+		return password.equals("12345");
 	}
 }

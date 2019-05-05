@@ -35,9 +35,15 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
+	public void testAddUser(){
+		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
+		assertTrue(added);
+	}
+	
+	@Test
 	public void testGetUserByUsernameAndPassword(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
-		
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
+
 		Crypto cr = new Crypto();
 		User u = database.getUserByUsernameAndPassword(username, password);
 		
@@ -47,11 +53,12 @@ public class DerbyDatabaseTest {
 		assertTrue(u.getLastname().equals(lastname));
 		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
+		assertTrue(u.getVerificationCode().equals(code));
 	}
 	
 	@Test
 	public void testGetUsers(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 		
 		Crypto cr = new Crypto();
 		
@@ -60,38 +67,35 @@ public class DerbyDatabaseTest {
 		assertTrue(users.size() > 0);
 		
 		User u = database.getUserByUsername(username);
+		
 		assertFalse(u == null);
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
 		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
+		assertTrue(u.getVerificationCode().equals(code));
 	}
 	
 	@Test
 	public void testGetUserByUserName(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 		
 		Crypto cr = new Crypto();
 		User u = database.getUserByUsername(username);
-		
+
 		assertFalse(u == null);
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
 		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
-	}
-	
-	@Test
-	public void testAddUser(){
-		boolean added = database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
-		assertTrue(added);
+		assertTrue(u.getVerificationCode().equals(code));
 	}
 	
 	@Test
 	public void testSaveFractal(){
-		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true);
+		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 		
 		//test adding real user
 		boolean added = database.saveFractal(new Mandelbrot(), "Mandelbrot1", username);
@@ -164,6 +168,16 @@ public class DerbyDatabaseTest {
 		Fractal f = database.getFractalByName("Sierpinski Name Test");
 		assertFalse(f == null);
 		assertTrue(f.getName().equals(name));
+	}
+	
+	@Test
+	public void testGetUsernameByFractalId(){
+		String name = "Id to username test";
+		database.saveFractal(new Sierpinski(), name, username);
+		
+		String newName = database.getUsernameByFractalId(database.getFractalByName(name).getId());
+		
+		assertTrue(newName.equals(username));
 	}
 	
 }

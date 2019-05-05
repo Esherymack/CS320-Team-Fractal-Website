@@ -41,6 +41,7 @@ public class ViewAccountServlet extends HttpServlet{
 		req.setAttribute("firstName",  firstName);
 		req.setAttribute("lastName",  lastName);
 		req.setAttribute("email",  email);
+		req.setAttribute("adminStatus", curUser.getType());
 		req.setAttribute("fractals",  fractals);
 		
 		//
@@ -88,8 +89,9 @@ public class ViewAccountServlet extends HttpServlet{
 		//if the fractal needs to be deleted, remove it and update the list of fractals
 		if(deleteFractal != null)
 		{
-			FractalController fractalController = deleteFractal.createApproprateController();
-			fractalController.deleteImage(getLoggedInUser(req, resp));
+			ViewAccountController controller = new ViewAccountController();
+			User user = controller.getUserByUserName(getLoggedInUser(req, resp));
+			controller.deleteFractal(deleteFractal.getId(), user);
 			fractals = controller.getUserFractals(currentUser);
 		}
 		//if the fractal was found, render it and display it
@@ -111,6 +113,7 @@ public class ViewAccountServlet extends HttpServlet{
 		req.setAttribute("lastName", lastName);
 		req.setAttribute("email", email);
 		req.setAttribute("userName", currentUser);
+		req.setAttribute("adminStatus", curUser.getType());
 		
 		req.getRequestDispatcher("/_view/viewAccount.jsp").forward(req,  resp);
 	}

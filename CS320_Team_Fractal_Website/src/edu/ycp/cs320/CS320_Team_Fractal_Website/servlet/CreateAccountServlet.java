@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.SendEmail;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.VerificationCodeGenerator;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.ViewAccountController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Admin;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
@@ -73,30 +73,44 @@ public class CreateAccountServlet extends HttpServlet {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
+		
+		String adminPassword = req.getParameter("adminPassword");
 
 		//set up controller
 		LogInController controller = new LogInController();
-		User model = new StandardUser();
-		controller.setModel(model);
-		model.setFirstname(firstname);
-		model.setLastname(lastname);
-		model.setUsername(username);
-		model.setPassword(password);
-		model.setEmail(email);
-		model.setIsVerified(false);
-		model.setVerificationCode(VerificationCodeGenerator.getAlphaNumericString());
-
-		System.out.println("Verification code generated: " + model.getVerificationCode());
-
-		//create the account
-		invalidMessage = controller.createNewAccount();
-
+		
+		User model = null;
+		if(!(adminPassword == null || adminPassword.isEmpty())){
+			if(User.isAdminPasswod(adminPassword)) model = new Admin();
+			else invalidMessage = "Invalid admin code";
+		}
+		else model = new StandardUser();
+		
+		//if no error was found, load the user to the controller
 		if(invalidMessage == null){
-			//get the user from the database, this will return null if no user was found and give an error to the web page
-			IDatabase db = DatabaseProvider.getInstance();
-			User user = db.getUserByUsernameAndPassword(username, password);
-			SendEmail emailSender = new SendEmail();
+			controller.setModel(model);
+			model.setFirstname(firstname);
+			model.setLastname(lastname);
+			model.setUsername(username);
+			model.setPassword(password);
+			model.setEmail(email);
+			model.setIsVerified(false);
+			model.setVerificationCode(VerificationCodeGenerator.getAlphaNumericString());
 
+			System.out.println("Verification code generated: " + model.getVerificationCode());
+
+			//create the account
+			invalidMessage = controller.createNewAccount();
+		}
+		
+		//if there was no error
+		if(invalidMessage == null){
+			
+			ViewAccountController viewController = new ViewAccountController();
+			User user = viewController.getUserByUserName(username);
+			
+			SendEmail emailSender = new SendEmail();
+			
 			if(user != null){
 				//notify user that their account has been created
 				accountCreatedMessage = "The account has successfully been created.";
@@ -118,7 +132,7 @@ public class CreateAccountServlet extends HttpServlet {
 				resp.sendRedirect("verifyAccount");
 			}
 			else{
-				accountCreatedMessage = "The account failed to generate.";
+				invalidMessage = "The account failed to generate.";
 			}
 		}
 

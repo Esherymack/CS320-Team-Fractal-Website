@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.VerifyAccountController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 import javax.servlet.http.Cookie;
 
 public class VerifyAccountServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
-	CheckUserValidController isValidUser = new CheckUserValidController();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
@@ -25,7 +25,9 @@ public class VerifyAccountServlet extends HttpServlet
 		// A user needs to be logged in if they're seeing this page.
 		String userName = checkCookies(req, resp);
 	
-		req.setAttribute("userEmail", isValidUser.getUser(userName).getEmail());
+		CheckUserValidController isValidUser = new CheckUserValidController();
+		User user = isValidUser.getUser(userName);
+		if(user != null) req.setAttribute("userEmail", user.getEmail());
 		
 		req.getRequestDispatcher("/_view/verifyAccount.jsp").forward(req, resp);
 	}
@@ -37,6 +39,8 @@ public class VerifyAccountServlet extends HttpServlet
 		
 		String errorMessage = null;
 		VerifyAccountController controller = new VerifyAccountController();
+		CheckUserValidController isValidUser = new CheckUserValidController();
+		
 		String userName = checkCookies(req, resp);
 		controller.setModel(isValidUser.getUser(userName));
 		
@@ -85,6 +89,8 @@ public class VerifyAccountServlet extends HttpServlet
 		}
 		// If a cookie is found, **make sure it is a valid cookie**
 		// That is, check and see if a username is found in the db that matches the cookie.
+
+		CheckUserValidController isValidUser = new CheckUserValidController();
 		if(isValidUser.getUserIfExists(userName))
 		{
 			if(isValidUser.getUser(userName).getIsVerified())

@@ -4,16 +4,21 @@
 
 <html>
 	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+		
 		<title>Browse Fractals</title>
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
+		
+		<script src="sorttable.js"></script>
+		
 	</head>
-
 	<div class="flex-container">
 		<div class="border"></div>
 		<div class="center">
+		
 			<body id="home">
-
 				<div>
 					<c:if test="${! empty errorMessage}">
 						<div class="invalid">${errorMessage}</div>
@@ -48,76 +53,180 @@
 				<div class="account-header">
 					<h1>Browse Fractals</h1>
 				</div>
-
-			<div class="filternav">
-				<div class="filtercontainer">
-					<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
-						
-								<input type="Submit" name="viewAllFractals" value="View All Fractals">
-							
-						<div class="dropdown">
-							<button class="dropbtn">Filter by Type</button>
-							<div class="dropdown-content">
-								<ul>
-									<c:forEach items="${fractalTypes}" var="type">
-										<li>
-											<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
-										</li>
-										<br>
-									</c:forEach>
-								</ul>	
-							</div>
-						</div>
-						<div class="dropdown">
-							<button class="dropbtn">Filter by GradientType</button>
-							<div class="dropdown-content">
-								<ul>
-									<c:forEach items="${gradientTypes}" var="type">
-										<li>
-											<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
-										</li>
-										<br>
-									</c:forEach>
-								</ul>	
-							</div>
-						</div>
-						<ul class="searchbar">
-							<li>
-								<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
-									<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
-									<input type="Submit" name="search" value="Search">
-								</form>
-							</li>
-						</ul>
-			  		</form>
-				</div>
-			</div>
+			
+				<form action="${pageContext.servletContext.contextPath}/browseFractals" method="post">
+					<div class="filternav">
 						<div>
-							<br>
-						<div class="lightbox-toggle">
-						<form action="#content" method="post" href="#content">
-						<table>
-					    <br>
-							<div class="button-container">
-					    <c:forEach items="${fractals}" var="fractal">
-				        <tr>
-								  <input type="Submit" name="viewFractal_${fractal.id}" value="${fractal.name} (${fractal.type}, ${fractal.id})" href="#content">
-				        </tr>
-					    </c:forEach>
+							<input type="Submit" name="viewAllFractals" value="View All Fractals">
+							<div class="dropdown">
+								<div class="dropbtn">Filter by Type</div>
+								<div class="dropdown-content">
+									<ul>
+										<c:forEach items="${fractalTypes}" var="type">
+											<li>
+												<input type="Submit" name="viewAll${type}Fractals" value="View ${type} Fractals">
+											</li>
+											<br>
+										</c:forEach>
+									</ul>	
+								</div>
+							</div>
+							<div class="dropdown">
+								<div class="dropbtn">Filter by GradientType</div>
+								<div class="dropdown-content">
+									<ul>
+										<c:forEach items="${gradientTypes}" var="type">
+											<li>
+												<input type="Submit" name="viewAllGradient${type}Fractals" value="View ${type} Fractals">
+											</li>
+											<br>
+										</c:forEach>
+									</ul>	
+								</div>
+							</div>
+							<div class="dropdown">
+								<ul class="searchbar">
+									<li>
+										<input type="text" name="searchForFractals" value="${charSeq}" placeholder="Search Term">
+										<input type="Submit" name="search" value="Search">
+									</li>
+								</ul>
+							</div>
 						</div>
+					</div>
+					<!-- Page number selector and page turner -->
+					
+					<input type="hidden" name=pageNumber value="${pageNumber}">
+					
+					<c:if test="${! empty pageFractals}">
+						<div class="filternav">
+							<ul class="searchbar">
+								<li>
+									<select id="fractalsPerPage" name="fractalsPerPage" value="10">
+										<option value="5" ${fractalsPerPage == "5" ? 'selected="selected"' : ''}>5 per page</option>
+										<option value="10" ${fractalsPerPage == "10" || empty fractalsPerPage ? 'selected="selected"' : ''}>10 per page</option>
+										<option value="20" ${fractalsPerPage == "20" ? 'selected="selected"' : ''}>20 per page</option>
+										<option value="50" ${fractalsPerPage == "50" ? 'selected="selected"' : ''}>50 per page</option>
+										<option value="100" ${fractalsPerPage == "100" ? 'selected="selected"' : ''}>100 per page</option>
+									</select>
+								</li>
+							</ul>
+							<ul class="searchbar">
+								<li>
+									<input type="submit" name="pageStart" value="<<"}>
+									
+									<c:if test="${pageNumber > 1}">
+										<input type="submit" name="page-2" value="${pageNumber - 1}">
+									</c:if>
+									<c:if test="${pageNumber > 0}">
+										<input type="submit" name="page-1" value="${pageNumber}">
+									</c:if>
+									
+									<input class="browsePageBold" type="submit" disabled value="${pageNumber + 1}">
+										
+									<c:if test="${pageNumber < maxPageNumber}">
+										<input type="submit" name="page+1" value="${pageNumber + 2}">
+									</c:if>
+									<c:if test="${pageNumber < maxPageNumber - 1}">
+										<input type="submit" name="page+2" value="${pageNumber + 3}">
+									</c:if>
+									
+									<input type="submit" name="pageEnd" value=">>">
+								</li>
+							</ul>
+						</div>
+					</c:if>
+				</form>
+				<div>
+					<c:if test="${! empty pageFractals}">
+						<table class="sortable" id="fractalTable">
+							<tr>
+								<th class="browseGridText">Name:</th>
+								<th class="browseGridText">Type:</th>
+								<th class="browseGridText">Gradient Type:</th>
+								<th class="browseGridText">Created by:</th>
+								<th class="browseGridText">ID:</th>
+								<th class="browseGridText"></th>
+								<th class="browseGridText"></th>
+								<c:if test="${userType == 'Admin'}">
+									<th class="browseGridText"></th>
+								</c:if>
+							</tr>
+							
+							<form action="#content" method="post" href="#content">
+								<input type="hidden" id="fractalsPerPageSecond" name="fractalsPerPageSecond" value="${fractalsPerPage}">
+								<input type="hidden" name="pageNumberSecond" value="${pageNumber}">
+								<c:forEach items="${pageFractals}" var="fractal">
+									<tr>
+										<td class="browseGridText">${fractal.name}</td>
+										<td class="browseGridText">${fractal.type}</td>
+										<td class="browseGridText">${fractal.gradientType}</td>
+										
+										<c:set var="fValue" value="fractalUsername${fractal.id}" />
+										<td class="browseGridText">${requestScope[fValue]}</td>
+										
+										<td class="browseGridText">${fractal.id}</td>
+											<td class="browseGridText">
+												<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
+											</td>
+										<td class="browseGridText">
+											<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+											<a id="downloadImage" href="img/result.png" download hidden></a>
+										</td>
+										
+										<c:if test="${userType == 'Admin'}">
+											<td class="browseGridWarning">
+												<input class="browseGridWarning" type="Submit" name="deleteFractal_${fractal.id}" value="Delete">
+											</td>
+										</c:if>
+									</tr>
+								</c:forEach>
+							</form>
 						</table>
-					</form>
+					</c:if>
+					<c:if test="${empty pageFractals}">
+						<p class="error">No fractals met your criteria</p>
+					</c:if>
 				</div>
-				<div class="lightbox-content" id="content">
-					<c:if test="${display}">
-						<a href="#_">
-					<img src="img/result.png" alt="result"/>
-				</a>
+				
+				<c:if test="${display}">
+					<div class="lightbox-content" id="content">
+							<a href="#_">
+								<img src="img/result.png" alt="result"/>
+							</a>
+					</div>
 				</c:if>
-		</div>
-				</div>
 			</body>
+		</div>
+		<div class="border"></div>
 	</div>
+	
+	<script>
+	
+	$(window).scroll(function(){
+		sessionStorage.scrollTop = $(this).scrollTop();
+	});
 
-	<div class="border"></div>
+	$(document).ready(function(){
+		$(window).scrollTop(sessionStorage.scrollTop);
+	});
+	
+	window.onload = function(){
+		$('#fractalsPerPage').change();
+		window.scrollTop = 1000;
+	}
+
+	$('#fractalsPerPage').change(function(){
+		var val = $(this).val();
+		
+		document.getElementById("fractalsPerPage").setAttribute("value", val);
+		document.getElementById("fractalsPerPageSecond").setAttribute("value", val);
+	});
+	
+	$(function(){
+		$('#fractalTable').tablesorter();
+	});
+	
+	</script>
+	
 </html>

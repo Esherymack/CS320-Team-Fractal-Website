@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class LogInTest{
@@ -19,7 +20,7 @@ public class LogInTest{
 	
 	@Before
 	public void setUp(){
-		model = new User(){};
+		model = new StandardUser(){};
 	}
 
 	@Test

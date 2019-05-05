@@ -39,9 +39,11 @@ public interface IDatabase{
 	/**
 	 * Add a new user account to the database
 	 * @param user the user to add to the account
+	 * @param ver true if the user was verified, false otherwise
+	 * @param type the type of this user as should be stored in the dtatabase, the subclass of user does not effect this
 	 * @return true if the account was added successfully, false otherwise
 	 */
-	public boolean addUser(User user, boolean ver);
+	public boolean addUser(User user, boolean ver, String type);
 
 	/**
 	 * Saves the given fractal to the database under the name of the given username. If no user of that name exists,
@@ -56,11 +58,10 @@ public interface IDatabase{
 	/**
 	 * Deletes the given fractal from the database under the name of the given username. If no user of that name exists,
 	 * the fractal is not deleted.
-	 * @param fractal the fractal to add
-	 * @param username the username of the one who created the fractal
+	 * @param fractal the id of the fractal to delete
 	 * @return true if the fractal was deleted successfully, false otherwise
 	 */
-	public boolean deleteFractal(Fractal fractal, String username);
+	public boolean deleteFractal(int id);
 
 	/**
 	 * Get every fractal in the database
@@ -130,4 +131,10 @@ public interface IDatabase{
 	 */
 	public boolean changePassword(User user, String password);
 
+	/**
+	 * Get the username of the user who created the specific fractal
+	 * @param id the id of the fractal
+	 * @return the username who created the fractal, null if user couldn't be found
+	 */
+	public String getUsernameByFractalId(int id);
 }

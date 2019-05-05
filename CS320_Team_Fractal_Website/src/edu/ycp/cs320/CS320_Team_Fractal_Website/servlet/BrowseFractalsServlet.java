@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.BrowseFractalsController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.ViewAccountController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 
@@ -27,7 +29,12 @@ public class BrowseFractalsServlet extends HttpServlet {
 		ArrayList<Fractal> fractals = null;
 		BrowseFractalsController browseController = new BrowseFractalsController();
 		fractals = browseController.getAllFractals();
-		req.setAttribute("fractals", fractals);
+		req.getSession().setAttribute("fractals", fractals);
+
+		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, 10, 0);
+		req.getSession().setAttribute("pageFractals", pageFractals);
+		
+		if(fractals != null) addFractalNames(req, browseController, fractals);
 		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
@@ -35,6 +42,18 @@ public class BrowseFractalsServlet extends HttpServlet {
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("fractalTypes", fractalTypes);
 		req.setAttribute("gradientTypes", gradientTypes);
+
+		//get the number of fractals per page
+		Integer fractalsPerPage = browseController.getFractalsPerPage(req);
+		req.getSession().setAttribute("fractalsPerPage", fractalsPerPage.toString());
+		req.setAttribute("pageNumber", 0);
+		int max = fractals.size() / fractalsPerPage;
+		req.getSession().setAttribute("maxPageNumber", max);
+		
+		//set the logged in user type
+		ViewAccountController viewAccountController = new ViewAccountController();
+		User user = viewAccountController.getUserByUserName(getLoggedInUser(req, resp));
+		req.setAttribute("userType", user.getType());
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
@@ -45,81 +64,163 @@ public class BrowseFractalsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Browse Fractals Servlet: doPost");
+		//set up controller
+		BrowseFractalsController browseController = new BrowseFractalsController();
 		
 		String currentlyLoggedInMessage = checkCookies(req, resp);
 		
 		//variables for attributes
 		Fractal renderFractal = null;
+		Fractal deleteFractal = null;
 		String errorMessage = null;
 		Boolean display = false;
-		ArrayList<Fractal> fractals = null;
+		//attempt to get the fractals currently loaded in the page
+		ArrayList<Fractal> fractals = browseController.getFractalsFromSession(req);
+		
+		//get the number of fractals per page
+		int fractalsPerPage = browseController.getFractalsPerPage(req);
+
+		//get page number for fractals
+		int pageNumber = browseController.getPageNumber(req);
+		
 		String[] fractalTypes = Fractal.getAllFractalTypes();
 		String[] gradientTypes = Gradient.TYPES;
 		//character sequence used to look for fractals with name with sequence
 		String charSeq = req.getParameter("searchForFractals");
 		
-		//set up controller
-		BrowseFractalsController browseController = new BrowseFractalsController();
-		
-		//if the request was to view all fractals get all fractals and add them to array list
-		//if the request was to view one of the types of fractal add the fractals of that type to array list
-		//if the request was to view one of the gradient types for the fractals, add the fractals with the gradient type to the array list
-		//if there was no request then all of the fractals are added to the array list
-		if (req.getParameter("viewAllFractals") != null) {
-			fractals = browseController.getAllFractals();
+		//see if the next page should be accessed
+		boolean pageChanged = false;
+		int pageNumberChange = 0;
+		//go to the start
+		if(req.getParameter("pageStart") != null){
+			pageNumber = 0;
+			pageChanged = true;
 		}
-		else if (req.getParameter("viewAllMandelbrotFractals") != null) {
-			fractals = browseController.getAllFractalsByType("Mandelbrot");
+		//go to the page 2 pages back
+		else if(req.getParameter("page-2") != null){
+			pageNumberChange = -2;
+			pageChanged = true;
 		}
-		else if (req.getParameter("viewAllSierpinskiFractals") != null) {
-			fractals = browseController.getAllFractalsByType("Sierpinski");
+		//go to the previous page
+		else if(req.getParameter("page-1") != null){
+			pageNumberChange = -1;
+			pageChanged = true;
 		}
-		else if (req.getParameter("viewAllKochFractals") != null) {
-			fractals = browseController.getAllFractalsByType("Koch");
+		//go to the next page
+		else if(req.getParameter("page+1") != null){
+			pageNumberChange = 1;
+			pageChanged = true;
 		}
-		else if (req.getParameter("viewAllBarnsleyFractals") != null) {
-			fractals = browseController.getAllFractalsByType("Barnsley");
+		//go to the page 2 pages ahead
+		else if(req.getParameter("page+2") != null){
+			pageNumberChange = 2;
+			pageChanged = true;
 		}
-		else if (req.getParameter("viewAllJuliaFractals") != null) {
-			fractals = browseController.getAllFractalsByType("Julia");
+		//go to the start
+		else if(req.getParameter("pageEnd") != null){
+			//this sets the page number far too high, but it will get fixed later on in the method
+			if(fractals != null) pageNumber = fractals.size();
+			else pageNumber = 0;
+			pageChanged = true;
 		}
-		else if (req.getParameter("viewAllNoneFractals") != null) {
-			fractals = browseController.getAllFractalsByGradientType("None");
-		}
-		else if (req.getParameter("viewAllRainbowFractals") != null) {
-			fractals = browseController.getAllFractalsByGradientType("Rainbow");
-		}
-		else if (req.getParameter("viewAllHorizontalFractals") != null) {
-			fractals = browseController.getAllFractalsByGradientType("Horizontal");
-		}
-		else if (req.getParameter("viewAllVerticalFractals") != null) {
-			fractals = browseController.getAllFractalsByGradientType("Vertical");
-		}
-		else if (req.getParameter("viewAllDiagonalFractals") != null) {
-			fractals = browseController.getAllFractalsByGradientType("Diagonal");
-		}
-		else if (req.getParameter("searchForFractals") != null) {
-			fractals = browseController.getAllFractalsWithCharSeq(charSeq);
-		}
-		else {
-			fractals = browseController.getAllFractals();
-			display = true;
-		}
-		
-		
-		//get fractal the user selected to render from the list of fractals
-		//if one of the fractals is requested then it should be rendered
-		for(Fractal f : fractals){
-			Object found = req.getParameter("viewFractal_" + f.getId());
-			if(found != null){
-				renderFractal = f;
-				break;
+
+		//if a page wasn't changed, continue looking for a request
+		if(!pageChanged){
+			//first see if the request was to view all fractals
+			if(req.getParameter("viewAllFractals") != null) {
+				fractals = browseController.getAllFractals();
+				pageNumber = 0;
+			}
+			else{
+				//if it wasn't, then see if the request was for a type of fractal
+				boolean foundType = false;
+				for(String s : Fractal.getAllFractalTypes()){
+					 if (req.getParameter("viewAll" + s + "Fractals") != null) {
+						fractals = browseController.getAllFractalsByType(s);
+						pageNumber = 0;
+						foundType = true;
+					 }
+				}
+				if(!foundType){
+					//again, if it wasn't for a type of fractal, now see if it was for a type of gradient
+					foundType = false;
+					for(String s : Gradient.TYPES){
+						 if (req.getParameter("viewAllGradient" + s + "Fractals") != null) {
+							fractals = browseController.getAllFractalsByGradientType(s);
+							pageNumber = 0;
+							foundType = true;
+						 }
+					}
+					if(!foundType){
+						//if it still wasn't found, see if it was for a search
+						if (req.getParameter("searchForFractals") != null) {
+							fractals = browseController.getAllFractalsWithCharSeq(charSeq);
+							pageNumber = 0;
+						}
+						//otherwise the fractal should be rendered
+						else{
+							//set display to true so the fractal is rendered
+							display = true;
+						}
+						//if the fractal list is still empty, get the full list of fractals
+						if(fractals == null){
+							fractals = browseController.getAllFractals();
+							pageNumber = 0;
+						}
+					}
+				}
 			}
 		}
 		
+		int maxPageNumber;
+		if(fractals != null){
+			//figure out the max page number
+			maxPageNumber = fractals.size() / fractalsPerPage;
+			
+			//determine the new page number based on the pagen umber change
+			pageNumber += pageNumberChange;
+
+			//ensure that the page number is valid
+			pageNumber = Math.max(0, Math.min(maxPageNumber, pageNumber));
+		}
+		else{
+			maxPageNumber = 0;
+			pageNumber = 0;
+		}
+		
+		if(fractals != null){
+			//add the usernames of the fractal creators
+			addFractalNames(req, browseController, fractals);
+			
+			//get fractal the user selected to render from the list of fractals
+			//if one of the fractals is requested then it should be rendered
+			for(Fractal f : fractals){
+				//look for fractal to view
+				Object found = req.getParameter("viewFractal_" + f.getId());
+				if(found != null){
+					renderFractal = f;
+					break;
+				}
+				//look for fractal to delete
+				found = req.getParameter("deleteFractal_" + f.getId());
+				if(found != null){
+					deleteFractal = f;
+					break;
+				}
+			}
+		}
+
+		//if the fractal was found, try to delete it
+		if(deleteFractal != null){
+			ViewAccountController viewController = new ViewAccountController();
+			User user = viewController.getUserByUserName(getLoggedInUser(req, resp));
+			if(!viewController.deleteFractal(deleteFractal.getId(), user)){
+				errorMessage = "You do not have proper permissions to delete this fractal";
+			}
+			display = false;
+		}
 		//if the fractal was found, render it and display it
-		if(renderFractal != null)
-		{
+		else if(renderFractal != null){
 			FractalController fractalController = renderFractal.createApproprateController();
 			fractalController.render();
 		}
@@ -127,14 +228,28 @@ public class BrowseFractalsServlet extends HttpServlet {
 		//if the fractal was not found and one should be displayed, then send an error message
 		else if(display) errorMessage = "Fractal couldn't be rendered";
 		
+		//figure out the list of fractals that should be sent as the sub list of fractals to display
+		ArrayList<Fractal> pageFractals = browseController.getFractalPageList(fractals, fractalsPerPage, pageNumber);
+		
 		//set attributes
 		req.setAttribute("currentlyLoggedInMessage", currentlyLoggedInMessage);
 		req.setAttribute("charSeq", charSeq);
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("display", display);
-		req.setAttribute("fractals", fractals);
+		req.getSession().setAttribute("fractals", fractals);
+		req.getSession().setAttribute("pageFractals", pageFractals);
 		req.setAttribute("fractalTypes", fractalTypes);
 		req.setAttribute("gradientTypes", gradientTypes);
+		
+		//set fractals per page attribute
+		req.getSession().setAttribute("fractalsPerPage", fractalsPerPage);
+		req.getSession().setAttribute("pageNumber", pageNumber);
+		req.getSession().setAttribute("maxPageNumber", maxPageNumber);
+
+		//set the logged in user type
+		ViewAccountController viewAccountController = new ViewAccountController();
+		User user = viewAccountController.getUserByUserName(getLoggedInUser(req, resp));
+		req.setAttribute("userType", user.getType());
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/browseFractals.jsp").forward(req, resp);
@@ -183,4 +298,40 @@ public class BrowseFractalsServlet extends HttpServlet {
 		// otherwise
 		return("Currently logged in as " + userName);
 	}
+	
+	/**
+	 * Add an attribute for each of the fractals in the given list that is:
+	 * fractalUsername + the id of the fractal, so
+	 * "fractalUsername" + id
+	 * @param controller
+	 * @param fractals
+	 */
+	private static void addFractalNames(HttpServletRequest req, BrowseFractalsController controller, ArrayList<Fractal> fractals){
+		for(Fractal f : fractals){
+			String name = controller.getUsernameByFractalId(f.getId());
+			req.setAttribute("fractalUsername" + f.getId(), name);
+		}
+	}
+
+	/**
+	 * Get the username of the user who is currently logged in
+	 * @param req the request for the page
+	 * @param resp the responce of the page
+	 * @return the username of the user, null if no username was found
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private String getLoggedInUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		//get cookies
+		Cookie[] cookies = req.getCookies();
+		//if no cookies were found then return null
+		if(cookies == null) return null;
+		//look for the username, if it is found, return it
+		for(Cookie cookie : cookies){
+			if(cookie.getName().equals("user")) return cookie.getValue();
+		}
+		//if no username is found, return null
+		return null;
+	}
+	
 }

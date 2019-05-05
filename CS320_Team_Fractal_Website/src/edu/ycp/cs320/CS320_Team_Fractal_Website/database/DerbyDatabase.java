@@ -12,6 +12,7 @@ import java.util.List;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.Crypto;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.Admin;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Fractal;
@@ -55,14 +56,13 @@ public class DerbyDatabase implements IDatabase
 					try
 					{
 						// retrieve all accounts and populate into the list
-						stmt = conn.prepareStatement("select * from users");
+						stmt = conn.prepareStatement("select users.* from users");
 						ArrayList<User> result = new ArrayList<User>();
 
 						resultSet = stmt.executeQuery();
 
 						while(resultSet.next()){
-							User user = new StandardUser();
-							loadUser(user, resultSet);
+							User user = loadUser(resultSet);
 							result.add(user);
 						}
 						return result;
@@ -96,39 +96,14 @@ public class DerbyDatabase implements IDatabase
 					
 					resultSet = stmt.executeQuery();
 					Boolean match = false;
-					while(resultSet.next())
-					{
+					
+					while(resultSet.next()){
 						match = crypto.match(password, resultSet.getString(1));
 					}
-					if(match)
-					{
-						DBUtil.closeQuietly(stmt);
-						DBUtil.closeQuietly(resultSet);
-						//create statement to get user
-						stmt = conn.prepareStatement(
-								"SELECT users.* FROM users " +
-								"WHERE users.username = ?");
-						stmt.setString(1, username);
-						
-						User result = new StandardUser();
-						resultSet = stmt.executeQuery();
-						Boolean found = false;
-						while(resultSet.next())
-						{
-							found = true;
-							loadUser(result, resultSet);
-						}
-
-						if(!found)
-						{
-							return null;
-						}
-						return result;
-					}
-					else
-					{
-						return null;
-					}
+					
+					//if the password was found with the associated username, get the user based on the username
+					if(match) return getUserByUsername(username);
+					else return null;
 				}
 				finally
 				{
@@ -166,7 +141,7 @@ public class DerbyDatabase implements IDatabase
 					while(resultSet.next())
 					{
 						found = true;
-						loadUser(result, resultSet);
+						result = loadUser(resultSet);
 					}
 
 					if(!found)
@@ -205,9 +180,9 @@ public class DerbyDatabase implements IDatabase
 					Boolean found = false;
 					while(resultSet.next()){
 						found = true;
-						loadUser(result, resultSet);
+						result = loadUser(resultSet);
 					}
-
+					
 					if(!found){
 						System.out.println("User not found.");
 						return null;
@@ -266,7 +241,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean addUser(User user, boolean ver)
+	public boolean addUser(User user, boolean ver, String type)
 	{
 		return executeTransaction(new Transaction<Boolean>()
 		{
@@ -315,7 +290,7 @@ public class DerbyDatabase implements IDatabase
 							String hashedPassword = crypto.encrypt(user.getPassword());
 							
 							// now add the user if the username does not already exist
-							stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email, verify, isVerified) VALUES (?, ?, ?, ?, ?, ?, ?)");
+							stmt = conn.prepareStatement("INSERT INTO users (firstname, lastname, username, password, email, verify, isVerified, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 							stmt.setString(1, user.getFirstname());
 							stmt.setString(2, user.getLastname());
 							stmt.setString(3, user.getUsername());
@@ -323,25 +298,24 @@ public class DerbyDatabase implements IDatabase
 							stmt.setString(5, user.getEmail());
 							stmt.setString(6, user.getVerificationCode());
 							stmt.setBoolean(7, ver);
+							stmt.setString(8, type);
 
 							//now ensure that the user was added correctly
 							int result = stmt.executeUpdate();
-
-							if(result == 1)
-							{
+							
+							if(result == 1){
 								getUserInfo = conn.prepareStatement("SELECT users.* FROM users WHERE users.username = ? AND users.password = ?");
 								getUserInfo.setString(1, user.getUsername());
 								getUserInfo.setString(2, hashedPassword);
 
 								resultSet = getUserInfo.executeQuery();
 							}
-							User userAdded = new StandardUser();
-
-							while(resultSet.next() && !found)
-							{
+							else{
+								found = false;
+							}
+							while(resultSet.next() && !found){
 								//if the user was found, quit out of the loop and set found to true
 								found = true;
-								loadUser(userAdded, resultSet);
 							}
 						}
 					}
@@ -458,9 +432,7 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public boolean deleteFractal(Fractal fractal, String username){
-		//make sure data isn't null
-		if(fractal == null || username == null) return false;
+	public boolean deleteFractal(int id){
 
 		return executeTransaction(new Transaction<Boolean>(){
 			@Override
@@ -475,54 +447,31 @@ public class DerbyDatabase implements IDatabase
 				int userId = -1;
 
 				try{
-					//get the user id of the user
-					//statement to get the id
-					stmt = conn.prepareStatement("SELECT users.user_id FROM users "
-							+ " WHERE users.username = ?");
-					//add in the username
-					stmt.setString(1, username);
+					Fractal fractal = getFractalById(id);
+					//get id of fractal to remove
+					if(fractal == null) return false;
+					int fractalId = fractal.getId();
+					//insert the fractal
+					stmt = conn.prepareStatement("Delete from fractal "
+												+ " where fractal.fractal_id = ?");
+					//set attributes of statement
+					stmt.setInt(1, fractalId);
 
-					//Execute query
-					resultSet = stmt.executeQuery();
+					//execute the statement
+					stmt.executeUpdate();
 
-					//get the id only if one is found
-					if(resultSet.next()){
-						try{
-							userId = Integer.parseInt(resultSet.getString(1));
-						}catch(NumberFormatException e){}
-					}
-
+					//close statements
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
 
-					//only add the fractal if the user Id was found
-					if(userId != -1){
+					//now check if the fractal was removed
+					stmt = conn.prepareStatement("SELECT fractal.* FROM fractal "
+							+ " where fractal.fractal_id = ? AND fractal.user_id = ?");
+					stmt.setInt(1, fractalId);
+					stmt.setInt(2, userId);
 
-						//get id of fractal to remove
-						int fractalId = fractal.getId();
-						//insert the fractal
-						stmt = conn.prepareStatement("Delete from fractal "
-													+ " where fractal.fractal_id = ?");
-						//set attributes of statement
-						stmt.setInt(1, fractalId);
-
-						//execute the statement
-						stmt.executeUpdate();
-
-						//close statements
-						DBUtil.closeQuietly(stmt);
-						DBUtil.closeQuietly(resultSet);
-
-						//now check if the fractal was removed
-						stmt = conn.prepareStatement("SELECT fractal.* FROM fractal "
-								+ " where fractal.fractal_id = ? AND fractal.user_id = ?");
-						stmt.setInt(1, fractalId);
-						stmt.setInt(2, userId);
-
-						resultSet = stmt.executeQuery();
-						deleted = !resultSet.next();
-					}
-					else return false;
+					resultSet = stmt.executeQuery();
+					deleted = !resultSet.next();
 				}
 				//closing objects
 				finally{
@@ -747,7 +696,6 @@ public class DerbyDatabase implements IDatabase
 				public ArrayList<Fractal> execute(Connection conn) throws SQLException{
 					PreparedStatement stmt = null;
 					ResultSet resultSet = null;
-					System.out.println(charSeq);
 					try{
 						//retrieve all fractals and populate into the list
 						stmt = conn.prepareStatement("select fractal.* from fractal " +
@@ -1076,7 +1024,42 @@ public class DerbyDatabase implements IDatabase
 			}
 		});
 	}
+	@Override
+	public String getUsernameByFractalId(int id) {
+		return executeTransaction(new Transaction<String>(){
+			@Override
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
 
+				try{
+					//create statement to get fractal
+					stmt = conn.prepareStatement(
+							" SELECT users.username FROM users, fractal " +
+							" WHERE fractal.user_id = users.user_id " +
+							" AND fractal.fractal_id = ?");
+					stmt.setInt(1, id);
+
+					String result = null;
+					//execute the query
+					resultSet = stmt.executeQuery();
+
+					//load the fractal if one is found
+					if(resultSet.next()){
+						//get info from fractal
+						result = resultSet.getObject(1).toString();
+					}
+					//return fractal, null if one was not found
+					return result;
+				}
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn)
 	{
 		try
@@ -1140,14 +1123,21 @@ public class DerbyDatabase implements IDatabase
 		return conn;
 	}
 
-	private void loadUser(User user, ResultSet resultSet) throws SQLException
-	{
+	private User loadUser(ResultSet resultSet) throws SQLException{
+		User user;
+		String type = resultSet.getString(9);
+		if(type != null && type.equals(Admin.TYPE)) user = new Admin();
+		else user = new StandardUser();
+		
 		user.setUsername(resultSet.getString(2));
 		user.setFirstname(resultSet.getString(3));
 		user.setLastname(resultSet.getString(4));
 		user.setEmail(resultSet.getString(5));
 		user.setPassword(resultSet.getString(6));
+		user.setVerificationCode(resultSet.getString(7));
 		user.setIsVerified(resultSet.getBoolean(8));
+		
+		return user;
 	}
 
 	/**
@@ -1201,7 +1191,8 @@ public class DerbyDatabase implements IDatabase
 							+ " email varchar(40), "
 							+ " password varchar(2000), "
 							+ " verify varchar(20), "
-							+ " isVerified boolean"
+							+ " isVerified boolean, "
+							+ " type varchar(40) "
 							+ ")"
 							);
 					int result = stmt.executeUpdate();

@@ -11,6 +11,7 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.LogInController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DerbyDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.StandardUser;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class LogInControllerTest{
@@ -26,7 +27,7 @@ public class LogInControllerTest{
 	
 	@Before
 	public void setUp(){
-		model = new User(){};
+		model = new StandardUser(){};
 		controller = new LogInController();
 		controller.setModel(model);
 		
@@ -68,9 +69,55 @@ public class LogInControllerTest{
 	
 	@Test
 	public void testGetModel(){
-		User user = new User(){};
+		User user = new StandardUser(){};
 		controller.setModel(user);
 		
 		assertTrue(controller.getModel().equals(user));
 	}
+	
+	@Test
+	public void testCreateNewAccount(){
+		
+		controller.setModel(model);
+		
+		model.setUsername(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setPassword(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setEmail(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setFirstname(null);
+		assertFalse(controller.createNewAccount() == null);
+		model.setLastname(null);
+		assertFalse(controller.createNewAccount() == null);
+		
+		model.setUsername("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setPassword("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setEmail("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setFirstname("");
+		assertFalse(controller.createNewAccount() == null);
+		model.setLastname("");
+		assertFalse(controller.createNewAccount() == null);
+		
+		model.setUsername(username);
+		model.setFirstname(firstname);
+		model.setLastname(lastname);
+		model.setPassword(password);
+		model.setEmail(email);
+		
+		assertTrue(controller.createNewAccount() == null);
+	}
+	
+	@Test
+	public void testVerifyCredidentials(){
+		model.setUsername(username);
+		model.setPassword(password);
+		controller.createNewAccount();
+		
+		assertTrue(controller.verifyCredidentials());
+	}
+	
 }
