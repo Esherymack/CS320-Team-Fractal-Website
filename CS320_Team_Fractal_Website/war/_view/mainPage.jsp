@@ -95,6 +95,12 @@
 						<input type="hidden" id="fractalLabels${type}${i}" value="${requestScope[iValue]}" />
 					</c:forEach>
 				</c:forEach>
+				
+				<select id="useLocations" hidden>
+					<c:forEach items="${useLocations}" var="locName">
+							<option value="${locName}"></option>
+					</c:forEach>
+				</select>
 
 				<div class="col1">
 					<div class="parameters">
@@ -361,11 +367,9 @@
 	});
 
 	function updateDragZoom(mouseX, mouseY){
-
+	
 		//only run this function if a supported fractal is selected
-		var list = document.getElementById("choice");
-		var option = list.options[list.selectedIndex].value;
-		if(!(option == "Mandelbrot" || option == "Julia" || option == "BurningShip" || option == "Tricorn")) return;
+		if(!choiceUsesLocation()) return;
 
 		//if the x1,y2,x2,y2 values are empty, then save the current params in the oldDragZoom attributes
 		if(!oldDragZoomX1 || !oldDragZoomY1 || !oldDragZoomX2 || !oldDragZoomX2){
@@ -404,9 +408,7 @@
 	}
 
 	function updateMousePositions(mouseX, mouseY){
-		var list = document.getElementById("choice");
-		var option = list.options[list.selectedIndex].value;
-		if(!(option == "Mandelbrot" || option == "Julia" || option == "BurningShip" || option == "Tricorn")) return;
+		if(!choiceUsesLocation()) return;
 
 		//get height of image
 		var width = document.getElementById("fractalImageSource").width;
@@ -468,6 +470,21 @@
 		document.getElementById("param1").setAttribute("value", newY1);
 		document.getElementById("param2").setAttribute("value", newX2);
 		document.getElementById("param3").setAttribute("value", newY2);
+	}
+	
+	function choiceUsesLocation(){
+		
+		var choiceList = document.getElementById("choice");
+		var choice = choiceList.options[choiceList.selectedIndex].value;
+		
+		var locList = document.getElementById("useLocations");
+		
+		var found = false;
+		for(var i = 0; i < locList.length && !found; i++){
+			if(locList.options[i].value == choice) found = true;
+		}
+		
+		return found;
 	}
 
 	</script>

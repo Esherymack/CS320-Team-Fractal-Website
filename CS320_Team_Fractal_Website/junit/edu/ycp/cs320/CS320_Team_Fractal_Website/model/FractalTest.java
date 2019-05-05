@@ -38,6 +38,10 @@ public class FractalTest{
 			public String getParamExamples() {
 				return null;
 			}
+			@Override
+			public boolean usesLocation() {
+				return false;
+			}
 		};
 	}
 	
@@ -63,6 +67,10 @@ public class FractalTest{
 			@Override
 			public String getParamExamples() {
 				return null;
+			}
+			@Override
+			public boolean usesLocation() {
+				return false;
 			}
 		};
 

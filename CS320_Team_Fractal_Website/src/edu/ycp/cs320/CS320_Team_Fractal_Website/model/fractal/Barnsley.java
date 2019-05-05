@@ -123,6 +123,11 @@ public class Barnsley extends Fractal{
 	}
 
 	@Override
+	public boolean usesLocation() {
+		return false;
+	}
+
+	@Override
 	public FractalController createApproprateController(){
 		BarnsleyController controller = new BarnsleyController();
 		controller.setModel(this);

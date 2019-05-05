@@ -95,6 +95,11 @@ public class Koch extends Fractal{
 		controller.setModel(this);
 		return controller;
 	}
+
+	@Override
+	public boolean usesLocation() {
+		return false;
+	}
 	
 	/**
 	 * Get the iteration count of this fractal
