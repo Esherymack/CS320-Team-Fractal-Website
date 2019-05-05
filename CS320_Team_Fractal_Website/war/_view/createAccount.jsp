@@ -47,6 +47,10 @@
 							<td class="label">Enter an email:</td>
 							<td><input type="text" name="email" size="12" value="${email}" /></td>
 						</tr>
+						<tr>
+							<td class="label">Enter admin code:<br>(Leave blank to be a normal user)</td>
+							<td><input type="text" name="adminPassword" size="12" value="" /></td>
+						</tr>
 					</table>
 					<input type="Submit" name="submit" value="Create Account">
 				</form>

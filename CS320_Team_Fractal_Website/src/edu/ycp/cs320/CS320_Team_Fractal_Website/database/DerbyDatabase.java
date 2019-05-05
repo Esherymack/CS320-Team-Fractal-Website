@@ -77,25 +77,25 @@ public class DerbyDatabase implements IDatabase
 	}
 
 	@Override
-	public User getUserByUsernameAndPassword(String username, String password)
-	{
-		return executeTransaction(new Transaction<User>()
-		{
+	public User getUserByUsernameAndPassword(String username, String password){
+		return executeTransaction(new Transaction<User>(){
 			@Override
-			public User execute(Connection conn) throws SQLException
-			{
-				Crypto crypto = new Crypto();
+			public User execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 
-				try
-				{
+				Crypto crypto = new Crypto();
+				
+				try{
 					// First get the password
 					stmt = conn.prepareStatement("SELECT users.password FROM users WHERE users.username = ?");
 					stmt.setString(1, username);
 					
 					resultSet = stmt.executeQuery();
+
 					Boolean match = false;
+					User result = null;
+					
 					while(resultSet.next())
 					{
 						match = crypto.match(password, resultSet.getString(1));
@@ -110,28 +110,12 @@ public class DerbyDatabase implements IDatabase
 								"WHERE users.username = ?");
 						stmt.setString(1, username);
 						
-						User result = null;
 						resultSet = stmt.executeQuery();
-						Boolean found = false;
-						while(resultSet.next())
-						{
-							found = true;
-							result = loadUser(resultSet);
-						}
-
-						if(!found)
-						{
-							return null;
-						}
-						return result;
+						while(resultSet.next()) result = loadUser(resultSet);
 					}
-					else
-					{
-						return null;
-					}
+					return result;
 				}
-				finally
-				{
+				finally{
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}
@@ -207,7 +191,7 @@ public class DerbyDatabase implements IDatabase
 						found = true;
 						result = loadUser(resultSet);
 					}
-
+					
 					if(!found){
 						System.out.println("User not found.");
 						return null;

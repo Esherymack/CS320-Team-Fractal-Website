@@ -15,9 +15,13 @@ public class ViewAccountController {
 		InitDatabase.init();
 		database = DatabaseProvider.getInstance();
 	}
-	
+
 	public User getUserByUserName(String username){
 		return database.getUserByUsername(username);
+	}
+
+	public User getUserByUserNamePassword(String username, String password){
+		return database.getUserByUsernameAndPassword(username, password);
 	}
 	
 	public ArrayList<Fractal> getUserFractals(String username)

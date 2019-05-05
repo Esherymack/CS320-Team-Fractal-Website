@@ -70,7 +70,7 @@ public class LogInController{
 				new StandardUser(
 					model.getUsername(), model.getFirstname(), model.getLastname(),
 					model.getEmail(), model.getPassword(), model.getVerificationCode()),
-				model.getIsVerified(), StandardUser.TYPE);
+				model.getIsVerified(), model.getType());
 		
 		
 		if(!added) responce = "Failed to add user";

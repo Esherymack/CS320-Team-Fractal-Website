@@ -111,4 +111,13 @@ public abstract class User
 	 * @return the type
 	 */
 	public abstract String getType();
+	
+	/**
+	 * Attempts to create an admin account
+	 * @param password the password needed to make an admin account
+	 * @return an admin account if the correct password was given, a StandardUser otherwise
+	 */
+	public static boolean isAdminPasswod(String password){
+		return password.equals("12345");
+	}
 }

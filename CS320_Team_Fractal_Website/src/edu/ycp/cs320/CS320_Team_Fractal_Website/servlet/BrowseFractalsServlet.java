@@ -175,7 +175,6 @@ public class BrowseFractalsServlet extends HttpServlet {
 		/*
 		 * TODO:
 		 * Add test cases
-		 * Add admin delete powers
 		 */
 		
 		int maxPageNumber;

@@ -51,6 +51,9 @@
 				<div class="info">
 						${firstName} ${lastName} | ${email}
 				</div>
+				<div class="info">
+						Your user status is: ${adminStatus}
+				</div>
 	
 				<div class="lower-nav">
 					<form action="${pageContext.servletContext.contextPath}/changePassword" method="doGet">
