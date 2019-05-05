@@ -175,7 +175,7 @@ public class HexaflakeController extends FractalController{
 		return new Point2D.Double((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 	}
 	
-	public double distPoints(Point2D.Double p1, Point2D.Double p2) {
+	public double dist(Point2D.Double p1, Point2D.Double p2) {
 		return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 	}
 }
