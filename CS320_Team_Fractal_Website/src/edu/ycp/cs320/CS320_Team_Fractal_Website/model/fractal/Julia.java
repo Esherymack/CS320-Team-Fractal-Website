@@ -109,6 +109,11 @@ public class Julia extends Fractal{
 		controller.setModel(this);
 		return controller;
 	}
+
+	@Override
+	public boolean usesLocation() {
+		return true;
+	}
 	
 	public Complex getConstant(){
 		return constant;

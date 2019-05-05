@@ -130,6 +130,11 @@ public class Hexaflake extends Fractal{
 				""
 		};
 	}
+
+	@Override
+	public boolean usesLocation() {
+		return false;
+	}
 	
 	public int getLevel(){
 		return level;

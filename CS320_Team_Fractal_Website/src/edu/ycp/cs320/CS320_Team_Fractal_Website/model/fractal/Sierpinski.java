@@ -120,6 +120,11 @@ public class Sierpinski extends Fractal{
 				""
 		};
 	}
+
+	@Override
+	public boolean usesLocation() {
+		return false;
+	}
 	
 	public int getLevel(){
 		return level;

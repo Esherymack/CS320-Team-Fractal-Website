@@ -2,6 +2,7 @@ package edu.ycp.cs320.CS320_Team_Fractal_Website.servlet;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -235,7 +236,16 @@ public class MainPageServlet extends HttpServlet{
 
 		//send list of gradients
 		req.setAttribute("gradientList", Gradient.TYPES);
-
+		
+		//send attributes for types of location using fractals
+		ArrayList<String> locNames = new ArrayList<String>();
+		for(String t : types){
+			Fractal f = Fractal.getDefaultFractal(t);
+			if(f.usesLocation()){
+				locNames.add(f.getType());
+			}
+		}
+		req.setAttribute("useLocations", locNames);
 	}
 
 	/**

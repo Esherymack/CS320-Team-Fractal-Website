@@ -105,6 +105,11 @@ public class BurningShip extends Fractal{
 		controller.setModel(this);
 		return controller;
 	}
+
+	@Override
+	public boolean usesLocation() {
+		return true;
+	}
 	
 	public int getMultiplyTimes() {
 		return multiplyTimes;
