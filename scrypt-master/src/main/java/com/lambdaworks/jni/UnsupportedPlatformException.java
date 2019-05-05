@@ -7,6 +7,7 @@ package com.lambdaworks.jni;
  *
  * @author Will Glozer
  */
+@SuppressWarnings("serial")
 public class UnsupportedPlatformException extends RuntimeException {
     public UnsupportedPlatformException(String s) {
         super(s);

@@ -44,15 +44,14 @@ public class DerbyDatabaseTest {
 	public void testGetUserByUsernameAndPassword(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 
-		Crypto crypto = new Crypto();
-		
-		User u = database.getUserByUsernameAndPassword(username, crypto.encrypt(password));
+		Crypto cr = new Crypto();
+		User u = database.getUserByUsernameAndPassword(username, password);
 		
 		assertFalse(u == null);
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(crypto.match(password, u.getPassword()));
+		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
 		assertTrue(u.getVerificationCode().equals(code));
 	}
@@ -61,11 +60,11 @@ public class DerbyDatabaseTest {
 	public void testGetUsers(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 		
+		Crypto cr = new Crypto();
+		
 		ArrayList<User> users = database.getUsers();
 		
 		assertTrue(users.size() > 0);
-
-		Crypto crypto = new Crypto();
 		
 		User u = database.getUserByUsername(username);
 		
@@ -73,7 +72,7 @@ public class DerbyDatabaseTest {
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(crypto.match(password, u.getPassword()));
+		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
 		assertTrue(u.getVerificationCode().equals(code));
 	}
@@ -82,15 +81,14 @@ public class DerbyDatabaseTest {
 	public void testGetUserByUserName(){
 		database.addUser(new StandardUser(username, firstname, lastname, email, password, code), true, StandardUser.TYPE);
 		
+		Crypto cr = new Crypto();
 		User u = database.getUserByUsername(username);
 
-		Crypto crypto = new Crypto();
-		
 		assertFalse(u == null);
 		assertTrue(u.getUsername().equals(username));
 		assertTrue(u.getFirstname().equals(firstname));
 		assertTrue(u.getLastname().equals(lastname));
-		assertTrue(crypto.match(password, u.getPassword()));
+		assertTrue(cr.match(password, u.getPassword()));
 		assertTrue(u.getEmail().equals(email));
 		assertTrue(u.getVerificationCode().equals(code));
 	}

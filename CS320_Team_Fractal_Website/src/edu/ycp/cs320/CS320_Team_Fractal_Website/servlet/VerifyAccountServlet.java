@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user.VerifyAccountController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 import javax.servlet.http.Cookie;
 

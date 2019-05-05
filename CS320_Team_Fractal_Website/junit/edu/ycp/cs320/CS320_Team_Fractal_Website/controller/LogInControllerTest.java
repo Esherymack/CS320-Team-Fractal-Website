@@ -44,16 +44,15 @@ public class LogInControllerTest{
 		model.setEmail(email);
 		controller.createNewAccount();
 		
+		Crypto cr = new Crypto();
 		IDatabase db = DatabaseProvider.getInstance();
 		User user = db.getUserByUsernameAndPassword(username, password);
-		
-		Crypto crypto = new Crypto();
 		
 		assertFalse(user == null);
 		assertTrue(user.getUsername().equals(username));
 		assertTrue(user.getFirstname().equals(firstname));
 		assertTrue(user.getLastname().equals(lastname));
-		assertTrue(crypto.match(password, user.getPassword()));
+		assertTrue(cr.match(password, user.getPassword()));
 		assertTrue(user.getEmail().equals(email));
 	}
 	
