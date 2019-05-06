@@ -1,5 +1,6 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.controller.user;
 
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.pages.CheckUserValidController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.DatabaseProvider;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.IDatabase;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.database.InitDatabase;
@@ -63,6 +64,12 @@ public class LogInController{
 		//if email doesn't contain an @ or . it is invalid
 		else if (!model.getEmail().contains("@") || !model.getEmail().contains(".")) {
 			responce = "The email is invalid. Ensure that it includes an @ and a .";
+		}
+		
+		//find out if an account with the given user name already exists
+		CheckUserValidController checkUser = new CheckUserValidController();
+		if(checkUser.getUserIfExists(model.getUsername())){
+			responce = "That username is taken";
 		}
 		
 		boolean added = false;
