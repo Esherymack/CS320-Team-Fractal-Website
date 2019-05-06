@@ -60,18 +60,7 @@
     <servlet-name>BrowseFractalsServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.BrowseFractalsServlet</servlet-class>
   </servlet>
-  
-  <servlet>
-    <servlet-name>GuessingGameServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.temp.GuessingGameServlet</servlet-class>
-  </servlet>
-
-  <!-- AJAX servlets. -->
-  <servlet>
-    <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CS320_Team_Fractal_Website.servlet.ajax.NextGuessAjaxServlet</servlet-class>
-  </servlet>
-
+ 
   <!-- Servlet mappings -->
   <servlet-mapping>
     <servlet-name>LandingPageServlet</servlet-name>
@@ -124,19 +113,8 @@
   </servlet-mapping>
   
   <servlet-mapping>
-    <servlet-name>GuessingGameServlet</servlet-name>
-    <url-pattern>/guessingGame</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
   	<servlet-name>IndexServlet</servlet-name>
   	<url-pattern>/index</url-pattern>
-  </servlet-mapping>
-  
-  <!--  AJAX servlet mappings. -->
-  <servlet-mapping>
-    <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <url-pattern>/ajax/nextGuess</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
