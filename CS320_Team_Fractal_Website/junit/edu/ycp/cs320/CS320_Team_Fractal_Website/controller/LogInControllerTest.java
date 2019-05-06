@@ -16,9 +16,9 @@ import edu.ycp.cs320.CS320_Team_Fractal_Website.model.account.User;
 
 public class LogInControllerTest{
 	
-	public static String username = "User12345";
+	public static String username = "User12345" + Math.random();
 	public static String password = "pass12345";
-	public static String email = "user12345@website.com";
+	public static String email = "user12345@website.com" + Math.random();
 	public static String firstname = "Sally";
 	public static String lastname = "Smith";
 	
@@ -27,6 +27,7 @@ public class LogInControllerTest{
 	
 	@Before
 	public void setUp(){
+		newUserNameAndEmail();
 		model = new StandardUser(){};
 		controller = new LogInController();
 		controller.setModel(model);
@@ -37,6 +38,7 @@ public class LogInControllerTest{
 	
 	@Test
 	public void testCreateAccount(){
+		newUserNameAndEmail();
 		model.setUsername(username);
 		model.setFirstname(firstname);
 		model.setLastname(lastname);
@@ -58,12 +60,21 @@ public class LogInControllerTest{
 	
 	@Test
 	public void testLogIn(){
+		newUserNameAndEmail();
 		model.setUsername(username);
+		model.setFirstname(firstname);
+		model.setLastname(lastname);
 		model.setPassword(password);
-		controller.createNewAccount();
+		model.setEmail(email);
 		
+		controller.createNewAccount();
+
 		model.setUsername(username);
+		model.setFirstname(firstname);
+		model.setLastname(lastname);
 		model.setPassword(password);
+		model.setEmail(email);
+		
 		assertTrue(controller.verifyCredidentials());
 	}
 	
@@ -101,23 +112,36 @@ public class LogInControllerTest{
 		assertFalse(controller.createNewAccount() == null);
 		model.setLastname("");
 		assertFalse(controller.createNewAccount() == null);
-		
+
+		newUserNameAndEmail();
 		model.setUsername(username);
 		model.setFirstname(firstname);
 		model.setLastname(lastname);
 		model.setPassword(password);
 		model.setEmail(email);
 		
-		assertTrue(controller.createNewAccount() == null);
+		String message = controller.createNewAccount();
+		assertTrue(message == null);
 	}
 	
 	@Test
 	public void testVerifyCredidentials(){
+		newUserNameAndEmail();
+
 		model.setUsername(username);
+		model.setFirstname(firstname);
+		model.setLastname(lastname);
 		model.setPassword(password);
+		model.setEmail(email);
+		
 		controller.createNewAccount();
 		
 		assertTrue(controller.verifyCredidentials());
+	}
+	
+	private static void newUserNameAndEmail(){
+		username = "User12345" + (int)(Math.random() * 1000000);
+		email = "user12345@website.com" + (int)(Math.random() * 1000000);
 	}
 	
 }
