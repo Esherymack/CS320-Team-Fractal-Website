@@ -176,6 +176,8 @@ public class BrowseFractalsServlet extends HttpServlet {
 		if(fractals != null){
 			//figure out the max page number
 			maxPageNumber = fractals.size() / fractalsPerPage;
+			if(fractals.size() % fractalsPerPage == 0) maxPageNumber--;
+			if(maxPageNumber < 0) maxPageNumber = 0;
 			
 			//determine the new page number based on the pagen umber change
 			pageNumber += pageNumberChange;
