@@ -32,7 +32,7 @@ public class RocketShip extends Fractal{
 	@Override
 	public String getInfo(){
 		return "Its a rocket ship... "
-				+ " "
+				+ "Based on the mandelbrot set. "
 				+ "Created by Dakota Hilbert. ";
 	}
 	
@@ -42,9 +42,9 @@ public class RocketShip extends Fractal{
 		return "<ul><li>Change X, Y values to zoom in and out on different regions.</li>"
 				+ "<li>Change multiplier to change the overall shape of the mandelbrot.</li>"
 				+ "<li>Example coordinates:</li>"
-				+ "<ul><li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
-				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
-				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>";
+				+ "<ul><li>X1: -1.145; Y1: -0.415; X2: -0.4; Y2: 0.313; M=1</li>"
+				+ "<li>X1: -0.744916; Y1: -0.158718; X2: -0.692459; Y2: -0.106260; M=1</li>"
+				+ "<li>X1: 0.0985; Y1: -0.52125; X2: 0.125875; Y2: -0.493875; M=1</li>";
 	}
 
 	@Override

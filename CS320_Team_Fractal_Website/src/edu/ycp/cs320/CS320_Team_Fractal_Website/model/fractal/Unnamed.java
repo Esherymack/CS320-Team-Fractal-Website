@@ -31,8 +31,8 @@ public class Unnamed extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "Insert info here. "
-				+ " "
+		return " "
+				+ "Based on the mandelbrot set. "
 				+ "Discovered by Dakota Hilbert. ";
 	}
 	
@@ -42,9 +42,9 @@ public class Unnamed extends Fractal{
 		return "<ul><li>Change X, Y values to zoom in and out on different regions.</li>"
 				+ "<li>Change multiplier to change the overall shape of the unnamed.</li>"
 				+ "<li>Example coordinates:</li>"
-				+ "<ul><li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
-				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
-				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>";
+				+ "<ul><li>X1: 0.1106538984; Y1: -0.6285011172; X2: 0.1193321719; Y2: -0.6198228437; M=1</li>"
+				+ "<li>X1: -0.445; Y1: 0.895; X2: -0.205; Y2: 1.135; M=1</li>"
+				+ "<li>X1: -0.605; Y1: 0.325; X2: -0.315; Y2: 0.615; M=1</li>";
 	}
 
 	@Override
