@@ -31,8 +31,8 @@ public class BakedKuriboh extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return " "
-				+ "Based on the mandelbrot set. "
+		return "Based on the mandelbrot set. "
+				+ "Adds another term to equation of mandelbrot, where z = z^2 + z + c. "
 				+ "Summoned by Dakota Hilbert.";
 	}
 	

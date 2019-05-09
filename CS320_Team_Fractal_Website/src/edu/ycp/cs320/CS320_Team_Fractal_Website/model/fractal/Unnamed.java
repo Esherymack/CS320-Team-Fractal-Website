@@ -31,9 +31,9 @@ public class Unnamed extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return " "
-				+ "Based on the mandelbrot set. "
-				+ "Discovered by Dakota Hilbert. ";
+		return "Based on the mandelbrot set. "
+				+ "Adds two more terms to equation of mandelbrot, where z = z^3 + z^2 + z + c. "
+				+ " ";
 	}
 	
 	@Override

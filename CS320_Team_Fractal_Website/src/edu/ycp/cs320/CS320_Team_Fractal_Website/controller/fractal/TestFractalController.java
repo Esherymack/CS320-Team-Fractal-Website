@@ -7,30 +7,30 @@ import java.awt.image.BufferedImage;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.RocketShip;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.BakedKuriboh;
 
-public class RocketShipController extends FractalController{
+public class TestFractalController extends FractalController{
 	
 	/**
 	 * The maximum number of iterations that a calculation will take
 	 */
 	public static final int MAX_ITER = 4000;
 	
-	private RocketShip model;
+	private BakedKuriboh model;
 	
-	public RocketShipController(RocketShip model){
+	public TestFractalController(BakedKuriboh model){
 		super();
 		this.model = model;
 	}
-	public RocketShipController(){
+	public TestFractalController(){
 		this(null);
 	}
 
 	@Override
-	public RocketShip getModel(){
+	public BakedKuriboh getModel(){
 		return model;
 	}
-	public void setModel(RocketShip model){
+	public void setModel(BakedKuriboh model){
 		this.model = model;
 	}
 
@@ -85,10 +85,17 @@ public class RocketShipController extends FractalController{
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
-	        	//brown if <=0
-	        	if(iters[i][j] <= 0) g.setColor(Color.BLACK);
+	        	Color BROWN = new Color(129, 89, 7);   // brown
+	        	if(iters[i][j] <= 0) {
+	        		if(model.noGradient()) {
+	        			g.setColor(BROWN);
+	        		}
+	        		else {
+	        			g.setColor(Color.BLACK);
+	        		}
+	        	}
 	        	else{
-	        		if(model.noGradient()) g.setColor(Color.WHITE);
+	        		if(model.noGradient()) g.setColor(Color.GREEN);
 	    			else if(getGradientType().equals(Gradient.RAINBOW)){
 	    				g.setColor(getGradient().getRainbowGradient(
 		    					(1 + Math.sin(Math.sqrt(iters[i][j]) * .25 + Math.PI)) * .5,
@@ -171,8 +178,8 @@ public class RocketShipController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-    		//z=z^4+z^3+z^2+z+c
-        	z = (z.multiply(z.multiply(z.multiply(z)))).add(z.multiply(z.multiply(z))).add(z.multiply(z)).add(z).add(c);
+    		//z= z^2 + z + c 
+    		z = z.multiply(z).add(z).add(c);
         	//increment count
     		count++;
     	}

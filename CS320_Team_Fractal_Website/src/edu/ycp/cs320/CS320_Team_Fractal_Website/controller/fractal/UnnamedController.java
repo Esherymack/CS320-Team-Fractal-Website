@@ -171,7 +171,7 @@ public class UnnamedController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-    		//z=z^3+z^2+c
+    		//z=z^3+z^2+z+c
         	z = z.multiply(z.multiply(z)).add(z.multiply(z)).add(z).add(c);
         	//increment count
     		count++;

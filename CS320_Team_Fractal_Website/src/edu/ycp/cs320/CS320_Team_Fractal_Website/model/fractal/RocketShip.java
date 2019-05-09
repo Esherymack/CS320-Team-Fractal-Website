@@ -33,7 +33,7 @@ public class RocketShip extends Fractal{
 	public String getInfo(){
 		return "Its a rocket ship... "
 				+ "Based on the mandelbrot set. "
-				+ "Created by Dakota Hilbert. ";
+				+ "Adds two more terms to equation of mandelbrot, where z = z^4 + z^3 + z^2 + z + c. ";
 	}
 	
 	@Override
