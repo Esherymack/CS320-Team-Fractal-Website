@@ -85,10 +85,17 @@ public class BakedKuribohController extends FractalController{
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
-	        	//brown if <=0
-	        	if(iters[i][j] <= 0) g.setColor(Color.getHSBColor(35, 84, 38));
+	        	Color BROWN = new Color(129, 89, 7);   // brown
+	        	if(iters[i][j] <= 0) {
+	        		if(model.noGradient()) {
+	        			g.setColor(BROWN);
+	        		}
+	        		else {
+	        			g.setColor(Color.BLACK);
+	        		}
+	        	}
 	        	else{
-	        		if(model.noGradient()) g.setColor(Color.WHITE);
+	        		if(model.noGradient()) g.setColor(Color.GREEN);
 	    			else if(getGradientType().equals(Gradient.RAINBOW)){
 	    				g.setColor(getGradient().getRainbowGradient(
 		    					(1 + Math.sin(Math.sqrt(iters[i][j]) * .25 + Math.PI)) * .5,
