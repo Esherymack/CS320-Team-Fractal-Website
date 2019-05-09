@@ -1,20 +1,20 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.BakedKuribohController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.UnnamedController;
 
-public class BakedKuriboh extends Fractal{
+public class Unnamed extends Fractal{
 	
 	/**
 	 * The number of times a complex number is multiplied during each Mandelbrot calculation
 	 */
 	private int multiplyTimes;
 
-	public BakedKuriboh(int multiplyTimes){
+	public Unnamed(int multiplyTimes){
 		super();
 		this.multiplyTimes = multiplyTimes;
 	}
-	public BakedKuriboh(){
+	public Unnamed(){
 		this(0);
 	}
 
@@ -31,16 +31,16 @@ public class BakedKuriboh extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "During your opponent's turn, at damage calculation: You can discard this card; "
-				+ "you take no battle damage from that battle (this is a Quick Effect). "
-				+ "Summoned by Dakota Hilbert.";
+		return "Insert info here. "
+				+ " "
+				+ "Discovered by Dakota Hilbert. ";
 	}
 	
 	@Override
 	public String getParamExamples()
 	{
 		return "<ul><li>Change X, Y values to zoom in and out on different regions.</li>"
-				+ "<li>Change multiplier to change the overall shape of the baked kuriboh.</li>"
+				+ "<li>Change multiplier to change the overall shape of the unnamed.</li>"
 				+ "<li>Example coordinates:</li>"
 				+ "<ul><li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
 				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
@@ -101,7 +101,7 @@ public class BakedKuriboh extends Fractal{
 	
 	@Override
 	public FractalController createApproprateController(){
-		BakedKuribohController controller = new BakedKuribohController();
+		UnnamedController controller = new UnnamedController();
 		controller.setModel(this);
 		return controller;
 	}

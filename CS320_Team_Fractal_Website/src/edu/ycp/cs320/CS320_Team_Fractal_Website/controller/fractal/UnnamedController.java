@@ -7,30 +7,30 @@ import java.awt.image.BufferedImage;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.BakedKuriboh;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Unnamed;
 
-public class BakedKuribohController extends FractalController{
+public class UnnamedController extends FractalController{
 	
 	/**
 	 * The maximum number of iterations that a calculation will take
 	 */
 	public static final int MAX_ITER = 4000;
 	
-	private BakedKuriboh model;
+	private Unnamed model;
 	
-	public BakedKuribohController(BakedKuriboh model){
+	public UnnamedController(Unnamed model){
 		super();
 		this.model = model;
 	}
-	public BakedKuribohController(){
+	public UnnamedController(){
 		this(null);
 	}
 
 	@Override
-	public BakedKuriboh getModel(){
+	public Unnamed getModel(){
 		return model;
 	}
-	public void setModel(BakedKuriboh model){
+	public void setModel(Unnamed model){
 		this.model = model;
 	}
 
@@ -85,17 +85,10 @@ public class BakedKuribohController extends FractalController{
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
-	        	Color BROWN = new Color(129, 89, 7);   // brown
-	        	if(iters[i][j] <= 0) {
-	        		if(model.noGradient()) {
-	        			g.setColor(BROWN);
-	        		}
-	        		else {
-	        			g.setColor(Color.BLACK);
-	        		}
-	        	}
+	        	//brown if <=0
+	        	if(iters[i][j] <= 0) g.setColor(Color.BLACK);
 	        	else{
-	        		if(model.noGradient()) g.setColor(Color.GREEN);
+	        		if(model.noGradient()) g.setColor(Color.WHITE);
 	    			else if(getGradientType().equals(Gradient.RAINBOW)){
 	    				g.setColor(getGradient().getRainbowGradient(
 		    					(1 + Math.sin(Math.sqrt(iters[i][j]) * .25 + Math.PI)) * .5,
@@ -178,8 +171,8 @@ public class BakedKuribohController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-    		//z= z^2 + z + c 
-    		z = z.multiply(z).add(z).add(c);
+    		//z=z^3+z^2+c
+        	z = z.multiply(z.multiply(z)).add(z.multiply(z)).add(z).add(c);
         	//increment count
     		count++;
     	}

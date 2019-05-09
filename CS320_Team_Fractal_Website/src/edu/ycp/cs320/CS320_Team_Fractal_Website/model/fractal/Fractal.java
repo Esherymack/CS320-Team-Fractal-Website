@@ -170,7 +170,8 @@ public abstract class Fractal{
 		else if(type.equals("Hexaflake")) return new Hexaflake();
 		else if(type.equals("DragonCurve")) return new DragonCurve();
 		else if(type.equals("BakedKuriboh")) return new BakedKuriboh();
-		else if(type.equals("TestFractal")) return new TestFractal();
+		else if(type.equals("Unnamed")) return new Unnamed();
+		else if(type.equals("RocketShip")) return new RocketShip();
 		return null;
 	}
 	
@@ -190,7 +191,8 @@ public abstract class Fractal{
 			"Hexaflake",
 			"DragonCurve",
 			"BakedKuriboh",
-			"TestFractal"
+			"Unnamed",
+			"RocketShip"
 		};
 	}
 	
