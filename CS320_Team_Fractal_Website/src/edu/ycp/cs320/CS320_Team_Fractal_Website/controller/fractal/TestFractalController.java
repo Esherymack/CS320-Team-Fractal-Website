@@ -170,7 +170,7 @@ public class TestFractalController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-        	z = z.multiply(z).add(z.add(c));
+        	z = z.multiply(z.multiply(z)).add(z.multiply(z)).add(c);
         	//increment count
     		count++;
     	}
