@@ -93,11 +93,12 @@ public class MainPageServlet extends HttpServlet{
 
 		//name parameter
 		String name = null;
-
+		
 		//only generate the fractal if a value choice was found
+		Fractal fractal = null;
 		if(choice != null){
 			//select the correct controller and model to use
-			Fractal fractal = Fractal.getDefaultFractal(choice);
+			fractal = Fractal.getDefaultFractal(choice);
 			FractalController controller = fractal.createApproprateController();
 
 			//set fractal info
@@ -200,7 +201,8 @@ public class MainPageServlet extends HttpServlet{
 		req.setAttribute("result", result);
 		req.setAttribute("choice", choice);
 		req.setAttribute("gradientChoice", gradientChoice);
-
+		req.setAttribute("renderFractal", fractal);
+		
 		//set color attributes
 		req.setAttribute("gradientRedBase", redBase);
 		req.setAttribute("gradientGreenBase", greenBase);

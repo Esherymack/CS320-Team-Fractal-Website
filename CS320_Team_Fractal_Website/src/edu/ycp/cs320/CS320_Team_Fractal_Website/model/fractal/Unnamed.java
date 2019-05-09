@@ -1,20 +1,20 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.TestFractalController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.UnnamedController;
 
-public class TestFractal extends Fractal{
+public class Unnamed extends Fractal{
 	
 	/**
 	 * The number of times a complex number is multiplied during each Mandelbrot calculation
 	 */
 	private int multiplyTimes;
 
-	public TestFractal(int multiplyTimes){
+	public Unnamed(int multiplyTimes){
 		super();
 		this.multiplyTimes = multiplyTimes;
 	}
-	public TestFractal(){
+	public Unnamed(){
 		this(0);
 	}
 
@@ -31,20 +31,20 @@ public class TestFractal extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "The Mandelbrot set is the set of complex numbers for which the function does not diverge "
-				+ "when iterated from, i.e., for which the sequence, etc., remains bounded in absolute value. Its "
-				+ "definition and name are due to Adrien Douady, in tribute to the mathematician Benoit Mandelbrot.";
+		return "Insert info here. "
+				+ " "
+				+ "Discovered by Dakota Hilbert. ";
 	}
 	
 	@Override
 	public String getParamExamples()
 	{
 		return "<ul><li>Change X, Y values to zoom in and out on different regions.</li>"
-				+ "<li>Change multiplier to change the overall shape of the mandelbrot.</li>"
+				+ "<li>Change multiplier to change the overall shape of the unnamed.</li>"
 				+ "<li>Example coordinates:</li>"
-				+ "<ul><li>X1: -1.3595507; Y1: 0.0652734; X2: -1.35213867; Y2: 0.07268554; M=1</li>"
-				+ "<li>X1: 0.298271942; Y1: 0.0184661865; X2: 0.305683593; Y2: 0.025877838; M=1</li>"
-				+ "<li>X1: -1.3180998166; Y1: 0.0667306582; X2: -1.3096934159; Y2: 0.07513705889; M=1</li>";
+				+ "<ul><li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
+				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
+				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>";
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class TestFractal extends Fractal{
 	
 	@Override
 	public FractalController createApproprateController(){
-		TestFractalController controller = new TestFractalController();
+		UnnamedController controller = new UnnamedController();
 		controller.setModel(this);
 		return controller;
 	}

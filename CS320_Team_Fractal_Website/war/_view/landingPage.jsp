@@ -84,6 +84,17 @@
 						<p class="exampleImageText">A Koch set</p>
 						<p class="exampleImageText">A Sierpinksi Triangle</p>
 					</div>
+					<div class="exampleImageContainer">
+						<img src="img/example_bakedkuriboh1.png" alt="bakedkuriboh1" class="exampleImage">
+						<img src="img/example_bakedkuriboh2.png" alt="bakedkuriboh2" class="exampleImage">
+						<img src="img/example_unnamed.png" alt="unnamed1" class="exampleImage">
+						<img src="img/example_rocketship.png" alt="rocketship1" class="exampleImage">
+						
+						<p class="exampleImageText">A Zoomed Out Baked Kuriboh</p>
+						<p class="exampleImageText">A Zoomed In Baked Kuriboh</p>
+						<p class="exampleImageText">An Unnamed fractal</p>
+						<p class="exampleImageText">A Rocket Ship fractal</p>
+					</div>
 					<div>
 						<h2>About</h2>
 						<p>

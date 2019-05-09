@@ -7,30 +7,30 @@ import java.awt.image.BufferedImage;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.TestFractal;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.RocketShip;
 
-public class TestFractalController extends FractalController{
+public class RocketShipController extends FractalController{
 	
 	/**
 	 * The maximum number of iterations that a calculation will take
 	 */
 	public static final int MAX_ITER = 4000;
 	
-	private TestFractal model;
+	private RocketShip model;
 	
-	public TestFractalController(TestFractal model){
+	public RocketShipController(RocketShip model){
 		super();
 		this.model = model;
 	}
-	public TestFractalController(){
+	public RocketShipController(){
 		this(null);
 	}
 
 	@Override
-	public TestFractal getModel(){
+	public RocketShip getModel(){
 		return model;
 	}
-	public void setModel(TestFractal model){
+	public void setModel(RocketShip model){
 		this.model = model;
 	}
 
@@ -85,6 +85,7 @@ public class TestFractalController extends FractalController{
 		for(int i = 0; i < img.getWidth(); i++){
 	        for(int j = 0; j < img.getHeight(); j++){
 	        	//select the color based on the iter count
+	        	//brown if <=0
 	        	if(iters[i][j] <= 0) g.setColor(Color.BLACK);
 	        	else{
 	        		if(model.noGradient()) g.setColor(Color.WHITE);
@@ -170,7 +171,8 @@ public class TestFractalController extends FractalController{
     		for(int i = 1; i < model.getMultiplyTimes(); i++){
     			z = z.multiply(z);
     		}
-        	z = z.multiply(z.multiply(z)).add(z.multiply(z)).add(c);
+    		//z=z^3+z^2+c
+        	z = (z.multiply(z.multiply(z.multiply(z)))).add(z.multiply(z.multiply(z))).add(z.multiply(z)).add(z).add(c);
         	//increment count
     		count++;
     	}
