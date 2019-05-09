@@ -63,6 +63,17 @@
 						<p class="exampleImageText">Another Julia Set, zoomed in</p>
 					</div>
 					<div class="exampleImageContainer">
+						<img src="img/example_burningship1.png" alt="burningship1" class="exampleImage">
+						<img src="img/example_burningship2.png" alt="burningship2" class="exampleImage">
+						<img src="img/example_tricorn2.png" alt="tricorn1" class="exampleImage">
+						<img src="img/example_tricorn1.png" alt="tricorn2" class="exampleImage">
+						
+						<p class="exampleImageText">A zoomed out Burning Ship</p>
+						<p class="exampleImageText">A zoomed in Burning Ship section</p>
+						<p class="exampleImageText">A zoomed out Tricorn</p>
+						<p class="exampleImageText">A zoomed in Tricorn section</p>
+					</div>
+					<div class="exampleImageContainer">
 						<img src="img/example_barnsley1.png" alt="barnsley1" class="exampleImage">
 						<img src="img/example_barnsley2.png" alt="barnsley2" class="exampleImage">
 						<img src="img/example_koch.png" alt="koch" class="exampleImage">
