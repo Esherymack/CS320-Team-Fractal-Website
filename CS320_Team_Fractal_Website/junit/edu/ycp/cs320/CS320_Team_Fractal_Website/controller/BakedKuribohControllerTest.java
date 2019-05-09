@@ -9,26 +9,24 @@ import java.awt.image.BufferedImage;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MandelbrotController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MarybrotController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.BakedKuribohController;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Mandelbrot;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Marybrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.BakedKuriboh;
 
-public class MarybrotControllerTest{
+public class BakedKuribohControllerTest{
 	
-	private Marybrot model;
-	private MarybrotController controller;
+	private BakedKuriboh model;
+	private BakedKuribohController controller;
 	
 	@Before
 	public void setUp(){
-		model = new Marybrot();
-		controller = new MarybrotController(model);
+		model = new BakedKuriboh();
+		controller = new BakedKuribohController(model);
 	}
 
 	@Test
 	public void testConstructor(){
-		controller = new MarybrotController(model);
+		controller = new BakedKuribohController(model);
 		assertTrue(controller.getModel().equals(model));
 	}
 

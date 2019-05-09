@@ -1,20 +1,20 @@
 package edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal;
 
 import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.FractalController;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.MarybrotController;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.controller.fractal.BakedKuribohController;
 
-public class Marybrot extends Fractal{
+public class BakedKuriboh extends Fractal{
 	
 	/**
 	 * The number of times a complex number is multiplied during each Mandelbrot calculation
 	 */
 	private int multiplyTimes;
 
-	public Marybrot(int multiplyTimes){
+	public BakedKuriboh(int multiplyTimes){
 		super();
 		this.multiplyTimes = multiplyTimes;
 	}
-	public Marybrot(){
+	public BakedKuriboh(){
 		this(0);
 	}
 
@@ -101,7 +101,7 @@ public class Marybrot extends Fractal{
 	
 	@Override
 	public FractalController createApproprateController(){
-		MarybrotController controller = new MarybrotController();
+		BakedKuribohController controller = new BakedKuribohController();
 		controller.setModel(this);
 		return controller;
 	}

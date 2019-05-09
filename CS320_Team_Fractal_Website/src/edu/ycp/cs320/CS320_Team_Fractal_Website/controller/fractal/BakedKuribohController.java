@@ -7,30 +7,30 @@ import java.awt.image.BufferedImage;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.Complex;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Gradient;
 import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Location;
-import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.Marybrot;
+import edu.ycp.cs320.CS320_Team_Fractal_Website.model.fractal.BakedKuriboh;
 
-public class MarybrotController extends FractalController{
+public class BakedKuribohController extends FractalController{
 	
 	/**
 	 * The maximum number of iterations that a calculation will take
 	 */
 	public static final int MAX_ITER = 4000;
 	
-	private Marybrot model;
+	private BakedKuriboh model;
 	
-	public MarybrotController(Marybrot model){
+	public BakedKuribohController(BakedKuriboh model){
 		super();
 		this.model = model;
 	}
-	public MarybrotController(){
+	public BakedKuribohController(){
 		this(null);
 	}
 
 	@Override
-	public Marybrot getModel(){
+	public BakedKuriboh getModel(){
 		return model;
 	}
-	public void setModel(Marybrot model){
+	public void setModel(BakedKuriboh model){
 		this.model = model;
 	}
 
