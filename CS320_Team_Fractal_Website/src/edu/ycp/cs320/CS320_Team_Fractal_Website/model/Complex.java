@@ -28,6 +28,11 @@ public class Complex
 		return new Complex(Math.abs(real), Math.abs(imag));
 	}
 	
+	public Complex getSquareRoot()
+	{
+		return new Complex(Math.sqrt(real), Math.sqrt(imag));
+	}
+	
 	public Complex getComplexConjugate()
 	{
 		return new Complex(real, -imag);
