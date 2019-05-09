@@ -31,9 +31,9 @@ public class RocketShip extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "The Mandelbrot set is the set of complex numbers for which the function does not diverge "
-				+ "when iterated from, i.e., for which the sequence, etc., remains bounded in absolute value. Its "
-				+ "definition and name are due to Adrien Douady, in tribute to the mathematician Benoit Mandelbrot.";
+		return "Its a rocket ship... "
+				+ " "
+				+ "Created by Dakota Hilbert. ";
 	}
 	
 	@Override
@@ -42,9 +42,9 @@ public class RocketShip extends Fractal{
 		return "<ul><li>Change X, Y values to zoom in and out on different regions.</li>"
 				+ "<li>Change multiplier to change the overall shape of the mandelbrot.</li>"
 				+ "<li>Example coordinates:</li>"
-				+ "<ul><li>X1: -1.3595507; Y1: 0.0652734; X2: -1.35213867; Y2: 0.07268554; M=1</li>"
-				+ "<li>X1: 0.298271942; Y1: 0.0184661865; X2: 0.305683593; Y2: 0.025877838; M=1</li>"
-				+ "<li>X1: -1.3180998166; Y1: 0.0667306582; X2: -1.3096934159; Y2: 0.07513705889; M=1</li>";
+				+ "<ul><li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
+				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
+				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>";
 	}
 
 	@Override

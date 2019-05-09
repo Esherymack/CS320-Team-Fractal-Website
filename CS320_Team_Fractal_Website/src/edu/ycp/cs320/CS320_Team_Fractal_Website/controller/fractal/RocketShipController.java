@@ -172,7 +172,7 @@ public class RocketShipController extends FractalController{
     			z = z.multiply(z);
     		}
     		//z=z^3+z^2+c
-        	z = z.multiply((z.multiply(z.multiply(z)))).add(z.multiply(z.multiply(z))).add(z.multiply(z)).add(z).add(c);
+        	z = (z.multiply(z.multiply(z.multiply(z)))).add(z.multiply(z.multiply(z))).add(z.multiply(z)).add(z).add(c);
         	//increment count
     		count++;
     	}
