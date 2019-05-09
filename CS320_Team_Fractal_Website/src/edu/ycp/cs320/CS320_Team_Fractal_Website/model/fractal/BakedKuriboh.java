@@ -31,8 +31,8 @@ public class BakedKuriboh extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "During your opponent's turn, at damage calculation: You can discard this card; "
-				+ "you take no battle damage from that battle (this is a Quick Effect). "
+		return "Based on the mandelbrot set. "
+				+ "Adds another term to equation of mandelbrot, where z = z^2 + z + c. "
 				+ "Summoned by Dakota Hilbert.";
 	}
 	
@@ -42,9 +42,9 @@ public class BakedKuriboh extends Fractal{
 		return "<ul><li>Change X, Y values to zoom in and out on different regions.</li>"
 				+ "<li>Change multiplier to change the overall shape of the baked kuriboh.</li>"
 				+ "<li>Example coordinates:</li>"
-				+ "<ul><li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
-				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>"
-				+ "<li>X1: ; Y1: ; X2: ; Y2: ; M=1</li>";
+				+ "<ul><li>X1: -0.978656; Y1: -0.214731; X2: -0.965531; Y2: -0.201606; M=1</li>"
+				+ "<li>X1: -1.636518; Y1: 0.008475; X2: -1.608; Y2: 0.036994; M=1</li>"
+				+ "<li>X1: -0.513532; Y1: -0.730888; X2: -0.370916; Y2: -0.588272; M=1</li>";
 	}
 
 	@Override
