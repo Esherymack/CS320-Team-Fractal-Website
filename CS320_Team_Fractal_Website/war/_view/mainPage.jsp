@@ -57,6 +57,9 @@
 				<div class="image">
 				<p></p>
 					<c:choose>
+						<c:when test="${not result && fractal.type == "bakedKuriboh"}">
+							<img src="img/bakedKuriboh.png" alt="placeholderKuriboh" class="fractalImage" />
+						</c:when>
 						<c:when test="${not result}">
 							<img src="img/square.jpg" alt="placeholder" class="fractalImage" />
 						</c:when>
@@ -66,7 +69,6 @@
 								<div id="fractalDisplayZoomSelectorShadow"></div>
 								<div id="fractalDisplayZoomSelector"></div>
 							</div>
-
 						</c:otherwise>
 					</c:choose>
 				</div>
