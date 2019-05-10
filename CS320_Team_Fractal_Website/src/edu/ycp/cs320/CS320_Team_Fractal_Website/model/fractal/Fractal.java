@@ -174,6 +174,7 @@ public abstract class Fractal{
 		else if(type.equals("RocketShip")) return new RocketShip();
 		else if(type.equals("Vicsek")) return new Vicsek();
 		else if(type.equals("PythagorasTree")) return new PythagorasTree();
+		else if(type.equals("SierpinskiCarpet")) return new SierpinskiCarpet();
 		return null;
 	}
 	
@@ -194,6 +195,7 @@ public abstract class Fractal{
 			"PythagorasTree",
 			"RocketShip",
 			"Sierpinski",
+			"SierpinskiCarpet",
 			"Tricorn",
 			"Unnamed",
 			"Vicsek"
