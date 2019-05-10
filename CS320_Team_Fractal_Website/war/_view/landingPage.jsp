@@ -95,6 +95,17 @@
 						<p class="exampleImageText">An Unnamed fractal</p>
 						<p class="exampleImageText">A Rocket Ship fractal</p>
 					</div>
+					<div class="exampleImageContainer">
+						<img src="img/example_pythagorastree.png" alt="pythagorastree1" class="exampleImage">
+						<img src="img/square.jpg" alt="sierpinskicarpet1" class="exampleImage">
+						<img src="img/Vicsek+.png" alt="vicsek+" class="exampleImage">
+						<img src="img/VicsekX.png" alt="vicsekX" class="exampleImage">
+						
+						<p class="exampleImageText">A Pythagoras Tree</p>
+						<p class="exampleImageText">A Sierpinski Carpet</p>
+						<p class="exampleImageText">A Vicsek fractal with plus shape</p>
+						<p class="exampleImageText">A Vicsek fractal with x shape</p>
+					</div>
 					<div>
 						<h2>About</h2>
 						<p>
