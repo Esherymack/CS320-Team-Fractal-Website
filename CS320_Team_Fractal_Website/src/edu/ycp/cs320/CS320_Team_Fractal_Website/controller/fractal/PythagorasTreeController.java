@@ -61,7 +61,7 @@ public class PythagorasTreeController extends FractalController{
 	 * @param leftPoint the left point of the square
 	 * @param rightPoint the right point of the square
 	 */
-	public void renderNextSquares(Graphics g, int iterations, Point2D.Double leftPoint, Point2D.Double rightPoint){
+	private void renderNextSquares(Graphics g, int iterations, Point2D.Double leftPoint, Point2D.Double rightPoint){
 		if(iterations <= 0) return;
 		
 		double baseRads = Math.atan2(rightPoint.y - leftPoint.y, rightPoint.x - leftPoint.x);
