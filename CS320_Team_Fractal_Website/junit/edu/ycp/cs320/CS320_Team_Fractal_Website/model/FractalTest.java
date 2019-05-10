@@ -39,7 +39,7 @@ public class FractalTest{
 				return null;
 			}
 			@Override
-			public boolean usesLocation() {
+			public boolean getUsesLocation() {
 				return false;
 			}
 		};
@@ -69,7 +69,7 @@ public class FractalTest{
 				return null;
 			}
 			@Override
-			public boolean usesLocation() {
+			public boolean getUsesLocation() {
 				return false;
 			}
 		};

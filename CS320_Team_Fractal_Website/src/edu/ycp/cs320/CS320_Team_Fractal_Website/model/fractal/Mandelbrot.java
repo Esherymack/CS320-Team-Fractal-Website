@@ -107,7 +107,7 @@ public class Mandelbrot extends Fractal{
 	}
 
 	@Override
-	public boolean usesLocation() {
+	public boolean getUsesLocation() {
 		return true;
 	}
 	

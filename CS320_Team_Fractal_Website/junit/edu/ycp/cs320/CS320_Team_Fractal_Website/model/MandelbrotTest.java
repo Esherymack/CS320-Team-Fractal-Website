@@ -89,7 +89,7 @@ public class MandelbrotTest{
 
 	@Test
 	public void testUsesLocation(){
-		assertTrue(model.usesLocation());
+		assertTrue(model.getUsesLocation());
 	}
 	
 	@Test

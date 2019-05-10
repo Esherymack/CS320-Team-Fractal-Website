@@ -82,7 +82,9 @@
 							<p>${fractalInfo}</p>
 							<br>
 							<h2>Tips and Examples:</h2>
-							<p>Click and drag on the image to manually select parameters.</p>
+							<c:if test="${renderFractal.usesLocation}">
+								<p>Click and drag on the image to manually select parameters.</p>
+							</c:if>
 							<div class="param-list">
 								${paramsToTry}
 							</div>
