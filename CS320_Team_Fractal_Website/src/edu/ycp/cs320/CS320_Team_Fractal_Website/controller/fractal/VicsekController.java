@@ -32,17 +32,18 @@ public class VicsekController extends FractalController{
 	public boolean acceptParameters(String[] params){
 		try{
 			model.setLevel(Integer.parseInt(params[0]));
-			double x = Double.parseDouble(params[1]);
-			double y = Double.parseDouble(params[2]);
+			model.setOrientation(Integer.parseInt(params[1]));
+			double x = Double.parseDouble(params[2]);
+			double y = Double.parseDouble(params[3]);
 			model.setP1(new Point2D.Double(x, y));
-			x = Double.parseDouble(params[3]);
-			y = Double.parseDouble(params[4]);
+			x = Double.parseDouble(params[4]);
+			y = Double.parseDouble(params[5]);
 			model.setP2(new Point2D.Double(x, y));
-			x = Double.parseDouble(params[5]);
-			y = Double.parseDouble(params[6]);
+			x = Double.parseDouble(params[6]);
+			y = Double.parseDouble(params[7]);
 			model.setP3(new Point2D.Double(x, y));
-			x = Double.parseDouble(params[7]);
-			y = Double.parseDouble(params[8]);
+			x = Double.parseDouble(params[8]);
+			y = Double.parseDouble(params[9]);
 			model.setP4(new Point2D.Double(x, y));
 		}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException e){
 			return false;

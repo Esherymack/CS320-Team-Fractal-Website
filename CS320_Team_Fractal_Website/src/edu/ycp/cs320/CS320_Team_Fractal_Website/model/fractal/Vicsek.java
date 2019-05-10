@@ -10,15 +10,16 @@ public class Vicsek extends Fractal{
 	public static final int SIZE = 800;
 	
 	/**
-	 * The number of levels this triangle will be rendered
+	 * The number of levels of vicsek will be rendered
 	 */
 	private int level;
+	
 	/**
-	 * The height of this triangle
+	 * The orientation of vicsek
 	 */
-	private double height;
+	private int orientation;
 	/**
-	 * A point on the triangle
+	 * A point on the square
 	 */
 	private Point2D.Double p1, p2, p3, p4;
 	
@@ -40,8 +41,9 @@ public class Vicsek extends Fractal{
 		super.setDefaultParameters();
 		
 		level = 2;
+		this.orientation = 0;
 		
-		//4 points of plus in clockwise direction
+		//4 points of square in clockwise direction
 		this.p1 = new Point2D.Double(0, 0);
 		this.p2 = new Point2D.Double(SIZE, 0);
 		this.p3 = new Point2D.Double(SIZE, SIZE);
@@ -67,6 +69,7 @@ public class Vicsek extends Fractal{
 	public String[] getParameters(){
 		return new String[]{
 			"" + getLevel(),
+			"" + getOrientation(),
 			"" + getP1().x,
 			"" + getP1().y,
 			"" + getP2().x,
@@ -75,7 +78,6 @@ public class Vicsek extends Fractal{
 			"" + getP3().y,
 			"" + getP4().x,
 			"" + getP4().y,
-			"",
 			"",
 			"",
 			"",
@@ -100,6 +102,7 @@ public class Vicsek extends Fractal{
 	public String[] getParamLabels(){
 		return new String[]{
 				"Level: ",
+				"Orientation: ",
 				"P1x: ",
 				"P1y: ",
 				"P2x: ",
@@ -108,7 +111,6 @@ public class Vicsek extends Fractal{
 				"P3y: ",
 				"P4x: ",
 				"P4y: ",
-				"",
 				"",
 				"",
 				"",
@@ -134,12 +136,12 @@ public class Vicsek extends Fractal{
 		this.level = levelParam;
 		if(this.level < 1) this.level = 1;
 	}
-
-	public double getHeight(){
-		return this.height;
+	
+	public int getOrientation(){
+		return orientation;
 	}
-	public void setHeight(double height){
-		this.height = height;
+	public void setOrientation(int orientationParam){
+		this.level = orientationParam;
 	}
 	
 	public Point2D.Double getP1(){
