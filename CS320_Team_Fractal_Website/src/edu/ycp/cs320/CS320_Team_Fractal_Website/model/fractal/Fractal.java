@@ -172,6 +172,7 @@ public abstract class Fractal{
 		else if(type.equals("BakedKuriboh")) return new BakedKuriboh();
 		else if(type.equals("Unnamed")) return new Unnamed();
 		else if(type.equals("RocketShip")) return new RocketShip();
+		else if(type.equals("Vicsek")) return new Vicsek();
 		else if(type.equals("PythagorasTree")) return new PythagorasTree();
 		return null;
 	}
@@ -182,19 +183,19 @@ public abstract class Fractal{
 	 */
 	public static String[] getAllFractalTypes(){
 		return new String[]{
-			"Mandelbrot",
-			"Sierpinski",
-			"Koch",
-			"Barnsley",
-			"Julia",
-			"BurningShip",
-			"Tricorn",
-			"Hexaflake",
+			"BakedKuriboh",	
+			"Barnsley",	
+			"BurningShip",	
 			"DragonCurve",
-			"BakedKuriboh",
-			"Unnamed",
+			"Hexaflake",
+			"Julia",
+			"Koch",
+			"Mandelbrot",
+			"PythagorasTree",
 			"RocketShip",
-			"PythagorasTree"
+			"Sierpinski",
+			"Tricorn",
+			"Unnamed"
 		};
 	}
 	
