@@ -60,7 +60,7 @@ public class VicsekController extends FractalController{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Vicsek.SIZE, Vicsek.SIZE);
 		
-		drawVicsek(model.getLevel(), g, model.getP1(), model.getP2(), model.getP3(), model.getP4());
+		drawVicsek(model.getLevel(), model.getOrientation(), g, model.getP1(), model.getP2(), model.getP3(), model.getP4());
 		return img;
 	}
 	
@@ -72,7 +72,7 @@ public class VicsekController extends FractalController{
 	 * @param p2 the second point on the triangle
 	 * @param p3 the third point on the triangle
 	 */
-	private void drawVicsek(int level, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3, Point2D.Double p4){
+	private void drawVicsek(int level, int orientation, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3, Point2D.Double p4){
 		// this is a recursive function
 		if(level <= 1){
 			Point2D.Double middle = midPoint(p1, p2);
@@ -118,16 +118,32 @@ public class VicsekController extends FractalController{
 			Point2D.Double p11 = getThirdPoint(p12, p6);
 			Point2D.Double p14 = getThirdPoint(p13, p5);
 			
-			//top 
-			drawVicsek(level - 1, g, p5, p6, p7, p8);
-			//right
-			drawVicsek(level - 1, g, p7, p9, p10, p11);
-			//bottom
-			drawVicsek(level - 1, g, p14, p11, p12, p13);
-			//left
-			drawVicsek(level - 1, g, p16, p8, p14, p15);
-			//middle
-			drawVicsek(level - 1, g, p8, p7, p11, p14);
+			//draw plus if orientation = 0
+			if (orientation == 0) {
+				//top 
+				drawVicsek(level - 1, orientation, g, p5, p6, p7, p8);
+				//right
+				drawVicsek(level - 1, orientation, g, p7, p9, p10, p11);
+				//bottom
+				drawVicsek(level - 1, orientation, g, p14, p11, p12, p13);
+				//left
+				drawVicsek(level - 1, orientation, g, p16, p8, p14, p15);
+				//middle
+				drawVicsek(level - 1, orientation, g, p8, p7, p11, p14);
+			}
+			//draw x if orientation = 1
+			else {
+				//top left
+				drawVicsek(level - 1, orientation, g, p1, p5, p8, p16);
+				//top right
+				drawVicsek(level - 1, orientation, g, p6, p2, p9, p7);
+				//bottom right
+				drawVicsek(level - 1, orientation, g, p11, p10, p3, p12);
+				//bottom left
+				drawVicsek(level - 1, orientation, g, p15, p14, p13, p4);
+				//middle
+				drawVicsek(level - 1, orientation, g, p8, p7, p11, p14);
+			}
 		}
 	}
 	

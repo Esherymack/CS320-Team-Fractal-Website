@@ -41,7 +41,7 @@ public class Vicsek extends Fractal{
 		super.setDefaultParameters();
 		
 		level = 2;
-		this.orientation = 0;
+		orientation = 0;
 		
 		//4 points of square in clockwise direction
 		this.p1 = new Point2D.Double(0, 0);
@@ -141,7 +141,7 @@ public class Vicsek extends Fractal{
 		return orientation;
 	}
 	public void setOrientation(int orientationParam){
-		this.level = orientationParam;
+		this.orientation = orientationParam;
 	}
 	
 	public Point2D.Double getP1(){
