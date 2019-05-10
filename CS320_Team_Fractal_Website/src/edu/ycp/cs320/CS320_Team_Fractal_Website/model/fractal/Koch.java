@@ -97,7 +97,7 @@ public class Koch extends Fractal{
 	}
 
 	@Override
-	public boolean usesLocation() {
+	public boolean getUsesLocation() {
 		return false;
 	}
 	

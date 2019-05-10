@@ -65,7 +65,7 @@ public class KochTest{
 
 	@Test
 	public void testUsesLocation(){
-		assertFalse(model.usesLocation());
+		assertFalse(model.getUsesLocation());
 	}
 	
 	@Test

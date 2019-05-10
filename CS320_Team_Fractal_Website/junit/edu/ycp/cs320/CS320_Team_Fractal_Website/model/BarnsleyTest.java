@@ -80,7 +80,7 @@ public class BarnsleyTest {
 
 	@Test
 	public void testUsesLocation(){
-		assertFalse(model.usesLocation());
+		assertFalse(model.getUsesLocation());
 	}
 	
 	@Test

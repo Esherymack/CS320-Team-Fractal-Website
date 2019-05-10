@@ -40,7 +40,7 @@ public class PythagorasTreeController extends FractalController{
 		g.fillRect(0, 0, SIZE, SIZE);
 
 		double x1 = SIZE / 2 - model.getInitialSize() / 2;
-		double y1 = SIZE - model.getInitialSize() - SIZE * .3;
+		double y1 = SIZE - model.getInitialSize() - SIZE * .2;
 		g.setColor(chooseColor(SIZE / 2, y1 + model.getInitialSize() / 2));
 		
 		g.fillRect(

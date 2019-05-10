@@ -98,7 +98,7 @@ public class JuliaTest{
 
 	@Test
 	public void testUsesLocation(){
-		assertTrue(model.usesLocation());
+		assertTrue(model.getUsesLocation());
 	}
 
 	@Test

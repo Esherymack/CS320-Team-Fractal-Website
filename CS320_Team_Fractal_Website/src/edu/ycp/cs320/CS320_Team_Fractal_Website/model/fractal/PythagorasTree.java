@@ -59,10 +59,11 @@ public class PythagorasTree extends Fractal{
 
 	@Override
 	public String getParamExamples(){
-		return "<li>Change the angle to make the tree wider or thiner</li>"
+		return "<li>The angle is in degrees</li>"
+				+ "<li>Change the angle to make the tree wider or thiner</li>"
 				+ "<li>Change the size to make the larger or smaller</li>"
 				+ "<li>Change the iteration count to make more of the tree</li>"
-				+ "<liDon't let iterations get too big, otherwise the fractal can take some time to render</li>";
+				+ "<li>Don't let iterations get too big, otherwise the fractal can take some time to render</li>";
 	}
 
 	@Override
@@ -125,7 +126,7 @@ public class PythagorasTree extends Fractal{
 	}
 
 	@Override
-	public boolean usesLocation(){
+	public boolean getUsesLocation(){
 		return false;
 	}
 

@@ -141,7 +141,7 @@ public class SierpinskiTest {
 
 	@Test
 	public void testUsesLocation(){
-		assertFalse(model.usesLocation());
+		assertFalse(model.getUsesLocation());
 	}
 	
 	@Test
