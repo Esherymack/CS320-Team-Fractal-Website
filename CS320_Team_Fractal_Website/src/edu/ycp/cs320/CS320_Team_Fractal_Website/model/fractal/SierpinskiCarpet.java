@@ -47,18 +47,16 @@ public class SierpinskiCarpet extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "Also known as the Vicsek snowflake or box fractal, the Vicsek fractal is a "
-				+ "fractal with the overall shape of a square, subdivided recursively"
-				+ "into smaller squares in different directions depending on the orientation. ";
+		return "The Sierpinski Carpet is a plane fractal first described by Waclaw Sierpinski in 1916. "
+				+ "It is a fractal with the overall shape of a square, subdivided recursively"
+				+ "into 8 smaller squares, excluding the center square. ";
 	}
 	
 	@Override
 	public String getParamExamples()
 	{
-		return "<ul><li>Change the level of the render to get more detailed vicsek fractals.</li>"
-				+ "<ul><li>Keep level under 8 to preserve detail and efficiency.</li></ul>"
-				+ "<ul><li>Set the orientation to 0 to have the fractal extend in plus shape. </li></ul>"
-				+ "<ul><li>Set the orientation to 1 to have the fractal extend in x shape. </li></ul>"
+		return "<ul><li>Change the level of the render to get more detailed sierpinski blanket fractal.</li>"
+				+ "<ul><li>Keep level under 7 to preserve detail and efficiency.</li></ul>"
 				+ "<li>Changing the X, Y values of the points (P1, P2, P3, and P4) will distort the square.</li>";
 	}
 

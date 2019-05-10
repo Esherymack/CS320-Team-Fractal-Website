@@ -97,7 +97,7 @@
 					</div>
 					<div class="exampleImageContainer">
 						<img src="img/example_pythagorastree.png" alt="pythagorastree1" class="exampleImage">
-						<img src="img/example_sierpinskicarpet.jpg" alt="sierpinskicarpet1" class="exampleImage">
+						<img src="img/example_sierpinskicarpet.png" alt="sierpinskicarpet1" class="exampleImage">
 						<img src="img/Vicsek+.png" alt="vicsek+" class="exampleImage">
 						<img src="img/VicsekX.png" alt="vicsekX" class="exampleImage">
 						
