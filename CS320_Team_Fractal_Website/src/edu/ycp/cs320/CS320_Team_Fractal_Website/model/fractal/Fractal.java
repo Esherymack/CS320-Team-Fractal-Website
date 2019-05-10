@@ -193,7 +193,8 @@ public abstract class Fractal{
 			"RocketShip",
 			"Sierpinski",
 			"Tricorn",
-			"Unnamed"
+			"Unnamed",
+			"Vicsek"
 		};
 	}
 	
