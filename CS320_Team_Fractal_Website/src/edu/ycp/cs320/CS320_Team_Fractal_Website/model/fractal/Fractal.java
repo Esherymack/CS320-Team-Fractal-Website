@@ -181,18 +181,18 @@ public abstract class Fractal{
 	 */
 	public static String[] getAllFractalTypes(){
 		return new String[]{
-			"Mandelbrot",
-			"Sierpinski",
-			"Koch",
-			"Barnsley",
-			"Julia",
-			"BurningShip",
-			"Tricorn",
-			"Hexaflake",
+			"BakedKuriboh",	
+			"Barnsley",	
+			"BurningShip",	
 			"DragonCurve",
-			"BakedKuriboh",
-			"Unnamed",
-			"RocketShip"
+			"Hexaflake",
+			"Julia",
+			"Koch",
+			"Mandelbrot",
+			"RocketShip",
+			"Sierpinski",
+			"Tricorn",
+			"Unnamed"
 		};
 	}
 	
