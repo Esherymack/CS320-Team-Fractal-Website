@@ -62,6 +62,8 @@ public class Vicsek extends Fractal{
 	{
 		return "<ul><li>Change the level of the render to get more detailed vicsek fractals.</li>"
 				+ "<ul><li>Keep level under 8 to preserve detail and efficiency.</li></ul>"
+				+ "<ul><li>Set the orientation to 0 to have the fractal extend in plus shape. </li></ul>"
+				+ "<ul><li>Set the orientation to 1 to have the fractal extend in x shape. </li></ul>"
 				+ "<li>Changing the X, Y values of the points (P1, P2, P3, and P4) will distort the square.</li>";
 	}
 
