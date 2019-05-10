@@ -243,7 +243,7 @@ public class MainPageServlet extends HttpServlet{
 		ArrayList<String> locNames = new ArrayList<String>();
 		for(String t : types){
 			Fractal f = Fractal.getDefaultFractal(t);
-			if(f.usesLocation()){
+			if(f.getUsesLocation()){
 				locNames.add(f.getType());
 			}
 		}

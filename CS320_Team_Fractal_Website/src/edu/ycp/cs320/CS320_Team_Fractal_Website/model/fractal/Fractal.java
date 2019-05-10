@@ -150,7 +150,7 @@ public abstract class Fractal{
 	 * Determine if this fractal uses location as parameters. If location is used, then the first 4 parameters should always be the location
 	 * @return true if this fractal uses location, false otherwise
 	 */
-	public abstract boolean usesLocation();
+	public abstract boolean getUsesLocation();
 	
 	/**
 	 * Get a default fractal based on the given type, which is the class name of a fractal. This method must 
@@ -172,6 +172,7 @@ public abstract class Fractal{
 		else if(type.equals("BakedKuriboh")) return new BakedKuriboh();
 		else if(type.equals("Unnamed")) return new Unnamed();
 		else if(type.equals("RocketShip")) return new RocketShip();
+		else if(type.equals("PythagorasTree")) return new PythagorasTree();
 		return null;
 	}
 	
@@ -192,7 +193,8 @@ public abstract class Fractal{
 			"DragonCurve",
 			"BakedKuriboh",
 			"Unnamed",
-			"RocketShip"
+			"RocketShip",
+			"PythagorasTree"
 		};
 	}
 	

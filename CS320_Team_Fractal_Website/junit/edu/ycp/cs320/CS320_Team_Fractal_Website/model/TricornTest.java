@@ -83,7 +83,7 @@ public class TricornTest{
 
 	@Test
 	public void testUsesLocation(){
-		assertTrue(model.usesLocation());
+		assertTrue(model.getUsesLocation());
 	}
 	
 	@Test

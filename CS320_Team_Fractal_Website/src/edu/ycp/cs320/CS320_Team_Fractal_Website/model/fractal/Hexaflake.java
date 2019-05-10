@@ -131,7 +131,7 @@ public class Hexaflake extends Fractal{
 	}
 
 	@Override
-	public boolean usesLocation() {
+	public boolean getUsesLocation() {
 		return false;
 	}
 	
