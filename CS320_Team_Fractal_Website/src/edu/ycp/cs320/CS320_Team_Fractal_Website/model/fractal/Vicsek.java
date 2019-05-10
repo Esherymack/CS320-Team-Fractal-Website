@@ -52,17 +52,17 @@ public class Vicsek extends Fractal{
 	
 	@Override
 	public String getInfo(){
-		return "The Sierpinski triangle, also called the Sierpinski gasket or the Sierpinski sieve, is a "
-				+ "fractal and attractive fixed set with the overall shape of an equilateral triangle, subdivided "
-				+ "recursively into smaller equilateral triangles. ";
+		return "Also known as the Vicsek snowflake or box fractal, the Vicsek fractal is a "
+				+ "fractal with the overall shape of a square, subdivided recursively"
+				+ "into smaller squares in different directions depending on the orientation. ";
 	}
 	
 	@Override
 	public String getParamExamples()
 	{
-		return "<ul><li>Change the level of the render to get more detailed sierpinski triangles.</li>"
-				+ "<ul><li>Keep level under 10 to preserve detail and efficiency.</li></ul>"
-				+ "<li>Changing the X, Y values of the points (P1, P2, and P3) will distort the triangle.</li>";
+		return "<ul><li>Change the level of the render to get more detailed vicsek fractals.</li>"
+				+ "<ul><li>Keep level under 8 to preserve detail and efficiency.</li></ul>"
+				+ "<li>Changing the X, Y values of the points (P1, P2, P3, and P4) will distort the square.</li>";
 	}
 
 	@Override

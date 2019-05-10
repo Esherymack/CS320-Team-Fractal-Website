@@ -65,12 +65,14 @@ public class VicsekController extends FractalController{
 	}
 	
 	/**
-	 * Recursively draw the triangle at the given parameters
+	 * Recursively draw the square at the given parameters
 	 * @param level the remaining levels to draw the fractal
+	 * * @param orientation the orientation of the fractal
 	 * @param g the graphics object used to draw the fractal
-	 * @param p1 the first point on the triangle
-	 * @param p2 the second point on the triangle
-	 * @param p3 the third point on the triangle
+	 * @param p1 the first point on the square
+	 * @param p2 the second point on the square
+	 * @param p3 the third point on the square
+	 * @param p4 the fourth third point on the square
 	 */
 	private void drawVicsek(int level, int orientation, Graphics g, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3, Point2D.Double p4){
 		// this is a recursive function
