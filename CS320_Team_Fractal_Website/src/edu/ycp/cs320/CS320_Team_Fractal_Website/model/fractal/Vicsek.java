@@ -20,7 +20,7 @@ public class Vicsek extends Fractal{
 	/**
 	 * A point on the triangle
 	 */
-	private Point2D.Double p1, p2, p3;
+	private Point2D.Double p1, p2, p3, p4;
 	
 	public Vicsek(int level){
 		super();
@@ -40,11 +40,12 @@ public class Vicsek extends Fractal{
 		super.setDefaultParameters();
 		
 		level = 2;
-		height = Math.round(SIZE * Math.sqrt(3.0) / 2.0);
-
-		this.p1 = new Point2D.Double(0, height);
-		this.p2 = new Point2D.Double(SIZE / 2, 0);
-		this.p3 = new Point2D.Double(SIZE, height);
+		
+		//4 points of plus in clockwise direction
+		this.p1 = new Point2D.Double(0, 0);
+		this.p2 = new Point2D.Double(SIZE, 0);
+		this.p3 = new Point2D.Double(SIZE, SIZE);
+		this.p4 = new Point2D.Double(0, SIZE);
 	}
 	
 	@Override
@@ -72,8 +73,8 @@ public class Vicsek extends Fractal{
 			"" + getP2().y,
 			"" + getP3().x,
 			"" + getP3().y,
-			"",
-			"",
+			"" + getP4().x,
+			"" + getP4().y,
 			"",
 			"",
 			"",
@@ -105,8 +106,8 @@ public class Vicsek extends Fractal{
 				"P2y: ",
 				"P3x: ",
 				"P3y: ",
-				"",
-				"",
+				"P4x: ",
+				"P4y: ",
 				"",
 				"",
 				"",
@@ -122,7 +123,7 @@ public class Vicsek extends Fractal{
 	}
 
 	@Override
-	public boolean usesLocation() {
+	public boolean getUsesLocation() {
 		return false;
 	}
 	
@@ -150,6 +151,9 @@ public class Vicsek extends Fractal{
 	public Point2D.Double getP3(){
 		return p3;
 	}
+	public Point2D.Double getP4(){
+		return p4;
+	}
 	
 	public void setP1(Point2D.Double p){
 		this.p1 = p;
@@ -159,5 +163,8 @@ public class Vicsek extends Fractal{
 	}
 	public void setP3(Point2D.Double p){
 		this.p3 = p;
+	}
+	public void setP4(Point2D.Double p){
+		this.p4 = p;
 	}
 }
