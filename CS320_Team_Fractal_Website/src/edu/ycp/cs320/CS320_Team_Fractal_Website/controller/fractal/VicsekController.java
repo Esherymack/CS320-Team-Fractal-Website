@@ -103,25 +103,27 @@ public class VicsekController extends FractalController{
 			g.fillPolygon(p);
 		}
 		else{
+			//points
+			Point2D.Double p5 = getThirdPoint(p1, p2);
+			Point2D.Double p6 = getThirdPoint(p2, p1);
+			Point2D.Double p9 = getThirdPoint(p2, p3);
+			Point2D.Double p10 = getThirdPoint(p3, p2);
+			Point2D.Double p12 = getThirdPoint(p3, p4);
+			Point2D.Double p13 = getThirdPoint(p4, p3);
+			Point2D.Double p15 = getThirdPoint(p4, p1);
+			Point2D.Double p16 = getThirdPoint(p1, p4);
+			Point2D.Double p7 = getThirdPoint(p6, p12);
+			Point2D.Double p8 = getThirdPoint(p5, p13);
+			Point2D.Double p11 = getThirdPoint(p12, p6);
+			Point2D.Double p14 = getThirdPoint(p13, p5);
+			
 			//top 
-			Point2D.Double p5 = midPoint(p1, p2);
-			Point2D.Double p6 = midPoint(p2, p3);
-			Point2D.Double p7 = midPoint(p1, p3);
-			Point2D.Double p8 = midPoint(p1, p3);
 			drawVicsek(level - 1, g, p5, p6, p7, p8);
 			//right
-			Point2D.Double p9 = midPoint(p2, p3);
-			Point2D.Double p10 = midPoint(p1, p3);
-			Point2D.Double p11 = midPoint(p1, p3);
 			drawVicsek(level - 1, g, p7, p9, p10, p11);
 			//bottom
-			Point2D.Double p12 = midPoint(p2, p3);
-			Point2D.Double p13 = midPoint(p1, p3);
-			Point2D.Double p14 = midPoint(p1, p3);
 			drawVicsek(level - 1, g, p14, p11, p12, p13);
 			//left
-			Point2D.Double p15 = midPoint(p1, p2);
-			Point2D.Double p16 = midPoint(p2, p3);
 			drawVicsek(level - 1, g, p16, p8, p14, p15);
 			//middle
 			drawVicsek(level - 1, g, p8, p7, p11, p14);
