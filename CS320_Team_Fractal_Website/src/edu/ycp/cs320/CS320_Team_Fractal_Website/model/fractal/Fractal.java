@@ -172,6 +172,7 @@ public abstract class Fractal{
 		else if(type.equals("BakedKuriboh")) return new BakedKuriboh();
 		else if(type.equals("Unnamed")) return new Unnamed();
 		else if(type.equals("RocketShip")) return new RocketShip();
+		else if(type.equals("Vicsek")) return new Vicsek();
 		return null;
 	}
 	
