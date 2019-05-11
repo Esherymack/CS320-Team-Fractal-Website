@@ -94,8 +94,25 @@
 							</div>
 						</div>
 					</div>
-					<!-- Page number selector and page turner -->
 					
+					<div>
+						<tr>
+							<td>
+								<p>
+									Previously rendered is downloaded
+								</p>
+							</td>
+							<td class="browseGridText">
+								<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+								<a id="downloadImage" href="img/result.png" download hidden></a>
+							</td>
+							<td>
+								<p></p>
+							</td>
+						</tr>
+					</div>
+					
+					<!-- Page number selector and page turner -->
 					<input type="hidden" name=pageNumber value="${pageNumber}">
 					
 					<c:if test="${! empty pageFractals}">
@@ -147,7 +164,6 @@
 								<th class="browseGridText">Created by:</th>
 								<th class="browseGridText">ID:</th>
 								<th class="browseGridText"></th>
-								<th class="browseGridText"></th>
 								<c:if test="${userType == 'Admin'}">
 									<th class="browseGridText"></th>
 								</c:if>
@@ -169,10 +185,6 @@
 											<td class="browseGridText">
 												<input type="Submit" name="viewFractal_${fractal.id}" value="Render" href="#content">
 											</td>
-										<td class="browseGridText">
-											<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
-											<a id="downloadImage" href="img/result.png" download hidden></a>
-										</td>
 										
 										<c:if test="${userType == 'Admin'}">
 											<td class="browseGridWarning">

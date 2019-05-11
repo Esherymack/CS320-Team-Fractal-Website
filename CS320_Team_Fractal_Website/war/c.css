@@ -563,6 +563,16 @@ div.colorPreview{
 	color: #3D403A;
 }
 
+.browseGridTextInput{
+	border: 1px solid #C2B9AA;
+	padding: 10px;
+	text-align: left;
+	font-size: 18px;
+	font-family: 'Open Sans', sans-serif;
+	color: #3D403A;
+	width: 150px;
+}
+
 .browseGridWarning{
 	border: 1px solid #C2B9AA;
 	padding: 10px;
