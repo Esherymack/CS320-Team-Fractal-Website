@@ -97,6 +97,12 @@
 									</form>
 								</td>
 								<td class="browseGridText">
+									<form action="#content" method="post" href="#content">
+										<input type="text" name="renameFractal" value="${rename}" placeholder="New Name">
+										<input type="Submit" name="renameFractal_${fractal.id}" value="Rename" href="#content">
+									</form>
+								</td>
+								<td class="browseGridText">
 									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
 									<a id="downloadImage" href="img/result.png" download hidden></a>
 								</td>

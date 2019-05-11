@@ -57,6 +57,7 @@ public class ViewAccountServlet extends HttpServlet{
 		
 		Fractal renderFractal = null;
 		Fractal deleteFractal = null;
+		Fractal renameFractal = null;
 		String errorMessage = null;
 		Boolean display = false;
 		String currentUser = getLoggedInUser(req, resp);
@@ -66,12 +67,15 @@ public class ViewAccountServlet extends HttpServlet{
 		String email = curUser.getEmail();
 		fractals = controller.getUserFractals(currentUser);
 		
+		String rename = req.getParameter("renameFractal");
+		
 		//get fractal the user selected to render or delete from the list of fractals
 		//if one of the fractals is requested then it should be rendered or deleted
 		for(Fractal f : fractals)
 		{
 			Object found = req.getParameter("viewFractal_" + f.getId());
 			Object found2 = req.getParameter("deleteFractal_" + f.getId());
+			Object found3 = req.getParameter("renameFractal_" + f.getId());
 			if(found != null)
 			{
 				renderFractal = f;
@@ -84,6 +88,12 @@ public class ViewAccountServlet extends HttpServlet{
 				display = false;
 				break;
 			}
+			else if(found3 != null)
+			{
+				renameFractal = f;
+				display = false;
+				break;
+			}
 		}
 		
 		//if the fractal needs to be deleted, remove it and update the list of fractals
@@ -92,6 +102,14 @@ public class ViewAccountServlet extends HttpServlet{
 			ViewAccountController controller = new ViewAccountController();
 			User user = controller.getUserByUserName(getLoggedInUser(req, resp));
 			controller.deleteFractal(deleteFractal.getId(), user);
+			fractals = controller.getUserFractals(currentUser);
+		}
+		//if the fractal needs to be renamed, rename it and update the list of fractals
+		else if(renameFractal != null)
+		{
+			ViewAccountController controller = new ViewAccountController();
+			User user = controller.getUserByUserName(getLoggedInUser(req, resp));
+			controller.renameFractal(renameFractal.getId(), rename, user);
 			fractals = controller.getUserFractals(currentUser);
 		}
 		//if the fractal was found, render it and display it
@@ -107,6 +125,7 @@ public class ViewAccountServlet extends HttpServlet{
 		}
 		
 		req.setAttribute("errorMessage", errorMessage);
+		req.setAttribute("charSeq", rename);
 		req.setAttribute("display", display);
 		req.setAttribute("fractals", fractals);
 		req.setAttribute("firstName", firstName);

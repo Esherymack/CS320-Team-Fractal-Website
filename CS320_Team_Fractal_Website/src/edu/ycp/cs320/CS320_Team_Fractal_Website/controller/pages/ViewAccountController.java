@@ -37,4 +37,14 @@ public class ViewAccountController {
 	public boolean deleteFractal(int id, User user){
 		return user.deleteFractal(id, database);
 	}
+	
+	/** 
+	 * Renames the fractal of the model of account that is logged in
+	 * @param id the fractal_id of the fractal
+	 * @param newName the new name of the fractal
+	 * @return true if fractal was deleted successfully, false otherwise
+	 */
+	public boolean renameFractal(int id, String newName, User user){
+		return user.renameFractal(id, newName, database);
+	}
 }

@@ -24,6 +24,15 @@ public class Admin extends User{
 	}
 	
 	@Override
+	public boolean renameFractal(int fractalId, String newName, IDatabase db){
+		if(db == null) return false;
+		
+		db.renameFractal(fractalId, newName);
+		
+		return true;
+	}
+	
+	@Override
 	public String getType() {
 		return TYPE;
 	}
