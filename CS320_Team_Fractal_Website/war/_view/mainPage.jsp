@@ -57,9 +57,6 @@
 				<div class="image">
 				<p></p>
 					<c:choose>
-						<c:when test="${not result && renderFractal.type == 'BakedKuriboh'}">
-							<img src="img/bakedKuriboh.png" alt="placeholderKuriboh" class="fractalImage" />
-						</c:when>
 						<c:when test="${not result}">
 							<img src="img/square.jpg" alt="placeholder" class="fractalImage" />
 						</c:when>

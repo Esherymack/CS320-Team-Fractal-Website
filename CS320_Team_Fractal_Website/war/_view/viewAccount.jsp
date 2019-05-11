@@ -4,6 +4,9 @@
 
 <html>
 	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+		
 		<title>View Account</title>
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/c.css" rel="stylesheet" type="text/css">
@@ -138,4 +141,15 @@
 		<div class="border"></div>
 	</div>
 
+	<script>
+	
+	$(window).scroll(function(){
+		sessionStorage.scrollTop = $(this).scrollTop();
+	});
+
+	$(document).ready(function(){
+		$(window).scrollTop(sessionStorage.scrollTop);
+	});
+	</script>
+	
 </html>

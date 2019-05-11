@@ -222,11 +222,6 @@
 	$(document).ready(function(){
 		$(window).scrollTop(sessionStorage.scrollTop);
 	});
-	
-	window.onload = function(){
-		$('#fractalsPerPage').change();
-		window.scrollTop = 1000;
-	}
 
 	$('#fractalsPerPage').change(function(){
 		var val = $(this).val();
