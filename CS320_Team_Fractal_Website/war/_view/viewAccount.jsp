@@ -98,7 +98,7 @@
 								</td>
 								<td class="browseGridText">
 									<form action="#content" method="post" href="#content">
-										<input type="text" name="searchForFractals" value="${rename}" placeholder="New Name">
+										<input type="text" name="renameFractal" value="${rename}" placeholder="New Name">
 										<input type="Submit" name="renameFractal_${fractal.id}" value="Rename" href="#content">
 									</form>
 								</td>
