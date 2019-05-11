@@ -61,10 +61,26 @@
 					</form>
 				</div>
 	
-				<div class="account-header">
-					<h1>
-						Your Fractals
-					</h1>
+				<div>
+					<tr>
+						<td>
+							<h1>
+								Your Fractals
+							</h1>
+						</td>
+						<td>
+							<p>
+								Previously rendered is downloaded
+							</p>
+						</td>
+						<td>
+							<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
+							<a id="downloadImage" href="img/result.png" download hidden></a>
+						</td>
+						<td>
+							<p></p>
+						</td>
+					</tr>
 				</div>
 				
 				<div class="lightbox-toggle">
@@ -97,16 +113,14 @@
 										<input class="browseGridWarning" type="Submit" name="deleteFractal_${fractal.id}" value="Delete" href="#content">
 									</form>
 								</td>
-								<td class="browseGridText">
-									<form action="#content" method="post" href="#content">
+								<form action="#content" method="post" href="#content">
+									<td class="browseGridTextInput">
 										<input type="text" name="renameFractal" value="${rename}" placeholder="New Name">
+									</td>
+									<td class="browseGridTextInput">
 										<input type="Submit" name="renameFractal_${fractal.id}" value="Rename" href="#content">
-									</form>
-								</td>
-								<td class="browseGridText">
-									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
-									<a id="downloadImage" href="img/result.png" download hidden></a>
-								</td>
+									</td>
+								</form>
 							</tr>
 						</c:forEach>
 					</table>
