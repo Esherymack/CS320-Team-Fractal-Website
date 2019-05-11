@@ -78,6 +78,7 @@
 							<th class="browseGridText"></th>
 							<th class="browseGridText"></th>
 							<th class="browseGridText"></th>
+							<th class="browseGridText"></th>
 						</tr>
 					
 						<c:forEach items="${fractals}" var="fractal">
