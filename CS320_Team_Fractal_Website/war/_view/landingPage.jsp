@@ -109,10 +109,11 @@
 					<div>
 						<h2>About</h2>
 						<p>
-							We are a group of students from York College of Pennsylvania, and we created this
-							project as a part of our software engineering class.
+							We are a group of students from York College of Pennsylvania, who developed this
+							project for our software engineering class.
 							<br>
-							This site allows you to generate a variety of fractals, change the parameters of each fractal, 
+							<br>
+							This site allows you to generate a variety of fractals, read information about them, change the parameters of each fractal, 
 							and apply gradients to the fractals. You can save fractals to an account, download images, 
 							and view all the fractals that any other use has made.
 							<br>
