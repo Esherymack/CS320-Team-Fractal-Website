@@ -498,8 +498,12 @@ public class DerbyDatabase implements IDatabase
 				ResultSet resultSet = null;
 
 				Boolean renamed = false;
-
-				int userId = -1;
+				
+				if (newName == null)
+				{
+					renamed = false;
+					return renamed;
+				}
 
 				try{
 					//rename fractal with id to new name
