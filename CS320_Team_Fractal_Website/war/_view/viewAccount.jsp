@@ -96,10 +96,10 @@
 										<input class="browseGridWarning" type="Submit" name="deleteFractal_${fractal.id}" value="Delete" href="#content">
 									</form>
 								</td>
-								<td class="browseGridWarning">
+								<td class="browseGridText">
 									<form action="#content" method="post" href="#content">
-										<input type="text" name="searchForFractals" value="${rename}" placeholder="Search Term">
-										<input class="browseGridWarning" type="Submit" name="renameFractal_${fractal.id}" value="Rename" href="#content">
+										<input type="text" name="searchForFractals" value="${rename}" placeholder="New Name">
+										<input type="Submit" name="renameFractal_${fractal.id}" value="Rename" href="#content">
 									</form>
 								</td>
 								<td class="browseGridText">

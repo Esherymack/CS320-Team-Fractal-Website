@@ -508,16 +508,20 @@ public class DerbyDatabase implements IDatabase
 					stmt.setString(1, newName);
 					stmt.setInt(2, id);
 
-					resultSet = stmt.executeQuery();
-					renamed = !resultSet.next();
+					int result = stmt.executeUpdate();
+					
+					if (result > 0) {
+						renamed = true;
+					}
+					//return if the statement was found
+					return renamed;
+					
 				}
 				//closing objects
 				finally{
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}
-				//return if the statement was found
-				return renamed;
 			}
 		});
 	}
