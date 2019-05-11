@@ -24,6 +24,10 @@ public class UserTest{
 			public boolean deleteFractal(int fractalId, IDatabase db) {
 				return false;
 			}
+			@Override
+			public boolean renameFractal(int fractalId, String newName, IDatabase db) {
+				return false;
+			}
 		};
 	}
 	

@@ -62,6 +62,15 @@ public interface IDatabase{
 	 * @return true if the fractal was deleted successfully, false otherwise
 	 */
 	public boolean deleteFractal(int id);
+	
+	/**
+	 * Renames the given fractal from the database under the name of the given username. If no user of that name exists,
+	 * the fractal is not deleted. Fractal name is set to new name as entered.
+	 * @param fractal the id of the fractal to delete
+	 * @param newName what the fractal will be renamed to
+	 * @return true if the fractal was deleted successfully, false otherwise
+	 */
+	public boolean renameFractal(int id, String newName);
 
 	/**
 	 * Get every fractal in the database

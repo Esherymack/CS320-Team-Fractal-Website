@@ -96,6 +96,12 @@
 										<input class="browseGridWarning" type="Submit" name="deleteFractal_${fractal.id}" value="Delete" href="#content">
 									</form>
 								</td>
+								<td class="browseGridWarning">
+									<form action="#content" method="post" href="#content">
+										<input type="text" name="searchForFractals" value="${rename}" placeholder="Search Term">
+										<input class="browseGridWarning" type="Submit" name="renameFractal_${fractal.id}" value="Rename" href="#content">
+									</form>
+								</td>
 								<td class="browseGridText">
 									<input type="button" onclick="document.getElementById('downloadImage').click()" value="Download">
 									<a id="downloadImage" href="img/result.png" download hidden></a>

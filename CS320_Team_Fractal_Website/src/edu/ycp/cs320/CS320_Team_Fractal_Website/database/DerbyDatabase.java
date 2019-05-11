@@ -485,6 +485,42 @@ public class DerbyDatabase implements IDatabase
 			}
 		});
 	}
+	
+	@Override
+	public boolean renameFractal(int id, String newName){
+
+		return executeTransaction(new Transaction<Boolean>(){
+			@Override
+			public Boolean execute(Connection conn) throws SQLException{
+				//objects for executing the statement
+				PreparedStatement stmt = null;
+
+				ResultSet resultSet = null;
+
+				Boolean renamed = false;
+
+				int userId = -1;
+
+				try{
+					//rename fractal with id to new name
+					stmt = conn.prepareStatement("UPDATE fractal SET fractal.name = ? "
+							+ " where fractal.fractal_id = ? ");
+					stmt.setString(1, newName);
+					stmt.setInt(2, id);
+
+					resultSet = stmt.executeQuery();
+					renamed = !resultSet.next();
+				}
+				//closing objects
+				finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				//return if the statement was found
+				return renamed;
+			}
+		});
+	}
 
 	@Override
 	public boolean changeStateOfVerification(User username, boolean state)

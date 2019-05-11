@@ -48,7 +48,7 @@ public class SierpinskiCarpet extends Fractal{
 	@Override
 	public String getInfo(){
 		return "The Sierpinski Carpet is a plane fractal first described by Waclaw Sierpinski in 1916. "
-				+ "It is a fractal with the overall shape of a square, subdivided recursively"
+				+ "It is a fractal with the overall shape of a square, subdivided recursively "
 				+ "into 8 smaller squares, excluding the center square. ";
 	}
 	

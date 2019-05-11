@@ -107,6 +107,14 @@ public abstract class User
 	public abstract boolean deleteFractal(int fractalId, IDatabase db);
 	
 	/**
+	 * Delete a fractal in the database
+	 * @param fractalId the id of the fractal
+	 * @param newName the new name of fractal
+	 * @return true if the fractal was renamed, false otherwise. Also always returns false if this user doesn't have permission to rename the specified fractal
+	 */
+	public abstract boolean renameFractal(int fractalId, String newName, IDatabase db);
+	
+	/**
 	 * Get the type of this user, defines the permissions of this user
 	 * @return the type
 	 */
